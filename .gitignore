@@ -1,3 +1,9 @@
+# credentials
+configs.py
+
+# pycharm files
+.idea/*
+db_setup/.idea/*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
