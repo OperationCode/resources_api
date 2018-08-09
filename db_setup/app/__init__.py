@@ -18,14 +18,26 @@ def import_resources():
     with open('resources.yml', 'r') as f:
         data = yaml.load(f)
 
+    resource_dict = {}
+    unique_resources = []
+
     for resource in data:
+
+        if resource['url'] not in resource_dict:
+            resource_dict[resource['url']] = True
+            unique_resources.append(resource)
+
+    for resource in unique_resources:
+        language = resource.get('languages', '')
+        if language is None:
+            language = ''
 
         try:
             new_resource = Resource(
                 name=resource['name'],
                 url=resource['url'],
                 category=Category(name=resource['category']),
-                languages=Language(name=resource.get('languages','')),
+                languages=Language(name=language),
                 paid=resource.get('paid'),
                 notes=resource.get('notes', ''),
                 upvotes=resource.get('upvotes', 0),
