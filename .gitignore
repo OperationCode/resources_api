@@ -1,6 +1,9 @@
 # credentials
 configs.py
 
+# vscode files
+.vscode
+
 # pycharm files
 .idea/*
 db_setup/.idea/*

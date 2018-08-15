@@ -19,25 +19,31 @@ def import_resources():
         data = yaml.load(f)
 
     resource_dict = {}
+    language_dict = {}
+    category_dict = {}
     unique_resources = []
 
     for resource in data:
-
         if resource['url'] not in resource_dict:
             resource_dict[resource['url']] = True
             unique_resources.append(resource)
 
     for resource in unique_resources:
-        language = resource.get('languages', '')
-        if language is None:
-            language = ''
+        language = resource.get('languages') or ''
+        category = resource.get('category') or ''
+
+        if language not in language_dict:
+            language_dict[language] = Language(name=language)
+
+        if category not in category_dict:
+            category_dict[category] = Category(name=resource['category'])
 
         try:
             new_resource = Resource(
                 name=resource['name'],
                 url=resource['url'],
-                category=Category(name=resource['category']),
-                languages=Language(name=language),
+                category=category_dict[category],
+                languages=language_dict[language],
                 paid=resource.get('paid'),
                 notes=resource.get('notes', ''),
                 upvotes=resource.get('upvotes', 0),
@@ -49,8 +55,6 @@ def import_resources():
         except Exception as e:
             print('exception', e)
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-            # message = template.format(type(e).__name__, e.args)
-            # print(message)
             print(resource)
             print(new_resource)
             break
