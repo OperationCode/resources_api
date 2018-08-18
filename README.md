@@ -11,6 +11,11 @@ To run database setup:
 5. activate virtual environment
 6. pip install -r requirements.txt
 7. cd db_setup 
-8. `export FLASK_APP=app.py` or `ENV:FLASK_APP = "run.py"`
+8. `export FLASK_APP=app.py` or `ENV:FLASK_APP = "app.py"`
 9. flask run
 
+If you make changes to the models.py or other schemas:
+
+1. `export FLASK_APP=app.py` or `ENV:FLASK_APP = "app.py"` 
+2. `flask db migrate`
+3. `flask db upgrade`
