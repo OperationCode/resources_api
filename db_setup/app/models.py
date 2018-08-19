@@ -21,6 +21,7 @@ class Resource(db.Model):
     url = db.Column(URLType, nullable=False, unique=True)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     category = db.relationship('Category')
+    languages = db.relationship('Language', secondary=language_identifier)
     paid = db.Column(db.Boolean, default=False)
     notes = db.Column(db.String)
     upvotes = db.Column(db.INTEGER, default=0)
@@ -42,7 +43,6 @@ class Category(db.Model):
 class Language(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
-    resources = db.relationship('Resource', secondary=language_identifier)
 
     def __repr__(self):
         return f"<Language {self.name}>"

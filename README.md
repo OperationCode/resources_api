@@ -17,5 +17,6 @@ To run database setup:
 If you make changes to the models.py or other schemas:
 
 1. `export FLASK_APP=app.py` or `ENV:FLASK_APP = "app.py"` 
-2. `flask db migrate`
-3. `flask db upgrade`
+2. Comment out the call to `import_resources()` or it will try to import them too (which we don't want)
+3. `flask db migrate`
+4. `flask db upgrade`

@@ -4,6 +4,9 @@ configs.py
 # vscode files
 .vscode
 
+# DS_Store on Mac
+.DS_Store
+
 # pycharm files
 .idea/*
 db_setup/.idea/*

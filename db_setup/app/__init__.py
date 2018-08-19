@@ -33,11 +33,12 @@ def import_resources():
         languages = resource.get('languages') or []
         category = resource.get('category')
 
-        if languages and languages[0] not in language_dict:
-            language_dict[languages[0]] = Language(name=languages[0])
+        for language in languages:
+            if language not in language_dict:
+                language_dict[language] = Language(name=language)
 
         if category not in category_dict:
-            category_dict[category] = Category(name=resource['category'])
+            category_dict[category] = Category(name=category)
 
         try:
             new_resource = Resource(
@@ -50,8 +51,9 @@ def import_resources():
                 downvotes=resource.get('downvotes', 0),
                 times_clicked=resource.get('times_clicked', 0))
 
-            if languages:
-                language_dict[languages[0]].resources.append(new_resource)
+            for language in languages:
+                new_resource.languages.append(language_dict[language])
+
             db.session.add(new_resource)
             db.session.commit()
         except exc.SQLAlchemyError as e:
@@ -72,16 +74,5 @@ import_resources()
 print('we loaded boys')
 
 wait = input('did it work?')
-resource = Resource.query.all()
-for item in resource:
-    print(resource)
-
-resource = Language.query.all()
-for item in resource:
-    print(resource)
-
-resource = Category.query.all()
-for item in resource:
-    print(resource)
 
 
