@@ -44,5 +44,13 @@ class Language(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
 
+    def __eq__(self, other):
+        if isinstance(other, Language):
+            return self.name == other.name
+        return False
+
+    def __hash__(self):
+        return hash(self.name)
+
     def __repr__(self):
         return f"<Language {self.name}>"
