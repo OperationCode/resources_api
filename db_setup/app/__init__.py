@@ -1,4 +1,5 @@
 import yaml
+import time
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -16,66 +17,81 @@ from .models import Resource, Category, Language
 
 
 def import_resources():
+    # Step 1: Get data
     with open('resources.yml', 'r') as f:
         data = yaml.load(f)
 
-    resource_dict = {}
-    category_dict = {}
-    unique_resources = []
+    # Step 2: Uniquify resources
+    unique_resources = remove_duplicates(data) 
 
+    # Step 3: Get existing entries from DB
+    try:
+        resources_list = Resource.query.all()
+        languages_list = Language.query.all()
+        categories_list = Category.query.all()
+
+        # Convert to dict for quick lookup
+        existing_resources = {r.url:r for r in resources_list}
+        language_dict = {l.name: l for l in languages_list}
+        category_dict = {c.name: c for c in categories_list}
+    except Exception as e:
+        print(e)
+
+    # Step 4: Create/Update each resource in the DB
+    for resource in unique_resources:
+        category = get_category(resource, category_dict) # Note: modifies the category_dict in place (bad?)
+        langs = get_languages(resource, language_dict) # Note: modifies the language_dict in place (bad?)
+        existing_resource = existing_resources.get(resource['url'])
+
+        if existing_resource:
+            update_resource(resource, existing_resource, langs, category)
+        else:
+            create_resource(resource, langs, category)
+
+def remove_duplicates(data):
+    unique_resources = []
+    resource_dict = {}
     for resource in data:
         if not resource_dict.get(resource['url']):
             resource_dict[resource['url']] = True
             unique_resources.append(resource)
+    return unique_resources
 
-    # Get existing entries from DB
-    try:
-        resources_list = Resource.query.all()
-        languages_list = Language.query.all()
-    except Exception as e:
-        print(e)
+def get_category(resource, category_dict):
+    category = resource.get('category')
 
-    language_dict = {l.name: l for l in languages_list}
+    if category not in category_dict:
+        category_dict[category] = Category(name=category)
 
-    # Convert to dict for quick lookup
-    existing_resources = {item.url:item for item in resources_list}
+    return category_dict[category]
 
-    for resource in unique_resources:
-        languages = resource.get('languages') or []
-        category = resource.get('category')
+def get_languages(resource, language_dict):
+    langs = []
 
-        for language in languages:
-            if language not in language_dict:
-                language_dict[language] = Language(name=language)
+    # Loop through languages and create a new Language
+    # object for any that don't exist in the DB
+    for language in resource.get('languages') or []:
+        if language not in language_dict:
+            language_dict[language] = Language(name=language)
 
-        if category not in category_dict:
-            category_dict[category] = Category(name=category)
+        # Add each Language object associated with this resource
+        # to the list we'll return
+        langs.append(language_dict[language])
 
-        existing_resource = existing_resources[resource['url']] 
+    return langs
 
-        if not existing_resource:
-            create_resource(resource)
-        else:
-            category = category_dict[category]
-            langs = []
-            for language in languages:
-                langs.append(language_dict[language])
-            update_resource(resource, existing_resource, langs, category)
-
-def create_resource(resource):
+def create_resource(resource, langs, category):
     try:
         new_resource = Resource(
             name=resource['name'],
             url=resource['url'],
-            category=category_dict[category],
+            category=category,
+            languages=langs,
             paid=resource.get('paid'),
             notes=resource.get('notes', ''),
             upvotes=resource.get('upvotes', 0),
             downvotes=resource.get('downvotes', 0),
             times_clicked=resource.get('times_clicked', 0))
-
-        for language in languages:
-            new_resource.languages.append(language_dict[language])
 
         db.session.add(new_resource)
         db.session.commit()
@@ -128,7 +144,10 @@ def match_resource(resource_dict, resource_obj, langs):
         return False
     return True
 
+start = time.perf_counter()
 import_resources()
+stop = time.perf_counter()
 print('we loaded boys')
+print("Elapsed time: %.1f [min]" % ((stop-start)/60))
 
 wait = input('did it work?')
