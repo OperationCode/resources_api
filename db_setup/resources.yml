@@ -4638,13 +4638,6 @@
   paid: false
   notes:
 
-- name: IO Wargame
-  url: http://io.netgarage.org
-  category: Information Security
-  languages:
-  paid: false
-  notes: CTF
-
 - name: Git Guide
   url: http://rogerdudler.github.io/git-guide/
   category: Open Source
@@ -6211,7 +6204,7 @@
   category: Information Security
   languages:
   paid: false
-  notes: IO is our most mature game, but is never the less in continually updated as technology develops.
+  notes: CTF. IO is our most mature game, but is never the less in continually updated as technology develops.
 
 - name: Destination Dev
   url: http://www.destinationdev.com/
@@ -10517,13 +10510,6 @@
   languages:
   paid: false
   notes:
-
-- name: Open SOC
-  url: https://opensoc.io/
-  category: Information Security
-  languages:
-  paid: true
-  notes: OpenSOC is a challenge meant to teach security professionals practical incident response skills in an environment that very closely resembles a real enterprise network
 
 - name: Library Genesis
   url: https://en.wikipedia.org/wiki/Library_Genesis

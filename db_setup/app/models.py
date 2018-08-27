@@ -28,6 +28,29 @@ class Resource(db.Model):
     downvotes = db.Column(db.INTEGER, default=0)
     times_clicked = db.Column(db.INTEGER, default=0)
 
+    def key(self):
+        return self.url
+
+    def __eq__(self, other):
+        if isinstance(other, Resource):
+            if self.name != other.name:
+                return False
+            if self.url != other.url:
+                return False
+            if self.paid != other.paid:
+                return False
+            if self.notes != other.notes:
+                return False
+            if self.category != other.category:
+                return False
+            if self.languages != other.languages:
+                return False
+            return True
+        return False
+
+    def __hash__(self):
+        return hash(self.url)
+
     def __repr__(self):
         return f"<Resource \n\tName: {self.name}\n\tLanguages: {self.languages}\n\tCategory: {self.category}\n\tURL: {self.url}\n>"
 
@@ -36,6 +59,17 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
 
+    def key(self):
+        return self.name
+
+    def __eq__(self, other):
+        if isinstance(other, Category):
+            return self.name == other.name
+        return False
+
+    def __hash__(self):
+        return hash(self.name)
+
     def __repr__(self):
         return f"<Category {self.name}>"
 
@@ -43,6 +77,9 @@ class Category(db.Model):
 class Language(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
+
+    def key(self):
+        return self.name
 
     def __eq__(self, other):
         if isinstance(other, Language):

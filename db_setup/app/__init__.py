@@ -31,22 +31,22 @@ def import_resources():
         categories_list = Category.query.all()
 
         # Convert to dict for quick lookup
-        existing_resources = {r.url:r for r in resources_list}
-        language_dict = {l.name: l for l in languages_list}
-        category_dict = {c.name: c for c in categories_list}
+        existing_resources = {r.key(): r for r in resources_list}
+        language_dict = {l.key(): l for l in languages_list}
+        category_dict = {c.key(): c for c in categories_list}
     except Exception as e:
         print(e)
 
     # Step 4: Create/Update each resource in the DB
     for resource in unique_resources:
-        category = get_category(resource, category_dict) # Note: modifies the category_dict in place (bad?)
-        langs = get_languages(resource, language_dict) # Note: modifies the language_dict in place (bad?)
+        resource['category'] = get_category(resource, category_dict) # Note: modifies the category_dict in place (bad?)
+        resource['languages'] = get_languages(resource, language_dict) # Note: modifies the language_dict in place (bad?)
         existing_resource = existing_resources.get(resource['url'])
 
         if existing_resource:
-            update_resource(resource, existing_resource, langs, category)
+            resource == existing_resource or update_resource(resource, existing_resource)
         else:
-            create_resource(resource, langs, category)
+            create_resource(resource)
 
 def remove_duplicates(data):
     unique_resources = []
@@ -55,12 +55,14 @@ def remove_duplicates(data):
         if not resource_dict.get(resource['url']):
             resource_dict[resource['url']] = True
             unique_resources.append(resource)
+        else:
+            print(f"Encountered a duplicate resource in resources.yml: {resource['url']}")
     return unique_resources
 
 def get_category(resource, category_dict):
     category = resource.get('category')
 
-    if category not in category_dict:
+    if not category_dict.get(category):
         category_dict[category] = Category(name=category)
 
     return category_dict[category]
@@ -71,7 +73,7 @@ def get_languages(resource, language_dict):
     # Loop through languages and create a new Language
     # object for any that don't exist in the DB
     for language in resource.get('languages') or []:
-        if language not in language_dict:
+        if not language_dict.get(language):
             language_dict[language] = Language(name=language)
 
         # Add each Language object associated with this resource
@@ -80,13 +82,13 @@ def get_languages(resource, language_dict):
 
     return langs
 
-def create_resource(resource, langs, category):
+def create_resource(resource):
     try:
         new_resource = Resource(
             name=resource['name'],
             url=resource['url'],
-            category=category,
-            languages=langs,
+            category=resource['category'],
+            languages=resource['languages'],
             paid=resource.get('paid'),
             notes=resource.get('notes', ''),
             upvotes=resource.get('upvotes', 0),
@@ -106,18 +108,14 @@ def create_resource(resource, langs, category):
         template = "An exception of type {0} occurred. Arguments:\n{1!r}"
         print(resource)
 
-def update_resource(resource, existing_resource, langs, category):
-    # Return without updating if the resource is already up to date
-    if match_resource(resource, existing_resource, langs):
-        return
-
+def update_resource(resource, existing_resource):
     try:
         existing_resource.name = resource['name']
         existing_resource.url = resource['url']
-        existing_resource.category = category
+        existing_resource.category = resource['category']
         existing_resource.paid = resource.get('paid')
         existing_resource.notes = resource.get('notes', '')
-        existing_resource.languages = langs
+        existing_resource.languages = resource['languages']
 
         db.session.commit()
     except exc.SQLAlchemyError as e:
@@ -130,19 +128,6 @@ def update_resource(resource, existing_resource, langs, category):
         print('exception', e)
         template = "An exception of type {0} occurred. Arguments:\n{1!r}"
         print(resource)
-
-def match_resource(resource_dict, resource_obj, langs):
-    if resource_dict['name'] != resource_obj.name:
-        return False
-    if resource_dict['paid'] != resource_obj.paid:
-        return False
-    if resource_dict['notes'] != resource_obj.notes:
-        return False
-    if resource_dict['category'] != resource_obj.category.name:
-        return False
-    if langs != resource_obj.languages:
-        return False
-    return True
 
 start = time.perf_counter()
 import_resources()
