@@ -48,6 +48,19 @@ def import_resources():
         else:
             create_resource(resource)
 
+    try:
+        db.session.commit()
+    except exc.SQLAlchemyError as e:
+        db.session.rollback()
+        print('Flask SQLAlchemy Exception:', e)
+        template = "An SQLAlchemy exception of type {0} occurred. Arguments:\n{1!r}"
+        print(resource)
+    except Exception as e:
+        db.session.rollback()
+        print('exception', e)
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        print(resource)
+
 def remove_duplicates(data):
     unique_resources = []
     resource_dict = {}
@@ -83,51 +96,29 @@ def get_languages(resource, language_dict):
     return langs
 
 def create_resource(resource):
-    try:
-        new_resource = Resource(
-            name=resource['name'],
-            url=resource['url'],
-            category=resource['category'],
-            languages=resource['languages'],
-            paid=resource.get('paid'),
-            notes=resource.get('notes', ''),
-            upvotes=resource.get('upvotes', 0),
-            downvotes=resource.get('downvotes', 0),
-            times_clicked=resource.get('times_clicked', 0))
+    new_resource = Resource(
+        name=resource['name'],
+        url=resource['url'],
+        category=resource['category'],
+        languages=resource['languages'],
+        paid=resource.get('paid'),
+        notes=resource.get('notes', ''),
+        upvotes=resource.get('upvotes', 0),
+        downvotes=resource.get('downvotes', 0),
+        times_clicked=resource.get('times_clicked', 0))
 
+    try:
         db.session.add(new_resource)
-        db.session.commit()
-    except exc.SQLAlchemyError as e:
-        db.session.rollback()
-        print('Flask SQLAlchemy Exception:', e)
-        template = "An SQLAlchemy exception of type {0} occurred. Arguments:\n{1!r}"
-        print(resource)
     except Exception as e:
-        db.session.rollback()
         print('exception', e)
-        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-        print(resource)
 
 def update_resource(resource, existing_resource):
-    try:
-        existing_resource.name = resource['name']
-        existing_resource.url = resource['url']
-        existing_resource.category = resource['category']
-        existing_resource.paid = resource.get('paid')
-        existing_resource.notes = resource.get('notes', '')
-        existing_resource.languages = resource['languages']
-
-        db.session.commit()
-    except exc.SQLAlchemyError as e:
-        db.session.rollback()
-        print('Flask SQLAlchemy Exception:', e)
-        template = "An SQLAlchemy exception of type {0} occurred. Arguments:\n{1!r}"
-        print(resource)
-    except Exception as e:
-        db.session.rollback()
-        print('exception', e)
-        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-        print(resource)
+    existing_resource.name = resource['name']
+    existing_resource.url = resource['url']
+    existing_resource.category = resource['category']
+    existing_resource.paid = resource.get('paid')
+    existing_resource.notes = resource.get('notes', '')
+    existing_resource.languages = resource['languages']
 
 start = time.perf_counter()
 import_resources()
