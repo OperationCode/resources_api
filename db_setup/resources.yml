@@ -23,7 +23,7 @@
   category: Books
   languages: ["multiple"]
   paid: false
-  notes:
+  notes: Different free book daily
 
 - name: Free Tech Books
   url: http://www.freetechbooks.com/
@@ -253,7 +253,7 @@
   url: https://codefights.com/
   category: Code Challenges
   languages: ["multiple"]
-  paid:
+  paid: false
   notes: Someone who has used this resource, please update the "paid" field in resources.yml to "true" or "false"
 
 - name: Code Combat
@@ -302,7 +302,7 @@
   url: https://www.codeeval.com/
   category: Code Challenges
   languages: ["multiple"]
-  paid:
+  paid: true
   notes: Someone who has used this resource, please update the "paid" field in resources.yml to "true" or "false"
 
 - name: Rosetta Code
@@ -329,8 +329,8 @@
 - name: Check IO
   url: https://checkio.org/
   category: Code Challenges
-  languages: ["multiple"]
-  paid:
+  languages: ["Python", "JavaScript"]
+  paid: false
   notes: Someone who has used this resource, please update the "paid" field in resources.yml to "true" or "false"
 
 - name: Learn Code in 1 Year
@@ -512,7 +512,7 @@
   url: https://www.merlot.org/merlot/index.htm
   category: Online Courses
   languages:
-  paid:
+  paid: false
   notes: Someone who has used this resource, please update the "paid" field in resources.yml to "true" or "false"
 
 - name: College Open Text Books
@@ -4390,7 +4390,7 @@
   url: https://www.reddit.com/r/netsec/comments/5un71q/penetration_testing_tools_cheat_sheet/?st=j3lqa68k&sh=f1f1fc39
   category: Cheat Sheets
   languages: ["Information Security"]
-  paid:
+  paid: false
   notes:
 
 - name: Hacking Resources
@@ -4572,7 +4572,7 @@
   url: http://thinqtanklearning.com/
   category: Online Courses
   languages:
-  paid:
+  paid: false
   notes: Webinars and such. Someone sign up for it and see if they have you pay or not.
 
 - name: Free online computer science courses
@@ -4638,13 +4638,6 @@
   paid: false
   notes:
 
-- name: IO Wargame
-  url: http://io.netgarage.org
-  category: Information Security
-  languages:
-  paid: false
-  notes: CTF
-
 - name: Git Guide
   url: http://rogerdudler.github.io/git-guide/
   category: Open Source
@@ -4705,7 +4698,7 @@
   url: https://www.scmagazine.com/
   category: Information Security
   languages:
-  paid:
+  paid: false
   notes: news
 
 - name: Hacker Journals
@@ -5230,7 +5223,7 @@
   url: http://libguide.get-vet.syr.edu/
   category: Veterans
   languages:
-  paid:
+  paid: false
   notes: It's not entirely clear how to sign up.. If anyone uses this resource, please update this file with paid true or false
 
 - name: Linux in Minutes
@@ -6211,7 +6204,7 @@
   category: Information Security
   languages:
   paid: false
-  notes: IO is our most mature game, but is never the less in continually updated as technology develops.
+  notes: CTF. IO is our most mature game, but is never the less in continually updated as technology develops.
 
 - name: Destination Dev
   url: http://www.destinationdev.com/
@@ -10517,13 +10510,6 @@
   languages:
   paid: false
   notes:
-
-- name: Open SOC
-  url: https://opensoc.io/
-  category: Information Security
-  languages:
-  paid: true
-  notes: OpenSOC is a challenge meant to teach security professionals practical incident response skills in an environment that very closely resembles a real enterprise network
 
 - name: Library Genesis
   url: https://en.wikipedia.org/wiki/Library_Genesis
