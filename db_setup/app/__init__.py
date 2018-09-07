@@ -123,7 +123,5 @@ def update_resource(resource, existing_resource):
 start = time.perf_counter()
 import_resources()
 stop = time.perf_counter()
-print('we loaded boys')
+print('Finished populating DB from resources.yml')
 print("Elapsed time: %.1f [min]" % ((stop-start)/60))
-
-wait = input('did it work?')
