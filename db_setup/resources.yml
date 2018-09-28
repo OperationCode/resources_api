@@ -10503,7 +10503,7 @@
   languages:
   paid: false
   notes:
-  
+
 - name: Interpretable Machine Learning
   url: https://christophm.github.io/interpretable-ml-book/
   category: Machine Learning
@@ -10553,7 +10553,7 @@
   paid: false
   notes:
 
-- name: Pramp 
+- name: Pramp
   url: https://www.pramp.com/
   category: Jobs
   languages:
@@ -10566,3 +10566,493 @@
   languages: ["Linux"]
   paid: false
   notes: Unix/Linux sysadmin interview questions
+
+- name: Programmer Books
+  url: https://www.programmer-books.com/
+  category: Books
+  languages: ["Python","Go","C","C++","Java","C#","Ruby"]
+  paid: false
+  notes: The best software development books to read.
+
+- name: Professor Leonard YouTube Channel
+  url: https://www.youtube.com/user/professorleonard57/playlists
+  category: Computer Science
+  languages:
+  paid: false
+  notes: Videos on Calculus, Statistics, etc.
+
+- name: A Web Design Crash Course - From one non-designer to another
+  url: https://dev.to/aspittel/a-web-design-crash-course-from-one-non-designer-to-another-2o2m
+  category: Design
+  languages:
+  paid: false
+  notes:
+
+- name: Hacking Online Games
+  url: https://github.com/dsasmblr/hacking-online-games
+  category: Information Security
+  languages:
+  paid: false
+  notes: A curated list of tutorials/resources for hacking online games!
+
+- name: Exactly what to say when recruiters ask you to name the first number
+  url: http://blog.interviewing.io/exactly-what-to-say-when-recruiters-ask-you-to-name-the-first-number/
+  category: Jobs
+  languages:
+  paid: false
+  notes: Negotiation word-for-words
+
+- name: Sam's Class
+  url: https://samsclass.info/
+  category: Information Security
+  languages:
+  paid: false
+  notes: Livestream college courses on Computer Security
+
+- name: .Net Learning Resources and a Tour
+  url: https://github.com/OperationCode/member_content/wiki/.Net-Learning-Resources-and-a-tour
+  category: Microsoft
+  languages: ["C#", "Visual Basic .Net", "F#"]
+  paid: false
+  notes:
+
+- name: Building a Home Lab for Offensive Security & Security Research
+  url: https://systemoverlord.com/2017/10/24/building-a-home-lab-for-offensive-security-basics.html
+  category: Information Security
+  languages:
+  paid: false
+  notes:
+
+- name: Service 2 School
+  url: https://service2school.org
+  category: Veterans
+  languages:
+  paid: false
+  notes: We provide free application counseling to military veterans.
+
+- name: SBIR / STTR Web Portal
+  url: https://sbir.defensebusiness.org/topics
+  category: Entrepreneurship
+  languages:
+  paid: false
+  notes: Portal to search for Small Business innovation grants released by DoD
+
+- name: Cybersecurity Training for Veterans
+  url: https://niccs.us-cert.gov/training/veterans
+  category: Veterans
+  languages:
+  paid: false
+  notes: Veterans Cybersecurity Training and Education Guide
+
+- name: The Journey to AWS Certification
+  url: https://dev.to/helenanders26/the-journey-to-aws-certification-1bnn
+  category: DevOps
+  languages:
+  paid: false
+  notes:
+
+- name: JavaScript basics for beginners
+  url: https://www.udemy.com/javascript-basics-for-beginners/
+  category: Front End Dev
+  languages: ["JavaScript"]
+  paid: true
+  notes:
+
+- name: Advanced CSS and SASS
+  url: https://www.udemy.com/advanced-css-and-sass/
+  category: Front End Dev
+  languages: ["CSS"]
+  paid: true
+  notes:
+
+- name: Gray Hat Hacking
+  url: https://www.goodreads.com/book/show/40132449-gray-hat-hacking
+  category: Information Security
+  languages:
+  paid: true
+  notes:
+
+- name: The Architecture of Open Source Applications
+  url: http://www.aosabook.org/en/distsys.html
+  category: Books
+  languages:
+  paid: false
+  notes:
+
+- name: The Bank of America Institute for Women's Entrepreneurship at Cornell
+  url: http://www.bofainstitute.cornell.edu/
+  category: Minorities
+  languages:
+  paid: false
+  notes:
+
+- name: Cyber Security Base
+  url: https://cybersecuritybase.github.io/
+  category: Information Security
+  languages:
+  paid: false
+  notes: Free course series that focuses on building core knowledge and abilities related to the work of a cyber security professional
+
+- name: Interaction Design Foundation
+  url: https://www.interaction-design.org/
+  category: Design
+  languages:
+  paid: true
+  notes:
+
+- name: Free Online Courses
+  url: https://medium.freecodecamp.org/200-universities-just-launched-560-free-online-courses-heres-the-full-list-d9dd13600b04
+  category: Online Courses
+  languages:
+  paid: false
+  notes:
+
+- name: What REALLY is Data Science? Told by a Data Scientist
+  url: https://www.youtube.com/watch?v=xC-c7E5PK0Y
+  category: Data Science
+  languages:
+  paid: false
+  notes:
+
+- name: Useful Cryptography Resources
+  url: https://blog.cryptographyengineering.com/useful-cryptography-resources/
+  category: Information Security
+  languages:
+  paid: false
+  notes:
+
+- name: Cryptography - An introduction
+  url: https://www.cs.umd.edu/~waa/414-F11/IntroToCrypto.pdf
+  category: Information Security
+  languages:
+  paid: false
+  notes:
+
+- name: CRYPTO101
+  url: https://www.crypto101.io/
+  category: Information Security
+  languages:
+  paid: false
+  notes: Crypto 101 is an introductory course on cryptography, freely available for programmers of all ages and skill levels
+
+- name: Understanding Cryptography
+  url: http://www.crypto-textbook.com/
+  category: Information Security
+  languages:
+  paid: true
+  notes: A Textbook for Students and Practitioners
+
+- name: Beginner's guide to SIEM
+  url: https://www.alienvault.com/resource-center/white-papers/siem-for-beginners
+  category: Information Security
+  languages:
+  paid: false
+  notes:
+
+- name: Cracking the PM Interview
+  url: http://www.crackingthepminterview.com/
+  category: Jobs
+  languages:
+  paid: true
+  notes:
+
+- name: SoloLearn
+  url: https://www.sololearn.com
+  category: Online Courses
+  languages: ["C++", "Python", "Java"]
+  paid: false
+  notes:
+
+- name: Comcast Veterans Program
+  url: https://internetessentials.com/Veterans
+  category: Veterans
+  languages:
+  paid: true
+  notes: Comcast Internet Essentials offers affordable Internet for the home.
+
+- name: Introduction to Algorithms
+  url: http://labs.xjtudlc.com/labs/wldmt/reading%20list/books/Algorithms%20and%20optimization/Introduction%20to%20Algorithms.pdf
+  category: Computer Science
+  languages:
+  paid: false
+  notes:
+
+- name: Clean Architecture
+  url: https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164
+  category: Computer Science
+  languages:
+  paid: true
+  notes:
+
+- name: Cracking the Coding Interview
+  url: https://inspirit.net.in/books/placements/Cracking%20the%20Coding%20Interview.pdf
+  category: Jobs
+  languages:
+  paid: false
+  notes:
+
+- name: The C++ Programming Language
+  url: https://www.amazon.com/C-Programming-Language-4th/dp/0321563840
+  category: Books
+  languages: ["C++"]
+  paid: true
+  notes:
+
+- name: Elements of Programming Interviews
+  url: https://elementsofprogramminginterviews.com/
+  category: Jobs
+  languages:
+  paid: true
+  notes:
+
+- name: Data Science (Hands on)
+  url: https://www.kaggle.com
+  category: Data Science
+  languages:
+  paid: false
+  notes:
+
+- name: Data Camp
+  url: https://www.datacamp.com/
+  category: Data Science
+  languages: ["Python", "R"]
+  paid: false
+  notes:
+
+- name: Data Science Course
+  url: https://www.udemy.com/data-science-and-machine-learning-with-python-hands-on/
+  category: Online Courses
+  languages: ["Python"]
+  paid: true
+  notes:
+
+- name: React for Designers
+  url: https://designcode.io/courses/
+  category: Design
+  languages: ["JavaScript"]
+  paid: true
+  notes:
+
+- name: Get Ready to take the CCSK Exam
+  url: https://cloudsecurityalliance.org/education/ccsk/#_prepare
+  category: Information Security
+  languages:
+  paid: false
+  notes:
+
+- name: Cybersec Jobs
+  url: http://cybersecjobs.com/
+  category: Jobs
+  languages:
+  paid: false
+  notes:
+
+- name: Working Nomads
+  url: https://www.workingnomads.co/jobs
+  category: Jobs
+  languages:
+  paid: false
+  notes:
+
+- name: No Desk
+  url: https://nodesk.co/remote-work/
+  category: Jobs
+  languages:
+  paid: false
+  notes:
+
+- name: GTFO Bins
+  url: https://gtfobins.github.io/
+  category: Information Security
+  languages:
+  paid: false
+  notes: GTFOBins is a curated list of Unix binaries that can be exploited by an attacker to bypass local security restrictions
+
+- name: Living Off The Land Binaries And Scripts
+  url: https://github.com/api0cradle/LOLBAS
+  category: Information Security
+  languages:
+  paid: false
+  notes: The goal of these lists are to document every binary, script and library that can be used for Living Off The Land techniques
+
+- name: Active Directory Security
+  url: https://adsecurity.org/
+  category: Information Security
+  languages:
+  paid: false
+  notes: Blog
+
+- name: Run Code
+  url: https://runcode.ninja/
+  category: Information Security
+  languages:
+  paid: false
+  notes: CTF
+
+- name: Complete Computer Science Bundle
+  url: https://www.xda-developers.com/learn-multiple-programming-languages-and-platforms-with-this-bundle/
+  category: Computer Science
+  languages:
+  paid: true
+  notes:
+
+- name: The Docker and Kubernetes Certification Training Bundle
+  url: https://depot.xda-developers.com/sales/the-docker-and-kubernetes-mini-bundle
+  category: DevOps
+  languages:
+  paid: true
+  notes:
+
+- name: Pen testing resources
+  url: https://raw.githubusercontent.com/n00py/ReadingList/master/gunsafe.txt
+  category: Information Security
+  languages:
+  paid: false
+  notes:
+
+- name: PWNABLE
+  url: https://www.praetorian.com/challenges/pwnable
+  category: Information Security
+  languages:
+  paid: false
+  notes: CTF
+
+- name: How I got my first paid software developer job within 11 months of self-learning
+  url: https://medium.freecodecamp.org/the-story-behind-how-i-got-my-first-paid-software-developer-job-within-11-months-of-self-learning-d11cf171532c
+  category: Getting Started
+  languages:
+  paid: false
+  notes: Blog Post
+
+- name: Capture The Flag 101
+  url: https://www.ctf101.org/
+  category: Information Security
+  languages:
+  paid: false
+  notes: CTF guide/wiki/handbook
+
+- name: CSS3 Transitions, Transforms, Animation, Filters and more!
+  url: http://css3.bradshawenterprises.com/
+  category: Design
+  languages:
+  paid: false
+  notes:
+
+- name: Loop like a Native
+  url: https://nedbatchelder.com/text/iter.html
+  category: Computer Science
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: Ruby Me
+  url: https://rubyme.org/
+  category: Back End Dev
+  languages: ["Ruby"]
+  paid: false
+  notes: A paid mentorship program for early-career Ruby developers
+
+- name: Using GNU make to Build Programs
+  url: http://bob.cs.sonoma.edu/IntroCompOrg-RPi/app-make.html
+  category: Open Source
+  languages:
+  paid: false
+  notes:
+
+- name: Contract Negotiation - 11 Strategies
+  url: https://www.nolo.com/legal-encyclopedia/contract-negotiation-11-strategies-33340.html
+  category: Jobs
+  languages:
+  paid: false
+  notes:
+
+- name: Free Training for American Veterans and First Responders
+  url: https://www.instructorpaul.com/veterans-and-first-responders/
+  category: Veterans
+  languages:
+  paid: false
+  notes: I created this initiative to help people who want to transition from the military or other service to the Information Technology field
+
+- name: Top 10 tips for Technical Interviews from a Google TechLead
+  url: https://www.programmingoverload.com/videos/
+  category: Jobs
+  languages:
+  paid: false
+  notes:
+
+- name: Cybersecurity Connection
+  url: https://www.youtube.com/channel/UCJj8b7Hj97YomxZST6vFdaQ
+  category: Information Security
+  languages:
+  paid: false
+  notes:
+
+- name: Small-Business Grants and Resources for Veterans 2018
+  url: https://www.nerdwallet.com/blog/small-business/small-business-grants-for-veterans/
+  category: Entrepreneurship
+  languages:
+  paid: false
+  notes:
+
+- name: Veteran's Mentor Network
+  url: http://www.veteranmentornetwork.org/
+  category: Veterans
+  languages:
+  paid: false
+  notes:
+
+- name: Venture Deals
+  url: https://kfatechstars.novoed.com/#!/courses/kfa-venture-deals-fall18/flyer
+  category: Entrepreneurship
+  languages:
+  paid: false
+  notes: This unique course demystifies venture capital deals and startup financing to give both first-time and experienced entrepreneurs a definitive guide to secure funding.
+
+- name: The Open-Source Computer Science Degree
+  url: https://github.com/mvillaloboz/open-source-cs-degree
+  category: Computer Science
+  languages:
+  paid: false
+  notes:
+
+- name: Microsoft Learn
+  url: https://docs.microsoft.com/en-us/learn/
+  category: Microsoft
+  languages:
+  paid: false
+  notes:
+
+- name: CPython internals - A ten-hour codewalk through the Python interpreter source code
+  url: http://www.pgbovine.net/cpython-internals.htm
+  category: Back End Dev
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: Getting Into Security
+  url: https://aka.ms/GettingIntoSecurity
+  category: Information Security
+  languages:
+  paid: false
+  notes:
+
+- name: The 2-Hour Job Search
+  url: https://www.overdrive.com/media/3462925/the-2-hour-job-search
+  category: Jobs
+  languages:
+  paid: true
+  notes:
+
+- name: Securing your Ruby and Rails Codebase
+  url: https://www.occamslabs.com/blog/securing-your-ruby-and-rails-codebase
+  category: Back End Dev
+  languages: ["Ruby"]
+  paid: false
+  notes:
+
+- name: Julia Evans Programming Zines
+  url: https://jvns.ca/zines/
+  category: Computer Science
+  languages:
+  paid: true
+  notes:
