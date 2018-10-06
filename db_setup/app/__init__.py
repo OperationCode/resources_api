@@ -22,7 +22,7 @@ def import_resources():
         data = yaml.load(f)
 
     # Step 2: Uniquify resources
-    unique_resources = remove_duplicates(data) 
+    unique_resources = remove_duplicates(data)
 
     # Step 3: Get existing entries from DB
     try:
@@ -120,8 +120,11 @@ def update_resource(resource, existing_resource):
     existing_resource.notes = resource.get('notes', '')
     existing_resource.languages = resource['languages']
 
-start = time.perf_counter()
-import_resources()
-stop = time.perf_counter()
-print('Finished populating DB from resources.yml')
-print("Elapsed time: %.1f [min]" % ((stop-start)/60))
+@app.cli.command('populate_db')
+def do_import():
+    print('Populating DB from resources.yml...')
+    start = time.perf_counter()
+    import_resources()
+    stop = time.perf_counter()
+    print('Finished populating DB from resources.yml')
+    print("Elapsed time: %.1f [min]" % ((stop-start)/60))
