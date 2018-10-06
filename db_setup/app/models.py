@@ -28,6 +28,26 @@ class Resource(db.Model):
     downvotes = db.Column(db.INTEGER, default=0)
     times_clicked = db.Column(db.INTEGER, default=0)
 
+    @property
+    def serialize(self):
+       """Return object data in easily serializeable format"""
+       return {
+           'id'            : self.id,
+           'name'          : self.name,
+           'url'           : self.url,
+           'category'      : self.category.name,
+           'languages'     : self.serialize_languages,
+           'paid'          : self.paid,
+           'notes'         : self.notes,
+           'upvotes'       : self.upvotes,
+           'downvotes'     : self.downvotes,
+           'times_clicked' : self.times_clicked
+       }
+
+    @property
+    def serialize_languages(self):
+        return [ lang.name for lang in self.languages ]
+
     def key(self):
         return self.url
 

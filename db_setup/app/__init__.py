@@ -4,6 +4,9 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
+from flask import jsonify
+import json
+import traceback
 
 from configs import Config
 
@@ -15,6 +18,19 @@ migrate = Migrate(app, db)
 
 from .models import Resource, Category, Language
 
+@app.route('/resources', methods=['GET'])
+def resources():
+    return get_resources()
+
+def get_resources():
+    resources = {}
+    try:
+        resources = Resource.query.all()
+    except Exception as e:
+        traceback.print_tb(e.__traceback__)
+        print(e)
+
+    return jsonify([i.serialize for i in resources])
 
 def import_resources():
     # Step 1: Get data
