@@ -33,11 +33,10 @@ export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resour
 13. Change into the db_setup directory `cd db_setup`
 14. Set the FLASK_APP environment variable `export FLASK_APP=app.py` or `ENV:FLASK_APP = "app.py"`
 15. Set the FLASK_APP environment variable `export FLASK_APP=app.py`
-16. Comment out the call to `import_resources()` (TODO: we need to make it so we can run the migration without having to comment out this function call)
-NOTE: The following will fail until we find a way to get alembic to play nicely
-17. Run the migration `flask db migrate`
-18. Upgrade to the latest migration `flask db upgrade`
-19. Uncomment the call to `import_resources()` and then execute `flask run`
+16. Run the migration `flask db migrate`
+17. Upgrade to the latest migration `flask db upgrade`
+18. Run the click command to populate your database with the resources `flask populate_db`
+19. Start your development server with `flask run` and you're ready to go!
 
 
 ## Development Notes
@@ -45,6 +44,5 @@ NOTE: The following will fail until we find a way to get alembic to play nicely
 If you make changes to the models.py or other schemas, you need to run a migration and upgrade again:
 
 1. Set the FLASK_APP environment variable `export FLASK_APP=app.py` or `ENV:FLASK_APP = "app.py"`
-2. Comment out the call to `import_resources()` or it will try to import them too (which we don't want)
-3. Run the migration `flask db migrate`
-4. Upgrade to the latest migration `flask db upgrade`
+2. Run the migration `flask db migrate`
+3. Upgrade to the latest migration `flask db upgrade`
