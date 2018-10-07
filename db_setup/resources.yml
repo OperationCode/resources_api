@@ -2020,13 +2020,6 @@
   paid: false
   notes: Reverse Engineering
 
-- name: Crypto101
-  url: https://www.crypto101.io/
-  category: Information Security
-  languages:
-  paid: false
-  notes: Cryptography
-
 - name: Pentester Academy
   url: http://www.pentesteracademy.com/topics
   category: Information Security
@@ -5538,13 +5531,6 @@
   url: https://www.reddit.com/r/javascript/comments/6pn2bf/what_is_meteorjs_a_complete_tutorial_for_beginners/
   category: Front End Dev
   languages: ["JavaScript"]
-  paid: false
-  notes:
-
-- name: Veterans Launch a New Cybersecurity Career
-  url: https://niccs.us-cert.gov/training/veterans
-  category: Information Security
-  languages:
   paid: false
   notes:
 
