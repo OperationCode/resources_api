@@ -30,7 +30,7 @@ def get_resources():
         traceback.print_tb(e.__traceback__)
         print(e)
 
-    return jsonify([i.serialize for i in resources])
+    return jsonify([single_resource.serialize for single_resource in resources])
 
 def import_resources():
     # Step 1: Get data
