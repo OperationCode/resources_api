@@ -127,6 +127,7 @@ def register(app, db):
 
     @db_migrate.command()
     def init():
+        print(db)
         print("Populating db from resources.yml...")
         start = time.perf_counter()
         import_resources()
