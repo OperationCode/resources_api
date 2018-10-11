@@ -116,8 +116,14 @@ def update_resource(resource, existing_resource):
 
 
 def register(app, db):
-    @app.cli.command("populate_db_session")
-    def populate_db(db):
+    @app.cli.group()
+    def db_migrate():
+        """ migration commands"""
+        pass
+
+
+    @db_migrate.command()
+    def init(db):
         print("Populating db_session from resources.yml...")
         start = time.perf_counter()
         import_resources()
