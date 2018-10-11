@@ -1,11 +1,10 @@
-from flask import current_app
-import yaml
 import time
+import yaml
 from sqlalchemy import exc
 from .models import Resource, Category, Language
-import click
 
-def import_resources():
+
+def import_resources(db_session):
     # Step 1: Get data
     with open('resources.yml', 'r') as f:
         data = yaml.load(f)
@@ -13,7 +12,7 @@ def import_resources():
     # Step 2: Uniquify resources
     unique_resources = remove_duplicates(data)
 
-    # Step 3: Get existing entries from DB
+    # Step 3: Get existing entries from db_session
     try:
         resources_list = Resource.query.all()
         languages_list = Language.query.all()
@@ -26,10 +25,11 @@ def import_resources():
     except Exception as e:
         print(e)
 
-    # Step 4: Create/Update each resource in the DB
+    # Step 4: Create/Update each resource in the db_session
     for resource in unique_resources:
-        resource['category'] = get_category(resource, category_dict) # Note: modifies the category_dict in place (bad?)
-        resource['languages'] = get_languages(resource, language_dict) # Note: modifies the language_dict in place (bad?)
+        resource['category'] = get_category(resource, category_dict)  # Note: modifies the category_dict in place (bad?)
+        resource['languages'] = get_languages(resource,
+                                              language_dict)  # Note: modifies the language_dict in place (bad?)
         existing_resource = existing_resources.get(resource['url'])
 
         if existing_resource:
@@ -38,17 +38,18 @@ def import_resources():
             create_resource(resource)
 
     try:
-        db.session.commit()
+        db_session.session.commit()
     except exc.SQLAlchemyError as e:
-        db.session.rollback()
+        db_session.session.rollback()
         print('Flask SQLAlchemy Exception:', e)
         template = "An SQLAlchemy exception of type {0} occurred. Arguments:\n{1!r}"
         print(resource)
     except Exception as e:
-        db.session.rollback()
+        db_session.session.rollback()
         print('exception', e)
         template = "An exception of type {0} occurred. Arguments:\n{1!r}"
         print(resource)
+
 
 def remove_duplicates(data):
     unique_resources = []
@@ -61,6 +62,7 @@ def remove_duplicates(data):
             print(f"Encountered a duplicate resource in resources.yml: {resource['url']}")
     return unique_resources
 
+
 def get_category(resource, category_dict):
     category = resource.get('category')
 
@@ -69,11 +71,12 @@ def get_category(resource, category_dict):
 
     return category_dict[category]
 
+
 def get_languages(resource, language_dict):
     langs = []
 
     # Loop through languages and create a new Language
-    # object for any that don't exist in the DB
+    # object for any that don't exist in the db_session
     for language in resource.get('languages') or []:
         if not language_dict.get(language):
             language_dict[language] = Language(name=language)
@@ -84,7 +87,8 @@ def get_languages(resource, language_dict):
 
     return langs
 
-def create_resource(resource):
+
+def create_resource(resource, db_session):
     new_resource = Resource(
         name=resource['name'],
         url=resource['url'],
@@ -97,9 +101,10 @@ def create_resource(resource):
         times_clicked=resource.get('times_clicked', 0))
 
     try:
-        db.session.add(new_resource)
+        db_session.session.add(new_resource)
     except Exception as e:
         print('exception', e)
+
 
 def update_resource(resource, existing_resource):
     existing_resource.name = resource['name']
@@ -109,12 +114,13 @@ def update_resource(resource, existing_resource):
     existing_resource.notes = resource.get('notes', '')
     existing_resource.languages = resource['languages']
 
-with app.context():
-    @app.cli.command("populate_db")
-    def populate_db():
-        print("Populating DB from resources.yml...")
+
+def register(app, db):
+    @app.cli.command("populate_db_session")
+    def populate_db(db):
+        print("Populating db_session from resources.yml...")
         start = time.perf_counter()
         import_resources()
         stop = time.perf_counter()
-        print("Finished populating DB from resources.yml")
+        print("Finished populating db_session from resources.yml")
         print(f"Elapsed time: {(stop-start)/60} [min]")
