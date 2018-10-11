@@ -1,6 +1,7 @@
 from sqlalchemy_utils import URLType
+from flask_sqlalchemy import SQLAlchemy
 
-from app import db
+db = SQLAlchemy()
 
 '''
     event_id = db.Column('event_id', db.Integer, db.ForeignKey('event.id'), nullable=False)
