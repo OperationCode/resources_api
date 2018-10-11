@@ -4,7 +4,7 @@ from sqlalchemy import exc
 from .models import Resource, Category, Language
 
 
-def import_resources(db_session):
+def import_resources():
     # Step 1: Get data
     with open('resources.yml', 'r') as f:
         data = yaml.load(f)
@@ -22,8 +22,11 @@ def import_resources(db_session):
         existing_resources = {r.key(): r for r in resources_list}
         language_dict = {l.key(): l for l in languages_list}
         category_dict = {c.key(): c for c in categories_list}
-    except Exception as e:
-        print(e)
+    except AttributeError as e:
+        print('-------> EXCEPTION OCCURED DURING DB SETUP')
+        print('-------> Most likely you need to set the "SQLALCHEMY_DATABASE_URI"')
+        print(f'-------> Exception message: {e}')
+        return
 
     # Step 4: Create/Update each resource in the db_session
     for resource in unique_resources:
@@ -38,14 +41,14 @@ def import_resources(db_session):
             create_resource(resource)
 
     try:
-        db_session.session.commit()
+        db.session.commit()
     except exc.SQLAlchemyError as e:
-        db_session.session.rollback()
+        db.session.rollback()
         print('Flask SQLAlchemy Exception:', e)
         template = "An SQLAlchemy exception of type {0} occurred. Arguments:\n{1!r}"
         print(resource)
     except Exception as e:
-        db_session.session.rollback()
+        db.session.rollback()
         print('exception', e)
         template = "An exception of type {0} occurred. Arguments:\n{1!r}"
         print(resource)
@@ -88,7 +91,7 @@ def get_languages(resource, language_dict):
     return langs
 
 
-def create_resource(resource, db_session):
+def create_resource(resource, db):
     new_resource = Resource(
         name=resource['name'],
         url=resource['url'],
@@ -101,7 +104,7 @@ def create_resource(resource, db_session):
         times_clicked=resource.get('times_clicked', 0))
 
     try:
-        db_session.session.add(new_resource)
+        db.session.add(new_resource)
     except Exception as e:
         print('exception', e)
 
@@ -123,10 +126,10 @@ def register(app, db):
 
 
     @db_migrate.command()
-    def init(db):
-        print("Populating db_session from resources.yml...")
+    def init():
+        print("Populating db from resources.yml...")
         start = time.perf_counter()
         import_resources()
         stop = time.perf_counter()
-        print("Finished populating db_session from resources.yml")
+        print("Finished populating db from resources.yml")
         print(f"Elapsed time: {(stop-start)/60} [min]")
