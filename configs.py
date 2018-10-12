@@ -7,11 +7,11 @@ def get_sys_exec_root_or_drive():
         path = os.path.split(path)[0]
     return path
 
+alternative_db = None
 
-if os.environ.get('DEVELOPMENT'):
+if os.environ.get('USE_SQLITE'):
     alternative_db = 'sqlite:///' + os.path.join(get_sys_exec_root_or_drive(), 'data.sqlite')
-
-    print(alternative_db    )
+    print(alternative_db)
 
 else:
     if not os.environ.get('SQLALCHEMY_DATABASE_URI'):
