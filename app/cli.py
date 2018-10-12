@@ -38,7 +38,7 @@ def import_resources(db):
         if existing_resource:
             resource == existing_resource or update_resource(resource, existing_resource)
         else:
-            create_resource(resource)
+            create_resource(resource, db)
 
     try:
         db.session.commit()
@@ -134,3 +134,7 @@ def register(app, db):
         stop = time.perf_counter()
         print("Finished populating db from resources.yml")
         print(f"Elapsed time: {(stop-start)/60} [min]")
+
+    @db_migrate.command()
+    def create_tables():
+        db.create_all()
