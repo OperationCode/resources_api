@@ -11,9 +11,10 @@ from app import db
 '''
 
 language_identifier = db.Table('language_identifier',
-    db.Column('resource_id', db.Integer, db.ForeignKey('resource.id')),
-    db.Column('language_id', db.Integer, db.ForeignKey('language.id'))
-)
+                               db.Column('resource_id', db.Integer, db.ForeignKey('resource.id')),
+                               db.Column('language_id', db.Integer, db.ForeignKey('language.id'))
+                               )
+
 
 class Resource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,23 +31,23 @@ class Resource(db.Model):
 
     @property
     def serialize(self):
-       """Return object data in easily serializeable format"""
-       return {
-           'id'            : self.id,
-           'name'          : self.name,
-           'url'           : self.url,
-           'category'      : self.category.name,
-           'languages'     : self.serialize_languages,
-           'paid'          : self.paid,
-           'notes'         : self.notes,
-           'upvotes'       : self.upvotes,
-           'downvotes'     : self.downvotes,
-           'times_clicked' : self.times_clicked
-       }
+        """Return object data in easily serializeable format"""
+        return {
+            'id': self.id,
+            'name': self.name,
+            'url': self.url,
+            'category': self.category.name,
+            'languages': self.serialize_languages,
+            'paid': self.paid,
+            'notes': self.notes,
+            'upvotes': self.upvotes,
+            'downvotes': self.downvotes,
+            'times_clicked': self.times_clicked
+        }
 
     @property
     def serialize_languages(self):
-        return [ lang.name for lang in self.languages ]
+        return [lang.name for lang in self.languages]
 
     def key(self):
         return self.url
