@@ -4,7 +4,7 @@ from sqlalchemy import exc
 from .models import Resource, Category, Language
 
 
-def import_resources():
+def import_resources(db):
     # Step 1: Get data
     with open('resources.yml', 'r') as f:
         data = yaml.load(f)
@@ -130,7 +130,7 @@ def register(app, db):
         print(db)
         print("Populating db from resources.yml...")
         start = time.perf_counter()
-        import_resources()
+        import_resources(db)
         stop = time.perf_counter()
         print("Finished populating db from resources.yml")
         print(f"Elapsed time: {(stop-start)/60} [min]")

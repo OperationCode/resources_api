@@ -30,18 +30,19 @@ export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resour
 10. Create a virtual environment called venv `python -m virtualenv venv`
 11. Activate virtual environment `source venv/bin/activate`
 12. Install the required dependencies `pip install -r requirements.txt`
-13. Set the FLASK_APP environment variable `export FLASK_APP=app.py` or `ENV:FLASK_APP = "app.py"`
-14. Set the FLASK_APP environment variable `export FLASK_APP=app.py`
+13. Set the FLASK_APP environment variable `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
+14. Set the FLASK_APP environment variable `export FLASK_APP=run.py`
 15. Run the migration `flask db migrate`
 16. Upgrade to the latest migration `flask db upgrade`
-17. Run the click command to populate your database with the resources `flask populate_db`
+17. Run the click command to populate your database with the resources `flask db_migrate init`
 18. Start your development server with `flask run` and you're ready to go!
+19. Optionally, enable debugging by setting the environment to development with `export FLASK_ENV=development`
 
 
 ## Development Notes
 
 If you make changes to the models.py or other schemas, you need to run a migration and upgrade again:
 
-1. Set the FLASK_APP environment variable `export FLASK_APP=app.py` or `ENV:FLASK_APP = "app.py"`
+1. Set the FLASK_APP environment variable `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
 2. Run the migration `flask db migrate`
 3. Upgrade to the latest migration `flask db upgrade`
