@@ -1,9 +1,8 @@
-from flask import current_app
-import yaml
 import time
+import yaml
 from sqlalchemy import exc
 from .models import Resource, Category, Language
-import click
+
 
 def import_resources():
     # Step 1: Get data
@@ -13,7 +12,7 @@ def import_resources():
     # Step 2: Uniquify resources
     unique_resources = remove_duplicates(data)
 
-    # Step 3: Get existing entries from DB
+    # Step 3: Get existing entries from db_session
     try:
         resources_list = Resource.query.all()
         languages_list = Language.query.all()
@@ -23,13 +22,17 @@ def import_resources():
         existing_resources = {r.key(): r for r in resources_list}
         language_dict = {l.key(): l for l in languages_list}
         category_dict = {c.key(): c for c in categories_list}
-    except Exception as e:
-        print(e)
+    except AttributeError as e:
+        print('-------> EXCEPTION OCCURED DURING DB SETUP')
+        print('-------> Most likely you need to set the "SQLALCHEMY_DATABASE_URI"')
+        print(f'-------> Exception message: {e}')
+        return
 
-    # Step 4: Create/Update each resource in the DB
+    # Step 4: Create/Update each resource in the db_session
     for resource in unique_resources:
-        resource['category'] = get_category(resource, category_dict) # Note: modifies the category_dict in place (bad?)
-        resource['languages'] = get_languages(resource, language_dict) # Note: modifies the language_dict in place (bad?)
+        resource['category'] = get_category(resource, category_dict)  # Note: modifies the category_dict in place (bad?)
+        resource['languages'] = get_languages(resource,
+                                              language_dict)  # Note: modifies the language_dict in place (bad?)
         existing_resource = existing_resources.get(resource['url'])
 
         if existing_resource:
@@ -50,6 +53,7 @@ def import_resources():
         template = "An exception of type {0} occurred. Arguments:\n{1!r}"
         print(resource)
 
+
 def remove_duplicates(data):
     unique_resources = []
     resource_dict = {}
@@ -61,6 +65,7 @@ def remove_duplicates(data):
             print(f"Encountered a duplicate resource in resources.yml: {resource['url']}")
     return unique_resources
 
+
 def get_category(resource, category_dict):
     category = resource.get('category')
 
@@ -69,11 +74,12 @@ def get_category(resource, category_dict):
 
     return category_dict[category]
 
+
 def get_languages(resource, language_dict):
     langs = []
 
     # Loop through languages and create a new Language
-    # object for any that don't exist in the DB
+    # object for any that don't exist in the db_session
     for language in resource.get('languages') or []:
         if not language_dict.get(language):
             language_dict[language] = Language(name=language)
@@ -84,7 +90,8 @@ def get_languages(resource, language_dict):
 
     return langs
 
-def create_resource(resource):
+
+def create_resource(resource, db):
     new_resource = Resource(
         name=resource['name'],
         url=resource['url'],
@@ -101,6 +108,7 @@ def create_resource(resource):
     except Exception as e:
         print('exception', e)
 
+
 def update_resource(resource, existing_resource):
     existing_resource.name = resource['name']
     existing_resource.url = resource['url']
@@ -109,12 +117,20 @@ def update_resource(resource, existing_resource):
     existing_resource.notes = resource.get('notes', '')
     existing_resource.languages = resource['languages']
 
-with app.context():
-    @app.cli.command("populate_db")
-    def populate_db():
-        print("Populating DB from resources.yml...")
+
+def register(app, db):
+    @app.cli.group()
+    def db_migrate():
+        """ migration commands"""
+        pass
+
+
+    @db_migrate.command()
+    def init():
+        print(db)
+        print("Populating db from resources.yml...")
         start = time.perf_counter()
         import_resources()
         stop = time.perf_counter()
-        print("Finished populating DB from resources.yml")
+        print("Finished populating db from resources.yml")
         print(f"Elapsed time: {(stop-start)/60} [min]")
