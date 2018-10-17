@@ -49,7 +49,9 @@ def get_resource(id):
 def get_resources():
     try:
         page = request.args.get('page', 1, type=int)
-        resource_paginator = Resource.query.paginate(page, Config.RESOURCES_PER_PAGE, False)
+        page_size = request.args.get('page_size', Config.RESOURCES_PER_PAGE, type=int)
+        if page_size > Config.RESOURCE_MAX_PAGE_SIZE: page_size = Config.RESOURCE_MAX_PAGE_SIZE
+        resource_paginator = Resource.query.paginate(page, page_size, False)
         resource_list = [resource.serialize for resource in resource_paginator.items]
 
     except Exception as e:
@@ -65,7 +67,9 @@ def get_languages():
 
     try:
         page = request.args.get('page', 1, type=int)
-        language_paginator = Language.query.paginate(page, Config.LANGUAGES_PER_PAGE, False)
+        page_size = request.args.get('page_size', Config.LANGUAGES_PER_PAGE, type=int)
+        if page_size > Config.LANGUAGES_MAX_PAGE_SIZE: page_size = Config.LANGUAGES_MAX_PAGE_SIZE
+        language_paginator = Language.query.paginate(page, page_size, False)
         language_list = [language.serialize for language in language_paginator.items]
 
     except Exception as e:
