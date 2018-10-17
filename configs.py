@@ -22,3 +22,4 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or alternative_db
     SQL_LITE_DEFAULT = False or (alternative_db != None)
+    RESOURCES_PER_PAGE = 20

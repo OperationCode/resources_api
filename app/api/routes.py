@@ -1,10 +1,12 @@
 from traceback import print_tb
 
+from flask import request
 from flask import jsonify
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
 from app.models import Resource, Language
+from app import Config
 
 
 # Routes
@@ -47,14 +49,16 @@ def get_resource(id):
 def get_resources():
     resources = {}
     try:
-        resources = Resource.query.all()
+        page = request.args.get('page', 1, type=int)
+        resource_paginator = Resource.query.paginate(page, Config.RESOURCES_PER_PAGE, False)
+        resource_list = [resource.serialize for resource in resource_paginator.items]
 
     except Exception as e:
         print_tb(e.__traceback__)
         print(e)
 
     finally:
-        return jsonify([single_resource.serialize for single_resource in resources])
+        return jsonify(resource_list)
 
 
 def get_languages():
