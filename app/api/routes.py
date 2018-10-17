@@ -47,7 +47,6 @@ def get_resource(id):
 
 
 def get_resources():
-    resources = {}
     try:
         page = request.args.get('page', 1, type=int)
         resource_paginator = Resource.query.paginate(page, Config.RESOURCES_PER_PAGE, False)
@@ -56,7 +55,7 @@ def get_resources():
     except Exception as e:
         print_tb(e.__traceback__)
         print(e)
-
+        resource_list = []
     finally:
         return jsonify(resource_list)
 
@@ -65,11 +64,13 @@ def get_languages():
     languages = {}
 
     try:
-        languages = Language.query.all()
+        page = request.args.get('page', 1, type=int)
+        language_paginator = Language.query.paginate(page, Config.LANGUAGES_PER_PAGE, False)
+        language_list = [language.serialize for language in language_paginator.items]
 
     except Exception as e:
         print_tb(e.__traceback__)
         print(e)
-
+        language_list = []
     finally:
-        return jsonify([language.name for language in languages])
+        return jsonify(language_list)
