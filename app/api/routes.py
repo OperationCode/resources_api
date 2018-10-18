@@ -15,11 +15,22 @@ def resources():
 def languages():
     return get_languages()
 
+@bp.route('/languages/<lang>', methods=['GET'])
+def language(lang):
+    return get_resources(lang)
 
-def get_resources():
+
+def get_resources(lang=None):
     resources = {}
     try:
-        resources = Resource.query.all()
+        if lang:
+            resources = Resource.query.filter(
+                Resource.languages.any(
+                    Language.name.like(lang)
+                )
+            ).all()
+        else:
+            resources = Resource.query.all()
 
     except Exception as e:
         print_tb(e.__traceback__)
