@@ -3,16 +3,44 @@ from traceback import print_tb
 from app.api import bp
 from app.models import Language, Resource
 from flask import jsonify
+from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 
+# Routes
 @bp.route('/resources', methods=['GET'])
 def resources():
     return get_resources()
 
 
+@bp.route('/resources/<int:id>', methods=['GET'])
+def resource(id):
+    return get_resource(id)
+
+
 @bp.route('/languages', methods=['GET'])
 def languages():
     return get_languages()
+
+
+# Helpers
+def get_resource(id):
+    resource = None
+    try:
+        resource = Resource.query.get(id)
+
+    except MultipleResultsFound as e:
+        print_tb(e.__traceback__)
+        print(e)
+
+    except NoResultFound as e:
+        print_tb(e.__traceback__)
+        print(e)
+
+    finally:
+        if resource:
+            return jsonify(resource.serialize)
+        else:
+            return jsonify({})
 
 
 def get_resources():

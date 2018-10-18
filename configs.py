@@ -17,7 +17,7 @@ if os.environ.get('USE_SQLITE'):
 
 else:
     if not os.environ.get('SQLALCHEMY_DATABASE_URI'):
-        raise KeyError("Application requires 'SQLALCHEMY_DATABASE_URL' to run in non DEVELOPMENT")
+        raise KeyError("Application requires 'SQLALCHEMY_DATABASE_URI' to run in non DEVELOPMENT")
 
 
 class Config:
