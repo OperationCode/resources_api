@@ -30,12 +30,14 @@ def get_resources():
 
 
 def get_languages():
+    languages = {}
+
     try:
         languages = Language.query.all()
 
     except Exception as e:
         print_tb(e.__traceback__)
         print(e)
-        languages = {}
+
     finally:
-        return jsonify([single_resource.serialize for single_resource in resources])
+        return jsonify([language.name for language in languages])
