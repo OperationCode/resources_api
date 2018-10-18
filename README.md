@@ -45,3 +45,10 @@ If you make changes to the models.py or other schemas, you need to run a migrati
 1. Set the FLASK_APP environment variable `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
 2. Run the migration `flask db migrate`
 3. Upgrade to the latest migration `flask db upgrade`
+
+Before committing, please lint your code:
+
+```sh
+pip install --upgrade flake8
+flake8 app
+```
