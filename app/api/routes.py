@@ -39,9 +39,9 @@ def get_resource(id):
 
     finally:
         if resource:
-            return jsonify([resource.serialize])
+            return jsonify(resource.serialize)
         else:
-            return jsonify([])
+            return jsonify({})
 
 
 def get_resources():
