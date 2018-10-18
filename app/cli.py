@@ -1,7 +1,10 @@
 import time
+
 import yaml
+
 from sqlalchemy import exc
-from .models import Resource, Category, Language
+
+from .models import Category, Language, Resource
 
 
 def import_resources(db):

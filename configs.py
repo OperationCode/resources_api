@@ -1,5 +1,7 @@
 
-import sys, os
+import os
+import sys
+
 
 def get_sys_exec_root_or_drive():
     path = sys.executable

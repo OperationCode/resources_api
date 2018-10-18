@@ -1,9 +1,8 @@
 from traceback import print_tb
 
-from flask import jsonify
-
 from app.api import bp
-from app.models import Resource, Language
+from app.models import Language, Resource
+from flask import jsonify
 
 
 @bp.route('/resources', methods=['GET'])

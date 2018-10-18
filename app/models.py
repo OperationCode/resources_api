@@ -1,6 +1,5 @@
-from sqlalchemy_utils import URLType
-
 from app import db
+from sqlalchemy_utils import URLType
 
 '''
     event_id = db.Column('event_id', db.Integer, db.ForeignKey('event.id'), nullable=False)
