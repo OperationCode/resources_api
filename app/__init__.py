@@ -9,7 +9,7 @@ try:
     assert version_info >= (3, 7, 0)
 except AssertionError:
     print('Warning Current Python version not supported')
-    print('Current Python version: {version}'.format(version=version_info))
+    print(f'Current Python version: {version_info}')
     exit(1)
 
 
