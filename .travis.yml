@@ -6,6 +6,6 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
-  - pylint app
+  - flake8 app --statistics --count
 # TODO: implement pytests then delete this line and uncomment the next
 #  - pytest
