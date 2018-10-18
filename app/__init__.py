@@ -7,9 +7,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 try:
     assert version_info >= (3, 7, 0)
-except AssertionError as e:
-    print('Warning Current python version not supported')
-    print('Current python version: {version}'.format(version=version_info))
+except AssertionError:
+    print('Warning Current Python version not supported')
+    print('Current Python version: {version}'.format(version=version_info))
     exit(1)
 
 

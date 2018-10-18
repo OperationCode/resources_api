@@ -25,7 +25,8 @@ def get_resources():
         print(e)
 
     finally:
-        return jsonify([single_resource.serialize for single_resource in resources])
+        return jsonify([single_resource.serialize for
+                        single_resource in resources])
 
 
 def get_languages():

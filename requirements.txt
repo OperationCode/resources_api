@@ -6,4 +6,4 @@ SQLAlchemy==1.2.8
 SQLAlchemy-Utils==0.33.3
 PyYAML==3.13
 psycopg2-binary==2.7.5
-pylint==2.1.1
+flake8==3.5.0
