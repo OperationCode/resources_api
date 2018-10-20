@@ -60,7 +60,7 @@ def get_resources():
         return jsonify(resource_list)
 
 
-def get_languages():    
+def get_languages():
 
     try:
         language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, Language, request)
