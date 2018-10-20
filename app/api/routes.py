@@ -36,9 +36,9 @@ def resource_set(id, params="", category=None, languages=[], name=None, url=None
     return set_resource(id, param_list)
 
 
-@bp.route('/resources/<category>/<languages>/<name>/<string:url>/<string:params>', 
+@bp.route('/resources/<category>/<languages>/<name>/<string:url>/<string:params>',
           methods=['POST'])
-def create_new(params="", category, languages, name, url, paid=False, notes=None):
+def create_new(category, languages, name, url, params="", paid=False, notes=None):
     new_resource = Resource()
     optional_params = params.split('/')
     if len(optional_params) > 0:
