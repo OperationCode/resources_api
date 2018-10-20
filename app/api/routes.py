@@ -10,6 +10,7 @@ from app.models import Language, Resource, Category
 from app import Config
 from app.utils import Paginator
 
+
 # Routes
 @bp.route('/resources', methods=['GET'])
 def resources():
@@ -97,7 +98,9 @@ def get_resources():
         else:
             query = Resource.query
 
-        resource_list = [resource.serialize for resource in resource_paginator.items(query)]
+        resource_list = [
+            resource.serialize for resource in resource_paginator.items(query)
+        ]
 
     except Exception as e:
         print_tb(e.__traceback__)
