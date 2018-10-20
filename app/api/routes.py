@@ -1,52 +1,82 @@
 from traceback import print_tb
 
+from flask import request
 from flask import jsonify
+from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
-from app.models import Resource, Language
+from app.models import Language, Resource
+from app import Config
+from app.utils import Paginator
 
-
+# Routes
 @bp.route('/resources', methods=['GET'])
 def resources():
+    print("feinsmecker")
     return get_resources()
+
+
+@bp.route('/resources/<int:id>', methods=['GET'])
+def resource(id):
+    return get_resource(id)
 
 
 @bp.route('/languages', methods=['GET'])
 def languages():
     return get_languages()
 
-@bp.route('/languages/<lang>', methods=['GET'])
-def language(lang):
-    return get_resources(lang)
 
-
-def get_resources(lang=None):
-    resources = {}
+# Helpers
+def get_resource(id):
+    resource = None
     try:
-        if lang:
-            resources = Resource.query.filter(
-                Resource.languages.any(
-                    Language.name.like(lang)
-                )
-            ).all()
-        else:
-            resources = Resource.query.all()
+        resource = Resource.query.get(id)
 
-    except Exception as e:
+    except MultipleResultsFound as e:
+        print_tb(e.__traceback__)
+        print(e)
+
+    except NoResultFound as e:
         print_tb(e.__traceback__)
         print(e)
 
     finally:
-        return jsonify([single_resource.serialize for single_resource in resources])
+        if resource:
+            return jsonify(resource.serialize)
+        else:
+            return jsonify({})
+
+
+def get_resources():
+    try:
+        resource_paginator = Paginator(Config.RESOURCE_PAGINATOR, Resource, request)
+        resource_list = [resource.serialize for resource in resource_paginator.items]
+
+        lang = request.args.get('lang')
+        category = request.args.get('category')
+
+        # Filter out hits that don't match the filter params.
+        if lang:
+            resource_list = [resource for resource in resource_list if lang in resource.serialize_languages]
+        if category:
+            resource_list = [resource for resource in resource_list if category == resource.category.name]
+
+    except Exception as e:
+        print_tb(e.__traceback__)
+        print(e)
+        resource_list = []
+    finally:
+        return jsonify(resource_list)
 
 
 def get_languages():
     try:
-        languages = Language.query.all()
+        language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, Language, request)
+        language_list = [language.serialize for language in language_paginator.items]
 
     except Exception as e:
         print_tb(e.__traceback__)
         print(e)
-        languages = {}
+        language_list = []
     finally:
-        return jsonify([single_resource.serialize for single_resource in resources])
+        return jsonify(language_list)

@@ -1,5 +1,5 @@
-from app import create_app, db, cli
-from app.models import db, Resource, Category, Language
+from app import cli, create_app, db
+from app.models import Category, Language, Resource, db
 
 app = create_app()
 cli.register(app, db)

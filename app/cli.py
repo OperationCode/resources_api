@@ -1,7 +1,10 @@
 import time
+
 import yaml
+
 from sqlalchemy import exc
-from .models import Resource, Category, Language
+
+from .models import Category, Language, Resource
 
 
 def import_resources(db):
@@ -24,19 +27,23 @@ def import_resources(db):
         category_dict = {c.key(): c for c in categories_list}
     except AttributeError as e:
         print('-------> EXCEPTION OCCURED DURING DB SETUP')
-        print('-------> Most likely you need to set the "SQLALCHEMY_DATABASE_URI"')
+        print('-------> Most likely you need to set the '
+              '"SQLALCHEMY_DATABASE_URI"')
         print(f'-------> Exception message: {e}')
         return
 
     # Step 4: Create/Update each resource in the db_session
     for resource in unique_resources:
-        resource['category'] = get_category(resource, category_dict)  # Note: modifies the category_dict in place (bad?)
+        # Note: modifies the category_dict in place (bad?)
+        resource['category'] = get_category(resource, category_dict)
+        # Note: modifies the language_dict in place (bad?)
         resource['languages'] = get_languages(resource,
-                                              language_dict)  # Note: modifies the language_dict in place (bad?)
+                                              language_dict)
         existing_resource = existing_resources.get(resource['url'])
 
         if existing_resource:
-            resource == existing_resource or update_resource(resource, existing_resource)
+            resource == existing_resource or \
+                        update_resource(resource, existing_resource)
         else:
             create_resource(resource, db)
 
@@ -45,12 +52,10 @@ def import_resources(db):
     except exc.SQLAlchemyError as e:
         db.session.rollback()
         print('Flask SQLAlchemy Exception:', e)
-        template = "An SQLAlchemy exception of type {0} occurred. Arguments:\n{1!r}"
         print(resource)
     except Exception as e:
         db.session.rollback()
         print('exception', e)
-        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
         print(resource)
 
 
@@ -62,7 +67,8 @@ def remove_duplicates(data):
             resource_dict[resource['url']] = True
             unique_resources.append(resource)
         else:
-            print(f"Encountered a duplicate resource in resources.yml: {resource['url']}")
+            print(f"Encountered a duplicate resource "
+                  f"in resources.yml: {resource['url']}")
     return unique_resources
 
 
@@ -123,7 +129,6 @@ def register(app, db):
     def db_migrate():
         """ migration commands"""
         pass
-
 
     @db_migrate.command()
     def init():
