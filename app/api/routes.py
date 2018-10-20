@@ -61,7 +61,6 @@ def get_resources():
 
 
 def get_languages():
-
     try:
         language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, Language, request)
         language_list = [language.serialize for language in language_paginator.items]
