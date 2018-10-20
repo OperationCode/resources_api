@@ -10,7 +10,6 @@ from app import Config
 from app.utils import Paginator
 
 
-
 # Routes
 @bp.route('/resources', methods=['GET'])
 def resources():
@@ -61,9 +60,7 @@ def get_resources():
         return jsonify(resource_list)
 
 
-
-def get_languages():
-    languages = {}
+def get_languages():    
 
     try:
         language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, Language, request)
