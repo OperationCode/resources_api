@@ -17,22 +17,24 @@ def resources():
 
 
 @bp.route('/resources/<int:id>', methods=['GET'])
-def resource(id):
+def resource_get(id):
     return get_resource(id)
 
 
 @bp.route('/languages', methods=['GET'])
 def languages():
     return get_languages()
-    
+
+
 @bp.route('/resources/<int:id>/<string:params>', methods=['PUT'])
-def resource(id,params="",category=None,languages=[],name=None,url=None,paid=False,notes=None):
-    param_list = [category,languages,name,url,paid,notes]
-    old_resource = get_resource(id)
+def resource_set(id, params="", category=None, languages=[], name=None, url=None,
+                 paid=False, notes=None):
+    param_list = [category, languages, name, url, paid, notes]
     optional_params = params.split('/')
     for index in range(len(optional_params)):
         param_list[index] = optional_params[index]
-    return set_resource(id,param_list)
+    return set_resource(id, param_list)
+
 
 # Helpers
 def get_resource(id):
@@ -79,8 +81,9 @@ def get_languages():
         language_list = []
     finally:
         return jsonify(language_list)
-        
-def set_resource(id,param_list):
+
+
+def set_resource(id, param_list):
     resource = None
     try:
         resource = get_resource(id)
