@@ -5,7 +5,7 @@ from flask import jsonify
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
-from app.models import Resource, Language
+from app.models import Language, Resource
 from app import Config
 from app.utils import Paginator
 
@@ -61,7 +61,6 @@ def get_resources():
 
 
 def get_languages():
-    languages = {}
 
     try:
         language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, Language, request)

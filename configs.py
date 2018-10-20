@@ -1,5 +1,6 @@
 
-import sys, os
+import os
+import sys
 from dataclasses import dataclass
 
 @dataclass
@@ -7,6 +8,7 @@ class PaginatorConfig:
     per_page: int = 20
     max_page_size: int = 100
 
+      
 def get_sys_exec_root_or_drive():
     path = sys.executable
     while os.path.split(path)[1]:
