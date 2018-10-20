@@ -1,5 +1,11 @@
 
 import sys, os
+from dataclasses import dataclass
+
+@dataclass
+class PaginatorConfig:
+    per_page: int = 20
+    max_page_size: int = 100
 
 def get_sys_exec_root_or_drive():
     path = sys.executable
@@ -22,7 +28,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or alternative_db
     SQL_LITE_DEFAULT = False or (alternative_db != None)
-    RESOURCES_PER_PAGE = 20
-    RESOURCE_MAX_PAGE_SIZE = 100
-    LANGUAGES_PER_PAGE = 20
-    LANGUAGES_MAX_PAGE_SIZE = 100
+
+    # Can pass in changes to defaults, such as PaginatorConfig(per_page=40)
+    RESOURCE_PAGINATOR = PaginatorConfig()
+    LANGUAGE_PAGINATOR = PaginatorConfig()

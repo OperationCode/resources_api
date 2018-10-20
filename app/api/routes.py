@@ -7,6 +7,7 @@ from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 from app.api import bp
 from app.models import Resource, Language
 from app import Config
+from app.utils import Paginator
 
 
 # Routes
@@ -48,10 +49,7 @@ def get_resource(id):
 
 def get_resources():
     try:
-        page = request.args.get('page', 1, type=int)
-        page_size = request.args.get('page_size', Config.RESOURCES_PER_PAGE, type=int)
-        if page_size > Config.RESOURCE_MAX_PAGE_SIZE: page_size = Config.RESOURCE_MAX_PAGE_SIZE
-        resource_paginator = Resource.query.paginate(page, page_size, False)
+        resource_paginator = Paginator(Config.RESOURCE_PAGINATOR, Resource, request)
         resource_list = [resource.serialize for resource in resource_paginator.items]
 
     except Exception as e:
@@ -66,10 +64,7 @@ def get_languages():
     languages = {}
 
     try:
-        page = request.args.get('page', 1, type=int)
-        page_size = request.args.get('page_size', Config.LANGUAGES_PER_PAGE, type=int)
-        if page_size > Config.LANGUAGES_MAX_PAGE_SIZE: page_size = Config.LANGUAGES_MAX_PAGE_SIZE
-        language_paginator = Language.query.paginate(page, page_size, False)
+        language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, Language, request)
         language_list = [language.serialize for language in language_paginator.items]
 
     except Exception as e:
