@@ -1,9 +1,14 @@
 from traceback import print_tb
 
-from app.api import bp
-from app.models import Language, Resource
+from flask import request
 from flask import jsonify
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
+
+from app.api import bp
+from app.models import Language, Resource
+from app import Config
+from app.utils import Paginator
+
 
 
 # Routes
@@ -44,28 +49,29 @@ def get_resource(id):
 
 
 def get_resources():
-    resources = {}
     try:
-        resources = Resource.query.all()
+        resource_paginator = Paginator(Config.RESOURCE_PAGINATOR, Resource, request)
+        resource_list = [resource.serialize for resource in resource_paginator.items]
 
     except Exception as e:
         print_tb(e.__traceback__)
         print(e)
-
+        resource_list = []
     finally:
-        return jsonify([single_resource.serialize for
-                        single_resource in resources])
+        return jsonify(resource_list)
+
 
 
 def get_languages():
     languages = {}
 
     try:
-        languages = Language.query.all()
+        language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, Language, request)
+        language_list = [language.serialize for language in language_paginator.items]
 
     except Exception as e:
         print_tb(e.__traceback__)
         print(e)
-
+        language_list = []
     finally:
-        return jsonify([language.name for language in languages])
+        return jsonify(language_list)
