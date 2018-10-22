@@ -16,24 +16,23 @@ def resources():
     return get_resources()
 
 
-@bp.route('/resources/<int:id>', methods=['GET'])
-def resource_get(id):
-    return get_resource(id)
+@bp.route('/resources/<int:id>', methods=['GET', 'PUT'])
+def resource(id, params="", category=None, languages=[], name=None, url=None,
+                 paid=False, notes=None):
+    if request.method == 'GET':
+        return get_resource(id)
+    elif request.method == 'PUT':
+        param_list = [category, languages, name, url, paid, notes]
+        param_names = ['category', 'languages', 'name', 'url', 'paid', 'notes']
+        for index in range(len(param_names)):
+            if request.args.get(param_names[index]):
+                param_list[index] = param_names[index]
+        return set_resource(id, param_list)     
 
 
 @bp.route('/languages', methods=['GET'])
 def languages():
     return get_languages()
-
-
-@bp.route('/resources/<int:id>/<string:params>', methods=['PUT'])
-def resource_set(id, params="", category=None, languages=[], name=None, url=None,
-                 paid=False, notes=None):
-    param_list = [category, languages, name, url, paid, notes]
-    optional_params = params.split('/')
-    for index in range(len(optional_params)):
-        param_list[index] = optional_params[index]
-    return set_resource(id, param_list)
 
 
 # Helpers
@@ -86,7 +85,7 @@ def get_languages():
 def set_resource(id, param_list):
     resource = None
     try:
-        resource = get_resource(id)
+        resource = Resource.query.get(id)
 
     except MultipleResultsFound as e:
         print_tb(e.__traceback__)
