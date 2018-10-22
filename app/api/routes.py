@@ -26,7 +26,7 @@ def resource(id, params="", category=None, languages=[], name=None, url=None,
         param_names = ['category', 'languages', 'name', 'url', 'paid', 'notes']
         for index in range(len(param_names)):
             if request.args.get(param_names[index]):
-                param_list[index] = param_names[index]
+                param_list[index] = request.args.get(param_names[index])
         return set_resource(id, param_list)     
 
 
