@@ -21,37 +21,29 @@ def resource_get(id):
     return get_resource(id)
 
 
-@bp.route('/languages', methods=['GET'])
-def languages():
-    return get_languages()
-
-
-@bp.route('/resources/<int:id>/<string:params>', methods=['PUT'])
-def resource_set(id, params="", category=None, languages=[], name=None, url=None,
+@bp.route('/resources/<int:id>', methods=['GET', 'POST', 'PUT'])
+def resource(id, params="", category=None, languages=[], name=None, url=None,
                  paid=False, notes=None):
-    param_list = [category, languages, name, url, paid, notes]
-    optional_params = params.split('/')
-    for index in range(len(optional_params)):
-        param_list[index] = optional_params[index]
-    return set_resource(id, param_list)
-
-
-@bp.route('/resources/<category>/<languages>/<name>/<string:url>/<string:params>',
-          methods=['POST'])
-def create_new(category, languages, name, url, params="", paid=False, notes=None):
-    new_resource = Resource()
-    optional_params = params.split('/')
-    if len(optional_params) > 0:
-        paid = optional_params[0]
-        if len(optional_params) > 1:
-            notes = optional_params[1]
-    new_resource.category = category
-    new_resource.languages = languages
-    new_resource.name = name
-    new_resource.url = url
-    new_resource.paid = paid
-    new_resource.notes = notes
-    return jsonify(new_resource.serialize)
+    if request.method == 'GET':
+        return get_resource(id)
+    elif request.method == 'PUT':
+        param_list = [category, languages, name, url, paid, notes]
+        param_names = ['category', 'languages', 'name', 'url', 'paid', 'notes']
+        for index in range(len(param_names)):
+            if request.args.get(param_names[index]):
+                param_list[index] = request.args.get(param_names[index])
+        return set_resource(id, param_list)
+    elif request.method == 'POST':
+        new_resource = Resource()
+        new_resource.category = request.args.get('category')
+        new_resource.languages = request.args.get('languages')
+        new_resource.name = request.args.get('name')
+        new_resource.url = request.args.get('url')
+        if request.args.get('paid'):
+            new_resource.paid = request.args.get('paid')
+        if request.args.get('notes'):
+            new_resource.notes = request.args.get('notes')
+        return jsonify(new_resource.serialize)
 
 
 # Helpers
@@ -104,7 +96,7 @@ def get_languages():
 def set_resource(id, param_list):
     resource = None
     try:
-        resource = get_resource(id)
+        resource = Resource.query.get(id)
 
     except MultipleResultsFound as e:
         print_tb(e.__traceback__)
