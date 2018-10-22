@@ -57,7 +57,6 @@ def get_resources():
 
     The filters are case insensitive.
     """
-    resource_list = []
     try:
         resource_paginator = Paginator(Config.RESOURCE_PAGINATOR, request)
 
