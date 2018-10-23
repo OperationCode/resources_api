@@ -5,7 +5,7 @@ from flask import jsonify
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
-from app.models import Language, Resource
+from app.models import Language, Resource, Category
 from app import Config
 from app.utils import Paginator
 
@@ -24,6 +24,10 @@ def resource(id):
 @bp.route('/languages', methods=['GET'])
 def languages():
     return get_languages()
+
+@bp.route('/categories', methods=['GET'])
+def categories():
+    return get_categories()
 
 
 # Helpers
@@ -71,3 +75,15 @@ def get_languages():
         language_list = []
     finally:
         return jsonify(language_list)
+
+def get_categories():
+    try:
+        category_paginator = Paginator(Config.CATEGORY_PAGINATOR, Category, request)
+        category_list = [category.serialize for category in category_paginator.items]
+
+    except Exception as e:
+        print_tb(e.__traceback__)
+        print(e)
+        category_list = []
+    finally:
+        return jsonify(category_list)
