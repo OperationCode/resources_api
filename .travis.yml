@@ -1,11 +1,11 @@
 language: python
 python:
-  - 3.6
+  - 3.7
 # command to install dependencies
 install:
-  - pip install -r requirements.txt
+  - 'pip install pipenv'
+  - 'pipenv install'
 # command to run tests
 script:
-  - flake8 app --statistics --count
-# TODO: implement pytests then delete this line and uncomment the next
-#  - pytest
+  - 'python -m pytest --cov=app tests/'
+  - 'flake8 app --statistics --count'
