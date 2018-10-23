@@ -11,18 +11,19 @@ First, you'll need to configure a database. Once this project is deployed, we'll
 ### Windows setup
 
 ## Chocolatey and Postgres (Needs Testing)
-1. [Install Choclatey](https://chocolatey.org/docs/installation#installing-chocolatey) if you do not already have it installed.
+1. [Install Chocolatey](https://chocolatey.org/docs/installation#installing-chocolatey) if you do not already have it installed.
 2. Add `C:\ProgramData\chocolatey\bin` to your paths (type path in search, click Edit environment varaibles for you account).
-3. In your cmd.exe (admin) terminal run `choco install postgresql --params '/Password:<assigned to postgres user>` (cmd.exe (admin) can be found by pressing `win + x`).
+3. In your powershell (admin), run `choco install postgresql10` (powershell (admin) can be found by pressing `win + x`).
 4. Upgrade postgresql: `choco upgrade postgresql`.
-5. Add `C:\Program Files\PostgreSQL\10\bin` to your paths.
-6. Start postgres: `psql -U postgres` you will see postgres-# in the terminal.
-7. Create your user with `CREATE USER name;` The terminal will print CREATE ROLE.
-8. Alter your role with permission to create a database with `ALTER USER name WITH CREATEDB CREATEROLE;` The terminal will print ALTER ROLE
-9. Check everything is in order with `\du`. The terminal will print a table with Role name, Atrributes, and Member of columns. If your user is listed you are good to go.
-10. Quit with `\q` or `ctr + c`.
-11. Start psql with new username with `psql`. You should see `user=>`.
-12. Create a database with: CREATE DATABASE resources OWNER user;
+5. Add `C:\Program Files\PostgreSQL\10\bin` to your [paths](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/).
+6. Restart your admin terminal to update the path.
+7. Start postgres: `psql -U postgres` you will see postgres-# in the terminal.
+8. Create your user with `CREATE USER name;` The terminal will print CREATE ROLE.
+9. Alter your role with permission to create a database with `ALTER USER name WITH CREATEDB CREATEROLE;` The terminal will print ALTER ROLE
+10. Check everything is in order with `\du`. The terminal will print a table with Role name, Atrributes, and Member of columns. If your user is listed you are good to go.
+11. Quit with `\q` or `ctr + c`.
+12. Start psql with new username with `psql`. You should see `user=>`.
+13. Create a database with: `CREATE DATABASE resources OWNER user;`.
 
 <--NEED TO ADD THE REST-->
 
