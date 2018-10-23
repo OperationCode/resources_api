@@ -34,4 +34,4 @@ class Config:
     # Can pass in changes to defaults, such as PaginatorConfig(per_page=40)
     RESOURCE_PAGINATOR = PaginatorConfig()
     LANGUAGE_PAGINATOR = PaginatorConfig()
-    CATEGORY_PAGINATOR = PaginatorConfig()
+    # CATEGORY_PAGINATOR = PaginatorConfig()

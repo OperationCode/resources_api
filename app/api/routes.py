@@ -76,7 +76,7 @@ def get_languages():
     finally:
         return jsonify(language_list)
 
-def get_categories():
+""" def get_categories():
     try:
         category_paginator = Paginator(Config.CATEGORY_PAGINATOR, Category, request)
         category_list = [category.serialize for category in category_paginator.items]
@@ -86,4 +86,4 @@ def get_categories():
         print(e)
         category_list = []
     finally:
-        return jsonify(category_list)
+        return jsonify(category_list) """
