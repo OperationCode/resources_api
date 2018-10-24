@@ -44,8 +44,3 @@ setup: build
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} db stamp head
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} db-migrate init
 
-# modify to accept argument to create a migration file
-.PHONY: db_migrate
-db_migrate:
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} rake db:migrate
-
