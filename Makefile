@@ -43,15 +43,15 @@ routes:
 
 .PHONY: test
 test:
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER}  pytest --cov=app tests/
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} pytest --cov=app tests/
 
 .PHONY: lint
 lint:
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER}  flake8 src/app --statistics --count
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flake8 src/app --statistics --count
 
 .PHONY: help
 help: build
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER}  flask --help
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flask --help
 
 
 .PHONY: build
@@ -60,6 +60,6 @@ build:
 
 .PHONY: setup
 setup: build
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER}  flask db-migrate create-tables
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER}  flask db stamp head
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER}  flask db-migrate init
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flask db-migrate create-tables
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flask db stamp head
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flask db-migrate init
