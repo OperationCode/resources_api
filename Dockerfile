@@ -23,4 +23,4 @@ COPY app /app
 
 EXPOSE 8000
 
-ENTRYPOINT ["python"]
+CMD ["python", "-m", "flask", "run"]
