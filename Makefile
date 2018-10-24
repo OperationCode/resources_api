@@ -32,9 +32,13 @@ fresh-restart: minty-fresh setup test run
 run:
 	${DOCKER_COMPOSE} up --build
 
+.PHONY: bg
+bg:
+	${DOCKER_COMPOSE} up --build -d
+
 .PHONY: test
 test:
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m pytest --cov=app src/tests/
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m pytest --cov=app tests/
 
 .PHONY: lint
 lint:
@@ -46,7 +50,7 @@ build:
 
 .PHONY: setup
 setup: build
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m db-migrate create-tables
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m db stamp head
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m db-migrate init
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flask db-migrate create-tables
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flask db stamp head
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flask db-migrate init
 

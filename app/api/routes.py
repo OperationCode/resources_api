@@ -5,10 +5,10 @@ from flask import jsonify
 from sqlalchemy import and_, func
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
-from src.app.api import bp
-from src.app.models import Language, Resource, Category
-from src.configs import Config
-from src.app.utils import Paginator
+from app.api import bp
+from app.models import Language, Resource, Category
+from configs import Config
+from app.utils import Paginator
 
 
 # Routes

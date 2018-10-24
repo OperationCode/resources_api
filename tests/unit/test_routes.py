@@ -1,7 +1,3 @@
-import pytest
-from src.app.models import Resource, Language, Category
-
-
 def test_does_nothing():
     """
     GIVEN a User model

@@ -1,4 +1,4 @@
-from src.app import db
+from app import db
 from sqlalchemy_utils import URLType
 
 '''

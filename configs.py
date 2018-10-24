@@ -16,9 +16,10 @@ def get_sys_exec_root_or_drive():
     return path
 
 
-if not os.environ.get('SQLALCHEMY_DATABASE_URI'):
-    raise KeyError("Application requires 'SQLALCHEMY_DATABASE_URI' to run in non DEVELOPMENT")
+# if not os.environ.get('SQLALCHEMY_DATABASE_URI'):
+#     raise KeyError("Application requires 'SQLALCHEMY_DATABASE_URI' to run in non DEVELOPMENT")
 
+#raise KeyError(f"Application requires 'SQLALCHEMY_DATABASE_URI' to run in non DEVELOPMENT{os.environ.get('SQLALCHEMY_DATABASE_URI')}")
 
 class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False

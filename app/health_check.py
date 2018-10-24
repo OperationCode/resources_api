@@ -1,4 +1,4 @@
-from src.app import db
+from app import db
 
 
 def health_database_status():

@@ -5374,7 +5374,7 @@
   notes:
 
 - name: Violent Python
-  url: https://7chan.org/pr/src/Violent_Python_A_Cookbook_for_Hackers_Forensic_Ana.pdf
+  url: https://7chan.org/pr/app/Violent_Python_A_Cookbook_for_Hackers_Forensic_Ana.pdf
   category: Information Security
   languages: ["Python"]
   paid: false
@@ -10204,7 +10204,7 @@
   notes:
 
 - name: VMware Education
-  url: https://mylearn.vmware.com/mgrReg/plan.cfm?plan=33611&src=so_5a314d05ddb83&cid=70134000001SkJd
+  url: https://mylearn.vmware.com/mgrReg/plan.cfm?plan=33611&app=so_5a314d05ddb83&cid=70134000001SkJd
   category: Tools
   languages: ["VMware"]
   paid: false

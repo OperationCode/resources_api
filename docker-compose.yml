@@ -5,18 +5,22 @@ services:
     image: resources:latest
     build: .
     container_name: resources01
-    env_file:
-    - .env
+    #env_file:
+    #- .env
     volumes:
-    - ./src:/src
+    - .:/app
     ports:
-    - 8000:8000
+    - "127.0.0.1:8000:8000"
     depends_on:
     - db
 
   db:
     image: postgres:10.1-alpine
     container_name: pg01
+    environment:
+    - POSTGRES_USER=${USER}
+    - POSTGRES_PASSWORD=${PASSWORD}
+    - POSTGRES_DB=${DB}
     ports:
     - 5432:5432
     volumes:

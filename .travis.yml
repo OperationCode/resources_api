@@ -6,7 +6,26 @@ python: "3.7"
 services:
   - docker
 
+env:
+  - DOCKER_COMPOSE_VERSION=1.21.0
+
+install:
+  - 'pip install pipenv'
+  - 'pipenv install'
+
+before_script:
+  - sudo rm /usr/local/bin/docker-compose
+  - sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+  - sudo chmod +x /usr/local/bin/docker-compose
+  - sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+  - 'make bg'
+  - docker ps -a
+  - sleep 30
+
 script:
   - 'make build'
   - 'make test'
   - 'make lint'
+
+after_script:
+  - docker-compose -f docker-compose.yml down
