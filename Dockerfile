@@ -23,4 +23,4 @@ COPY src /src
 
 EXPOSE 8000
 
-ENTRYPOINT ["flask"]
+ENTRYPOINT ["python"]

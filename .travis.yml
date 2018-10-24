@@ -3,10 +3,10 @@ sudo: required
 dist: xenial
 python: "3.7"
 
-install:
-  - 'pip install pipenv'
-  - 'pipenv install'
-# command to run tests
+services:
+  - docker
+
 script:
+  - 'make build'
   - 'python -m pytest --cov=app src/tests/'
   - 'flake8 app --statistics --count'

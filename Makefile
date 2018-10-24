@@ -33,6 +33,10 @@ run:
 	${DOCKER_COMPOSE} up --build
 
 
+.PHONY: test
+test:
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m pytest
+
 .PHONY: build
 build:
 	${DOCKER_COMPOSE} build
@@ -40,7 +44,7 @@ build:
 # modify to have the initial creation and seeding
 .PHONY: setup
 setup: build
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} db-migrate create-tables
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} db stamp head
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} db-migrate init
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m db-migrate create-tables
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m db stamp head
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m db-migrate init
 

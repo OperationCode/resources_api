@@ -1,5 +1,5 @@
 import pytest
-from src.app import Resource, Language, Category
+from src.app.models import Resource, Language, Category
 
 
 def test_does_nothing():
