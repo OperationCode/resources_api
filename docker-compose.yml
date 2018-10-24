@@ -5,8 +5,6 @@ services:
     image: resources:latest
     build: .
     container_name: resources01
-    environment:
-    - SQLALCHEMY_DATABASE_URI=postgresql://user_name:change_password@127.0.0.1:5432/resources
     env_file:
     - .env
     volumes:
