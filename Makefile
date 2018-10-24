@@ -46,11 +46,10 @@ lint:
 
 .PHONY: build
 build:
-	${DOCKER_COMPOSE} build
+	${DOCKER_COMPOSE} up --build
 
 .PHONY: setup
 setup: build
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flask db-migrate create-tables
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flask db stamp head
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flask db-migrate init
-
