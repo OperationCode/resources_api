@@ -12,7 +12,9 @@ COPY Pipfile* /app/
 RUN apt-get update \
     && apt-get install -y libpq-dev gcc \
     && rm -rf /var/lib/apt/lists/* \
-    && pip install --upgrade pip
+    && pip install --upgrade pip \
+    && pip install python-dotenv \
+    && pip install flask
 # incremental build so we don't have to redo the above.
 RUN pip install pipenv \
     && pipenv install --system --deploy --dev \
@@ -23,4 +25,4 @@ COPY app /app
 
 EXPOSE 8000
 
-ENTRYPOINT ["python"]
+ENTRYPOINT ["python", "run.py"]
