@@ -7,5 +7,4 @@ install:
 # command to run tests
 script:
   - flake8 app --statistics --count
-# TODO: implement pytests then delete this line and uncomment the next
-#  - pytest
+  - pytest
