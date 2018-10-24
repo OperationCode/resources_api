@@ -5,8 +5,8 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install pipenv
+  - pipenv sync
 # command to run tests
 script:
   - flake8 app --statistics --count
-  - pipenv shell
-  - pytest
+  - pipenv run pytest
