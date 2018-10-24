@@ -9,4 +9,4 @@ services:
 script:
   - 'make build'
   - 'make test'
-  - 'flake8 app --statistics --count'
+  - 'make lint'
