@@ -25,4 +25,4 @@ COPY app /app
 
 EXPOSE 8000
 
-CMD ["python", "-m", "flask", "run"
+CMD ["python", "-m", "flask", "run"]
