@@ -8,5 +8,5 @@ services:
 
 script:
   - 'make build'
-  - 'python -m pytest --cov=app src/tests/'
+  - 'make test'
   - 'flake8 app --statistics --count'

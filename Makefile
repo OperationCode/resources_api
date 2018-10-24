@@ -32,16 +32,18 @@ fresh-restart: minty-fresh setup test run
 run:
 	${DOCKER_COMPOSE} up --build
 
-
 .PHONY: test
 test:
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m pytest
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m pytest --cov=app src/tests/
+
+.PHONY: lint
+lint:
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flake8 src/app --statistics --count
 
 .PHONY: build
 build:
 	${DOCKER_COMPOSE} build
 
-# modify to have the initial creation and seeding
 .PHONY: setup
 setup: build
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m db-migrate create-tables
