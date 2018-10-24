@@ -1,6 +1,7 @@
 DOCKER := docker
 DOCKER_COMPOSE := docker-compose
 RESOURCES_CONTAINER := resources
+FLASK := flask
 
 .PHONY: all
 all: run
@@ -46,7 +47,7 @@ lint:
 
 .PHONY: build
 build:
-	${DOCKER_COMPOSE} up --build
+	${DOCKER_COMPOSE} build --pull
 
 .PHONY: setup
 setup: build
