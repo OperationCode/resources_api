@@ -1,5 +1,6 @@
 DOCKER := docker
 DOCKER_COMPOSE := docker-compose
+RESOURCES_CONTAINER := resources01
 
 .PHONY: all
 all: run
@@ -31,13 +32,20 @@ fresh-restart: minty-fresh setup test run
 run:
 	${DOCKER_COMPOSE} up --build
 
+
+.PHONY: build
+build:
+	${DOCKER_COMPOSE} build
+
 # modify to have the initial creation and seeding
-.PHONY: db_create
-db_create:
-	${DOCKER_COMPOSE} run ${RAILS_CONTAINER} rake db:create
+.PHONY: setup
+setup: build
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flask db_migrate create_tables
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flask db stamp head
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flask db_migrate init
 
 # modify to accept argument to create a migration file
 .PHONY: db_migrate
 db_migrate:
-	${DOCKER_COMPOSE} run ${RAILS_CONTAINER} rake db:migrate
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} rake db:migrate
 

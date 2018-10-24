@@ -1,32 +1,30 @@
-version: '3.4'
+version: '3.7'
 services:
-  postgres:
-    container_name: postgres
-    restart: always
-    image: postgres:10
+
+  resources:
+    image: resources:latest
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: resources01
     environment:
-      - POSTGRES_USER=$${POSTGRES_USER}
-      - POSTGRES_PASSWORD=$${POSTGRES_PASSWORD}
-      - POSTGRES_DB=$${POSTGRES_DB}
+    - SQLALCHEMY_DATABASE_URI=postgresql://user_name:change_password@127.0.0.1:5432/resources
+    env_file:
+    - .env
     volumes:
-      - flask-app-db:/var/lib/postgresql/data
+    - ./src:/src
     ports:
-      - "5432:5432"
-  app:
-    container_name: app
-    restart: always
-    build: .
-    environment:
-      - FLASK_ENV=docker
-    ports:
-      - 5000:5000
-    volumes:
-      - .:/app
+    - 8000:8000
     depends_on:
-      - postgres
-    entrypoint:
-      - /app/docker_script.sh
+    - db
+
+  db:
+    image: postgres:10.1-alpine
+    container_name: pg01
+    ports:
+    - 5432:5432
+    volumes:
+    - postgres_data:/var/lib/postgresql/data/
 
 volumes:
-  flask-app-db:
-    name: flask-app-db
+  postgres_data:
