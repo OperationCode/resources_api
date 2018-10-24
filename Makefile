@@ -1,6 +1,6 @@
 DOCKER := docker
 DOCKER_COMPOSE := docker-compose
-RESOURCES_CONTAINER := resources01
+RESOURCES_CONTAINER := resources
 
 .PHONY: all
 all: run
@@ -40,9 +40,9 @@ build:
 # modify to have the initial creation and seeding
 .PHONY: setup
 setup: build
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flask db_migrate create_tables
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flask db stamp head
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flask db_migrate init
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} db-migrate create-tables
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} db stamp head
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} db-migrate init
 
 # modify to accept argument to create a migration file
 .PHONY: db_migrate
