@@ -8,5 +8,5 @@ install:
   - 'pipenv install'
 # command to run tests
 script:
-  - 'python -m pytest --cov=app tests/'
+  - 'python -m pytest --cov=app src/tests/'
   - 'flake8 app --statistics --count'
