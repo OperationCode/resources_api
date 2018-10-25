@@ -53,7 +53,6 @@ lint:
 help: build
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} --help
 
-
 .PHONY: build
 build:
 	${DOCKER_COMPOSE} build --pull

@@ -4,10 +4,10 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PIP_NO_BINARY psycopg2
 
-WORKDIR /app
+WORKDIR /src
 RUN mkdir /static
 
-COPY Pipfile* /app/
+COPY Pipfile* /src/
 
 RUN apt-get update \
     && apt-get install -y libpq-dev gcc \
@@ -20,9 +20,10 @@ RUN pip install pipenv \
     && pipenv install --system --deploy --dev \
     && apt-get purge -y --auto-remove gcc
 
-COPY app /app
+COPY . /src
 
 
 EXPOSE 8000
+
 
 ENTRYPOINT ["python", "run.py"]
