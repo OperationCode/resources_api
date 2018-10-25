@@ -81,7 +81,7 @@ export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resour
 If you make changes to the models.py or other schemas, you need to run a migration and upgrade again:
 
 1. Set the FLASK_APP environment variable `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
-- Windows users follow Step 15 in the Windows setup.
+- Windows users follow Step 2 & 3 in the Windows setup.
 2. Run the migration `flask db migrate`
 3. Upgrade to the latest migration `flask db upgrade`
 
