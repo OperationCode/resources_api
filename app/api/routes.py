@@ -2,6 +2,7 @@ from traceback import print_tb
 
 from flask import request
 from flask import jsonify
+from sqlalchemy import exc
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
