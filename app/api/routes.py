@@ -18,7 +18,7 @@ def resources():
 
 @bp.route('/resources/<int:id>', methods=['GET', 'PUT'])
 def resource(id, category=None, languages=[], name=None, url=None,
-                 paid=False, notes=None):
+             paid=False, notes=None):
     if request.method == 'GET':
         return get_resource(id)
     elif request.method == 'PUT':
