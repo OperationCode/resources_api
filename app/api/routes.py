@@ -23,7 +23,7 @@ def resource(id, category=None, languages=[], name=None, url=None,
         return get_resource(id)
     elif request.method == 'PUT':
         param_list = [category, languages, name, url, paid, notes]
-        return set_resource(id, param_list)
+        return set_resource(id, param_list, request.args)
 
 
 @bp.route('/languages', methods=['GET'])
@@ -78,7 +78,7 @@ def get_languages():
         return jsonify(language_list)
 
 
-def set_resource(id, param_list):
+def set_resource(id, param_list, request.args):
     resource = None
     param_names = ['category', 'languages', 'name', 'url', 'paid', 'notes']
     for index in range(len(param_names)):
