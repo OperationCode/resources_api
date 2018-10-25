@@ -25,10 +25,10 @@ def resource(id):
 def languages():
     return get_languages()
 
-''' @bp.route('/categories', methods=['GET'])
+"""@bp.route('/categories', methods=['GET'])
 def categories():
-    return get_categories()
- '''
+    return get_categories()"""
+
 
 # Helpers
 def get_resource(id):
