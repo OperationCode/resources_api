@@ -38,7 +38,7 @@ First, you'll need to configure a database. Once this project is deployed, we'll
 14. Connect to the resources database: `\c resources`. If you see `resources =>` you are ready to move on to the next steps.
 15. In powershell navigate to where you would like to clone a fork of your repository. `cd \path\to\directory`
 16. Clone your fork of the project `git clone {project_url} resources`
-17. Navigate to the clone directory `cd resources-api`
+17. Navigate to the clone directory `cd resources`
 18. [Create a virtual environment](https://docs.python.org/3/library/venv.html) called venv `python -m virtualenv venv`.
 19. Set Execution Policy to unrestricted `Set-ExecutionPolicy Unrestricted -Force`
 20. Activate virtual environment `venv\Scripts\Activate.ps1`
