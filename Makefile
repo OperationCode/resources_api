@@ -39,7 +39,7 @@ bg:
 
 .PHONY: routes
 routes:
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flask routes
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} routes
 
 .PHONY: test
 test:
@@ -51,7 +51,7 @@ lint:
 
 .PHONY: help
 help: build
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flask --help
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} --help
 
 
 .PHONY: build
@@ -60,6 +60,6 @@ build:
 
 .PHONY: setup
 setup: build
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flask db-migrate create-tables
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flask db stamp head
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m flask db-migrate init
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m ${FLASK} db-migrate create-tables
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m ${FLASK} db stamp head
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m ${FLASK} db-migrate init
