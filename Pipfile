@@ -15,6 +15,7 @@ SQLAlchemy-Utils = "*"
 PyYAML = "*"
 flask-pytest = "*"
 pytest = "*"
+dataclasses = "*"
 
 [dev-packages]
 
