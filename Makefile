@@ -52,7 +52,6 @@ lint:
 help: build
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER}  flask --help
 
-
 .PHONY: build
 build:
 	${DOCKER_COMPOSE} build

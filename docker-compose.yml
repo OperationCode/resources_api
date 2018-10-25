@@ -5,8 +5,8 @@ services:
     image: resources:latest
     build: .
     container_name: resources01
-    #env_file:
-    #- .env
+    env_file:
+    - .env
     volumes:
     - .:/app
     ports:
