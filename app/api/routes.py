@@ -17,17 +17,13 @@ def resources():
 
 
 @bp.route('/resources/<int:id>', methods=['GET', 'PUT'])
-def resource(id, params="", category=None, languages=[], name=None, url=None,
+def resource(id, category=None, languages=[], name=None, url=None,
                  paid=False, notes=None):
     if request.method == 'GET':
         return get_resource(id)
     elif request.method == 'PUT':
         param_list = [category, languages, name, url, paid, notes]
-        param_names = ['category', 'languages', 'name', 'url', 'paid', 'notes']
-        for index in range(len(param_names)):
-            if request.args.get(param_names[index]):
-                param_list[index] = request.args.get(param_names[index])
-        return set_resource(id, param_list)     
+        return set_resource(id, param_list)
 
 
 @bp.route('/languages', methods=['GET'])
@@ -84,6 +80,10 @@ def get_languages():
 
 def set_resource(id, param_list):
     resource = None
+    param_names = ['category', 'languages', 'name', 'url', 'paid', 'notes']
+    for index in range(len(param_names)):
+        if request.args.get(param_names[index]):
+            param_list[index] = request.args.get(param_names[index])
     try:
         resource = Resource.query.get(id)
 
@@ -97,12 +97,8 @@ def set_resource(id, param_list):
 
     finally:
         if resource:
-            resource.category = param_list[0]
-            resource.languages = param_list[1]
-            resource.name = param_list[2]
-            resource.url = param_list[3]
-            resource.paid = param_list[4]
-            resource.notes = param_list[5]
+            for position in range(len(param_names)):
+                resource[param_names[position]] = param_list[position]
             return jsonify(resource.serialize)
         else:
             return jsonify({})
