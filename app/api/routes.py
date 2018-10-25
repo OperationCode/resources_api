@@ -99,6 +99,12 @@ def set_resource(id, param_list, args):
         if resource:
             for position in range(len(param_names)):
                 resource[param_names[position]] = param_list[position]
+            try:
+                db.session.commit()
+            except exc.SQLAlchemyError as e:
+                db.session.rollback()
+                print('Flask SQLAlchemy Exception:', e)
+                print(resource)
             return jsonify(resource.serialize)
         else:
             return jsonify({})
