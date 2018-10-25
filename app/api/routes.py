@@ -78,12 +78,12 @@ def get_languages():
         return jsonify(language_list)
 
 
-def set_resource(id, param_list, request.args):
+def set_resource(id, param_list, args):
     resource = None
     param_names = ['category', 'languages', 'name', 'url', 'paid', 'notes']
     for index in range(len(param_names)):
-        if request.args.get(param_names[index]):
-            param_list[index] = request.args.get(param_names[index])
+        if args.get(param_names[index]):
+            param_list[index] = args.get(param_names[index])
     try:
         resource = Resource.query.get(id)
 
