@@ -6,7 +6,7 @@ This project provides an API for storing and retrieving learning resources that 
 
 ## Getting Started
 
-First, you'll need to configure a database. Once this project is deployed, we'll be using PostgreSQL. To set up a psql instance locally, follow the instructions for your OS:
+First, you'll need to configure a database. Once this project is deployed; we'll be using PostgreSQL. To set up a psql instance locally, follow the instructions for your OS:
 
 ### Windows setup
 
