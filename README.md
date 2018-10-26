@@ -8,7 +8,7 @@ This project provides an API for storing and retrieving learning resources that 
 
 First, you'll need to configure a database. Once this project is deployed, we'll be using PostgreSQL. To set up a psql instance locally, follow the instructions for your OS:
 
-### [Windows setup](#windowsSetup)
+### Windows Setup
 
 1. [Install Chocolatey](https://chocolatey.org/docs/installation#installing-chocolatey) if you do not already have it installed.
 2. Add Chocolately and postgresql to your paths.   
@@ -81,7 +81,7 @@ export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resour
 If you make changes to the models.py or other schemas, you need to run a migration and upgrade again:
 
 1. Set the FLASK_APP environment variable `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
-- Windows users see steps 2 & 3 under [Windows Setup](#windowsSetup)
+- Windows users see steps 2 & 3 under Windows Setup
 2. Run the migration `flask db migrate`
 3. Upgrade to the latest migration `flask db upgrade`
 
