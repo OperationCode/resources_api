@@ -8,9 +8,47 @@ This project provides an API for storing and retrieving learning resources that 
 
 First, you'll need to configure a database. Once this project is deployed, we'll be using PostgreSQL. To set up a psql instance locally, follow the instructions for your OS:
 
-### Windows setup
+### [Windows setup](#windowsSetup)
 
-Coming Soon!
+1. [Install Chocolatey](https://chocolatey.org/docs/installation#installing-chocolatey) if you do not already have it installed.
+2. Add Chocolately and postgresql to your paths.   
+- Search --> Edit the [system environment variables](https://docs.microsoft.com/en-us/windows/desktop/shell/user-environment-variables) --> Environment Variables... --> Path --> Edit... --> New --> Enter `C:\ProgramData\chocolatey\bin` --> OK
+- New --> `C:\Program Files\PostgreSQL\10\bin` --> OK
+3. Set the System Variables.
+- Click the bottom New... -->
+- Connection Variable:
+    - Variable Name: `SQLALCHEMY_DATABASE_URI`
+    - Variable Value: `postgresql://aaron:password@127.0.0.1:5432/resources` (instead of aaron and password put what user name and password you want to use for postgresql) 
+- FLASK_APP Variable:
+    - Variable name: `FLASK_APP`
+    - Variable Value: `run.py`
+    - Optionally, enable debugging by setting the environment to development with the Variable Value: `development`
+4. Close out of Environment Variables and System Properites.
+5. In your powershell (admin), run `choco install postgresql10`. Follow the prompts.
+- powershell (admin) can be found by pressing `win + x`. 
+- Make sure you use the admin powershell throughout all the steps.
+6. Upgrade postgresql: `choco upgrade postgresql`.
+7. Start postgres: `psql -U postgres` you will see postgres-# in the terminal.
+8. Create your user with `CREATE USER name;` The terminal will print CREATE ROLE.
+9. Alter your role with permission to create a database with `ALTER USER name WITH CREATEDB CREATEROLE;` The terminal will print ALTER ROLE
+10. Check everything is in order with `\du`. The terminal will print a table with Role name, Atrributes, and Member columns. If your user is listed you are good to go.
+11. Quit with `\q` or `ctr + c`.
+12. Start psql with new username with `psql`. You should see `name=>`.
+13. Create a database with: `CREATE DATABASE resources OWNER name;`.
+14. Connect to the resources database: `\c resources`. If you see `resources =>` you are ready to move on to the next steps.
+15. In powershell navigate to where you would like to clone a fork of your repository. `cd \path\to\directory`
+16. Clone your fork of the project `git clone {project_url} resources`
+17. Navigate to the clone directory `cd resources`
+18. [Create a virtual environment](https://docs.python.org/3/library/venv.html) called venv `python -m virtualenv venv`.
+19. Set Execution Policy to unrestricted `Set-ExecutionPolicy Unrestricted -Force`
+20. Activate virtual environment `venv\Scripts\Activate.ps1`
+21. Install the required dependencies `pip install -r requirements.txt`
+22. Create the tables in your database with `flask db_migrate create_tables`
+23. Tell flask that your database is up to date with `flask db stamp head`
+24. Populate your database with the resources `flask db_migrate init`
+25. Start your development server with `flask run` and you're ready to go!
+26. Check your work: Open your browser and go to `localhost:5000/api/v1/resources`. You should see a list of objects. 
+
 
 ### Mac setup
 
@@ -43,6 +81,7 @@ export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resour
 If you make changes to the models.py or other schemas, you need to run a migration and upgrade again:
 
 1. Set the FLASK_APP environment variable `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
+- Windows users see steps 2 & 3 under [Windows Setup](#windowsSetup)
 2. Run the migration `flask db migrate`
 3. Upgrade to the latest migration `flask db upgrade`
 
