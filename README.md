@@ -38,7 +38,7 @@ First, you'll need to configure a database. Once this project is deployed, we'll
 14. Connect to the resources database: `\c resources`. If you see `resources =>` you are ready to move on to the next steps.
 15. In powershell navigate to where you would like to clone a fork of your repository. `cd \path\to\directory`
 16. Clone your fork of the project `git clone {project_url} resources`
-17. Navigate to the clone directory `cd resources-api`
+17. Navigate to the clone directory `cd resources`
 18. [Create a virtual environment](https://docs.python.org/3/library/venv.html) called venv `python -m virtualenv venv`.
 19. Set Execution Policy to unrestricted `Set-ExecutionPolicy Unrestricted -Force`
 20. Activate virtual environment `venv\Scripts\Activate.ps1`
@@ -81,7 +81,7 @@ export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resour
 If you make changes to the models.py or other schemas, you need to run a migration and upgrade again:
 
 1. Set the FLASK_APP environment variable `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
-- Windows users follow Step 22 in the Windows guide.
+- Windows users follow Step 2 & 3 in the Windows setup.
 2. Run the migration `flask db migrate`
 3. Upgrade to the latest migration `flask db upgrade`
 
