@@ -1,9 +1,0 @@
-﻿alembic==0.9.9
-Flask==1.0.2
-Flask-Migrate==2.1.1
-Flask-SQLAlchemy==2.3.2
-SQLAlchemy==1.2.12
-SQLAlchemy-Utils==0.33.3
-PyYAML==3.13
-psycopg2-binary==2.7.5
-flake8==3.5.0
