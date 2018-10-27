@@ -7,7 +7,7 @@ from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
 from app.models import Language, Resource, Category
-from app import Config
+from app import Config, db
 from app.utils import Paginator
 
 
@@ -18,13 +18,11 @@ def resources():
 
 
 @bp.route('/resources/<int:id>', methods=['GET', 'PUT'])
-def resource(id, category=None, languages=[], name=None, url=None,
-             paid=False, notes=None):
+def resource(id):
     if request.method == 'GET':
         return get_resource(id)
     elif request.method == 'PUT':
-        param_list = [category, languages, name, url, paid, notes]
-        return set_resource(id, param_list, request.args)
+        return set_resource(id, request.get_json(), db)
 
 
 @bp.route('/languages', methods=['GET'])
@@ -127,14 +125,15 @@ def get_languages():
         return jsonify(language_list)
 
 
-def set_resource(id, param_list, args):
+def set_resource(id, json, db):
     resource = None
-    param_names = ['category', 'languages', 'name', 'url', 'paid', 'notes']
-    for index in range(len(param_names)):
-        if args.get(param_names[index]):
-            param_list[index] = args.get(param_names[index])
     try:
         resource = Resource.query.get(id)
+        languages_list = Language.query.all()
+        categories_list = Category.query.all()
+
+        language_dict = {l.key(): l for l in languages_list}
+        category_dict = {c.key(): c for c in categories_list}
 
     except MultipleResultsFound as e:
         print_tb(e.__traceback__)
@@ -146,8 +145,26 @@ def set_resource(id, param_list, args):
 
     finally:
         if resource:
-            for position in range(len(param_names)):
-                resource[param_names[position]] = param_list[position]
+            if json.get('languages'):
+                langs = []
+                for lang in json.get('languages') or []:
+                    language = language_dict.get(lang)
+                    if not language:
+                        language = Language(name=lang)
+                    langs.append(language)
+                resource.languages = langs
+            if json.get('category'):
+                new_category = category_dict.get(json.get('category'),
+                                                 Category(name=json.get('category')))
+                resource.category = new_category
+            if json.get('name'):
+                resource.name = json.get('name')
+            if json.get('url'):
+                resource.url = json.get('url')
+            if json.get('paid'):
+                resource.paid = json.get('paid')
+            if json.get('notes'):
+                resource.notes = json.get('notes')
             try:
                 db.session.commit()
             except exc.SQLAlchemyError as e:
