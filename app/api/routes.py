@@ -126,7 +126,7 @@ def get_languages():
     finally:
         return jsonify(language_list)
 
-        
+
 def get_attributes():
     languages_list = Language.query.all()
     categories_list = Category.query.all()
