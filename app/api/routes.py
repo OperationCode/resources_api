@@ -127,7 +127,7 @@ def get_languages():
         return jsonify(language_list)
 
 
-def get_attributes():
+def get_attributes(json):
     languages_list = Language.query.all()
     categories_list = Category.query.all()
 
@@ -160,9 +160,9 @@ def set_resource(id, json, db):
     finally:
         if resource:
             if json.get('languages'):
-                resource.languages = get_attributes()[0]
+                resource.languages = get_attributes(json)[0]
             if json.get('category'):
-                resource.category = get_attributes()[1]
+                resource.category = get_attributes(json)[1]
             if json.get('name'):
                 resource.name = json.get('name')
             if json.get('url'):
@@ -186,8 +186,8 @@ def create_resource(json, db):
     new_resource = Resource(
         name=json.get('name'),
         url=json.get('url'),
-        category=get_attributes()[1],
-        languages=get_attributes()[0],
+        category=get_attributes(json)[1],
+        languages=get_attributes(json)[0],
         paid=json.get('paid'),
         notes=json.get('notes'),
         upvotes=None,
