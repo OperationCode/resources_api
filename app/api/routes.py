@@ -148,6 +148,7 @@ def set_resource(id, json, db):
     resource = None
     try:
         resource = Resource.query.get(id)
+        langs, categ = get_attributes(json)
 
     except MultipleResultsFound as e:
         print_tb(e.__traceback__)
@@ -160,9 +161,9 @@ def set_resource(id, json, db):
     finally:
         if resource:
             if json.get('languages'):
-                resource.languages = get_attributes(json)[0]
+                resource.languages = langs
             if json.get('category'):
-                resource.category = get_attributes(json)[1]
+                resource.category = categ
             if json.get('name'):
                 resource.name = json.get('name')
             if json.get('url'):
@@ -183,16 +184,14 @@ def set_resource(id, json, db):
 
 
 def create_resource(json, db):
+    langs, categ = get_attributes(json)
     new_resource = Resource(
         name=json.get('name'),
         url=json.get('url'),
-        category=get_attributes(json)[1],
-        languages=get_attributes(json)[0],
+        category=categ,
+        languages=langs,
         paid=json.get('paid'),
-        notes=json.get('notes'),
-        upvotes=None,
-        downvotes=None,
-        times_clicked=None)
+        notes=json.get('notes'))
 
     try:
         db.session.add(new_resource)
