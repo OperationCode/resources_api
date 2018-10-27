@@ -3577,7 +3577,7 @@
 - name: Python Developers Slack
   url: https://pythondevelopers.herokuapp.com/
   category: Jobs
-  languages: ["python"]
+  languages: ["Python"]
   paid: false
   notes: Join the slack team and check out their jobs channel. Networking with other professional developers helps you get jobs too
 
@@ -11042,3 +11042,227 @@
   languages:
   paid: true
   notes:
+
+- name: Microsoft Professional Program for Entry Level Software Development
+  url: https://academy.microsoft.com/en-us/professional-program/tracks/entry-level-software-development/
+  category: Microsoft
+  languages: ["Python", "JavaScript", "Java"]
+  paid: false
+  notes:
+
+- name: dynepic
+  url: https://www.dynepic.com/
+  category: Tools
+  languages: ["Swift", "Kotlin", "JavaScript", "Unity"]
+  paid: false
+  notes: Quickly Build Kid-safe, COPPA Compliant Interactive Products
+
+- name: Cloud Native Engineering
+  url: https://github.com/gofunct/cloudnative-engineer/tree/master/CKA
+  category: Open Source
+  languages: ["Go", "Bash"]
+  paid: false
+  notes: A resource for studying open source tools and technologies
+
+- name: Periodic table of HTML elements
+  url: https://www.madebymike.com.au/demos/html5-periodic-table/
+  category: Front End Dev
+  languages: ["HTML"]
+  paid: false
+  notes:
+
+- name: 30 Resources for Android Developers
+  url: https://blog.udacity.com/2015/06/30-android-developer-resources.html
+  category: Mobile Dev
+  languages: ["Android"]
+  paid: false
+  notes:
+
+- name: Advanced JavaScript
+  url: https://tylermcginnis.com/courses/advanced-javascript/
+  category: Front End Dev
+  languages: ["JavaScript"]
+  paid: true
+  notes:
+
+- name: Attack Defense
+  url: https://attackdefense.com
+  category: Information Security
+  languages: []
+  paid: true
+  notes:
+
+- name: The Analytics Dude
+  url: https://www.theanalyticsdude.com/
+  category: Data Science
+  languages: []
+  paid: false
+  notes: Eric Hulbert's blog
+
+- name: Beginner's guide to landing a career in cybersecurity
+  url: https://learntocodewith.me/posts/cybersecurity/
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Information Security
+
+- name: Exercises for Programmers - 57 Challenges to Develop Your Coding Skills
+  url: https://www.amazon.com/Exercises-Programmers-Challenges-Develop-Coding/dp/1680501224/ref=mp_s_a_1_1/137-8711638-5365844
+  category: Books
+  languages: []
+  paid: true
+  notes:
+
+- name: Cybersecurity Career Pathway
+  url: https://www.cyberseek.org/pathway.html
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Information Security
+
+- name: U.S. Veterans Career Transition Offer
+  url: https://support.sas.com/training/veterans/
+  category: Veterans
+  languages: []
+  paid: false
+  notes: FREE e-Learning courses & Certification exams | 50% off classroom & Live Web training and specialty e-Learning products
+
+- name: 1 Million Cups
+  url: https://www.1millioncups.com/
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes: Free program designed to educate, engage and inspire entrepreneurs around the country
+
+- name: Learn Redux
+  url: https://learnredux.com/
+  category: Front End Dev
+  languages: ["JavaScript"]
+  paid: true
+  notes: 20 video tutorials to help you learn how to build JavaScript apps with React.js and Redux
+
+- name: FortiVet Program
+  url: https://www.fortinet.com/corporate/careers/vets.html
+  category: Veterans
+  languages: []
+  paid: false
+  notes: The FortiVet mission is to facilitate the transition of exceptional military veterans into the cyber-security industry, providing professional networking, training, and mentoring
+
+- name: Data Quest
+  url: http://dataquest.io/
+  category: Data Science
+  languages: []
+  paid: false
+  notes: Our hands-on method teaches you all the skills you need to become a data scientist, data analyst, or data engineer.
+
+- name: Open App Academy
+  url: https://open.appacademy.io/
+  category: Web Dev
+  languages: ["multiple"]
+  paid: false
+  notes: App Academy's entire full stack course for free
+
+- name: GitHub Learning Lab
+  url: https://lab.github.com/
+  category: Open Source
+  languages: ["Github"]
+  paid: false
+  notes: Get the skills you need without leaving GitHub. GitHub Learning Lab takes you through a series of fun and practical projects, sharing helpful feedback along the way.
+
+- name: Essential System Administration Tools and Techniques
+  url: https://www.amazon.com/Essential-System-Administration-Tools-Techniques/dp/0596003439/ref=sr_1_2
+  category: Books
+  languages: []
+  paid: true
+  notes:
+
+- name: UNIX and Linux System Administration Handbook
+  url: https://www.amazon.com/UNIX-Linux-System-Administration-Handbook/dp/0134277554/ref=sr_1_1_sspa
+  category: Books
+  languages: []
+  paid: true
+  notes:
+
+- name: Design Patterns - Elements of Reusable Object-Oriented Software
+  url: https://sophia.javeriana.edu.co/~cbustaca/docencia/DSBP-2018-01/recursos/Erich%20Gamma,%20Richard%20Helm,%20Ralph%20Johnson,%20John%20M.%20Vlissides-Design%20Patterns_%20Elements%20of%20Reusable%20Object-Oriented%20Software%20%20-Addison-Wesley%20Professional%20(1994).pdf
+  category: Books
+  languages: []
+  paid: false
+  notes:
+
+- name: .NET Design Patterns and Architectural Guidance
+  url: https://www.dofactory.com/
+  category: Microsoft
+  languages: []
+  paid: true
+  notes:
+
+- name: Splunk Certification Candidate Handbook
+  url: https://www.splunk.com/pdfs/training/Splunk-Certification-Handbook-v.8.31.2018.pdf
+  category: Information Security
+  languages: ["Splunk"]
+  paid: false
+  notes:
+
+- name: How can Start-ups better use SBIR?
+  url: http://afwerxdc.org/wp-content/uploads/2018/10/SBIR_1Pagers_20181023_v04_BensonCL.pdf
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes:
+
+- name: A Smarter Way to Learn JavaScript (Exercises)
+  url: http://www.asmarterwaytolearn.com/js/index-of-exercises.html
+  category: Front End Dev
+  languages: ["JavaScript"]
+  paid: false
+  notes: Index of JavaScript exercises from the book
+
+- name: CORE Leadership Program
+  url: https://www2.deloitte.com/us/en/pages/about-deloitte/articles/join-deloitte-core-leadership-program.html
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Veterans can help keep us safe as civilians, too
+  url: http://media.iccsafe.org/news/icc-enews/2017v14n42/jump-veterans.html
+  category: Veterans
+  languages: []
+  paid: false
+  notes: Blog post
+
+- name: Reboot Workshop
+  url: http://www.nvtsi.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes: OPERATION REBOOT Is an Industry-Driven, Community-Lead initiative to “Reboot the lives & careers of transitioning service members and veterans and promote a Strong Workforce.”
+
+- name: Veterans Local Government Management Fellowship
+  url: https://vlgmf.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:  The International City/County Management Association (ICMA) provides an excellent primer for those with questions about a career in local government.
+
+- name: GNS3 Academy
+  url: https://academy.gns3.com/courses
+  category: Computer Networking
+  languages: []
+  paid: true
+  notes: Some free courses available
+
+- name: VeteranSec
+  url: https://veteransec.com/
+  category: Veterans
+  languages: []
+  paid: false
+  notes: A Veteran Cyber Security Community
+
+- name: Association of Procurement Technical Assistance Centers
+  url: http://www.aptac-us.org/
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes: Assistance for Small Businesses
