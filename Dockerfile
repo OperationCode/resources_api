@@ -14,10 +14,12 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && pip install --upgrade pip \
     && pip install python-dotenv \
-    && pip install flask
+    && pip install flask \
+    && pip install flask_migrate \
+    && pip install SQLAlchemy-Utils
 # incremental build so we don't have to redo the above.
 RUN pip install pipenv \
-    && pipenv install --system --deploy --dev \
+    && pipenv install --deploy --dev \
     && apt-get purge -y --auto-remove gcc
 
 COPY . /src

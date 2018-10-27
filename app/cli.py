@@ -1,6 +1,6 @@
 import time
 
-import yaml
+# import yaml
 
 from sqlalchemy import exc
 
