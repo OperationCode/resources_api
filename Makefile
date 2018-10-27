@@ -55,7 +55,7 @@ help: build
 
 .PHONY: build
 build:
-	${DOCKER_COMPOSE} build --pull
+	${DOCKER_COMPOSE} build --pull ${RESOURCES_CONTAINER}
 
 .PHONY: setup
 setup: build
