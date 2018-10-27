@@ -2,12 +2,12 @@ from traceback import print_tb
 
 from flask import request
 from flask import jsonify
-from sqlalchemy import and_, func
+from sqlalchemy import exc, and_, func
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
 from app.models import Language, Resource, Category
-from app import Config
+from app import Config, db
 from app.utils import Paginator
 
 
@@ -17,9 +17,12 @@ def resources():
     return get_resources()
 
 
-@bp.route('/resources/<int:id>', methods=['GET'])
+@bp.route('/resources/<int:id>', methods=['GET', 'PUT'])
 def resource(id):
-    return get_resource(id)
+    if request.method == 'GET':
+        return get_resource(id)
+    elif request.method == 'PUT':
+        return set_resource(id, request.get_json(), db)
 
 
 @bp.route('/languages', methods=['GET'])
@@ -120,3 +123,54 @@ def get_languages():
         language_list = []
     finally:
         return jsonify(language_list)
+
+
+def set_resource(id, json, db):
+    resource = None
+    try:
+        resource = Resource.query.get(id)
+        languages_list = Language.query.all()
+        categories_list = Category.query.all()
+
+        language_dict = {l.key(): l for l in languages_list}
+        category_dict = {c.key(): c for c in categories_list}
+
+    except MultipleResultsFound as e:
+        print_tb(e.__traceback__)
+        print(e)
+
+    except NoResultFound as e:
+        print_tb(e.__traceback__)
+        print(e)
+
+    finally:
+        if resource:
+            if json.get('languages'):
+                langs = []
+                for lang in json.get('languages') or []:
+                    language = language_dict.get(lang)
+                    if not language:
+                        language = Language(name=lang)
+                    langs.append(language)
+                resource.languages = langs
+            if json.get('category'):
+                new_category = category_dict.get(json.get('category'),
+                                                 Category(name=json.get('category')))
+                resource.category = new_category
+            if json.get('name'):
+                resource.name = json.get('name')
+            if json.get('url'):
+                resource.url = json.get('url')
+            if json.get('paid'):
+                resource.paid = json.get('paid')
+            if json.get('notes'):
+                resource.notes = json.get('notes')
+            try:
+                db.session.commit()
+            except exc.SQLAlchemyError as e:
+                db.session.rollback()
+                print('Flask SQLAlchemy Exception:', e)
+                print(resource)
+            return jsonify(resource.serialize)
+        else:
+            return jsonify({})
