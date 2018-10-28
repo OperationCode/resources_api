@@ -117,8 +117,12 @@ def get_resources():
 
 def get_languages():
     try:
-        language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, Language, request)
-        language_list = [language.serialize for language in language_paginator.items]
+        language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, request)
+        query = Language.query
+
+        language_list = [
+            language.serialize for language in language_paginator.items(query)
+        ]
 
     except Exception as e:
         print_tb(e.__traceback__)
