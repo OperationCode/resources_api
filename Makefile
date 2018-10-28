@@ -59,6 +59,6 @@ build:
 
 .PHONY: setup
 setup: build
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m ${FLASK} db-migrate create-tables
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m ${FLASK} db stamp head
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} -m ${FLASK} db-migrate init
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} db-migrate create-tables
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} db stamp head
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} db-migrate init

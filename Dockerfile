@@ -29,3 +29,4 @@ EXPOSE 8000
 
 
 ENTRYPOINT ["python", "run.py"]
+CMD ["python", "-m", "flask", "run"]
