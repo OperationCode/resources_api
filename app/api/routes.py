@@ -12,19 +12,20 @@ from app.utils import Paginator
 
 
 # Routes
-@bp.route('/resources', methods=['GET'])
+@bp.route('/resources', methods=['GET', 'POST'])
 def resources():
-    return get_resources()
+    if request.method == 'GET':
+        return get_resources()
+    elif request.method == 'POST':
+        return create_resource(request.get_json(), db)
 
 
-@bp.route('/resources/<int:id>', methods=['GET', 'PUT', 'POST'])
+@bp.route('/resources/<int:id>', methods=['GET', 'PUT'])
 def resource(id):
     if request.method == 'GET':
         return get_resource(id)
     elif request.method == 'PUT':
         return set_resource(id, request.get_json(), db)
-    elif request.method == 'POST':
-        return create_resource(request.get_json(), db)
 
 
 @bp.route('/languages', methods=['GET'])
@@ -195,6 +196,8 @@ def create_resource(json, db):
 
     try:
         db.session.add(new_resource)
+        db.session.commit()
     except Exception as e:
+        db.session.rollback()
         print('exception', e)
     return jsonify(new_resource.serialize)
