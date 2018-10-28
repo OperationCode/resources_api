@@ -12,9 +12,12 @@ from app.utils import Paginator
 
 
 # Routes
-@bp.route('/resources', methods=['GET'])
+@bp.route('/resources', methods=['GET', 'POST'])
 def resources():
-    return get_resources()
+    if request.method == 'GET':
+        return get_resources()
+    elif request.method == 'POST':
+        return create_resource(request.get_json(), db)
 
 
 @bp.route('/resources/<int:id>', methods=['GET', 'PUT'])
@@ -125,15 +128,28 @@ def get_languages():
         return jsonify(language_list)
 
 
+def get_attributes(json):
+    languages_list = Language.query.all()
+    categories_list = Category.query.all()
+
+    language_dict = {l.key(): l for l in languages_list}
+    category_dict = {c.key(): c for c in categories_list}
+
+    langs = []
+    for lang in json.get('languages') or []:
+        language = language_dict.get(lang)
+        if not language:
+            language = Language(name=lang)
+        langs.append(language)
+    categ = category_dict.get(json.get('category'), Category(name=json.get('category')))
+    return (langs, categ)
+
+
 def set_resource(id, json, db):
     resource = None
     try:
         resource = Resource.query.get(id)
-        languages_list = Language.query.all()
-        categories_list = Category.query.all()
-
-        language_dict = {l.key(): l for l in languages_list}
-        category_dict = {c.key(): c for c in categories_list}
+        langs, categ = get_attributes(json)
 
     except MultipleResultsFound as e:
         print_tb(e.__traceback__)
@@ -146,17 +162,9 @@ def set_resource(id, json, db):
     finally:
         if resource:
             if json.get('languages'):
-                langs = []
-                for lang in json.get('languages') or []:
-                    language = language_dict.get(lang)
-                    if not language:
-                        language = Language(name=lang)
-                    langs.append(language)
                 resource.languages = langs
             if json.get('category'):
-                new_category = category_dict.get(json.get('category'),
-                                                 Category(name=json.get('category')))
-                resource.category = new_category
+                resource.category = categ
             if json.get('name'):
                 resource.name = json.get('name')
             if json.get('url'):
@@ -174,3 +182,22 @@ def set_resource(id, json, db):
             return jsonify(resource.serialize)
         else:
             return jsonify({})
+
+
+def create_resource(json, db):
+    langs, categ = get_attributes(json)
+    new_resource = Resource(
+        name=json.get('name'),
+        url=json.get('url'),
+        category=categ,
+        languages=langs,
+        paid=json.get('paid'),
+        notes=json.get('notes'))
+
+    try:
+        db.session.add(new_resource)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print('exception', e)
+    return jsonify(new_resource.serialize)
