@@ -51,7 +51,7 @@ To work on the codebase for this project, you will need to have those dependenci
 	```
 * Following my example, `git branch`, would output "creatingContributionGuide" in my terminal.
 
-* Once you have finished working on your issue, push your changes to your own github repo, and then head back to this repo, to make a pull request.
+* Once you have finished working on your issue, push your changes to your own github repo, and then submit a pull request.
 
 * To return to your main `master` branch, type the follwing command in your terminal.
 
