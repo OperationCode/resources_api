@@ -9,7 +9,7 @@ from .models import Category, Language, Resource
 
 def import_resources(db):
     # Step 1: Get data
-    with open('resources.yml', 'r') as f:
+    with open('resources.yml', encoding='utf-8') as f:
         data = yaml.load(f)
 
     # Step 2: Uniquify resources
