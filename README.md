@@ -44,7 +44,7 @@ Next, you'll need to configure a database. Once this project is deployed, we'll 
 6. In your powershell (admin), run `choco install postgresql10`. Follow the prompts.
 7. Upgrade postgresql: `choco upgrade postgresql`.
 8. Start postgres: `psql -U postgres` you will see postgres-# in the terminal.
-9. Create your user with `CREATE USER name;` The terminal will print CREATE ROLE.
+9. Create your user with `CREATE USER name WITH PASSWORD 'password';` The terminal will print CREATE ROLE.
 10. Alter your role with permission to create a database with `ALTER USER name WITH CREATEDB CREATEROLE;` The terminal will print ALTER ROLE
 11. Check everything is in order with `\du`. The terminal will print a table with Role name, Atrributes, and Member columns. If your user is listed you are good to go.
 12. Create a database with: `CREATE DATABASE resources OWNER name;`.
@@ -55,11 +55,12 @@ Next, you'll need to configure a database. Once this project is deployed, we'll 
 17. Set Execution Policy to unrestricted `Set-ExecutionPolicy Unrestricted -Force`
 18. Activate the virtual environment `venv\Scripts\Activate.ps1`
 19. Install the required dependencies `pip install pipenv`
-20. Create the tables in your database with `flask db-migrate create-tables`
-21. Tell flask that your database is up to date with `flask db stamp head`
-22. Populate your database with the resources `flask db-migrate init`
-23. Start your development server with `flask run` and you're ready to go!
-24. Check your work: Open your browser and go to `localhost:5000/api/v1/resources`. You should see a list of objects. 
+20. Install --dev `pip install --dev`.
+21. Create the tables in your database with `flask db-migrate create-tables`
+22. Tell flask that your database is up to date with `flask db stamp head`
+23. Populate your database with the resources `flask db-migrate init`
+24. Start your development server with `flask run` and you're ready to go!
+25. Check your work: Open your browser and go to `localhost:5000/api/v1/resources`. You should see a list of objects. 
 
 
 ### Mac setup
@@ -79,13 +80,14 @@ export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resour
 9. Install virtualenv if you do not have it. `pip install virtualenv`.
 10. [Create a virtual environment](https://docs.python.org/3/library/venv.html) called venv `python -m virtualenv venv`.
 11. Activate virtual environment `source venv/bin/activate`
-12. Install the required dependencies `pip install pipenv`
-13. Set the FLASK_APP environment variable `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
-14. Optionally, enable debugging by setting the environment to development with `export FLASK_ENV=development`
-15. Create the tables in your database with `flask db-migrate create-tables`
-16. Tell flask that your database is up to date with `flask db stamp head`
-17. Populate your database with the resources `flask db-migrate init`
-18. Start your development server with `flask run` and you're ready to go!
+12. Install the required dependencies `pip install pipenv`.
+13. Install --dev `pip install --dev`.
+14. Set the FLASK_APP environment variable `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
+15. Optionally, enable debugging by setting the environment to development with `export FLASK_ENV=development`
+16. Create the tables in your database with `flask db-migrate create-tables`
+17. Tell flask that your database is up to date with `flask db stamp head`
+18. Populate your database with the resources `flask db-migrate init`
+19. Start your development server with `flask run` and you're ready to go!
 
 
 ## Development Notes
