@@ -37,6 +37,7 @@ To work on the codebase for this project, you will need to have those dependenci
 
 <details>
 	<summary>Click to Expand</summary>
+
 * After forking this repository to your own github account, and cloning it to your dev environment, you can now create a new branch on your machine. It's wise to name this branch, after the issue you are trying to fix, or the feature you are trying to add.
 
 	```bash
