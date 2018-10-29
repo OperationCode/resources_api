@@ -14,7 +14,7 @@ If this is your first project using GitHub, Python, or pip follow these steps fi
 - [Windows Users](https://docs.python.org/3/using/windows.html)
 - [Mac Users](https://docs.python.org/3/using/mac.html)
 3. Install [pip](https://pip.pypa.io/en/stable/installing/).
-4. Sometimes these installs can be tricky.  If you get stuck ask for help in the Slack [oc-python-projects](https://operation-code.slack.com/messages/C7NJLCCMB) channel! 
+4. Sometimes these installs can be tricky.  If you get stuck ask for help in the Slack [#oc-python-projects](https://operation-code.slack.com/messages/C7NJLCCMB) channel! 
 5. [Fork](https://help.github.com/articles/fork-a-repo/) this repository.
 6. [Clone](https://help.github.com/articles/cloning-a-repository/) this repository in the Git Bash terminal.
 - Navigate to where you would like to clone a fork of your repository. `cd \path\to\directory`
@@ -75,9 +75,9 @@ Note: if you try to use the same username as the user you are logged in as, you 
 ```
 export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resources
 ```
-8. Clone your fork of the project `git clone {project_url} resources`
-9. Change directory into the project `cd resources`
-10. Create a virtual environment called venv `python -m virtualenv venv`
+8. Navigate to the cloned repo directory `cd \path\to\resources`. (see step 6 under getting started)
+9. Install virtualenv if you do not have it. `pip install virtualenv`.
+10. [Create a virtual environment](https://docs.python.org/3/library/venv.html) called venv `python -m virtualenv venv`.
 11. Activate virtual environment `source venv/bin/activate`
 12. Install the required dependencies `pip install pipenv`
 13. Set the FLASK_APP environment variable `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
@@ -92,8 +92,9 @@ export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resour
 
 If you make changes to the models.py or other schemas, you need to run a migration and upgrade again:
 
-1. Set the FLASK_APP environment variable `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
-- Windows users see step 1 & 2 under Windows Setup
+1. Set the FLASK_APP environment variable 
+- Mac OS: `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
+- Windows: see step 1 & 2 under Windows Setup
 2. Run the migration `flask db migrate`
 3. Upgrade to the latest migration `flask db upgrade`
 
