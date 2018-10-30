@@ -92,6 +92,7 @@ export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resour
 ### Linux Setup
 <details>
 <summary>Click to Expand</summary>
+
 1. Item 1
 2. Item 2
 3. Item 3
