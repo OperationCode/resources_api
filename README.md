@@ -27,6 +27,7 @@ Next, you'll need to configure a database. Once this project is deployed, we'll 
 
 <details>
 <summary>Click to Expand</summary>
+
 1. Setup up paths and system variables:   
 - Search --> Edit the [system environment variables](https://docs.microsoft.com/en-us/windows/desktop/shell/user-environment-variables) --> Environment Variables... --> Path --> Edit... --> New --> Enter `C:\ProgramData\chocolatey\bin` --> OK
 - New --> `C:\Program Files\PostgreSQL\10\bin` --> OK
@@ -69,6 +70,7 @@ Next, you'll need to configure a database. Once this project is deployed, we'll 
 
 <details>
 <summary>Click to Expand</summary>
+
 1. [Install Homebrew](https://brew.sh/) if you do not already have it installed
 2. In your terminal, run `brew install postgresql`
 3. Start postgres: `pg_ctl -D /usr/local/var/postgres start`
