@@ -4,7 +4,7 @@ Firstly, thank you for considering making a contribution to our project! It's pe
 
 We're an open source project and we love receiving contributions from our community - you! There are many ways to contribute to our projects, from writing tutorials or blog posts, improving documentation, submitting bug reports or feature requests, or writing code which can be merged into any of our repositories.
 
-The team at Operation Code urges all contributors to join our Slack team. Participating in discussions with the community on our Slack channel, is the best way to run new ideas by the team, and is the best place to get help. You can get an invitation to our Slack channel by [requestion to join Operation Code](https://operationcode.org/join). Once in our Slack team, simply type: '/open #oc-python-projects' and then click enter. Feel free to ask for help; everyone is a beginner at first :smile_cat:!
+The team at Operation Code urges all contributors to join our Slack team. Participating in discussions with the community on our Slack channel, is the best way to run new ideas by the team, and is the best place to get help. You can get an invitation to our Slack channel by [requesting to join Operation Code](https://operationcode.org/join). Once in our Slack team, simply type: '/open #oc-python-projects' and then click enter. Feel free to ask for help; everyone is a beginner at first :smile_cat:!
 
 **This guide assumes that you have some at least some familiarity with submitting a pull request on Github. If you don't, that's ok too though. Simply start by reading Github's own user documentation on how to fork a repository, and make your own edits. That documentation is [here](https://help.github.com/articles/about-pull-requests/) and [here](https://help.github.com/articles/creating-a-pull-request/). 3rd party tutorials on Git/Github can be found [here](https://medium.freecodecamp.org/what-is-git-and-how-to-use-it-c341b049ae61) and [here](https://medium.freecodecamp.org/how-to-use-git-efficiently-54320a236369?source=linkShare-e41cd5edcdac-1535829065)**
 
@@ -52,9 +52,16 @@ To work on the codebase for this project, you will need to have those dependenci
 
 * Once you have finished working on your issue, push your changes to your own github repo, and then submit a pull request.
 
-* To return to your main `master` branch, type the follwing command in your terminal.
+* To return to your main `master` branch, type the following command in your terminal.
 
 	```bash
 	git checkout master
 	```
 </details>
+
+Before committing, please lint your code:
+
+```sh
+pip install --upgrade flake8
+flake8 app
+```
