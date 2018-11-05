@@ -27,4 +27,9 @@ def create_app(config_class=Config):
     from app.api import bp as api_bp
     app.register_blueprint(api_bp, url_prefix='/api/v1')
 
+    from app.api.errors import page_not_found
+    from app.api.errors import internal_server_error
+    app.register_error_handler(404, page_not_found)
+    app.register_error_handler(500, internal_server_error)
+
     return app
