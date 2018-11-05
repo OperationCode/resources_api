@@ -11266,3 +11266,206 @@
   languages: []
   paid: false
   notes: Assistance for Small Businesses
+
+- name: 33 Concepts Every JavaScript Developer Should Know
+  url: https://github.com/leonardomso/33-js-concepts
+  category: Front End Dev
+  languages: ["JavaScript"]
+  paid: false
+  notes:
+
+- name: Steven Maske's News Feed
+  url: https://feedly.com/itsecurity
+  category: Information Security
+  languages: []
+  paid: false
+  notes: News
+
+- name: Red Teams Podcast
+  url: https://redteams.net/podcast
+  category: Podcasts
+  languages: []
+  paid: false
+  notes: Information Security
+
+- name: Scrum Fundamentals Certified
+  url: https://www.scrumstudy.com/certification/scrum-fundamentals-certified
+  category: Online Courses
+  languages: []
+  paid: false
+  notes: 'Scrum Fundamentals Certified' course is tailored to help anyone interested to know more about Scrum
+
+- name: Interview Recordings
+  url: https://interviewing.io/recordings/
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Watch technical mock interviews with engineers from Google, LinkedIn, and more
+
+- name: Transition from Military to Civilian Employment
+  url: https://www.lynda.com/learning-paths/Business/transition-from-military-to-civilian-employment
+  category: Veterans
+  languages: []
+  paid: false
+  notes: Free with Lynda membership (Vets get a free membership)
+
+- name: Get Ahead as a Military Spouse
+  url: https://www.lynda.com/learning-paths/Business/get-ahead-as-a-military-spouse
+  category: Military Spouse
+  languages: []
+  paid: false
+  notes: Free with Lynda membership
+
+- name: My commit message workflow
+  url: https://dev.to/shreyasminocha/how-i-do-my-git-commits-34d
+  category: Open Source
+  languages: ["git"]
+  paid: false
+  notes:
+
+- name: Bash Brackets Quick Reference
+  url: https://dev.to/rpalo/bash-brackets-quick-reference-4eh6
+  category: Open Source
+  languages: ["Bash"]
+  paid: false
+  notes:
+
+- name: One weird trick to becoming a better software developer
+  url: https://pythonlinks.info/one-weird-trick-to-becoming-a-better-software-developer
+  category: Back End Dev
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: Dribbble
+  url: http://dribbble.com/
+  category: Design
+  languages: []
+  paid: false
+  notes:
+
+- name: Creative Market
+  url: http://creativemarket.com/
+  category: Design
+  languages: []
+  paid: true
+  notes:
+
+- name: Remote.co
+  url: https://remote.co/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Fiddles
+  url: https://fiddles.io/
+  category: Tools
+  languages: ["multiple"]
+  paid: false
+  notes:
+
+- name: 20 Coolest Careers in Infosec
+  url: https://www.sans.org/cyber-security-careers/20-coolest
+  category: Information Security
+  languages: []
+  paid: false
+  notes: List of infosec jobs
+
+- name: How do I write a cover letter if I don’t have relevant experience?
+  url: http://www.internships.com/student/resources/search/coverletter/howto#noexperiencecoverletters
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Machine Learning Crash Course
+  url: https://developers.google.com/machine-learning/crash-course/prereqs-and-prework
+  category: Machine Learning
+  languages: []
+  paid: false
+  notes:
+
+- name: Programming Curricula
+  url: https://github.com/P1xt/p1xt-guides
+  category: Computer Science
+  languages: ["JavaScript", "Python", "Java", "Android"]
+  paid: false
+  notes:
+
+- name: JavaScript Algorithms
+  url: https://github.com/trekhleb/javascript-algorithms
+  category: Computer Science
+  languages: ["JavaScript"]
+  paid: false
+  notes: Algorithms and data structures implemented in JavaScript with explanations and links to further readings
+
+- name: Breaking Into Security - A Compendium
+  url: http://www.securityramblings.com/2016/01/breaking-into-security-compendium.html
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Education & Infosec
+  url: http://www.securityramblings.com/2014/06/education-infosec.html
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: 10 Common Git Problems and How to Fix Them
+  url: https://dev.to/citizen428/10-common-git-problems-and-how-to-fix-them-234o
+  category: Open Source
+  languages: ["git"]
+  paid: false
+  notes:
+
+- name: Pwn Adventure
+  url: http://www.pwnadventure.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: CTF
+
+- name: "CTF Series: Vulnerable Machines"
+  url: https://bitvijays.github.io/LFC-VulnerableMachines.html
+  category: Information Security
+  languages: []
+  paid: false
+  notes: CTF Write up
+
+- name: Manual
+  url: https://github.com/msaponja/Manual
+  category: Cheat Sheets
+  languages: []
+  paid: false
+  notes: Linux, Windows, Networking, and Pen Testing common commands and how-tos
+
+- name: CTF Field Guide
+  url: https://trailofbits.github.io/ctf/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Cheat.sh
+  url: https://github.com/chubin/cheat.sh
+  category: Cheat Sheets
+  languages: []
+  paid: false
+  notes: Unified access to the best community driven cheat sheets repositories of the world.
+
+- name: 3 practical cheat sheets for designing attention grabbing UIs
+  url: https://uxdesign.cc/3-practical-cheat-sheets-for-designing-attention-grabbing-uis-318e588bd864
+  category: Design
+  languages: []
+  paid: false
+  notes:
+
+- name: SQL Database Modeler
+  url: https://sqldbm.com/
+  category: Back End Dev
+  languages: ["SQL"]
+  paid: false
+  notes: Design your SQL database online - Import existing database - Generate SQL scripts
