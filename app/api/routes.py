@@ -173,10 +173,11 @@ def set_resource(id, json, db):
                 resource.name = json.get('name')
             if json.get('url'):
                 resource.url = json.get('url')
-            if json.get('paid'):
+            if 'paid' in json:
                 resource.paid = json.get('paid')
-            if json.get('notes'):
+            if 'notes' in json:
                 resource.notes = json.get('notes')
+
             try:
                 db.session.commit()
             except exc.SQLAlchemyError as e:
