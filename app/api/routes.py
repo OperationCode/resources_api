@@ -11,15 +11,6 @@ from app import Config, db
 from app.utils import Paginator
 
 
-# Shared
-@bp.teardown_request
-def teardown_request(exception=None):
-    if exception:
-        print('exception', exception)
-        db.session.rollback()
-    db.session.remove()
-
-
 # Routes
 @bp.route('/resources', methods=['GET', 'POST'])
 def resources():
