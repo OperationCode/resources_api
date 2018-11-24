@@ -134,3 +134,8 @@ Before committing, please lint your code:
 pip install --upgrade flake8
 flake8 app
 ```
+
+Because of our `.env` file, there is a warning:
+> "Tip: There are .env files present. Do "pip install python-dotenv" to use them."
+
+If you would like to disable this warning, set the following environment variable `export FLASK_SKIP_DOTENV=1`
