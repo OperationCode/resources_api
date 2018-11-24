@@ -16,6 +16,8 @@ except AssertionError:
 db = SQLAlchemy()
 migrate = Migrate()
 
+API_VERSION = "1.0"
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)

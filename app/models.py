@@ -1,18 +1,6 @@
 from app import db
 from sqlalchemy_utils import URLType
 
-'''
-    event_id = db.Column('event_id',
-                         db.Integer,
-                         db.ForeignKey('event.id'),
-                         nullable=False)
-    event = db.relationship('Event')
-    partner_id = db.Column('partner_id',
-                           db.Integer,
-                           db.ForeignKey('partner.id'))
-    partner = db.relationship('Partner')
-
-'''
 
 language_identifier = db.Table('language_identifier',
                                db.Column(
@@ -95,6 +83,14 @@ class Resource(db.Model):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'id': self.id,
+            'name': self.name,
+        }
 
     def key(self):
         return self.name
