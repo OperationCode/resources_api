@@ -1,6 +1,7 @@
 from app import API_VERSION
 from flask import jsonify
 
+
 class Paginator:
     def __init__(self, configuration, request):
         self.configuration = configuration
