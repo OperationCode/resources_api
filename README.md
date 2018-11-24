@@ -32,39 +32,36 @@ Next, you'll need to configure a database. Once this project is deployed, we'll 
 1. Setup up paths and system variables:
 - Search --> Edit the [system environment variables](https://docs.microsoft.com/en-us/windows/desktop/shell/user-environment-variables) --> Environment Variables... --> Path --> Edit... --> New --> Enter `C:\ProgramData\chocolatey\bin` --> OK
 - New --> `C:\Program Files\PostgreSQL\10\bin` --> OK
-2. Set the System Variables.
-- Click the bottom New... -->
-- Connection Variable:
-    - Variable Name: `SQLALCHEMY_DATABASE_URI`
-    - Variable Value: `postgresql://aaron:password@127.0.0.1:5432/resources` (instead of aaron and password put what user name and password you want to use for postgresql)
-- FLASK_APP Variable:
-    - Variable name: `FLASK_APP`
-    - Variable Value: `run.py`
-    - Optionally, enable debugging by setting the environment to development with the Variable Value: `development`
-3. Close out of Environment Variables and System Properites.
-4. Start your administrative shell. `ctrl + x` --> Windows Powershell (Admin).
+2. Close out of Environment Variables and System Properites.
+3. Start your administrative shell. `ctrl + x` --> Windows Powershell (Admin).
 - **Make sure you use the _admin powershell_ throughout all the steps.**
-5. [Install Chocolatey](https://chocolatey.org/docs/installation#installing-chocolatey) if you do not already have it installed.
-6. In your powershell (admin), run `choco install postgresql10`. Follow the prompts.
-7. Upgrade postgresql: `choco upgrade postgresql`.
-8. Start postgres: `psql -U postgres` you will see postgres-# in the terminal.
-9. Create your user with `CREATE USER name WITH PASSWORD 'password';` The terminal will print CREATE ROLE.
-10. Alter your role with permission to create a database with `ALTER USER name WITH CREATEDB CREATEROLE;` The terminal will print ALTER ROLE
-11. Check everything is in order with `\du`. The terminal will print a table with Role name, Atrributes, and Member columns. If your user is listed you are good to go.
-12. Create a database with: `CREATE DATABASE resources OWNER name;`.
-13. Connect to the resources database: `\c resources`. If you see `resources =>` you are ready to move on to the next steps.
-14. Navigate to the cloned repo directory `cd \path\to\resources`. (see step 6 under getting started)
-15. Install virtualenv if you do not have it. `pip install virtualenv`.
-16. [Create a virtual environment](https://docs.python.org/3/library/venv.html) called venv `python -m virtualenv venv`.
-17. Set Execution Policy to unrestricted `Set-ExecutionPolicy Unrestricted -Force`
-18. Activate the virtual environment `venv\Scripts\Activate.ps1`
-19. Install the required dependencies `pip install pipenv`
-20. Install --dev `pip install --dev`.
-21. Create the tables in your database with `flask db-migrate create-tables`
-22. Tell flask that your database is up to date with `flask db stamp head`
-23. Populate your database with the resources `flask db-migrate init`
-24. Start your development server with `flask run` and you're ready to go!
-25. Check your work: Open your browser and go to `localhost:5000/api/v1/resources`. You should see a list of objects.
+4. [Install Chocolatey](https://chocolatey.org/docs/installation#installing-chocolatey) if you do not already have it installed.
+5. In your powershell (admin), run `choco install postgresql10`. Follow the prompts.
+6. Upgrade postgresql: `choco upgrade postgresql`.
+7. Start postgres: `psql -U postgres` you will see postgres-# in the terminal.
+8. Create your user with `CREATE USER name WITH PASSWORD 'password';` The terminal will print CREATE ROLE.
+9. Alter your role with permission to create a database with `ALTER USER name WITH CREATEDB CREATEROLE;` The terminal will print ALTER ROLE
+10. Check everything is in order with `\du`. The terminal will print a table with Role name, Atrributes, and Member columns. If your user is listed you are good to go.
+11. Create a database with: `CREATE DATABASE resources OWNER name;`.
+12. Connect to the resources database: `\c resources`. If you see `resources =>` you are ready to move on to the next steps.
+13. Navigate to the cloned repo directory `cd \path\to\resources`. (see step 6 under getting started)
+14. Install virtualenv if you do not have it. `pip install virtualenv`.
+15. [Create a virtual environment](https://docs.python.org/3/library/venv.html) called venv `python -m virtualenv venv`.
+16. Set Execution Policy to unrestricted `Set-ExecutionPolicy Unrestricted -Force`
+17. Activate the virtual environment `venv\Scripts\Activate.ps1`
+18. Install the required dependencies `pip install pipenv`
+21. Install --dev `pip install --dev`.
+20. Edit the `.env` file with the following string, but replace the user, password, and database with whatever you used for your setup in the previous commands:
+```
+SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resources
+```
+21. Optionally, enable debugging by adding this line to the `.env` file: `FLASK_ENV=development`
+22. Run `pipenv shell` to load all the environment variables from `.env`
+23. Create the tables in your database with `flask db-migrate create-tables`
+24. Tell flask that your database is up to date with `flask db stamp head`
+25. Populate your database with the resources `flask db-migrate init`
+26. Start your development server with `flask run` and you're ready to go!
+27. Check your work: Open your browser and go to `localhost:5000/api/v1/resources`. You should see a list of objects.
 </details>
 
 ### Mac setup
@@ -79,9 +76,9 @@ Next, you'll need to configure a database. Once this project is deployed, we'll 
 5. Create your user with `createuser -d -P aaron` (replace "aaron" with your own name). You will be prompted to enter a password for this user.
 Note: if you try to use the same username as the user you are logged in as, you will encounter an error. Instead, create a new postgres username.
 6. Create a database with `createdb resources -U aaron` ("resources" is the name of the database, feel free to replace it with whatever you like. make sure you replace "aaron" with whatever you chose as your username in the previous step).
-7. Now you should have postgres listening on the default port with your username and password. Set the connection information in an environment variable with the following command, but replace the user, password, and database with whatever you used for your setup in the previous commands:
+7. Now you should have postgres listening on the default port with your username and password. Edit the `.env` file with the following string, but replace the user, password, and database with whatever you used for your setup in the previous commands:
 ```
-export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resources
+SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resources
 ```
 8. Navigate to the cloned repo directory `cd \path\to\resources`. (see step 6 under getting started)
 9. Install virtualenv if you do not have it. `pip install virtualenv`.
@@ -89,8 +86,8 @@ export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resour
 11. Activate virtual environment `source venv/bin/activate`
 12. Install the required dependencies `pip install pipenv`.
 13. Install --dev `pipenv install --dev`.
-14. Set the FLASK_APP environment variable `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
-15. Optionally, enable debugging by setting the environment to development with `export FLASK_ENV=development`
+14. Optionally, enable debugging by adding this line to the `.env` file: `FLASK_ENV=development`
+15. Run `pipenv shell` to load all the environment variables from `.env`
 16. Create the tables in your database with `flask db-migrate create-tables`
 17. Tell flask that your database is up to date with `flask db stamp head`
 18. Populate your database with the resources `flask db-migrate init`
@@ -122,9 +119,7 @@ export SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resour
 
 If you make changes to the models.py or other schemas, you need to run a migration and upgrade again:
 
-1. Set the FLASK_APP environment variable
-- Mac OS: `export FLASK_APP=run.py` or `ENV:FLASK_APP = "run.py"`
-- Windows: see step 1 & 2 under Windows Setup
+1. Load the environmnent variables with `pipenv shell`
 2. Run the migration `flask db migrate`
 3. Upgrade to the latest migration `flask db upgrade`
 
