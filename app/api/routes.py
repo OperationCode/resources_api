@@ -2,7 +2,7 @@ from traceback import print_tb
 
 from flask import request
 from flask import jsonify
-from sqlalchemy import exc, and_, func
+from sqlalchemy import and_, func
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
@@ -68,73 +68,61 @@ def get_resources():
 
     The filters are case insensitive.
     """
-    try:
-        resource_paginator = Paginator(Config.RESOURCE_PAGINATOR, request)
+    resource_paginator = Paginator(Config.RESOURCE_PAGINATOR, request)
 
-        # Fetch the filter params from the url, if they were provided.
-        language = request.args.get('language')
-        category = request.args.get('category')
+    # Fetch the filter params from the url, if they were provided.
+    language = request.args.get('language')
+    category = request.args.get('category')
 
-        # Filter on language
-        if language and not category:
-            query = Resource.query.filter(
+    # Filter on language
+    if language and not category:
+        query = Resource.query.filter(
+            Resource.languages.any(
+                Language.name.ilike(language)
+            )
+        )
+
+    # Filter on category
+    elif category and not language:
+        query = Resource.query.filter(
+            Resource.category.has(
+                func.lower(Category.name) == category.lower()
+            )
+        )
+
+    # Filter on both
+    elif category and language:
+        query = Resource.query.filter(
+            and_(
                 Resource.languages.any(
                     Language.name.ilike(language)
-                )
-            )
-
-        # Filter on category
-        elif category and not language:
-            query = Resource.query.filter(
+                ),
                 Resource.category.has(
                     func.lower(Category.name) == category.lower()
                 )
             )
+        )
 
-        # Filter on both
-        elif category and language:
-            query = Resource.query.filter(
-                and_(
-                    Resource.languages.any(
-                        Language.name.ilike(language)
-                    ),
-                    Resource.category.has(
-                        func.lower(Category.name) == category.lower()
-                    )
-                )
-            )
+    # No filters
+    else:
+        query = Resource.query
 
-        # No filters
-        else:
-            query = Resource.query
+    resource_list = [
+        resource.serialize for resource in resource_paginator.items(query)
+    ]
 
-        resource_list = [
-            resource.serialize for resource in resource_paginator.items(query)
-        ]
-
-    except Exception as e:
-        print_tb(e.__traceback__)
-        print(e)
-        resource_list = []
-    finally:
-        return jsonify(resource_list)
+    return jsonify(resource_list)
 
 
 def get_languages():
-    try:
-        language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, request)
-        query = Language.query
+    language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, request)
+    query = Language.query
 
-        language_list = [
-            language.serialize for language in language_paginator.items(query)
-        ]
+    language_list = [
+        language.serialize for language in language_paginator.items(query)
+    ]
 
-    except Exception as e:
-        print_tb(e.__traceback__)
-        print(e)
-        language_list = []
-    finally:
-        return jsonify(language_list)
+    return jsonify(language_list)
 
 
 def get_categories():
@@ -173,42 +161,28 @@ def get_attributes(json):
 
 def set_resource(id, json, db):
     resource = None
-    try:
-        resource = Resource.query.get(id)
-        langs, categ = get_attributes(json)
+    resource = Resource.query.get(id)
+    langs, categ = get_attributes(json)
 
-    except MultipleResultsFound as e:
-        print_tb(e.__traceback__)
-        print(e)
+    if resource:
+        if json.get('languages'):
+            resource.languages = langs
+        if json.get('category'):
+            resource.category = categ
+        if json.get('name'):
+            resource.name = json.get('name')
+        if json.get('url'):
+            resource.url = json.get('url')
+        if 'paid' in json:
+            resource.paid = json.get('paid')
+        if 'notes' in json:
+            resource.notes = json.get('notes')
 
-    except NoResultFound as e:
-        print_tb(e.__traceback__)
-        print(e)
+        db.session.commit()
 
-    finally:
-        if resource:
-            if json.get('languages'):
-                resource.languages = langs
-            if json.get('category'):
-                resource.category = categ
-            if json.get('name'):
-                resource.name = json.get('name')
-            if json.get('url'):
-                resource.url = json.get('url')
-            if 'paid' in json:
-                resource.paid = json.get('paid')
-            if 'notes' in json:
-                resource.notes = json.get('notes')
-
-            try:
-                db.session.commit()
-            except exc.SQLAlchemyError as e:
-                db.session.rollback()
-                print('Flask SQLAlchemy Exception:', e)
-                print(resource)
-            return jsonify(resource.serialize)
-        else:
-            return jsonify({})
+        return jsonify(resource.serialize)
+    else:
+        return jsonify({})
 
 
 def create_resource(json, db):
@@ -221,10 +195,7 @@ def create_resource(json, db):
         paid=json.get('paid'),
         notes=json.get('notes'))
 
-    try:
-        db.session.add(new_resource)
-        db.session.commit()
-    except Exception as e:
-        db.session.rollback()
-        print('exception', e)
+    db.session.add(new_resource)
+    db.session.commit()
+
     return jsonify(new_resource.serialize)

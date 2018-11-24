@@ -27,4 +27,7 @@ def create_app(config_class=Config):
     from app.api import bp as api_bp
     app.register_blueprint(api_bp, url_prefix='/api/v1')
 
+    from app.errors import bp as error_bp
+    app.register_blueprint(error_bp)
+
     return app
