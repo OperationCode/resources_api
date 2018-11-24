@@ -1,14 +1,13 @@
 from traceback import print_tb
 
 from flask import request
-from flask import jsonify
 from sqlalchemy import and_, func
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
 from app.models import Language, Resource, Category
-from app import Config, db, API_VERSION
-from app.utils import Paginator
+from app import Config, db
+from app.utils import Paginator, standardize_response
 
 
 # Routes
@@ -39,15 +38,6 @@ def categories():
 
 
 # Helpers
-def standardize_response(data):
-    resp = {
-        "status": "ok",
-        "apiVersion": API_VERSION,
-        "data": data
-    }
-    return jsonify(resp)
-
-
 def get_resource(id):
     resource = None
     try:
@@ -63,9 +53,9 @@ def get_resource(id):
 
     finally:
         if resource:
-            return standardize_response(resource.serialize)
+            return standardize_response(resource.serialize, None, "ok")
         else:
-            return standardize_response({})
+            return standardize_response({}, None, "ok")
 
 
 def get_resources():
@@ -120,7 +110,7 @@ def get_resources():
         resource.serialize for resource in resource_paginator.items(query)
     ]
 
-    return standardize_response(resource_list)
+    return standardize_response(resource_list, None, "ok")
 
 
 def get_languages():
@@ -131,7 +121,7 @@ def get_languages():
         language.serialize for language in language_paginator.items(query)
     ]
 
-    return standardize_response(language_list)
+    return standardize_response(language_list, None, "ok")
 
 
 def get_categories():
@@ -148,7 +138,7 @@ def get_categories():
         print(e)
         category_list = []
     finally:
-        return standardize_response(category_list)
+        return standardize_response(category_list, None, "ok")
 
 
 def get_attributes(json):
@@ -189,9 +179,9 @@ def set_resource(id, json, db):
 
         db.session.commit()
 
-        return standardize_response(resource.serialize)
+        return standardize_response(resource.serialize, None, "ok")
     else:
-        return standardize_response({})
+        return standardize_response({}, None, "ok")
 
 
 def create_resource(json, db):
@@ -207,4 +197,4 @@ def create_resource(json, db):
     db.session.add(new_resource)
     db.session.commit()
 
-    return standardize_response(new_resource.serialize)
+    return standardize_response(new_resource.serialize, None, "ok")
