@@ -7,7 +7,7 @@ from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
 from app.models import Language, Resource, Category
-from app import Config, db
+from app import Config, db, API_VERSION
 from app.utils import Paginator
 
 
@@ -39,6 +39,15 @@ def categories():
 
 
 # Helpers
+def standardize_response(data):
+    resp = {
+        "status": "ok",
+        "apiVersion": API_VERSION,
+        "data": data
+    }
+    return jsonify(resp)
+
+
 def get_resource(id):
     resource = None
     try:
@@ -54,9 +63,9 @@ def get_resource(id):
 
     finally:
         if resource:
-            return jsonify(resource.serialize)
+            return standardize_response(resource.serialize)
         else:
-            return jsonify({})
+            return standardize_response({})
 
 
 def get_resources():
@@ -111,7 +120,7 @@ def get_resources():
         resource.serialize for resource in resource_paginator.items(query)
     ]
 
-    return jsonify(resource_list)
+    return standardize_response(resource_list)
 
 
 def get_languages():
@@ -122,7 +131,7 @@ def get_languages():
         language.serialize for language in language_paginator.items(query)
     ]
 
-    return jsonify(language_list)
+    return standardize_response(language_list)
 
 
 def get_categories():
@@ -139,7 +148,7 @@ def get_categories():
         print(e)
         category_list = []
     finally:
-        return jsonify(category_list)
+        return standardize_response(category_list)
 
 
 def get_attributes(json):
@@ -180,9 +189,9 @@ def set_resource(id, json, db):
 
         db.session.commit()
 
-        return jsonify(resource.serialize)
+        return standardize_response(resource.serialize)
     else:
-        return jsonify({})
+        return standardize_response({})
 
 
 def create_resource(json, db):
@@ -198,4 +207,4 @@ def create_resource(json, db):
     db.session.add(new_resource)
     db.session.commit()
 
-    return jsonify(new_resource.serialize)
+    return standardize_response(new_resource.serialize)

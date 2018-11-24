@@ -1,12 +1,15 @@
 from flask import jsonify
 from app.errors import bp
 from app import db
+from app import API_VERSION
 
 
 # Error Handlers
 @bp.app_errorhandler(404)
 def page_not_found(e):
     error = {
+        "status": "not found",
+        "apiVersion": API_VERSION,
         "errors": [
             {
                 "status": 404,
@@ -21,6 +24,8 @@ def page_not_found(e):
 @bp.app_errorhandler(500)
 def internal_server_error(e):
     error = {
+        "status": "internal server error",
+        "apiVersion": API_VERSION,
         "errors": [
             {
                 "status": 500,
