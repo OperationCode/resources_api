@@ -7529,8 +7529,8 @@
   paid: false
   notes:
 
-- name: IT Support Professional Certificate
-  url: http://studentveterans.org/programs/it-support-professional-certificate
+- name: Student Veterans
+  url: http://studentveterans.org
   category: Veterans
   languages:
   paid: false
@@ -10399,13 +10399,6 @@
   paid: false
   notes: Blog Post
 
-- name: JavaScript Algorithms
-  url: https://github.com/trekhleb/javascript-algorithms
-  category: Computer Science
-  languages: ["JavaScript"]
-  paid: false
-  notes:
-
 - name: Builder Book
   url: https://builderbook.org/book
   category: Web Developement
@@ -11293,7 +11286,7 @@
   category: Online Courses
   languages: []
   paid: false
-  notes: 'Scrum Fundamentals Certified' course is tailored to help anyone interested to know more about Scrum
+  notes: Scrum Fundamentals Certified course is tailored to help anyone interested to know more about Scrum
 
 - name: Interview Recordings
   url: https://interviewing.io/recordings/
@@ -11400,13 +11393,6 @@
   paid: false
   notes: Algorithms and data structures implemented in JavaScript with explanations and links to further readings
 
-- name: Breaking Into Security - A Compendium
-  url: http://www.securityramblings.com/2016/01/breaking-into-security-compendium.html
-  category: Information Security
-  languages: []
-  paid: false
-  notes:
-
 - name: Education & Infosec
   url: http://www.securityramblings.com/2014/06/education-infosec.html
   category: Information Security
@@ -11469,3 +11455,213 @@
   languages: ["SQL"]
   paid: false
   notes: Design your SQL database online - Import existing database - Generate SQL scripts
+
+- name: FedTech
+  url: https://www.fedtech.io/careers
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes: Build startups around breakthrough tech, innovate and operate related programs
+
+- name: Rapid Response Referral Program
+  url: https://iava.org/rrrp-contact-us/
+  category: Veterans
+  languages: []
+  paid: false
+  notes: We can get you connected to the quality resources you need to get back on your feet and meet your goals
+
+- name: Swords to Plowshares
+  url: https://www.swords-to-plowshares.org/contact-us
+  category: Veterans
+  languages: []
+  paid: false
+  notes: Our model of care is based on the philosophy that the obstacles veterans face
+
+- name: "Programs for Loan Repayment and Forgiveness: A List for Rural Providers"
+  url: https://www.ruralhealthinfo.org/rural-monitor/loan-repayment-and-forgiveness/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes: In exchange for varying levels of loan repayment/forgiveness from the federal and/or state government, providers work at an approved site in an underserved area for a certain amount of time
+
+- name: The Complete List of Student Loan Forgiveness Programs and Options
+  url: https://studentloanhero.com/featured/the-complete-list-of-student-loan-forgiveness-programs/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes: There are a number of different student loan forgiveness programs out there for people who work in public service, education, health care, and other areas.
+
+- name: VMWare Labs
+  url: https://labs.hol.vmware.com/HOL/catalogs/catalog/all
+  category: Online Courses
+  languages: []
+  paid: false
+  notes:
+
+- name: MVP Vets
+  url: https://www.mvpvets.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes: Re-careering & mentoring Veterans into the Business of Health Innovation
+
+- name: Veterans In Biotech
+  url: https://califesciences.org/veterans-in-biotech
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Biocom Institute’s Veterans Initiative
+  url: https://www.biocom.org/s/veteran_initiative
+  category: Veterans
+  languages: []
+  paid: false
+  notes: Provides veterans access to a variety of life science industry professionals and executives
+
+- name: What Color Is Your Parachute
+  url: https://www.overdrive.com/media/3165404/what-color-is-your-parachute-2018
+  category: Jobs
+  languages: []
+  paid: true
+  notes: A Practical Manual for Job-Hunters and Career-Changers
+
+- name: WHY YOU NEED A CO-FOUNDER
+  url: https://justinjackson.ca/cofounder
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: The Nomad MBA
+  url: https://www.nomad.mba/how-it-works
+  category: Entrepreneurship
+  languages: []
+  paid: true
+  notes: Accelerate your personal & professional growth
+
+- name: Veterans Entrepreneurship Training
+  url: https://futurelabs.nyc/programs/veterans-entrepreneurship-training
+  category: Veterans
+  languages: []
+  paid: false
+  notes: Our free educational program for military personnel, veterans, and their spouses who seek to learn entrepreneurial skills or pursue business ventures
+
+- name: Code Curiosity
+  url: https://codecuriosity.org
+  category: Open Source
+  languages: []
+  paid: false
+  notes: CodeCuriosity is a platform that encourages contributions to open source
+
+- name: Hopscotch
+  url: https://www.gethopscotch.com
+  category: Programming for Kids
+  languages: []
+  paid: false
+  notes: Let's kids make iOS apps
+
+- name: Making Games With Hopscotch
+  url: https://www.pluralsight.com/courses/hopscotch-games
+  category: Programming for Kids
+  languages: []
+  paid: false
+  notes: Learn how the Hopscotch app for iOS can teach kids basic programming concepts through making an interactive game.
+
+- name: Array Explorer
+  url: https://sdras.github.io/array-explorer
+  category: Front End Dev
+  languages: ["JavaScript"]
+  paid: false
+  notes: Find the array method you need without digging through the docs
+
+- name: Object Explorer
+  url: https://sdras.github.io/object-explorer
+  category: Front End Dev
+  languages: ["JavaScript"]
+  paid: false
+  notes: Find the object method you need without digging through the docs
+
+- name: Rails with React - One Repo - Part 1
+  url: https://dev.to/harrymlevine/rails-with-react---one-repo---part-1-3k7o
+  category: Web Development
+  languages: ["JavaScript", "Ruby"]
+  paid: false
+  notes: Blog Post
+
+- name: The Entrepreneur's Toolkit
+  url: https://toolkit.techstars.com
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes: The Techstars Entrepreneur’s Toolkit brings you decades of startup experience in a simple, easy-to-use site
+
+- name: 29 Must Read Books For Programmers
+  url: https://dev.to/bosepchuk/29-must-read-programming-books-2n45
+  category: Books
+  languages: []
+  paid: false
+  notes:
+
+- name: Veteran eMentor
+  url: https://www.ementorprogram.org/veteran-ementor
+  category: Veterans
+  languages: []
+  paid: false
+  notes: eMentor is a cutting-edge online mentoring program for military personnel, veterans and military spouses
+
+- name: ACP Advisor Net
+  url: https://acp-advisornet.org/community/advisors
+  category: Veterans
+  languages: []
+  paid: false
+  notes: Search for an advisor
+
+- name: Salary Negotiation with Haseeb Qureshi
+  url: https://softwareengineeringdaily.com/2018/11/20/salary-negotiation-with-haseeb-qureshi-holiday-repeat
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Useful resources for programmers
+  url: https://dev.to/sahilrajput/useful-websites-for-programmers-36k
+  category: Getting Started
+  languages: ["Python", "JavaScript"]
+  paid: false
+  notes: List of some useful resources
+
+- name: The complete list of Infosec related cheat sheets
+  url: https://www.peerlyst.com/posts/the-complete-list-of-infosec-related-cheat-sheets-claus-cramon
+  category: Cheat Sheets
+  languages: []
+  paid: false
+  notes: Information Security
+
+- name: Practical Cryptography for Developers
+  url: https://cryptobook.nakov.com
+  category: Books
+  languages: []
+  paid: false
+  notes: A modern practical book about cryptography for developers with code examples
+
+- name: The Big Blog Post of Information Security Training Materials
+  url: https://medium.com/@deusexmachina667/the-big-blog-post-of-information-security-training-materials-ad9572223fcd
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: SANS Cyber Aces Online Tutorials
+  url: https://tutorials.cyberaces.org/tutorials
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Learning C#
+  url: https://www.cryptospace.com/~akclark/Learning%20CSharp
+  category: Microsoft
+  languages: ["C#"]
+  paid: false
+  notes:
