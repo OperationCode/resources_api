@@ -11660,8 +11660,64 @@
   notes:
 
 - name: Learning C#
-  url: https://www.cryptospace.com/~akclark/Learning%20CSharp
+  url: https://www.cryptospace.com/~akclark/Learning%20CSharp/
   category: Microsoft
   languages: ["C#"]
   paid: false
-  notes:
+  notes: Original Course by Bob Tabor, from http://www.learnvisualstudio.net
+
+  - name: Mockaroo
+  url: https://mockaroo.com
+  category: Tools
+  languages: []
+  paid: false
+  notes: Random Data Generator and API Mocking Tool (Json, CSV, SQL, Excel)
+
+  - name: Array Ipsum
+  url: https://array-ipsum.com
+  category: Tools
+  languages: ["JavaScript"]
+  paid: false
+  notes: Sample Arrays
+
+  - name: Array Explorer by Sarah Drasner
+  url: https://sdras.github.io/array-explorer/
+  category: Tools
+  languages: ["JavaScript"]
+  paid: false
+  notes: 
+
+- name: Twenty Questions to Ask Before Joining a Startup
+  url: https://hharnisc.github.io/2018/11/25/twenty-questions-to-ask-before-joining-a-startup.html
+  category: Blog Post
+  languages: []
+  paid: false
+  notes: 
+
+- name: Next Generation Training for IT
+  url: 
+  category: Training 
+  languages: ["Python"]
+  paid: true
+  notes: Courses include CCNA, Network+ and Network Engineering
+
+- name: The Tangled Web - A Guide to Securing Modern Web Applications
+  url: https://repo.zenk-security.com/Techniques%20d.attaques%20%20.%20%20Failles/The%20Tagled%20Web%20A%20Guide%20to%20Securing%20Modern%20Web%20Applications.pdf
+  category: Books
+  languages: []
+  paid: false
+  notes: By Michal Zalewski
+
+- name: Android Application Security Series
+  url: https://manifestsecurity.com/android-application-security/
+  category: Blog Posts
+  languages: []
+  paid: false
+  notes: Tutorial for OWASP Mobile Top 10 w/ Android Targeted
+
+- name: The Art of Software Security Assessment
+  url: https://leaksource.files.wordpress.com/2014/08/the-art-of-software-security-assessment.pdf
+  category: Books
+  languages: []
+  paid: false
+  notes: By Mark Dowd, John McDonald, and Justin Schuh
