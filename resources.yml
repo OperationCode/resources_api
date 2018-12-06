@@ -11822,7 +11822,7 @@
 
 - name: Online IDE for web applications.
   url: https://www.stackblitz.com
-  category: 
+  category: IDE
   languages: ["JavaScript", "C#", "C++", "VisualBasic", "Python", "C", "R", "Perl"]
   paid: false
   notes: Powered by Visual Studio Code
