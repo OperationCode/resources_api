@@ -11652,14 +11652,14 @@
   paid: false
   notes: Original Course by Bob Tabor, from http://www.learnvisualstudio.net
 
-  - name: Mockaroo
+- name: Mockaroo
   url: https://mockaroo.com
   category: Tools
   languages: []
   paid: false
   notes: Random Data Generator and API Mocking Tool (Json, CSV, SQL, Excel)
 
-  - name: Array Ipsum
+- name: Array Ipsum
   url: https://array-ipsum.com
   category: Tools
   languages: ["JavaScript"]
@@ -11674,7 +11674,7 @@
   notes: Jobs
 
 - name: Next Generation Training for IT
-  url: 
+  url: https://www.nexgent.com/
   category: Training 
   languages: ["Python"]
   paid: true
@@ -11778,7 +11778,7 @@
   paid: false
   notes: By Chris James (quii)
 
- - name: Web accessibility in mind
+- name: Web accessibility in mind
   url: https://webaim.org
   category: Training 
   languages: []
