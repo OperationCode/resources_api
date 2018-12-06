@@ -7459,20 +7459,6 @@
   paid: false
   notes:
 
-- name: JavaScript Array Explorer
-  url: https://sdras.github.io/array-explorer/
-  category: Front End Dev
-  languages: ["JavaScript"]
-  paid: false
-  notes:
-
-- name: JavaScript Object Explorer
-  url: https://sdras.github.io/object-explorer/
-  category: Front End Dev
-  languages: ["JavaScript"]
-  paid: false
-  notes:
-
 - name: Arizona Cyber Warfare Range
   url: http://www.azcwr.org
   category: Information Security
@@ -11679,13 +11665,6 @@
   languages: ["JavaScript"]
   paid: false
   notes: Sample Arrays
-
-  - name: Array Explorer by Sarah Drasner
-  url: https://sdras.github.io/array-explorer/
-  category: Tools
-  languages: ["JavaScript"]
-  paid: false
-  notes: 
 
 - name: Twenty Questions to Ask Before Joining a Startup
   url: https://hharnisc.github.io/2018/11/25/twenty-questions-to-ask-before-joining-a-startup.html
