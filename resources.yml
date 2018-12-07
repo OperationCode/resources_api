@@ -7459,20 +7459,6 @@
   paid: false
   notes:
 
-- name: JavaScript Array Explorer
-  url: https://sdras.github.io/array-explorer/
-  category: Front End Dev
-  languages: ["JavaScript"]
-  paid: false
-  notes:
-
-- name: JavaScript Object Explorer
-  url: https://sdras.github.io/object-explorer/
-  category: Front End Dev
-  languages: ["JavaScript"]
-  paid: false
-  notes:
-
 - name: Arizona Cyber Warfare Range
   url: http://www.azcwr.org
   category: Information Security
@@ -11660,8 +11646,197 @@
   notes:
 
 - name: Learning C#
-  url: https://www.cryptospace.com/~akclark/Learning%20CSharp
+  url: https://www.cryptospace.com/~akclark/Learning%20CSharp/
   category: Microsoft
   languages: ["C#"]
   paid: false
-  notes:
+  notes: Original Course by Bob Tabor, from http://www.learnvisualstudio.net
+
+- name: Mockaroo
+  url: https://mockaroo.com
+  category: Tools
+  languages: []
+  paid: false
+  notes: Random Data Generator and API Mocking Tool (Json, CSV, SQL, Excel)
+
+- name: Array Ipsum
+  url: https://array-ipsum.com
+  category: Tools
+  languages: ["JavaScript"]
+  paid: false
+  notes: Sample Arrays
+
+- name: Twenty Questions to Ask Before Joining a Startup
+  url: https://hharnisc.github.io/2018/11/25/twenty-questions-to-ask-before-joining-a-startup.html
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Blog Posts
+
+- name: Next Generation Training for IT
+  url: https://www.nexgent.com/
+  category: Training 
+  languages: ["Python"]
+  paid: true
+  notes: Courses include CCNA, Network+ and Network Engineering
+
+- name: The Tangled Web - A Guide to Securing Modern Web Applications
+  url: https://repo.zenk-security.com/Techniques%20d.attaques%20%20.%20%20Failles/The%20Tagled%20Web%20A%20Guide%20to%20Securing%20Modern%20Web%20Applications.pdf
+  category: Books
+  languages: []
+  paid: false
+  notes: By Michal Zalewski
+
+- name: Android Application Security Series
+  url: https://manifestsecurity.com/android-application-security/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Blog Posts
+
+- name: The Art of Software Security Assessment
+  url: https://leaksource.files.wordpress.com/2014/08/the-art-of-software-security-assessment.pdf
+  category: Books
+  languages: []
+  paid: false
+  notes: By Mark Dowd, John McDonald, and Justin Schuh
+
+- name: LinkedIn Profile Tips for Bootcamp Grads
+  url: https://www.coursereport.com/blog/linkedin-profile-tips-for-coding-bootcamp-grads 
+  category: Social Media
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: The HackerRank Interview Preparation Kit
+  url: https://www.hackerrank.com/interview/interview-preparation-kit 
+  category: Training
+  languages: []
+  paid: false
+  notes: Include all major Languages
+
+- name: Algo VPN 
+  url: https://github.com/trailofbits/algo
+  category: Tools
+  languages: ["Bash"]
+  paid: false
+  notes: A set of Ansible scripts that simplify the setup of a personal IPSEC VPN.
+
+- name: Streisand Effect
+  url: https://github.com/StreisandEffect/streisand
+  category: Tools
+  languages: []
+  paid: false
+  notes: Streisand sets up a new server running your choice of WireGuard, OpenConnect, OpenSSH, OpenVPN, Shadowsocks, sslh, Stunnel, or a Tor bridge.
+
+- name: Why Junior Developers Should Be Giving Presentations
+  url: https://medium.com/@melindagolden/why-junior-developers-should-be-giving-presentations-39bf7f49a858
+  category: Career Development
+  languages: []
+  paid: false
+  notes: Blog Posts
+
+- name: Mimo - Learn to Code
+  url: https://getmimo.com/
+  category: Training
+  languages: []
+  paid: false
+  notes: Many Different Programming Languages and IT Subjects
+
+- name: The 8 Biggest Mistakes to Avoid When Applying For a Remote Job
+  url: https://blog.doist.com/common-remote-job-application-mistakes-89cc58ed39a1
+  category: Job Search
+  languages: []
+  paid: false
+  notes: Blog Posts
+
+- name: Earned Admission Courses at Arizona State University
+  url: https://ea.asu.edu/courses
+  category: Online Courses
+  languages: []
+  paid: false
+  notes: Earn College Credit through ASU from Online Courses. You only pay tuition after you pass the class.
+
+- name: Scrimba React Series
+  url: https://scrimba.com/g/glearnreact
+  category: Training
+  languages: [JavaScript]
+  paid: false
+  notes: 
+
+- name: How to Deal with Difficult People on Software Projects
+  url: https://people.neilon.software/
+  category: Professional Relationships
+  languages: []
+  paid: false
+  notes: Blog Posts
+
+- name: Learn Go with test-driven development
+  url: https://github.com/quii/learn-go-with-tests
+  category: Training
+  languages: ["Go"]
+  paid: false
+  notes: By Chris James (quii)
+
+- name: Web accessibility in mind
+  url: https://webaim.org
+  category: Training 
+  languages: []
+  paid: false
+  notes: A beginner's guide to web accessibility
+
+- name: Web Accessibility Checklist
+  url: https://a11yproject.com/checklist
+  category: Training
+  languages: []
+  paid: false
+  notes: 
+
+- name: Mozilla Developer Network Accessibility Learning Area
+  url: https://developer.mozilla.org/en-US/docs/Web/Accessibility
+  category: Documentation
+  languages: []
+  paid: false
+  notes: 
+
+- name: WAVE Browser Extensions
+  url: https://wave.webaim.org/extension 
+  category: Tools
+  languages: []
+  paid: false
+  notes: Browser plugin-in to asses security of websites browsed
+
+- name: React Documentation
+  url: https://reactjs.org/docs/accessibility.html 
+  category: Documentation
+  languages: ["JavaScript"]
+  paid: false
+  notes: 
+
+- name: Accessibility - Rethinking First Look Media’s Design and Development Workflow
+  url: https://tech.firstlook.media/accessibility-rethinking-first-look-media-s-design-and-development-workflow
+  category: Accessibility
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Online IDE for web applications.
+  url: https://www.stackblitz.com
+  category: IDE
+  languages: ["JavaScript", "C#", "C++", "VisualBasic", "Python", "C", "R", "Perl"]
+  paid: false
+  notes: Powered by Visual Studio Code
+
+- name: Server-Powered Software Development
+  url: https://www.coder.com
+  category: Tools
+  languages: []
+  paid: false
+  notes: 2 GB Free, Paid Plans after that
+
+- name: Free Infosec Books List
+  url: https://www.peerlyst.com/posts/resource-free-infosec-books-list
+  category: Books
+  languages: []
+  paid: false
+  notes: 
