@@ -11514,10 +11514,10 @@
 
 - name: WHY YOU NEED A CO-FOUNDER
   url: https://justinjackson.ca/cofounder
-  category: Entrepreneurship
+  category: Blog Post
   languages: []
   paid: false
-  notes: Blog Post
+  notes: Entrepreneurship
 
 - name: The Nomad MBA
   url: https://www.nomad.mba/how-it-works
@@ -11706,7 +11706,7 @@
   category: Blog Post
   languages: []
   paid: false
-  notes: 
+  notes: Social Media
 
 - name: The HackerRank Interview Preparation Kit
   url: https://www.hackerrank.com/interview/interview-preparation-kit 
@@ -11734,7 +11734,7 @@
   category: Blog Posts
   languages: []
   paid: false
-  notes: 
+  notes: Career Development
 
 - name: Mimo - Learn to Code
   url: https://getmimo.com/
@@ -11748,7 +11748,7 @@
   category: Blog Posts
   languages: []
   paid: false
-  notes: 
+  notes: Job Applications
 
 - name: Earned Admission Courses at Arizona State University
   url: https://ea.asu.edu/courses
@@ -11769,7 +11769,7 @@
   category: Blog Posts
   languages: []
   paid: false
-  notes: 
+  notes: Professional Relationships
 
 - name: Learn Go with test-driven development
   url: https://github.com/quii/learn-go-with-tests
@@ -11818,7 +11818,7 @@
   category: Blog Post
   languages: []
   paid: false
-  notes: 
+  notes: Accessibility
 
 - name: Online IDE for web applications.
   url: https://www.stackblitz.com
