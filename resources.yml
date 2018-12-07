@@ -11514,10 +11514,10 @@
 
 - name: WHY YOU NEED A CO-FOUNDER
   url: https://justinjackson.ca/cofounder
-  category: Blog Post
+  category: Entrepreneurship
   languages: []
   paid: false
-  notes: Entrepreneurship
+  notes: Blog Post
 
 - name: The Nomad MBA
   url: https://www.nomad.mba/how-it-works
@@ -11668,10 +11668,10 @@
 
 - name: Twenty Questions to Ask Before Joining a Startup
   url: https://hharnisc.github.io/2018/11/25/twenty-questions-to-ask-before-joining-a-startup.html
-  category: Blog Post
+  category: Jobs
   languages: []
   paid: false
-  notes: Jobs
+  notes: Blog Posts
 
 - name: Next Generation Training for IT
   url: https://www.nexgent.com/
@@ -11689,10 +11689,10 @@
 
 - name: Android Application Security Series
   url: https://manifestsecurity.com/android-application-security/
-  category: Blog Posts
+  category: Information Security
   languages: []
   paid: false
-  notes: Information Security
+  notes: Blog Posts
 
 - name: The Art of Software Security Assessment
   url: https://leaksource.files.wordpress.com/2014/08/the-art-of-software-security-assessment.pdf
@@ -11703,10 +11703,10 @@
 
 - name: LinkedIn Profile Tips for Bootcamp Grads
   url: https://www.coursereport.com/blog/linkedin-profile-tips-for-coding-bootcamp-grads 
-  category: Blog Post
+  category: Social Media
   languages: []
   paid: false
-  notes: Social Media
+  notes: Blog Post
 
 - name: The HackerRank Interview Preparation Kit
   url: https://www.hackerrank.com/interview/interview-preparation-kit 
@@ -11731,10 +11731,10 @@
 
 - name: Why Junior Developers Should Be Giving Presentations
   url: https://medium.com/@melindagolden/why-junior-developers-should-be-giving-presentations-39bf7f49a858
-  category: Blog Posts
+  category: Career Development
   languages: []
   paid: false
-  notes: Career Development
+  notes: Blog Posts
 
 - name: Mimo - Learn to Code
   url: https://getmimo.com/
@@ -11745,10 +11745,10 @@
 
 - name: The 8 Biggest Mistakes to Avoid When Applying For a Remote Job
   url: https://blog.doist.com/common-remote-job-application-mistakes-89cc58ed39a1
-  category: Blog Posts
+  category: Job Search
   languages: []
   paid: false
-  notes: Job Applications
+  notes: Blog Posts
 
 - name: Earned Admission Courses at Arizona State University
   url: https://ea.asu.edu/courses
@@ -11766,10 +11766,10 @@
 
 - name: How to Deal with Difficult People on Software Projects
   url: https://people.neilon.software/
-  category: Blog Posts
+  category: Professional Relationships
   languages: []
   paid: false
-  notes: Professional Relationships
+  notes: Blog Posts
 
 - name: Learn Go with test-driven development
   url: https://github.com/quii/learn-go-with-tests
@@ -11815,10 +11815,10 @@
 
 - name: Accessibility - Rethinking First Look Media’s Design and Development Workflow
   url: https://tech.firstlook.media/accessibility-rethinking-first-look-media-s-design-and-development-workflow
-  category: Blog Post
+  category: Accessibility
   languages: []
   paid: false
-  notes: Accessibility
+  notes: Blog Post
 
 - name: Online IDE for web applications.
   url: https://www.stackblitz.com
