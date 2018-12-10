@@ -1,5 +1,7 @@
 from app import db
 from sqlalchemy_utils import URLType
+from sqlalchemy import DateTime
+from sqlalchemy.sql import func
 
 
 language_identifier = db.Table('language_identifier',
@@ -28,6 +30,8 @@ class Resource(db.Model):
     upvotes = db.Column(db.INTEGER, default=0)
     downvotes = db.Column(db.INTEGER, default=0)
     times_clicked = db.Column(db.INTEGER, default=0)
+    created_at = db.Column(DateTime(timezone=True), server_default=func.now())
+    last_updated = db.Column(DateTime(timezone=True), onupdate=func.now())
 
     @property
     def serialize(self):
