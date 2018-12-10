@@ -1,7 +1,7 @@
 from traceback import print_tb
 
 from flask import request
-from sqlalchemy import and_, func
+from sqlalchemy import or_, func
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
@@ -72,43 +72,42 @@ def get_resources():
     # Fetch the filter params from the url, if they were provided.
     language = request.args.get('language')
     category = request.args.get('category')
+    updated_after = request.args.get('updated_after')
+
+    q = Resource.query
 
     # Filter on language
-    if language and not category:
-        query = Resource.query.filter(
+    if language:
+        q = q.filter(
             Resource.languages.any(
                 Language.name.ilike(language)
             )
         )
 
     # Filter on category
-    elif category and not language:
-        query = Resource.query.filter(
+    if category:
+        q = q.filter(
             Resource.category.has(
                 func.lower(Category.name) == category.lower()
             )
         )
 
-    # Filter on both
-    elif category and language:
-        query = Resource.query.filter(
-            and_(
-                Resource.languages.any(
-                    Language.name.ilike(language)
-                ),
-                Resource.category.has(
-                    func.lower(Category.name) == category.lower()
-                )
+    # Filter on updated_after
+    if updated_after:
+        q = q.filter(
+            or_(
+                Resource.created_at >= updated_after,
+                Resource.last_updated >= updated_after
             )
         )
 
-    # No filters
-    else:
-        query = Resource.query
-
-    resource_list = [
-        resource.serialize for resource in resource_paginator.items(query)
-    ]
+    try:
+        resource_list = [
+            resource.serialize for resource in resource_paginator.items(q)
+        ]
+    except:
+        # TODO: Make this error response better
+        return standardize_response(None, [{"code": "bad-request"}], "bad-request")
 
     return standardize_response(resource_list, None, "ok")
 
