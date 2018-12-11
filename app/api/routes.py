@@ -8,6 +8,11 @@ from app.api import bp
 from app.models import Language, Resource, Category
 from app import Config, db
 from app.utils import Paginator, standardize_response
+from dateutil import parser
+from datetime import datetime
+import logging
+
+logger = logging.getLogger()
 
 
 # Routes
@@ -94,10 +99,21 @@ def get_resources():
 
     # Filter on updated_after
     if updated_after:
+        try:
+            uaDate = parser.parse(updated_after)
+            if uaDate > datetime.now():
+                raise Exception("updated_after greater than today's date")
+            uaDate = uaDate.strftime("%Y-%m-%d")
+        except Exception as e:
+            logger.error(e)
+            message = 'The value for "updated_after" is invalid'
+            error = [{"code": "bad-value", "message": message}]
+            return standardize_response(None, error, "unprocessable-entity", 422)
+
         q = q.filter(
             or_(
-                Resource.created_at >= updated_after,
-                Resource.last_updated >= updated_after
+                Resource.created_at >= uaDate,
+                Resource.last_updated >= uaDate
             )
         )
 
@@ -105,9 +121,9 @@ def get_resources():
         resource_list = [
             resource.serialize for resource in resource_paginator.items(q)
         ]
-    except:
-        # TODO: Make this error response better
-        return standardize_response(None, [{"code": "bad-request"}], "bad-request")
+    except Exception as e:
+        logger.error(e)
+        return standardize_response(None, [{"code": "bad-request"}], "bad request", 400)
 
     return standardize_response(resource_list, None, "ok")
 
