@@ -6123,7 +6123,7 @@
   notes:
 
 - name: .Net Learning Resources and a tour
-  url: https://community.operationcode.org/t/net-learning-resources-and-a-tour/210
+  url: https://github.com/OperationCode/member_content/wiki/.Net-Learning-Resources-and-a-tour
   category: Microsoft
   languages: [".Net"]
   paid: false
@@ -11675,7 +11675,7 @@
 
 - name: Next Generation Training for IT
   url: https://www.nexgent.com/
-  category: Training 
+  category: Training
   languages: ["Python"]
   paid: true
   notes: Courses include CCNA, Network+ and Network Engineering
@@ -11702,20 +11702,20 @@
   notes: By Mark Dowd, John McDonald, and Justin Schuh
 
 - name: LinkedIn Profile Tips for Bootcamp Grads
-  url: https://www.coursereport.com/blog/linkedin-profile-tips-for-coding-bootcamp-grads 
+  url: https://www.coursereport.com/blog/linkedin-profile-tips-for-coding-bootcamp-grads
   category: Social Media
   languages: []
   paid: false
   notes: Blog Post
 
 - name: The HackerRank Interview Preparation Kit
-  url: https://www.hackerrank.com/interview/interview-preparation-kit 
+  url: https://www.hackerrank.com/interview/interview-preparation-kit
   category: Training
   languages: []
   paid: false
   notes: Include all major Languages
 
-- name: Algo VPN 
+- name: Algo VPN
   url: https://github.com/trailofbits/algo
   category: Tools
   languages: ["Bash"]
@@ -11762,7 +11762,7 @@
   category: Training
   languages: [JavaScript]
   paid: false
-  notes: 
+  notes:
 
 - name: How to Deal with Difficult People on Software Projects
   url: https://people.neilon.software/
@@ -11780,7 +11780,7 @@
 
 - name: Web accessibility in mind
   url: https://webaim.org
-  category: Training 
+  category: Training
   languages: []
   paid: false
   notes: A beginner's guide to web accessibility
@@ -11790,28 +11790,28 @@
   category: Training
   languages: []
   paid: false
-  notes: 
+  notes:
 
 - name: Mozilla Developer Network Accessibility Learning Area
   url: https://developer.mozilla.org/en-US/docs/Web/Accessibility
   category: Documentation
   languages: []
   paid: false
-  notes: 
+  notes:
 
 - name: WAVE Browser Extensions
-  url: https://wave.webaim.org/extension 
+  url: https://wave.webaim.org/extension
   category: Tools
   languages: []
   paid: false
   notes: Browser plugin-in to asses security of websites browsed
 
 - name: React Documentation
-  url: https://reactjs.org/docs/accessibility.html 
+  url: https://reactjs.org/docs/accessibility.html
   category: Documentation
   languages: ["JavaScript"]
   paid: false
-  notes: 
+  notes:
 
 - name: Accessibility - Rethinking First Look Media’s Design and Development Workflow
   url: https://tech.firstlook.media/accessibility-rethinking-first-look-media-s-design-and-development-workflow
@@ -11839,4 +11839,4 @@
   category: Books
   languages: []
   paid: false
-  notes: 
+  notes:
