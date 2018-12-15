@@ -1,6 +1,8 @@
 import os
 import tempfile
 import pytest
+import tempfile
+from app import db
 from app import create_app
 
 TESTDB = 'test_project.db'
@@ -19,5 +21,16 @@ def app():
 
 @pytest.fixture(scope='module')
 def client(app):
+    db_fd, app.config['DATABASE'] = tempfile.mkstemp()
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = TEST_DATABASE_URI
+
+    with app.app_context():
+        db.create_all()
+
     client = app.test_client()
-    return client
+
+    yield client
+
+    os.close(db_fd)
+    os.unlink(app.config['DATABASE'])
