@@ -81,10 +81,10 @@ Note: if you try to use the same username as the user you are logged in as, you 
 SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resources
 ```
 8. Navigate to the cloned repo directory `cd \path\to\resources`. (see step 6 under getting started)
-9. Install virtualenv if you do not have it. `pip install virtualenv`.
-10. [Create a virtual environment](https://docs.python.org/3/library/venv.html) called venv `python -m virtualenv venv`.
-11. Activate virtual environment `source venv/bin/activate`
-12. Install the required dependencies `pip install pipenv`.
+9. Install virtualenv if you do not have it. `pip install virtualenv`.(This may need to be run with 'pip3' in place of 'pip'.)
+10. [Create a virtual environment](https://docs.python.org/3/library/venv.html) called venv `python -m virtualenv venv` (If your linux machine is creating the virtualenv with python2.X you will need to run `python -m virtualenv --python=/usr/bin/python3.7 venv`. This will force the virtualenv to be created with the minimum required version of python.)
+11. Activate virtual environment `source venv/bin/activate` 
+12. Install the required dependencies 'pip install pipenv'. 
 13. Install --dev `pipenv install --dev`.
 14. Optionally, enable debugging by adding this line to the `.env` file: `FLASK_ENV=development`
 15. Run `pipenv shell` to load all the environment variables from `.env`
@@ -110,7 +110,7 @@ SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resources
 2. On an Ubuntu based system, Postgresql will automatically be enabled when installing it this way.
 3. Ensure postgres is running: `psql -V`
 4. Create your user with `sudo -u postgres createuser -d -P --interactive`. This will give you a prompt to create a new user. It will ask for the name of the role to add. This is your username. Then it will ask for your password. You must pick a username, that is different from an existing login name on your computer. For example, if you are logged into your computer as "aaron", pick a name other than "aaron". The prompt will than ask if you want to be a superuser. Just press "y", and enter.
-5. Create a database with `sudo -u postgres createdb resources -U aaron` ("resources" is the name we are giving to the database. You can call it whatever you'd like. Make sure to replace "aaron", with whatever username you gave to your postgres user.)
+5. Create a database with `sudo -u postgres createdb resources -U aaron` ("resources" is the name we are giving to the database. You can call it whatever you'd like. Make sure to replace "aaron", with whatever username you gave to your postgres user.). **Note: In order for this to work on linux/unix you must change the "method" column for all types to "trust" in the pg__hba.conf file most likely located here: `/etc/postgresql/10/main/pg_hba.conf`.**
 6. Now you should be able to scroll up on this page, and start following along with the Mac setup instructions, starting at step #7.
 </details>
 
