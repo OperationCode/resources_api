@@ -110,7 +110,7 @@ SQLALCHEMY_DATABASE_URI=postgresql://aaron:password@127.0.0.1:5432/resources
 2. On an Ubuntu based system, Postgresql will automatically be enabled when installing it this way.
 3. Ensure postgres is running: `psql -V`
 4. Create your user with `sudo -u postgres createuser -d -P --interactive`. This will give you a prompt to create a new user. It will ask for the name of the role to add. This is your username. Then it will ask for your password. You must pick a username, that is different from an existing login name on your computer. For example, if you are logged into your computer as "aaron", pick a name other than "aaron". The prompt will than ask if you want to be a superuser. Just press "y", and enter.
-5. Create a database with `sudo -u postgres createdb resources -U aaron` ("resources" is the name we are giving to the database. You can call it whatever you'd like. Make sure to replace "aaron", with whatever username you gave to your postgres user.). **Note: In order for this to work on linux/unix you must change the "method" column for all types to "trust" in the pg__hba.conf file most likely located here: `/etc/postgresql/10/main/pg_hba.conf`.
+5. Create a database with `sudo -u postgres createdb resources -U aaron` ("resources" is the name we are giving to the database. You can call it whatever you'd like. Make sure to replace "aaron", with whatever username you gave to your postgres user.). **Note: In order for this to work on linux/unix you must change the "method" column for all types to "trust" in the pg__hba.conf file most likely located here: `/etc/postgresql/10/main/pg_hba.conf`.**
 6. Now you should be able to scroll up on this page, and start following along with the Mac setup instructions, starting at step #7.
 </details>
 
