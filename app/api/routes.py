@@ -1,13 +1,18 @@
 from traceback import print_tb
 
 from flask import request
-from sqlalchemy import and_, func
+from sqlalchemy import or_, func
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
 from app.models import Language, Resource, Category
 from app import Config, db
 from app.utils import Paginator, standardize_response
+from dateutil import parser
+from datetime import datetime
+import logging
+
+logger = logging.getLogger()
 
 
 # Routes
@@ -72,43 +77,53 @@ def get_resources():
     # Fetch the filter params from the url, if they were provided.
     language = request.args.get('language')
     category = request.args.get('category')
+    updated_after = request.args.get('updated_after')
+
+    q = Resource.query
 
     # Filter on language
-    if language and not category:
-        query = Resource.query.filter(
+    if language:
+        q = q.filter(
             Resource.languages.any(
                 Language.name.ilike(language)
             )
         )
 
     # Filter on category
-    elif category and not language:
-        query = Resource.query.filter(
+    if category:
+        q = q.filter(
             Resource.category.has(
                 func.lower(Category.name) == category.lower()
             )
         )
 
-    # Filter on both
-    elif category and language:
-        query = Resource.query.filter(
-            and_(
-                Resource.languages.any(
-                    Language.name.ilike(language)
-                ),
-                Resource.category.has(
-                    func.lower(Category.name) == category.lower()
-                )
+    # Filter on updated_after
+    if updated_after:
+        try:
+            uaDate = parser.parse(updated_after)
+            if uaDate > datetime.now():
+                raise Exception("updated_after greater than today's date")
+            uaDate = uaDate.strftime("%Y-%m-%d")
+        except Exception as e:
+            logger.error(e)
+            message = 'The value for "updated_after" is invalid'
+            error = [{"code": "bad-value", "message": message}]
+            return standardize_response(None, error, "unprocessable-entity", 422)
+
+        q = q.filter(
+            or_(
+                Resource.created_at >= uaDate,
+                Resource.last_updated >= uaDate
             )
         )
 
-    # No filters
-    else:
-        query = Resource.query
-
-    resource_list = [
-        resource.serialize for resource in resource_paginator.items(query)
-    ]
+    try:
+        resource_list = [
+            resource.serialize for resource in resource_paginator.items(q)
+        ]
+    except Exception as e:
+        logger.error(e)
+        return standardize_response(None, [{"code": "bad-request"}], "bad request", 400)
 
     return standardize_response(resource_list, None, "ok")
 

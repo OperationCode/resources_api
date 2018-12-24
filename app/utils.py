@@ -16,15 +16,15 @@ class Paginator:
         return query.paginate(self.page, self.page_size, False).items
 
 
-def standardize_response(data, errors, status):
+def standardize_response(data, errors, status, status_code=200):
     resp = {
         "status": status,
         "apiVersion": API_VERSION
     }
-    if data:
+    if data is not None:
         resp["data"] = data
     elif errors:
         resp["errors"] = errors
     else:
         resp["errors"] = [{"code": "something-went-wrong"}]
-    return jsonify(resp)
+    return jsonify(resp), status_code
