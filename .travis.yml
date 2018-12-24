@@ -5,8 +5,12 @@ python: "3.7"
 # command to install dependencies
 install:
   - pip install pipenv
+  - pip install pytest-cov
+  - pip install coveralls
   - pipenv install --dev
 # command to run tests
 script:
   - flake8 app --statistics --count
-  - pipenv run pytest
+  - pipenv run pytest --cov=app/
+after_success:
+  - coveralls
