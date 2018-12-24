@@ -1,36 +1,58 @@
-import os
-import tempfile
 import pytest
-import tempfile
-from app import db
-from app import create_app
+from app import create_app, db as _db
+from configs import Config
 
-TESTDB = 'test_project.db'
-TESTDB_PATH = "tests/data/{}".format(TESTDB)
-TEST_DATABASE_URI = 'sqlite:///' + TESTDB_PATH
+TEST_DATABASE_URI = 'sqlite:///:memory:'
 
-
-ALEMBIC_CONFIG = 'migrations/alembic.ini'
+counter = 0
 
 
-@pytest.fixture(scope='module')
-def app():
-    app = create_app()
-    app.testing = True
+@pytest.fixture(scope='session')
+def app(request):
+    Config.SQLALCHEMY_DATABASE_URI = TEST_DATABASE_URI
+    Config.TESTING = True
+    app = create_app(Config)
+
+
+    # Establish an application context before running the tests.
+    ctx = app.app_context()
+    ctx.push()
+
+    def teardown():
+        ctx.pop()
+
+    request.addfinalizer(teardown)
     return app
 
-@pytest.fixture(scope='module')
-def client(app):
-    db_fd, app.config['DATABASE'] = tempfile.mkstemp()
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = TEST_DATABASE_URI
+@pytest.fixture(scope='session')
+def db(app, request):
+    """Session-wide test database."""
+    def teardown():
+        _db.drop_all()
 
-    with app.app_context():
-        db.create_all()
+    _db.app = app
+    _db.create_all()
 
-    client = app.test_client()
+    request.addfinalizer(teardown)
+    return _db
 
-    yield client
 
-    os.close(db_fd)
-    os.unlink(app.config['DATABASE'])
+@pytest.fixture(scope='function')
+def session(db, request):
+    """Creates a new database session for a test."""
+    connection = db.engine.connect()
+    transaction = connection.begin()
+
+    options = dict(bind=connection, binds={})
+    session = db.create_scoped_session(options=options)
+
+    db.session = session
+
+    def teardown():
+        transaction.rollback()
+        connection.close()
+        session.remove()
+
+    request.addfinalizer(teardown)
+    return session
