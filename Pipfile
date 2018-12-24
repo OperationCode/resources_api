@@ -16,6 +16,7 @@ PyYAML = "*"
 flask-pytest = "*"
 pytest = "*"
 dataclasses = "*"
+coverage = "*"
 
 [dev-packages]
 
