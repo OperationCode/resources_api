@@ -1,8 +1,15 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=147d129d98f3d606ce69bc151bbeded40dc684fe11e0f5a831f11f6b36680b22
+    - SQLALCHEMY_DATABASE_URI="sqlite:///:memory:"
 language: python
 sudo: required
 dist: xenial
 python: "3.7"
 # command to install dependencies
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
 install:
   - pip install pipenv
   - pipenv install --dev
@@ -10,3 +17,7 @@ install:
 script:
   - flake8 app --statistics --count
   - pipenv run pytest
+  - coverage run --source=app/ -m pytest
+after_script:
+  - coverage xml
+  - if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
