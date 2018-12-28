@@ -11840,3 +11840,150 @@
   languages: []
   paid: false
   notes:
+
+- name: The Paradox of Choice
+  url: https://azeria-labs.com/paradox-of-choice/
+  category: Getting Started
+  languages: []
+  paid: false
+  notes: Information Security -- LEARNING NEW SKILLS IN INFOSEC WITHOUT GETTING OVERWHELMED
+
+- name: My Career Advancement Account Scholarship Program
+  url: https://myseco.militaryonesource.mil/Portal/Media/Default/Collaterals_Catalog/ETL/MyCAA-FAQs-Booklet.pdf
+  category: Military Spouses
+  languages: []
+  paid: false
+  notes: Career development and employment assistance program
+
+- name: Wizard Zines
+  url: https://wizardzines.com/
+  category: Computer Science
+  languages: []
+  paid: false
+  notes:
+
+- name: EmberWatch Books
+  url: http://emberwatch.com/books.html
+  category: Books
+  languages: []
+  paid: false
+  notes:
+
+- name: Kubernetes The Hard Way
+  url: https://github.com/kelseyhightower/kubernetes-the-hard-way
+  category: DevOps
+  languages: ["k8s"]
+  paid: false
+  notes:
+
+- name: Hacking & Computer Security books from No Starch Press
+  url: https://nostarch.com/catalog/security
+  category: Books
+  languages: []
+  paid: false
+  notes: Information Security
+
+- name: Veterans’ Digital Cyber Academy
+  url: http://www.digitalcyberacademy.com/vdca/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: SEI CERT Coding Standards
+  url: https://wiki.sei.cmu.edu/confluence/display/seccode/SEI+CERT+Coding+Standards
+  category: Information Security
+  languages: ["C", "C++", "Java", "Perl", "Android"]
+  paid: false
+  notes: Secure Coding Standards
+
+- name: Python Tutor
+  url: http://pythontutor.com/
+  category: Tutorials
+  languages: ["Python", "Java", "C", "C++", "JavaScript", "Ruby"]
+  paid: false
+  notes:
+
+- name: Open Vim Sandbox
+  url: https://www.openvim.com/sandbox.html
+  category: IDE
+  languages: ["vim"]
+  paid: false
+  notes:
+
+- name: Using repetition efficiently
+  url: https://www.linkedin.com/learning/learning-regular-expressions/using-repetition-efficiently?u=2061524
+  category: Regular Expressions
+  languages: []
+  paid: false
+  notes:
+
+- name: The Book of Secret Knowledge
+  url: https://github.com/trimstray/the-book-of-secret-knowledge
+  category: Information Security
+  languages: []
+  paid: false
+  notes: A collection of awesome lists, manuals, blogs, hacks, one-liners, cli/web tools and more. Especially for System and Network Administrators, DevOps, Pentesters or Security Researchers.
+
+- name: Deep Learning course
+  url: https://m2dsupsdlclass.github.io/lectures-labs/
+  category: Data Science
+  languages: []
+  paid: false
+  notes:
+
+- name: "Basic Pentesting: 2"
+  url: https://www.vulnhub.com/entry/basic-pentesting-2,241/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: C# Station
+  url: https://csharp-station.com/
+  category: Back End Dev
+  languages: ["C#"]
+  paid: false
+  notes:
+
+- name: Vettery
+  url: https://www.vettery.com
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Underdog
+  url: https://underdog.io/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Web Development In 2019 - A Practical Guide
+  url: https://www.youtube.com/watch?v=UnTQVlqmDQ0&feature=youtu.be
+  category: Web Development
+  languages: []
+  paid: false
+  notes:
+
+- name: NS2 Serves
+  url: https://www.ns2serves.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes: NS2 Serves helps veterans by providing valuable IT training and employment assistance, at no cost to the veterans
+
+- name: Web Development 2018 - The Must-Know Tech
+  url: https://www.youtube.com/watch?v=gVXcqO9A1vo
+  category: Web Development
+  languages: []
+  paid: false
+  notes:
+
+- name: Best practices for Open Source Software Contributions
+  url: https://github.community/t5/Support-Protips/Best-practices-for-Open-Source-Software-Contributions/ba-p/16269
+  category: Open Source
+  languages: []
+  paid: false
+  notes:
