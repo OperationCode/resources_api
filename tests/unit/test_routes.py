@@ -36,10 +36,17 @@ def test_update_resource(session_app, function_session, session_db):
 
 
 
-##########################################
-## Persistent data routes
-##########################################
+def test_rate_limit(app, session, db):
+    client = app.test_client()
 
+    for _ in range(50):
+        client.get('api/v1/resources')
+
+    # Response should be a failure on request 51
+    response = client.get('api/v1/resources')
+    assert(response.status_code == 429)
+    assert(type(response.json.get('errors')) is list)
+    assert(response.json.get('errors')[0].get('code') == "rate-limit-exceeded")
 
 ##########################################
 ## Helpers
