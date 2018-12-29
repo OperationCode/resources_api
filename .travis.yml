@@ -6,18 +6,34 @@ language: python
 sudo: required
 dist: xenial
 python: "3.7"
-# command to install dependencies
-before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
+services:
+  - docker
+
+env:
+  - DOCKER_COMPOSE_VERSION=1.22.0
+
 install:
   - pip install pipenv
   - pipenv install --dev
-# command to run tests
+
+before_script:
+  - sudo rm /usr/local/bin/docker-compose
+  - sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+  - sudo chmod +x /usr/local/bin/docker-compose
+  - sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - 'make bg'
+  - docker ps -a
+  - sleep 30
+
 script:
-  - flake8 app --statistics --count
-  - pipenv run pytest
-  - coverage run --source=app/ -m pytest
+  - 'make build'
+  - 'make test'
+  - 'make lint'
+
 after_script:
   - coverage xml
+  - docker-compose -f docker-compose.yml down
   - if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
+

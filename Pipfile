@@ -17,6 +17,7 @@ flask-pytest = "*"
 pytest = "*"
 dataclasses = "*"
 coverage = "*"
+pytest-cov = "*"
 
 [dev-packages]
 
