@@ -65,3 +65,8 @@ setup: bg
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} db stamp head
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} db-migrate init
 
+.PHONY: migrate
+migrate: build
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} db migrate
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} db upgrade
+
