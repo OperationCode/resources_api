@@ -12,6 +12,7 @@ Sometimes these installs can be tricky.  If you get stuck ask for help in the Sl
 - Choose your OS from the website and follow the prompts.  This installs Git and the Bash Terminal on your machine.
 - Extra: [Git Documentation](https://git-scm.com/doc) for more information on Git.
 2. Install Docker [Mac and Windows](https://www.docker.com/products/docker-desktop) or [Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/) and ensure it is running
+- Linux: install [docker compose](https://docs.docker.com/compose/install/#install-compose) as well.
 3. [Install Make](http://gnuwin32.sourceforge.net/packages/make.htm) if you're on Windows. OSX already has it installed. Linux will tell you how to install it (i.e., `sudo apt-get install make`)
 4. Run `make setup`
 5. Run `make all` and then navigate to http://localhost:8000/api/v1/resources
