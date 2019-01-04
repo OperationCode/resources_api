@@ -11,12 +11,21 @@ RUN apt-get update \
     && apt-get install -y libpq-dev gcc \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get purge -y --auto-remove gcc \
-    && pip install --upgrade pip
-
-COPY Pipfile* /src/
-
-RUN pip install pipenv \
-    && pipenv install --system --skip-lock --deploy --dev
+    && pip install --upgrade pip \
+    && pip install alembic \
+    && pip install psycopg2-binary \
+    && pip install flake8 \
+    && pip install Flask \
+    && pip install Flask-Migrate \
+    && pip install Flask-SQLAlchemy \
+    && pip install SQLAlchemy \
+    && pip install SQLAlchemy-Utils \
+    && pip install PyYAML \
+    && pip install flask-pytest \
+    && pip install pytest \
+    && pip install dataclasses \
+    && pip install coverage \
+    && pip install pytest-cov
 
 COPY . /src
 
