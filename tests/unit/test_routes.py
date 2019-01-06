@@ -35,7 +35,6 @@ def test_update_resource(session_app, function_session, session_db):
     assert (response.json['data'].get('name') == "New name")
 
 
-
 def test_rate_limit(app, session, db):
     client = app.test_client()
 
@@ -47,6 +46,7 @@ def test_rate_limit(app, session, db):
     assert(response.status_code == 429)
     assert(type(response.json.get('errors')) is list)
     assert(response.json.get('errors')[0].get('code') == "rate-limit-exceeded")
+
 
 ##########################################
 ## Helpers
