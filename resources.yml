@@ -4533,10 +4533,10 @@
   paid: false
   notes:
 
-- name: PoCorGTFO
+- name: PoC || GTFO
   url: https://www.alchemistowl.org/pocorgtfo/
-  category: Podcasts
-  languages: ["Information Security"]
+  category: Information Security
+  languages:
   paid: false
   notes: first they ignore you, then they threaten to sue you, then they deny the vulnerability, then you p0wn them
 
