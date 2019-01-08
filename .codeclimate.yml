@@ -1,4 +1,5 @@
 # Will exclude folders and files from Code Climate
 
+version: "2"
 exclude_patterns:
-  -"migrations/"
+- "migrations/"
