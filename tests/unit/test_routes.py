@@ -35,8 +35,8 @@ def test_update_resource(session_app, function_session, session_db):
     assert (response.json['data'].get('name') == "New name")
 
 
-def test_rate_limit(app, session, db):
-    client = app.test_client()
+def test_rate_limit(session_app, function_session, session_db):
+    client = session_app.test_client()
 
     for _ in range(50):
         client.get('api/v1/resources')
