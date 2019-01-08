@@ -4407,13 +4407,6 @@
   paid: false
   notes: Alice is an innovative block-based programming environment that makes it easy to create animations, build interactive narratives, or program simple games in 3D
 
-- name: Python Tutor
-  url: http://pythontutor.com/
-  category: Back End Dev
-  languages: ["Python"]
-  paid: false
-  notes:
-
 - name: Open Source Security Testing Methodology Manual (OSSTMM)
   url: http://www.isecom.org/research/
   category: Information Security
@@ -6122,13 +6115,6 @@
   paid: false
   notes:
 
-- name: .Net Learning Resources and a tour
-  url: https://github.com/OperationCode/member_content/wiki/.Net-Learning-Resources-and-a-tour
-  category: Microsoft
-  languages: [".Net"]
-  paid: false
-  notes:
-
 - name: PurelyFunctional.tv
   url: https://purelyfunctional.tv/functional-programming-conferences/
   category: Functional Programming
@@ -7609,13 +7595,6 @@
 - name: 5 minutes with git
   url: https://class.igelectron.com/5min-with-git
   category: Open Source
-  languages:
-  paid: false
-  notes:
-
-- name: Getting Started in Information Security
-  url: https://www.endgame.com/blog/technical-blog/getting-started-information-security
-  category: Information Security
   languages:
   paid: false
   notes:
