@@ -1580,7 +1580,7 @@
   notes: news
 
 - name: Paul's Security Weekly
-  url: http://securityweekly.com/
+  url: https://securityweekly.com/
   category: Information Security
   languages:
   paid: false
@@ -7257,7 +7257,7 @@
   notes: Books
 
 - name: O'Reilly Free Design Books
-  url: http://www.oreilly.com/design/free/
+  url: https://www.oreilly.com/design/free/
   category: Web Design
   languages:
   paid: false
@@ -10387,7 +10387,7 @@
 
 - name: Builder Book
   url: https://builderbook.org/book
-  category: Web Developement
+  category: Web Development
   languages: ["JavaScript"]
   paid: true
   notes: Learn how to build a full-stack JavaScript web application from scratch
@@ -11987,3 +11987,332 @@
   languages: []
   paid: false
   notes:
+
+- name: SANS webcasts
+  url: https://www.sans.org/webcasts/archive
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Learn New Cloud and Linux Skills for Free
+  url: https://wpengine.linuxacademy.com/linuxacademy-com/learn-20-new-skills-for-free/
+  category: Open Source
+  languages: ["Linux"]
+  paid: false
+  notes: These 20 courses are available for free
+
+- name: Hack Read
+  url: https://www.hackread.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: News
+
+- name: Chiron Training
+  url: http://www.chironcommercial.com/train/courses/
+  category: Information Security
+  languages: []
+  paid: true
+  notes:
+
+- name: Security Wizardry
+  url: https://www.securitywizardry.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: SecurityWizardry.com is a FREE Information Security portal containing a directory of our users favourite security products
+
+- name: Mouse vs Python
+  url: http://www.blog.pythonlibrary.org/
+  category: Back End Dev
+  languages: ["Python"]
+  paid: false
+  notes: Blog
+
+- name: Hybrid Analysis
+  url: https://www.hybrid-analysis.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: This is a free malware analysis service for the community that detects and analyzes unknown threats using a unique Hybrid Analysis technology
+
+- name: Immersive Labs
+  url: https://immersivelabs.co.uk/
+  category: Information Security
+  languages: []
+  paid: true
+  notes: Practical security labs developed by experts and derived from world-class threat intelligence
+
+- name: Understanding PHP Vulnerabilities & How They Originate
+  url: https://www.wordfence.com/learn/understanding-php-vulnerabilities/
+  category: Information Security
+  languages: ["PHP"]
+  paid: false
+  notes:
+
+- name: A BEGINNER’S GUIDE TO CONTENT SYNDICATION
+  url: https://torquemag.io/2018/04/content-syndication/
+  category: SEO
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Demystifying Regular Expressions
+  url: https://www.networkdefense.io/library/demystifying-regular-expressions/65936/about/
+  category: Regular Expressions
+  languages: []
+  paid: false
+  notes:
+
+- name: Hacker Public Radio
+  url: http://hackerpublicradio.org/
+  category: Podcasts
+  languages: []
+  paid: false
+  notes:
+
+- name: 4 Free Online Tools for Examining Suspicious PDFs
+  url: https://zeltser.com/online-tools-for-malicious-pdf-analysis/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Tips for Getting the Right IT Job
+  url: https://zeltser.com/getting-the-right-it-job-tips/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Breakdown Notes
+  url: https://www.breakdown-notes.com/make
+  category: Design
+  languages: []
+  paid: false
+  notes: Drawing tool
+
+- name: Learn how to use JSON Web Tokens (JWT)
+  url: https://github.com/dwyl/learn-json-web-tokens
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Learn how to use JSON Web Token (JWT) to secure your next Web App!
+
+- name: Every single Machine Learning course on the internet
+  url: https://medium.freecodecamp.org/every-single-machine-learning-course-on-the-internet-ranked-by-your-reviews-3c4a7b8026c0
+  category: Machine Learning
+  languages: []
+  paid: false
+  notes:
+
+- name: Cognitive Class
+  url: https://cognitiveclass.ai/
+  category: Data Science
+  languages: []
+  paid: false
+  notes:
+
+- name: 17 Coding Challenges to Sharpen Your Critical Thinking
+  url: https://geekflare.com/coding-challenges-to-sharpen-thinking/
+  category: Code Challenges
+  languages: []
+  paid: false
+  notes:
+
+- name: Free Reason Bootcamp
+  url: https://tylermcginnis.com/free-reason-bootcamp/
+  category: Machine Learning
+  languages: ["ReasonML"]
+  paid: false
+  notes:
+
+- name: Learn JavaScript
+  url: https://learnjavascript.online/
+  category: Front End Dev
+  languages: ["JavaScript"]
+  paid: false
+  notes: Learn in an interactive environment. Study short lessons and practice in an intuitive environment based on Tests.
+
+- name: The ultimate guide to preparing for the coding interview
+  url: https://medium.freecodecamp.org/the-ultimate-guide-to-preparing-for-the-coding-interview-183251ee36c9
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Algorithms
+  url: http://jeffe.cs.illinois.edu/teaching/algorithms/#book
+  category: Books
+  languages: []
+  paid: false
+  notes:
+
+- name: Skill Syncer
+  url: https://skillsyncer.com
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Created by an Operation Code member! (@Nick Francioso)
+
+- name: The Cyber Wire
+  url: https://thecyberwire.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: News
+
+- name: Unit 42
+  url: https://unit42.paloaltonetworks.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Unit 42 is the global threat intelligence team at Palo Alto Networks®. We believe threat intelligence should be free, shared and available to all for the common good.
+
+- name: SANS Digital Forensics and Incident Response
+  url: https://www.youtube.com/user/robtlee73
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: The Last Watchdog
+  url: https://www.lastwatchdog.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: News
+
+- name: Infosecurity Magazine
+  url: https://www.infosecurity-magazine.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: News
+
+- name: The Unified Kill Chain
+  url: https://www.csacademy.nl/images/scripties/2018/Paul_Pols_-_The_Unified_Kill_Chain_1.pdf
+  category: Information Security
+  languages: []
+  paid: false
+  notes: A new way of looking at the "Cyber Kill Chain" as it now relates to ATT&CK
+
+- name: The Cyber Kill Chain
+  url: https://www.lockheedmartin.com/content/dam/lockheed-martin/rms/documents/cyber/Gaining_the_Advantage_Cyber_Kill_Chain.pdf
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Lockheed Martin developed the Cyber Kill Chain as a way to describe the different stages of an attack
+
+- name: The Pyramid of Pain
+  url: https://detect-respond.blogspot.com/2013/03/the-pyramid-of-pain.html
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: FREE ONLINE CYBER SECURITY COURSES (MOOCS)
+  url: https://www.cyberdegrees.org/resources/free-online-courses/
+  category: Online Courses
+  languages: []
+  paid: false
+  notes: Information Security
+
+- name: Metasploit Unleashed
+  url: https://www.offensive-security.com/metasploit-unleashed/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Free Ethical Hacking Course
+
+- name: How do I get started in Infosec?
+  url: https://www.quora.com/How-do-I-get-started-in-Infosec
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Getting Started In Information Security
+  url: https://www.endgame.com/blog/technical-blog/getting-started-information-security
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Hootsuite Academy
+  url: https://education.hootsuite.com/collections
+  category: SEO
+  languages: []
+  paid: false
+  notes: Master new social media skills with online courses taught by industry pros
+
+- name: HubSpot
+  url: https://academy.hubspot.com/courses
+  category: SEO
+  languages: []
+  paid: false
+  notes:
+
+- name: Awesome Interviews
+  url: https://github.com/MaximAbramchuck/awesome-interview-questions
+  category: Jobs
+  languages: []
+  paid: false
+  notes: A curated awesome list of lists of interview questions
+
+- name: The Ultimate Guide to Starting a Freelance Web Design Business
+  url: https://www.amazon.com/dp/B0106K64D0/ref=cm_sw_em_r_mt_dp_U_y1ukCbKN3REAV?pldnSite=1
+  category: Entrepreneurship
+  languages: []
+  paid: true
+  notes:
+
+- name: "SEO 2019: Learn search engine optimization with smart internet marketing strategies"
+  url: https://www.amazon.com/dp/B00NH0XZR0/ref=cm_sw_em_r_mt_dp_U_D0ukCbQMVDHVB?pldnSite=1
+  category: SEO
+  languages: []
+  paid: true
+  notes:
+
+- name: "Free Mini Course: How to Get a $60K/Yr Career in Digital Marketing"
+  url: https://indemandcareer.com/
+  category: Online Courses
+  languages: []
+  paid: false
+  notes:
+
+- name: Product Design
+  url: https://www.udacity.com/course/product-design--ud509
+  category: Design
+  languages: []
+  paid: false
+  notes:
+
+- name: Here are the all the free coding courses we launched in 2018
+  url: https://medium.freecodecamp.org/here-are-the-all-the-free-coding-courses-we-launched-in-2018-ae621a74255e
+  category: Online Courses
+  languages: []
+  paid: false
+  notes:
+
+- name: Woz U
+  url: https://woz-u.com/
+  category: Online Courses
+  languages: []
+  paid: true
+  notes: Woz U is Tech Education. Reprogrammed.
+
+- name: Ode to Code
+  url: https://odetocode.com/
+  category: News
+  languages: []
+  paid: false
+  notes:
+
+- name: The SELinux Coloring Book
+  url: https://people.redhat.com/duffy/selinux/selinux-coloring-book_A4-Stapled.pdf
+  category: Open Source
+  languages: []
+  paid: false
+  notes: Learn as you color!
