@@ -25,7 +25,8 @@ RUN apt-get update \
     && pip install pytest \
     && pip install dataclasses \
     && pip install coverage \
-    && pip install pytest-cov
+    && pip install pytest-cov \
+    && pip install requests
 
 COPY . /src
 

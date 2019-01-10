@@ -136,3 +136,27 @@ class Language(db.Model):
 
     def __repr__(self):
         return f"<Language {self.name}>"
+
+class Key(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    apikey = db.Column(db.String, unique=True, nullable=False)
+    email = db.Column(db.String, unique=True, nullable=False)
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'apikey': self.apikey,
+            'email': self.email
+        }
+
+    def __eq__(self, other):
+        if isinstance(other, Key):
+            return self.apikey == other.apikey
+        return False
+
+    def __hash__(self):
+        return hash(self.apikey)
+
+    def __repr__(self):
+        return f"<Key email={self.email} apikey={self.apikey}>"
