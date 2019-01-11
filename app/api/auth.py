@@ -1,5 +1,6 @@
 import requests
 
+
 def authenticate(func):
 
     def wrapper(*args, **kwargs):
@@ -15,6 +16,4 @@ def check_user_with_oc(json):
         }
     })
 
-    if response.json().get('token'):
-        return True
-    return False
+    return bool(response.json().get('token'))

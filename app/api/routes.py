@@ -54,17 +54,18 @@ def apikey():
     json = request.get_json()
     user = auth.check_user_with_oc(json)
     if not user:
-        return standardize_response(None, [{"code": "not-authorized"}], "not authorized", 401)
+        errors = [{"code": "not-authorized"}]
+        return standardize_response(None, errors, "not authorized", 401)
 
     try:
         apikey = Key.query.filter_by(email=json.get('email')).first()
-    except NoResultFound as e:
-        return create_new_apikey(json.get('email'))
+        if not apikey:
+            create_new_apikey(json.get('email'))
+        return standardize_response(apikey.serialize, None, "ok")
     except Exception as e:
         logger.error(e)
-        return standardize_response(None, [{"code": "internal-server-error"}], "internal server error", 500)
-
-    return standardize_response(apikey.serialize, None, "ok")
+        errors = [{"code": "internal-server-error"}]
+        return standardize_response(None, errors, "internal server error", 500)
 
 
 # Helpers
@@ -250,6 +251,7 @@ def create_resource(json, db):
         logger.error(e)
         return standardize_response(None, [{"code": "bad-request"}], "bad request", 400)
 
+
 def create_new_apikey(email):
     new_key = Key(
         apikey=uuid.uuid4().hex,
@@ -263,4 +265,5 @@ def create_new_apikey(email):
         return standardize_response(new_key.serialize, None, "ok")
     except Exception as e:
         logger.error(e)
-        return standardize_response(None, [{"code": "internal-server-error"}], "internal server error", 500)
+        errors = [{"code": "internal-server-error"}]
+        return standardize_response(None, errors, "internal server error", 500)

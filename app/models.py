@@ -137,6 +137,7 @@ class Language(db.Model):
     def __repr__(self):
         return f"<Language {self.name}>"
 
+
 class Key(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     apikey = db.Column(db.String, unique=True, nullable=False)
