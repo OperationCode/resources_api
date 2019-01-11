@@ -8,7 +8,7 @@ services:
     env_file:
     - .env
     volumes:
-    - .:/app
+    - .:/src
     ports:
     - 8000:8000
     links:
