@@ -22,10 +22,11 @@ RUN apt-get update \
     && pip install SQLAlchemy-Utils \
     && pip install PyYAML \
     && pip install flask-pytest \
-    && pip install pytest \
+    && pip install pytest==4.0.2 \
     && pip install dataclasses \
     && pip install coverage \
-    && pip install pytest-cov
+    && pip install pytest-cov \
+    && pip install flask_limiter
 
 COPY . /src
 
