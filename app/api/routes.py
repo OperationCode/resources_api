@@ -60,7 +60,7 @@ def apikey():
     try:
         apikey = Key.query.filter_by(email=json.get('email')).first()
         if not apikey:
-            create_new_apikey(json.get('email'))
+            return create_new_apikey(json.get('email'))
         return standardize_response(apikey.serialize, None, "ok")
     except Exception as e:
         logger.error(e)

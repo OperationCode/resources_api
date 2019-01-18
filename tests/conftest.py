@@ -85,3 +85,18 @@ def module_db():
     yield _db  # this is where the testing happens!
 
     _db.drop_all()
+
+
+@pytest.fixture(scope='function')
+def patched_request(mocker):
+    class MyRequest(object):
+        @classmethod
+        def post(cls):
+            return MyResponse()
+
+    class MyResponse(object):
+        @classmethod
+        def json(self):
+            return {'token': 'superlegittoken'}
+
+    mocker.patch("requests.post", return_value=MyResponse())
