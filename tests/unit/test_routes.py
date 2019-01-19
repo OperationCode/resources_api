@@ -124,6 +124,18 @@ def test_categories(module_client, module_db):
         assert (isinstance(category.get('name'), str))
         assert (len(category.get('name')) > 0)
 
+def test_rate_limit(session_app, function_session, session_db):
+    client = session_app.test_client()
+
+    for _ in range(50):
+        client.get('api/v1/resources')
+
+    # Response should be a failure on request 51
+    response = client.get('api/v1/resources')
+    assert(response.status_code == 429)
+    assert(type(response.json.get('errors')) is list)
+    assert(response.json.get('errors')[0].get('code') == "rate-limit-exceeded")
+
 
 ##########################################
 ## Authenticated Routes

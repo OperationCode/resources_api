@@ -14,7 +14,19 @@ def page_not_found(e):
     ]
 
     # Set the 404 status explicitly
-    return standardize_response(None, errors, "not found"), 404
+    return standardize_response(None, errors, "not found", 404)
+
+
+@bp.app_errorhandler(429)
+def ratelimit_handler(e):
+    errors = [
+        {
+            "status": 429,
+            "code": "rate-limit-exceeded"
+        }
+    ]
+
+    return standardize_response(None, errors, e.description, 429)
 
 
 @bp.app_errorhandler(500)
@@ -27,7 +39,7 @@ def internal_server_error(e):
     ]
 
     # Set the 500 status explicitly
-    return standardize_response(None, errors, "internal server error"), 500
+    return standardize_response(None, errors, "internal server error", 500)
 
 
 @bp.teardown_request
