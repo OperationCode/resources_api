@@ -1,5 +1,7 @@
 from app import API_VERSION
 from flask import jsonify
+import logging
+import os
 
 
 class Paginator:
@@ -28,3 +30,19 @@ def standardize_response(data, errors, status, status_code=200):
     else:
         resp["errors"] = [{"code": "something-went-wrong"}]
     return jsonify(resp), status_code
+
+
+def setup_logger(name, log_file, level=logging.INFO):
+    """Function setup as many loggers as you want"""
+    if not os.path.exists('log'):
+        os.makedirs('log')
+
+    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    handler = logging.FileHandler(log_file)
+    handler.setFormatter(formatter)
+
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.addHandler(handler)
+
+    return logger

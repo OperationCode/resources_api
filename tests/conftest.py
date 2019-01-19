@@ -7,6 +7,9 @@ TEST_DATABASE_URI = 'sqlite:///:memory:'
 counter = 0
 
 
+# TODO: session_app is not currently used because we need a
+# persistent DB for all of our tests. It would be nice to take
+# away the need for a persistent DB and be able to use this method again.
 @pytest.fixture(scope='session')
 def session_app(request):
     Config.SQLALCHEMY_DATABASE_URI = TEST_DATABASE_URI
@@ -24,6 +27,9 @@ def session_app(request):
     return app
 
 
+# TODO: session_db is not currently used because we need a
+# persistent DB for all of our tests. It would be nice to take
+# away the need for a persistent DB and be able to use this method again.
 @pytest.fixture(scope='session')
 def session_db(session_app, request):
     """Session-wide test database."""
@@ -37,6 +43,9 @@ def session_db(session_app, request):
     return _db
 
 
+# TODO: function_session is not currently used because we need a
+# persistent DB for all of our tests. It would be nice to take
+# away the need for a persistent DB and be able to use this method again.
 @pytest.fixture(scope='function')
 def function_session(session_db, request):
     """Creates a new database session for a test."""
@@ -85,3 +94,23 @@ def module_db():
     yield _db  # this is where the testing happens!
 
     _db.drop_all()
+
+@pytest.fixture(scope='function')
+def fake_auth_from_oc(mocker):
+    """
+    Changes the return value of requests.post to be a custom response
+    object so that we aren't validating external APIs in our unit tests
+    """
+    class ExternalApiRequest(object):
+        @classmethod
+        def post(cls):
+            return FakeExternalResponse()
+
+    class FakeExternalResponse(object):
+        @classmethod
+        def json(self):
+            # The source code just checks that a value exists for 'token'
+            # in the dict returned from the json method.
+            return {'token': 'superlegittoken'}
+
+    mocker.patch("requests.post", return_value=FakeExternalResponse())
