@@ -31,8 +31,8 @@ def test_update_votes(session_app, function_session, session_db):
 
     assert (response_upvotes.status_code == 200)
     assert (response_downvotes.status_code == 200)
-    assert response_upvotes.json['data'].get('upvotes') == initial_upvotes + 1
-    assert response_downvotes.json['data'].get('downvotes') == initial_downvotes + 1
+    assert (response_upvotes.json['data'].get('upvotes') == initial_upvotes + 1)
+    assert (response_downvotes.json['data'].get('downvotes') == initial_downvotes + 1)
 
 
 def test_update_resource(session_app, function_session, session_db):
