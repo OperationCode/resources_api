@@ -31,17 +31,21 @@ def resource(id):
     elif request.method == 'PUT':
         return set_resource(id, request.get_json(), db)
 
+
 @bp.route('/resources/<int:id>/upvote', methods=['PUT'])
 def upvote(id):
     return update_votes(id, 'upvotes')
+
 
 @bp.route('/resources/<int:id>/downvote', methods=['PUT'])
 def downvote(id):
     return update_votes(id, 'downvotes')
 
+
 @bp.route('/languages', methods=['GET'])
 def languages():
     return get_languages()
+
 
 @bp.route('/categories', methods=['GET'])
 def categories():
