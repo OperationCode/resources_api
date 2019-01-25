@@ -31,11 +31,17 @@ def resource(id):
     elif request.method == 'PUT':
         return set_resource(id, request.get_json(), db)
 
+@bp.route('/resources/<int:id>/upvote', methods=['PUT'])
+def upvote(id):
+    return update_votes(id, 'upvotes')
+
+@bp.route('/resources/<int:id>/downvote', methods=['PUT'])
+def downvote(id):
+    return update_votes(id, 'downvotes')
 
 @bp.route('/languages', methods=['GET'])
 def languages():
     return get_languages()
-
 
 @bp.route('/categories', methods=['GET'])
 def categories():
@@ -171,6 +177,31 @@ def get_attributes(json):
         langs.append(language)
     categ = category_dict.get(json.get('category'), Category(name=json.get('category')))
     return (langs, categ)
+
+
+def update_votes(id, vote_direction):
+    resource = None
+    try:
+        resource = Resource.query.get(id)
+
+    except MultipleResultsFound as e:
+        print_tb(e.__traceback__)
+        print(e)
+
+    except NoResultFound as e:
+        print_tb(e.__traceback__)
+        print(e)
+
+    finally:
+        if resource:
+            initial_count = getattr(resource, vote_direction)
+            setattr(resource, vote_direction, initial_count+1)
+
+            db.session.commit()
+
+            return standardize_response(resource.serialize, None, "ok")
+        else:
+            return standardize_response({}, None, "ok")
 
 
 def set_resource(id, json, db):
