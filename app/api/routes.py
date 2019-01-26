@@ -184,7 +184,6 @@ def get_attributes(json):
 
 
 def update_votes(id, vote_direction):
-    resource = None
     try:
         resource = Resource.query.get(id)
 
@@ -195,17 +194,18 @@ def update_votes(id, vote_direction):
     except NoResultFound as e:
         print_tb(e.__traceback__)
         print(e)
+        return standardize_response(None, [{"code": "not-found"}], "not found", 404)
 
-    finally:
-        if resource:
-            initial_count = getattr(resource, vote_direction)
-            setattr(resource, vote_direction, initial_count+1)
+    except Exception as e:
+        print_tb(e.__traceback__)
+        print(e)
+        return standardize_response(None, None, None, 500)
 
-            db.session.commit()
+    initial_count = getattr(resource, vote_direction)
+    setattr(resource, vote_direction, initial_count+1)
+    db.session.commit()
 
-            return standardize_response(resource.serialize, None, "ok")
-        else:
-            return standardize_response({}, None, "ok")
+    return standardize_response(resource.serialize, None, "ok")
 
 
 def set_resource(id, json, db):

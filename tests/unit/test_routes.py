@@ -19,22 +19,6 @@ def test_create_resource(session_app, function_session, session_db):
     assert (response.json['data'].get('name') == "Some Name")
 
 
-def test_update_votes(session_app, function_session, session_db):
-    client = session_app.test_client()
-
-    id = 1
-    initial_upvotes = client.get(f"api/v1/resources/{id}").json['data'].get('upvotes')
-    initial_downvotes = client.get(f"api/v1/resources/{id}").json['data'].get('downvotes')
-
-    response_upvotes = client.put(f"/api/v1/resources/{id}/upvote")
-    response_downvotes = client.put(f"/api/v1/resources/{id}/downvote")
-
-    assert (response_upvotes.status_code == 200)
-    assert (response_downvotes.status_code == 200)
-    assert (response_upvotes.json['data'].get('upvotes') == initial_upvotes + 1)
-    assert (response_downvotes.json['data'].get('downvotes') == initial_downvotes + 1)
-
-
 def test_update_resource(session_app, function_session, session_db):
     client = session_app.test_client()
 
