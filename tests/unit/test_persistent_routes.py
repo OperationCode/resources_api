@@ -122,3 +122,23 @@ def test_categories(module_client, module_db):
         assert (isinstance(category.get('id'), int))
         assert (isinstance(category.get('name'), str))
         assert (len(category.get('name')) > 0)
+
+
+def test_update_votes(module_client, module_db):
+    client = module_client
+    vote_direction = 'upvote'
+    id = 1
+
+    # first check voting on a valid resource
+    data = client.get(f"api/v1/resources/{id}").json['data']
+    response = client.put(f"/api/v1/resources/{id}/{vote_direction}")
+    initial_votes = data.get(f"{vote_direction}s")
+
+    assert (response.status_code == 200)
+    assert (response.json['data'].get(f"{vote_direction}s") == initial_votes + 1)
+
+    # then check voting on an invalid resource
+    id = 'waffles'
+    response = client.put(f"/api/v1/resources/{id}/{vote_direction}") 
+    assert (response.status_code == 404)
+    assert (response.json.get('errors')[0].get('code') == "not-found")
