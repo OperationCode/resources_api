@@ -12295,3 +12295,255 @@
   languages: []
   paid: false
   notes: Learn as you color!
+
+- name: Data Modeling Made Simple
+  url: https://www.amazon.com/Data-Modeling-Made-Simple-Professionals/dp/0977140067
+  category: Books
+  languages: []
+  paid: true
+  notes: For the aspiring data architect
+
+- name: 30 Days of vue
+  url: https://www.fullstack.io/30-days-of-vue/
+  category: Books
+  languages: ["Javascript"]
+  paid: false
+  notes:
+
+- name: Container Technology Wiki
+  url: https://www.aquasec.com/wiki
+  category: DevOps
+  languages: []
+  paid: false
+  notes: The developer and DevOps resource center for container technology, architecture, security and orchestration
+
+- name: Stand Beside Them
+  url: https://www.standbesidethem.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes: We partner with our returning veterans and their families/caregivers to help them attain the happiness and quality of life here at home that they so deserve after serving our country
+
+- name: "How to Exploit Linux Machines: From Enumeration to Kernel Exploitation"
+  url: https://www.peerlyst.com/posts/how-to-exploit-linux-machines-from-enumeration-to-kernel-exploitation-chiheb-chebbi
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Buffer Overflow Practical Examples , metasploit , gdb and objdump
+  url: https://0xrick.github.io/binary-exploitation/bof3/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: In Defense of Utility-First CSS
+  url: https://frontstuff.io/in-defense-of-utility-first-css
+  category: Front End Dev
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Developer Docs
+  url: https://devdocs.io/
+  category: Web Development
+  languages: []
+  paid: false
+  notes: DevDocs combines multiple API documentations in a fast, organized, and searchable interface
+
+- name: Developer Roadmap
+  url: https://github.com/kamranahmedse/developer-roadmap
+  category: Web Development
+  languages: []
+  paid: false
+  notes: Roadmap to becoming a Web Developer in 2019
+
+- name: PHP Apprentice
+  url: https://phpapprentice.com/
+  category: Back End Dev
+  languages: ["PHP"]
+  paid: false
+  notes:
+
+- name: The Tao of tmux
+  url: https://leanpub.com/the-tao-of-tmux/read
+  category: Open Source
+  languages: ["Linux"]
+  paid: false
+  notes:
+
+- name: Patterns of Enterprise Application Architecture
+  url: https://www.amazon.com/Patterns-Enterprise-Application-Architecture-Martin/dp/0321127420
+  category: Books
+  languages: []
+  paid: true
+  notes:
+
+- name: "Computer Science Distilled: Learn the Art of Solving Computational Problems"
+  url: https://www.amazon.com/dp/0997316020/ref=sspa_dk_detail_1?psc=1
+  category: Books
+  languages: []
+  paid: true
+  notes:
+
+- name: A regex cheatsheet for all those regex haters (and lovers)
+  url: https://dev.to/catherinecodes/a-regex-cheatsheet-for-all-those-regex-haters-and-lovers--2cj1
+  category: Regular Expressions
+  languages: []
+  paid: false
+  notes:
+
+- name: Remote Jobs
+  url: https://github.com/C-Lion/remote-jobs
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Curated by our very own @c-lion
+
+- name: Top 10 Free Python Programming Books
+  url: http://www.java67.com/2017/05/top-7-free-python-programming-books-pdf-online-download.html
+  category: Books
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: 10 Podcasts for Developers in 2019
+  url: https://dev.to/vaidotas/10-podcasts-for-developers-in-2019-2l13
+  category: Podcasts
+  languages: []
+  paid: false
+  notes:
+
+- name: Clean Architectures in Python
+  url: https://leanpub.com/clean-architectures-in-python
+  category: Back End Dev
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: Vets Who Code
+  url: https://vetswhocode.io/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: The Practical Linux Hardening Guide
+  url: https://github.com/trimstray/the-practical-linux-hardening-guide
+  category: Information Security
+  languages: ["Linux"]
+  paid: false
+  notes: This guide details the planning and the tools involved in creating a secure Linux production systems
+
+- name: Hub
+  url: https://hub.github.com/
+  category: Open Source
+  languages: ["git"]
+  paid: false
+  notes: hub is an extension to command-line git that helps you do everyday GitHub tasks without ever leaving the terminal
+
+- name: Sysadmin test questions and answers
+  url: https://github.com/trimstray/test-your-sysadmin-skills
+  category: DevOps
+  languages: []
+  paid: false
+  notes: A collection of *nix Sysadmin Test Questions and Answers. Test your knowledge and skills in different fields with these Q/A.
+
+- name: How to be great at asking coding questions
+  url: https://medium.com/@gordon_zhu/how-to-be-great-at-asking-questions-e37be04d0603
+  category: Getting Started
+  languages: []
+  paid: false
+  notes:
+
+- name: Front-End Engineering Program
+  url: http://frontend.turing.io/
+  category: Front End Dev
+  languages:
+  paid: false
+  notes: Part of Turing's Front-End Engineering program
+
+- name: "Review: SANS VetSuccess Academy"
+  url: https://veteransec.com/2018/11/14/review-sans-vetsuccess-academy/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Tribe of Hackers
+  url: https://www.threatcare.com/tribe-of-hackers
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Cybersecurity Advice from the Best Hackers in the World
+
+- name: Grow with Google
+  url: https://grow.google/programs/veterans-commitment/
+  category: Veterans
+  languages: []
+  paid: false
+  notes: Supporting our military service members and their spouses
+
+- name: "The Passionate Programmer: Creating a Remarkable Career in Software Development "
+  url: https://www.amazon.com/Passionate-Programmer-Remarkable-Development-Pragmatic/dp/1934356344
+  category: Books
+  languages: []
+  paid: true
+  notes:
+
+- name: 560+ Free Online Programming & Computer Science Courses You Can Start in February
+  url: https://medium.freecodecamp.org/free-online-programming-computer-science-courses-you-can-start-in-february-e621d959e64
+  category: Online Courses
+  languages: []
+  paid: false
+  notes:
+
+- name: The Open Source Computer Science Degree
+  url: https://www.youtube.com/watch?v=NyOvFSP_IpQ
+  category: Computer Science
+  languages: []
+  paid: false
+  notes: Coupon Codes in the video description
+
+- name: The Open Source Computer Science Degree
+  url: https://github.com/ForrestKnight/open-source-cs
+  category: Computer Science
+  languages: []
+  paid: false
+  notes:
+
+- name: A beginner's guide to Big O notation
+  url: https://rob-bell.net/2009/06/a-beginners-guide-to-big-o-notation/
+  category: Computer Science
+  languages: []
+  paid: false
+  notes:
+
+- name: Algorithmic Complexity
+  url: https://www.cs.cmu.edu/~adamchik/15-121/lectures/Algorithmic%20Complexity/complexity.html
+  category: Computer Science
+  languages: []
+  paid: false
+  notes:
+
+- name: 100 Days of Swift
+  url: https://www.hackingwithswift.com/100
+  category: Mobile Dev
+  languages: []
+  paid: false
+  notes: This is a free collection of videos, tutorials, tests, and more
+
+- name: The introduction to Reactive Programming you've been missing
+  url: https://gist.github.com/staltz/868e7e9bc2a7b8c1f754
+  category: Front End Dev
+  languages: ["Javascript"]
+  paid: false
+  notes:
+
+- name: Beer money - negotiating salaries
+  url: https://frontendhappyhour.com/episodes/beer-money-negotiating-salaries/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
