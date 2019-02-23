@@ -1,35 +1,42 @@
 from traceback import print_tb
 
-from flask import request
+from flask import request, redirect
 from sqlalchemy import or_, func
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from app.api import bp
-from app.models import Language, Resource, Category
+from app.api.auth import is_user_oc_member, authenticate
+from app.models import Language, Resource, Category, Key
 from app import Config, db
-from app.utils import Paginator, standardize_response
+from app.utils import Paginator, standardize_response, setup_logger
 from dateutil import parser
 from datetime import datetime
-import logging
+import uuid
 
-logger = logging.getLogger()
+logger = setup_logger('routes_logger', 'log/routes.log')
 
 
 # Routes
-@bp.route('/resources', methods=['GET', 'POST'])
+@bp.route('/resources', methods=['GET'], endpoint='get_resources')
 def resources():
-    if request.method == 'GET':
-        return get_resources()
-    elif request.method == 'POST':
-        return create_resource(request.get_json(), db)
+    return get_resources()
 
 
-@bp.route('/resources/<int:id>', methods=['GET', 'PUT'])
+@bp.route('/resources', methods=['POST'], endpoint='create_resource')
+@authenticate
+def post_resources():
+    return create_resource(request.get_json(), db)
+
+
+@bp.route('/resources/<int:id>', methods=['GET'], endpoint='get_resource')
 def resource(id):
-    if request.method == 'GET':
-        return get_resource(id)
-    elif request.method == 'PUT':
-        return set_resource(id, request.get_json(), db)
+    return get_resource(id)
+
+
+@bp.route('/resources/<int:id>', methods=['PUT'], endpoint='update_resource')
+@authenticate
+def update_resource(id):
+    return set_resource(id, request.get_json(), db)
 
 
 @bp.route('/resources/<int:id>/upvote', methods=['PUT'])
@@ -50,6 +57,37 @@ def languages():
 @bp.route('/categories', methods=['GET'])
 def categories():
     return get_categories()
+
+
+@bp.route('/apikey', methods=['POST'], endpoint='apikey')
+def apikey():
+    """
+    Verify OC membership and return an API key. The API key will be
+    saved in the DB to verify use as well as returned upon subsequent calls
+    to this endpoint with the same OC credentials.
+    """
+    json = request.get_json()
+    email = json.get('email')
+    password = json.get('password')
+    is_oc_member = is_user_oc_member(email, password)
+
+    if not is_oc_member:
+        errors = [{"code": "not-authorized"}]
+        return standardize_response(None, errors, "not authorized", 401)
+
+    try:
+        # We need to check the database for an existing key
+        apikey = Key.query.filter_by(email=email).first()
+        if not apikey:
+            # Since they're already authenticated by is_oc_user(), we know we
+            # can generate an API key for them if they don't already have one
+            return create_new_apikey(email)
+        logger.info(apikey.serialize)
+        return standardize_response(apikey.serialize, None, "ok")
+    except Exception as e:
+        logger.error(e)
+        errors = [{"code": "internal-server-error"}]
+        return standardize_response(None, errors, "internal server error", 500)
 
 
 # Helpers
@@ -142,9 +180,13 @@ def get_languages():
     language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, request)
     query = Language.query
 
-    language_list = [
-        language.serialize for language in language_paginator.items(query)
-    ]
+    try:
+        language_list = [
+            language.serialize for language in language_paginator.items(query)
+        ]
+    except Exception as e:
+        logger.error(e)
+        return standardize_response(None, [{"code": "bad-request"}], "bad request", 400)
 
     return standardize_response(language_list, None, "ok")
 
@@ -187,6 +229,9 @@ def update_votes(id, vote_direction):
     try:
         resource = Resource.query.get(id)
 
+        if not resource:
+            return redirect('/404')
+
     except MultipleResultsFound as e:
         print_tb(e.__traceback__)
         print(e)
@@ -194,7 +239,7 @@ def update_votes(id, vote_direction):
     except NoResultFound as e:
         print_tb(e.__traceback__)
         print(e)
-        return standardize_response(None, [{"code": "not-found"}], "not found", 404)
+        return redirect('/404')
 
     except Exception as e:
         print_tb(e.__traceback__)
@@ -211,9 +256,14 @@ def update_votes(id, vote_direction):
 def set_resource(id, json, db):
     resource = None
     resource = Resource.query.get(id)
+
+    if not resource:
+        return redirect('/404')
+
     langs, categ = get_attributes(json)
 
-    if resource:
+    try:
+        logger.info(f"Updating resource. Old data: {resource.serialize}")
         if json.get('languages'):
             resource.languages = langs
         if json.get('category'):
@@ -230,8 +280,9 @@ def set_resource(id, json, db):
         db.session.commit()
 
         return standardize_response(resource.serialize, None, "ok")
-    else:
-        return standardize_response({}, None, "ok")
+    except Exception as e:
+        logger.error(e)
+        return standardize_response(None, [{"code": "bad-request"}], "bad request", 400)
 
 
 def create_resource(json, db):
@@ -244,7 +295,32 @@ def create_resource(json, db):
         paid=json.get('paid'),
         notes=json.get('notes'))
 
-    db.session.add(new_resource)
-    db.session.commit()
+    try:
+        db.session.add(new_resource)
+        db.session.commit()
 
-    return standardize_response(new_resource.serialize, None, "ok")
+        return standardize_response(new_resource.serialize, None, "ok")
+    except Exception as e:
+        logger.error(e)
+        return standardize_response(None, [{"code": "bad-request"}], "bad request", 400)
+
+
+def create_new_apikey(email):
+    # TODO: we should put this in a while loop in the extremely unlikely chance
+    # there is a collision of UUIDs in the database. It is assumed at this point
+    # in the flow that the DB was already checked for this email address, and
+    # no key exists yet.
+    new_key = Key(
+        apikey=uuid.uuid4().hex,
+        email=email
+    )
+
+    try:
+        db.session.add(new_key)
+        db.session.commit()
+
+        return standardize_response(new_key.serialize, None, "ok")
+    except Exception as e:
+        logger.error(e)
+        errors = [{"code": "internal-server-error"}]
+        return standardize_response(None, errors, "internal server error", 500)

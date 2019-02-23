@@ -26,7 +26,9 @@ RUN apt-get update \
     && pip install dataclasses \
     && pip install coverage \
     && pip install pytest-cov \
-    && pip install flask_limiter
+    && pip install flask_limiter \
+    && pip install requests \
+    && pip install pytest-mock
 
 COPY . /src
 
