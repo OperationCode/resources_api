@@ -2286,13 +2286,6 @@
   paid: false
   notes:
 
-- name: Coding Blocks
-  url: https://www.codingblocks.net/
-  category: Podcasts
-  languages:
-  paid: false
-  notes:
-
 - name: Top 20 podcasts for Devs
   url: http://www.ettaingroup.com/Blog/ettain-group-Blog/June-2016/20-Best-Podcasts-for-Developers#DetailTop
   category: Podcasts
@@ -3048,13 +3041,6 @@
   languages:
   paid: false
   notes: Build your resume and get started on your future
-
-- name: Developer Roadmap
-  url: https://github.com/kamranahmedse/developer-roadmap
-  category: Jobs
-  languages:
-  paid: false
-  notes: Roadmap to becoming a web developer in 2017
 
 - name: Computer Science Online
   url: http://www.computerscienceonline.org/courses/
@@ -10966,13 +10952,6 @@
   paid: false
   notes:
 
-- name: CPython internals - A ten-hour codewalk through the Python interpreter source code
-  url: http://www.pgbovine.net/cpython-internals.htm
-  category: Back End Dev
-  languages: ["Python"]
-  paid: false
-  notes:
-
 - name: Getting Into Security
   url: https://aka.ms/GettingIntoSecurity
   category: Information Security
@@ -12545,5 +12524,628 @@
   url: https://frontendhappyhour.com/episodes/beer-money-negotiating-salaries/
   category: Jobs
   languages: []
+  paid: false
+  notes:
+
+- name: Warrior to Cyber Warrior
+  url: https://www.warrior2cyberwarrior.com/
+  category: Veterans
+  languages: []
+  paid: false
+  notes: Not-for-profit entity that provides veterans with training, certification and mentoring in the growing field of cybersecurity
+
+- name: What no one will tell you about data science job applications
+  url: https://towardsdatascience.com/what-no-one-will-tell-you-about-data-science-job-applications-bff2d4b5e983
+  category: Data Science
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Python Courseware
+  url: https://github.com/chalmerlowe/karen
+  category: Data Science
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: What you need to know about WCAG 2.1
+  url: https://userinterfacing.com/what-you-need-to-know-about-wcag-21/
+  category: Web Dev
+  languages: []
+  paid: false
+  notes: Accessibility
+
+- name: Cybersecurity Awareness Training Online
+  url: https://vetsintech.co/event/vetsintech-symantec-cybersecurity-awareness-training-online/
+  category: Veterans
+  languages: []
+  paid: false
+  notes: Information Security
+
+- name: Malware Tech Tutorials
+  url: https://www.malwaretech.com/tag/tutorials
+  category: Tutorials
+  languages: []
+  paid: false
+  notes: Information Security
+
+- name: Beginner Malware Reversing Challenges
+  url: https://www.malwaretech.com/beginner-malware-reversing-challenges
+  category: Information Security
+  languages: []
+  paid: false
+  notes: The purpose of these challenges is to familiarize beginners with common malware techniques
+
+- name: "cPython Internals: A ten-hour codewalk through the Python interpreter source code"
+  url: http://www.pgbovine.net/cpython-internals.htm
+  category: Computer Science
+  languages: ["Python", "C"]
+  paid: false
+  notes: Here are nine lectures walking through the internals of CPython, the canonical Python interpreter implemented in C.
+
+- name: Why Agile goes awry - and how to fix it
+  url: https://github.com/j-goheen/ForOpCode/blob/master/H04KA0-PDF-ENG_FINAL%20(1).pdf
+  category: Product Management
+  languages: []
+  paid: false
+  notes:
+
+- name: SWOT ANALYSIS
+  url: http://119.226.62.30:8081/gurukul/02_HBR_Tools_SWOT_Guide.pdf
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes:
+
+- name: The “Doubling Model” For Fundraising
+  url: https://avc.com/2019/02/the-doubling-model-for-fundraising/
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes:
+
+- name: Modern Labor
+  url: https://modernlabor.com/
+  category: Code Schools
+  languages: []
+  paid: false
+  notes: We pay you to learn to code
+
+- name: Introduction to Algorithms 3rd Addition
+  url: https://labs.xjtudlc.com/labs/wldmt/reading%20list/books/Algorithms%20and%20optimization/Introduction%20to%20Algorithms.pdf
+  category: Computer Science
+  languages: []
+  paid: false
+  notes:
+
+- name: Designing for Translation
+  url: https://digital.gov/2018/12/20/designing-for-translation/
+  category: Web Development
+  languages: []
+  paid: false
+  notes: Simple planning steps to successfully adapt content into multiple languages
+
+- name: Stanford Ignite – Post-9/11 Veterans
+  url: https://www.gsb.stanford.edu/exec-ed/programs/stanford-ignite-veterans
+  category: Veterans
+  languages: []
+  paid: true
+  notes:
+
+- name: Free Business Templates
+  url: https://corporatefinanceinstitute.com/resources/templates/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: Python Quickstart, Google Sheets API
+  url: https://developers.google.com/sheets/api/quickstart/python
+  category: Back End Dev
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: Pyexcel
+  url: http://docs.pyexcel.org/en/latest/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes: pyexcel provides one application programming interface to read, manipulate and write data in various excel formats
+
+- name: Advances in Financial Machine Learning
+  url: https://www.amazon.com/Advances-Financial-Machine-Learning-Marcos/dp/1119482089
+  category: Books
+  languages: []
+  paid: true
+  notes: Personal Finance
+
+- name: Principles of Financial Engineering (Academic Press Advanced Finance)
+  url: https://www.amazon.com/Principles-Financial-Engineering-Academic-Advanced/dp/0123869684/ref=sr_1_3
+  category: Books
+  languages: []
+  paid: true
+  notes: Personal Finance
+
+- name: "The Acquirer's Multiple: How the Billionaire Contrarians of Deep Value Beat the Market"
+  url: https://www.amazon.com/Acquirers-Multiple-Billionaire-Contrarians-Market-ebook/dp/B076GS7WF9
+  category: Books
+  languages: []
+  paid: true
+  notes: Personal Finance
+
+- name: Deep Value
+  url: https://greenbackd.com/deep-value/
+  category: Books
+  languages: []
+  paid: true
+  notes: Personal Finance
+
+- name: THE AML CHALLENGE - AND THE Kx SOLUTION
+  url: https://kx.com/solutions/surveillance-aml/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: Republic
+  url: https://republic.co/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes: Invest as little as $10 in private startups and earn a return if the startup succeeds
+
+- name: Alpha Architect
+  url: https://www.youtube.com/channel/UCAAsCF_TbSpAjNBplgkPAfw
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: Koyfin
+  url: https://www.koyfin.com/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes: Analytics platform providing users with market insights through tools focused on dashboards, graphs and other data visualizations
+
+- name: CFA Institute
+  url: https://www.cfainstitute.org/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes: CFA Institute is the premier global association for investment management professionals
+
+- name: Chartered Market Technician Program
+  url: https://cmtassociation.org/chartered-market-technician/
+  category: Personal Finance
+  languages: []
+  paid: true
+  notes:
+
+- name: Yves Hilpisch
+  url: https://www.youtube.com/channel/UCSwSD4MeOxb-29ezJi39Xgw
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes: Using AI for trading
+
+- name: PYTHON FOR QUANT FINANCE BOOKS
+  url: https://tpq.io/#books
+  category: Books
+  languages: []
+  paid: true
+  notes: Personal Finance
+
+- name: Quantopian
+  url: https://www.youtube.com/channel/UC606MUq45P3zFLa4VGKbxsg
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: Quorum
+  url: https://www.jpmorgan.com/global/Quorum
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes: JP Morgan's crypto currency
+
+- name: Python Notebook Research to Replicate ETF Using Free Data
+  url: https://hackernoon.com/python-notebook-research-to-replicate-etf-using-free-data-ca9f88eb7349
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Alpaca Docs
+  url: https://docs.alpaca.markets/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: Quantopian Tutorials
+  url: https://www.quantopian.com/tutorials
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: Finance and Python Resources
+  url: https://nbviewer.jupyter.org/github/j-goheen/PyFinTech/blob/master/Finance_and_Python_Resources.ipynb
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes: data sets, courses, influential financial data scientists, fund managers, traders, podcast episodes, bank/fund main sites, US exchanges, books, and academic papers
+
+- name: Alpha Architect
+  url: https://alphaarchitect.com/research-category-list/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: Corporate Finance Institute
+  url: https://corporatefinanceinstitute.com/
+  category: Personal Finance
+  languages: []
+  paid: true
+  notes:
+
+- name: Personal Finance resources
+  url: https://docs.google.com/spreadsheets/d/1iRjC0IE7q6QPBnG0x3FohcZ_19VxGlNgcix6XTI47Y4/edit#gid=982883639
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: IEX Trading
+  url: https://iextrading.com/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes: IEX Group operates the Investors Exchange (IEX), a stock exchange that is built for investors and companies
+
+- name: Numerai
+  url: https://numer.ai/homepage
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes: NUMERAI is a weekly data science competition
+
+- name: IBKR Quant
+  url: https://www.interactivebrokers.com/en/index.php?f=25244
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: Alpaca API
+  url: https://alpaca.markets/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: Spouse Education and Career Opportunities
+  url: https://myseco.militaryonesource.mil/portal/home/secocounseling
+  category: Military Spouses
+  languages: []
+  paid: false
+  notes:
+
+- name: Car Hacking
+  url: http://illmatics.com/carhacking.html
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Pitch Book
+  url: https://my.pitchbook.com/viewnewsletter/w8lp5-CmMSj/pevc
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes:
+
+- name: Designing Charts — Principles Every Designer Should Know
+  url: https://uxdesign.cc/designing-charts-principles-every-designer-should-know-5bd3969a0150
+  category: Design
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: The Side Project Marketing Checklist
+  url: https://www.sideprojectchecklist.com/marketing-checklist/
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes: A comprehensive, chronologically ordered list of marketing tactics and ideas that you can try with your next side project
+
+- name: Tips for Optimizing C/C++ Code
+  url: https://people.cs.clemson.edu/~dhouse/courses/405/papers/optimize.pdf
+  category: Computer Science
+  languages: ["C", "C++"]
+  paid: false
+  notes:
+
+- name: Python Data Science Handbook
+  url: https://github.com/jakevdp/PythonDataScienceHandbook/
+  category: Data Science
+  languages: ["Python"]
+  paid: false
+  notes: This repository contains the entire Python Data Science Handbook, in the form of (free!) Jupyter notebooks.
+
+- name: Jupyter Notebooks and codes for Python for Finance by Yves Hilpisch
+  url: https://github.com/j-goheen/py4fi2nd
+  category: Personal Finance
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: QuantTrading
+  url: https://github.com/j-goheen/QuantTrading
+  category: Personal Finance
+  languages: ["C++"]
+  paid: false
+  notes:
+
+- name: Veteran Employment Through Technology Education Courses
+  url: https://benefits.va.gov/gibill/fgib/vettec.asp
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: PairHub
+  url: https://pairhub.io/
+  category: Getting Started
+  languages: []
+  paid: false
+  notes: PairHub is the friendly open source community to help you find remote pair programming partners
+
+- name: SOC Battle
+  url: https://www.socbattle.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: SOC Battle is a CTF (Capture the Flag) competition prepared for the SOC teams all over the world
+
+- name: Design Sprint Kit
+  url: https://designsprintkit.withgoogle.com/introduction/overview
+  category: Design
+  languages: []
+  paid: false
+  notes: The Design Sprint is a proven methodology for answering critical business questions rapidly through esigning, prototyping, and testing ideas with users
+
+- name: How you can land a coding job with very little experience
+  url: https://medium.freecodecamp.org/how-you-can-land-a-coding-job-with-very-little-experience-b96517e00da7
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: The Data Open
+  url: https://www.citadel.com/careers/the-data-open/
+  category: Data Science
+  languages: []
+  paid: false
+  notes: A datathon competition taking place throughout the year at a series of top universities
+
+- name: memcached Cheat Sheet
+  url: https://lzone.de/cheat-sheet/memcached
+  category: Cheat Sheets
+  languages: []
+  paid: false
+  notes:
+
+- name: Geek Books
+  url: https://www.geekbooks.me/
+  category: Books
+  languages: ["multiple"]
+  paid: false
+  notes: Free Books
+
+- name: Introduction to Product Management
+  url: https://www.aha.io/roadmapping/guide/product-management
+  category: Product Management
+  languages: []
+  paid: false
+  notes:
+
+- name: Claim Academy
+  url: https://www.claimacademystl.com/veterans/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: The Python Book
+  url: https://www.softcover.io/read/92780ad5/python_book/
+  category: Computer Science
+  languages: ["Python"]
+  paid: false
+  notes: Python for Information Systems Majors
+
+- name: Product Toolkit
+  url: https://www.productschool.com/product-toolkit/
+  category: Product Management
+  languages: []
+  paid: false
+  notes:
+
+- name: Git Pay
+  url: https://gitpay.me
+  category: Open Source
+  languages: []
+  paid: false
+  notes: with Gitpay it is possible to create bounties in order to have issues solved. Once the task is done the contributor will be able to claim the rewards
+
+- name: Plain English explanation of Big O notation
+  url: https://stackoverflow.com/questions/487258/what-is-a-plain-english-explanation-of-big-o-notation
+  category: Computer Science
+  languages: []
+  paid: false
+  notes:
+
+- name: "Algorithms in plain English: time complexity and Big-O notation"
+  url: https://medium.freecodecamp.org/time-is-complex-but-priceless-f0abd015063c
+  category: Computer Science
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: A Beginners Guide to Big O Notation
+  url: https://medium.freecodecamp.org/my-first-foray-into-technology-c5b6e83fe8f1
+  category: Computer Science
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: LEAP
+  url: https://www.industryexplorers.com/
+  category: Coding Schools
+  languages: []
+  paid: false
+  notes: LEAP Engineering Acceleration Program (LEAP) is an immersive, 16-week program providing you with real-world experience through development and project management apprenticeships
+
+- name: No experience? No problem! Vets can jump-start careers in IT with this new, free program
+  url: https://rebootcamp.militarytimes.com/transition-tips/education/2019/02/12/no-experience-no-problem-vets-can-jump-start-careers-in-it-with-this-new-free-program/
+  category: Veterans
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Computer Science 101
+  url: https://online.stanford.edu/courses/soe-ycscs101-sp-computer-science-101
+  category: Computer Science
+  languages: []
+  paid: false
+  notes:
+
+- name: Explore Kubernetes
+  url: https://www.digitalocean.com/resources/kubernetes/
+  category: DevOps
+  languages: ["Kubernetes"]
+  paid: false
+  notes:
+
+- name: Angular Courses
+  url: https://ultimatecourses.com/angular
+  category: Front End Dev
+  languages: ["JavaScript"]
+  paid: true
+  notes:
+
+- name: DISCRETE MATHEMATICS WITH APPLICATIONS
+  url: https://ia800105.us.archive.org/5/items/ebooksclub.org__Discrete_Mathematics_with_Applications/ebooksclub.org__Discrete_Mathematics_with_Applications.pdf
+  category: Computer Science
+  languages: []
+  paid: false
+  notes:
+
+- name: A Cloud Guru
+  url: https://acloud.guru/
+  category: DevOps
+  languages: []
+  paid: true
+  notes: Free Trial
+
+- name: Coding Blocks .Net
+  url: https://www.codingblocks.net/
+  category: Podcasts
+  languages: []
+  paid: false
+  notes:
+
+- name: Al Sweigart
+  url: http://alsweigart.com/
+  category: Computer Science
+  languages: ["Python", "JavaScript"]
+  paid: false
+  notes:
+
+- name: Product Talks
+  url: https://www.productschool.com/product-management-video-talks/
+  category: Product Management
+  languages: []
+  paid: false
+  notes: 20 Video Lessons from Top-Notch Product Managers
+
+- name: Python 3 Cheat Sheet
+  url: https://perso.limsi.fr/pointal/python:memento
+  category: Cheat Sheets
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: Cracking the Coding Interview with Hacker Rank
+  url: https://www.youtube.com/playlist?list=PLOuZYwbmgZWXvkghUyMLdI90IwxbNCiWK
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Machine Learning
+  url: https://coggle.it/diagram/WTabXzBEwgABXJoo/t/machine-learning-ml
+  category: Machine Learning
+  languages: []
+  paid: false
+  notes:
+
+- name: Math for Machine Learning
+  url: https://static.coggle.it/diagram/XBUGFlPqPR-5NRiD/t/math-for-machine-learning
+  category: Machine Learning
+  languages: []
+  paid: false
+  notes:
+
+- name: Deep Learning
+  url: https://coggle.it/diagram/WgG71fkZeAABCE5f/t/deep-learning
+  category: Deep Learning
+  languages: []
+  paid: false
+  notes:
+
+- name: Statistical Thinking in Python
+  url: https://coggle.it/diagram/WDv6ngnl8LgCdruw/t/statistical-thinking-in-python
+  category: Data Science
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: "Protected Variation: The Importance of Being Closed"
+  url: https://www.martinfowler.com/ieeeSoftware/protectedVariation.pdf
+  category: Computer Science
+  languages: []
+  paid: false
+  notes:
+
+- name: Comprehensive Python Cheatsheet
+  url: https://gto76.github.io/python-cheatsheet/
+  category: Cheat Sheets
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: JSON Resume
+  url: https://jsonresume.org/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Pure Post
+  url: https://www.purepost.co/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: "CSS: From Zero to Hero"
+  url: https://dev.to/aspittel/css-from-zero-to-hero-3o16
+  category: Front End Dev
+  languages: ["CSS"]
   paid: false
   notes:
