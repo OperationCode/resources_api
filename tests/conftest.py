@@ -114,3 +114,14 @@ def fake_auth_from_oc(mocker):
             return {'token': 'superlegittoken'}
 
     mocker.patch("requests.post", return_value=FakeExternalResponse())
+
+@pytest.fixture(scope='function')
+def fake_error(mocker):
+    """
+    Intentionally raises an error to test error response is correct
+    """
+    class RaisesError(object):
+        def __init__(self):
+            raise Exception("An \"unexpected\" Exception was raised!")
+
+    mocker.patch("request.args", return_value=RaisesError())
