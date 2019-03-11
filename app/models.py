@@ -15,9 +15,11 @@ language_identifier = db.Table('language_identifier',
                                    db.ForeignKey('language.id'))
                                )
 
+
 class TimestampMixin:
     created_at = db.Column(DateTime(timezone=True), server_default=func.now())
     last_updated = db.Column(DateTime(timezone=True), onupdate=func.now())
+
 
 class Resource(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
