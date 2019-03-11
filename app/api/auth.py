@@ -13,8 +13,7 @@ def authenticate(func):
         key = Key.query.filter_by(apikey=apikey).first()
 
         if not key:
-            errors = [{"code": "not-authorized"}]
-            return standardize_response(None, errors, "not authorized", 401)
+            return standardize_response(status_code=401)
 
         log_request(request, key)
 

@@ -72,8 +72,7 @@ def apikey():
     is_oc_member = is_user_oc_member(email, password)
 
     if not is_oc_member:
-        errors = [{"code": "not-authorized"}]
-        return standardize_response(None, errors, "not authorized", 401)
+        return standardize_response(status_code=401)
 
     try:
         # We need to check the database for an existing key
@@ -83,11 +82,10 @@ def apikey():
             # can generate an API key for them if they don't already have one
             return create_new_apikey(email)
         logger.info(apikey.serialize)
-        return standardize_response(apikey.serialize, None, "ok")
+        return standardize_response(payload=dict(data=apikey.serialize))
     except Exception as e:
         logger.error(e)
-        errors = [{"code": "internal-server-error"}]
-        return standardize_response(None, errors, "internal server error", 500)
+        return standardize_response(status_code=500)
 
 
 # Helpers
@@ -106,9 +104,9 @@ def get_resource(id):
 
     finally:
         if resource:
-            return standardize_response(resource.serialize, None, "ok")
+            return standardize_response(payload=dict(data=(resource.serialize)))
         else:
-            return standardize_response({}, None, "ok")
+            return standardize_response(status_code=404)
 
 
 def get_resources():
@@ -155,8 +153,8 @@ def get_resources():
         except Exception as e:
             logger.error(e)
             message = 'The value for "updated_after" is invalid'
-            error = [{"code": "bad-value", "message": message}]
-            return standardize_response(None, error, "unprocessable-entity", 422)
+            res = dict(error=[{"code": "bad-value", "message": message}])
+            return standardize_response(payload=res, status_code=422)
 
         q = q.filter(
             or_(
@@ -171,9 +169,9 @@ def get_resources():
         ]
     except Exception as e:
         logger.error(e)
-        return standardize_response(None, [{"code": "bad-request"}], "bad request", 400)
+        return standardize_response(status_code=500)
 
-    return standardize_response(resource_list, None, "ok")
+    return standardize_response(payload=dict(data=resource_list))
 
 
 def get_languages():
@@ -186,9 +184,9 @@ def get_languages():
         ]
     except Exception as e:
         logger.error(e)
-        return standardize_response(None, [{"code": "bad-request"}], "bad request", 400)
+        return standardize_response(status_code=500)
 
-    return standardize_response(language_list, None, "ok")
+    return standardize_response(payload=dict(data=language_list))
 
 
 def get_categories():
@@ -205,7 +203,7 @@ def get_categories():
         print(e)
         category_list = []
     finally:
-        return standardize_response(category_list, None, "ok")
+        return standardize_response(payload=dict(data=category_list))
 
 
 def get_attributes(json):
@@ -244,13 +242,13 @@ def update_votes(id, vote_direction):
     except Exception as e:
         print_tb(e.__traceback__)
         print(e)
-        return standardize_response(None, None, None, 500)
+        return standardize_response(status_code=500)
 
     initial_count = getattr(resource, vote_direction)
     setattr(resource, vote_direction, initial_count+1)
     db.session.commit()
 
-    return standardize_response(resource.serialize, None, "ok")
+    return standardize_response(payload=dict(data=resource.serialize))
 
 
 def set_resource(id, json, db):
@@ -279,10 +277,12 @@ def set_resource(id, json, db):
 
         db.session.commit()
 
-        return standardize_response(resource.serialize, None, "ok")
+        return standardize_response(
+            payload=dict(data=resource.serialize)
+            )
     except Exception as e:
         logger.error(e)
-        return standardize_response(None, [{"code": "bad-request"}], "bad request", 400)
+        return standardize_response(status_code=400)
 
 
 def create_resource(json, db):
@@ -299,10 +299,10 @@ def create_resource(json, db):
         db.session.add(new_resource)
         db.session.commit()
 
-        return standardize_response(new_resource.serialize, None, "ok")
+        return standardize_response(payload=dict(data=new_resource.serialize))
     except Exception as e:
         logger.error(e)
-        return standardize_response(None, [{"code": "bad-request"}], "bad request", 400)
+        return standardize_response(status_code=500)
 
 
 def create_new_apikey(email):
@@ -319,8 +319,7 @@ def create_new_apikey(email):
         db.session.add(new_key)
         db.session.commit()
 
-        return standardize_response(new_key.serialize, None, "ok")
+        return standardize_response(payload=dict(data=new_key.serialize))
     except Exception as e:
         logger.error(e)
-        errors = [{"code": "internal-server-error"}]
-        return standardize_response(None, errors, "internal server error", 500)
+        return standardize_response(status_code=500)
