@@ -5,30 +5,18 @@ ENV PYTHONUNBUFFERED 1
 ENV PIP_NO_BINARY psycopg2
 
 WORKDIR /src
+
+ADD requirements.txt requirements.txt
+
 RUN mkdir /static
 
 RUN apt-get update \
     && apt-get install -y libpq-dev gcc \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get purge -y --auto-remove gcc \
-    && pip install --upgrade pip \
-    && pip install alembic \
-    && pip install psycopg2-binary \
-    && pip install flake8 \
-    && pip install Flask \
-    && pip install Flask-Migrate \
-    && pip install Flask-SQLAlchemy \
-    && pip install SQLAlchemy \
-    && pip install SQLAlchemy-Utils \
-    && pip install PyYAML \
-    && pip install flask-pytest \
-    && pip install pytest==4.0.2 \
-    && pip install dataclasses \
-    && pip install coverage \
-    && pip install pytest-cov \
-    && pip install flask_limiter \
-    && pip install requests \
-    && pip install pytest-mock
+    && pip install --upgrade pip
+
+RUN pip install -r requirements.txt
 
 COPY . /src
 
