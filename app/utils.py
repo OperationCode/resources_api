@@ -18,18 +18,60 @@ class Paginator:
         return query.paginate(self.page, self.page_size, False).items
 
 
-def standardize_response(data, errors, status, status_code=200):
-    resp = {
-        "status": status,
-        "apiVersion": API_VERSION
+def standardize_response(payload=None, status_code=200):
+    """Response helper
+    This simplifies the response creation process by providing an internally
+    defined mapping of status codes to messages for errors. It also knows when
+    to respond with a server error versus when to be 'ok' based on the keys
+    present in the supplied payload.
+    If the payload has falsey data and no error key defined, it responds with
+    a 500.
+    Arguments:
+    payload -- None or a dict with 'data' or 'error' keys, 'data' should be
+    json serializable
+    status_code -- a valid HTTP status code. For errors it defaults to 500,
+    for 'ok' it defaults to 200
+    """
+    if not payload:
+        payload = {}
+    data = payload.get("data")
+    errors = payload.get("errors")
+    resp = dict(
+        apiVersion=API_VERSION,
+        status="ok",
+        status_code=status_code,
+        data=None
+    )
+
+    err_map = {
+        400: "Bad Request",
+        401: "Unauthorized",
+        403: "Unauthorized",
+        404: "Not Found",
+        422: "Unprocessable Entity",
+        429: "Rate Limit Exceeded",
+        500: "Server Error"
     }
-    if data is not None:
-        resp["data"] = data
-    elif errors:
-        resp["errors"] = errors
-    else:
+
+    if status_code >= 400 and err_map.get(status_code):
+        resp["status"] = err_map.get(status_code)
+        resp["status_code"] = status_code
+
+        if errors:
+            resp["errors"] = errors
+        else:
+            resp["errors"] = [{
+                "code": '-'.join(err_map.get(status_code).split(' ')).lower()
+            }]
+
+    elif not data:
         resp["errors"] = [{"code": "something-went-wrong"}]
-    return jsonify(resp), status_code
+        resp["status_code"] = 500
+        resp["status"] = "error"
+    else:
+        resp["data"] = data
+
+    return jsonify(resp), resp["status_code"], {'Content-Type': 'application/json'}
 
 
 def setup_logger(name, log_file, level=logging.INFO):
