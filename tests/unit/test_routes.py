@@ -181,6 +181,10 @@ def test_create_resource(module_client, module_db, fake_auth_from_oc):
     assert (isinstance(response.json['data'].get('id'), int))
     assert (response.json['data'].get('name') == "Some Name")
 
+    response = create_resource(client, "invalidapikey")
+
+    assert (response.status_code == 401)
+
 
 def test_update_resource(module_client, module_db, fake_auth_from_oc):
     client = module_client
