@@ -2286,13 +2286,6 @@
   paid: false
   notes:
 
-- name: Top 20 podcasts for Devs
-  url: http://www.ettaingroup.com/Blog/ettain-group-Blog/June-2016/20-Best-Podcasts-for-Developers#DetailTop
-  category: Podcasts
-  languages:
-  paid: false
-  notes:
-
 - name: Breaking into Startups
   url: http://breakingintostartups.com/edgar-pabon/
   category: Podcasts
@@ -6642,13 +6635,6 @@
 
 - name: Start Here Web Development
   url: starthere.fm/
-  category: Podcasts
-  languages:
-  paid: false
-  notes:
-
-- name: Grumpy Old Geeks
-  url: https://gog.show/
   category: Podcasts
   languages:
   paid: false
