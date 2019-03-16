@@ -141,6 +141,11 @@ def test_update_votes(module_client, module_db):
     assert (response.status_code == 200)
     assert (response.json['data'].get(f"{vote_direction}s") == initial_votes + 1)
 
+    vote_direction = 'downvote'
+    response = client.put(f"/api/v1/resources/{id}/{vote_direction}", follow_redirects=True)
+    assert (response.status_code == 200)
+    assert (response.json['data'].get(f"{vote_direction}s") == initial_votes + 1)
+
     # Check voting on an invalid resource
     id = 'waffles'
     response = client.put(f"/api/v1/resources/{id}/{vote_direction}", follow_redirects=True)
