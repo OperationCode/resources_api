@@ -1,18 +1,9 @@
-from sys import version_info
-
 from configs import Config
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-
-try:
-    assert version_info >= (3, 7, 0)
-except AssertionError:
-    print('Warning Current Python version not supported')
-    print('Current Python version: {version}'.format(version=version_info))
-    exit(1)
 
 
 db = SQLAlchemy()
