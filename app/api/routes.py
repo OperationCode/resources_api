@@ -72,7 +72,8 @@ def apikey():
     is_oc_member = is_user_oc_member(email, password)
 
     if not is_oc_member:
-        return standardize_response(status_code=401)
+        payload = dict(errors=["Invalid username or password"])
+        return standardize_response(payload=payload, status_code=401)
 
     try:
         # We need to check the database for an existing key
@@ -96,17 +97,17 @@ def get_resource(id):
 
     except MultipleResultsFound as e:
         print_tb(e.__traceback__)
-        print(e)
+        logger.error(e)
 
     except NoResultFound as e:
         print_tb(e.__traceback__)
-        print(e)
+        logger.error(e)
+        return redirect('/404')
 
-    finally:
-        if resource:
-            return standardize_response(payload=dict(data=(resource.serialize)))
-        else:
-            return standardize_response(status_code=404)
+    if resource:
+        return standardize_response(payload=dict(data=(resource.serialize)))
+
+    redirect('/404')
 
 
 def get_resources():
@@ -199,11 +200,10 @@ def get_categories():
         ]
 
     except Exception as e:
-        print_tb(e.__traceback__)
-        print(e)
-        category_list = []
-    finally:
-        return standardize_response(payload=dict(data=category_list))
+        logger.error(e)
+        return standardize_response(status_code=500)
+
+    return standardize_response(payload=dict(data=category_list))
 
 
 def get_attributes(json):
@@ -232,16 +232,16 @@ def update_votes(id, vote_direction):
 
     except MultipleResultsFound as e:
         print_tb(e.__traceback__)
-        print(e)
+        logger.error(e)
 
     except NoResultFound as e:
         print_tb(e.__traceback__)
-        print(e)
+        logger.error(e)
         return redirect('/404')
 
     except Exception as e:
         print_tb(e.__traceback__)
-        print(e)
+        logger.error(e)
         return standardize_response(status_code=500)
 
     initial_count = getattr(resource, vote_direction)
@@ -282,7 +282,7 @@ def set_resource(id, json, db):
             )
     except Exception as e:
         logger.error(e)
-        return standardize_response(status_code=400)
+        return standardize_response(status_code=500)
 
 
 def create_resource(json, db):

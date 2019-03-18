@@ -116,12 +116,50 @@ def fake_auth_from_oc(mocker):
     mocker.patch("requests.post", return_value=FakeExternalResponse())
 
 @pytest.fixture(scope='function')
-def fake_error(mocker):
+def fake_invalid_auth_from_oc(mocker):
+    """
+    Changes the return value of requests.post to be a custom response
+    object so that we aren't validating external APIs in our unit tests
+    """
+    class ExternalApiRequest(object):
+        @classmethod
+        def post(cls):
+            return FakeExternalResponse()
+
+    class FakeExternalResponse(object):
+        @classmethod
+        def json(self):
+            # Mock an error returned from the OC backend
+            return {'error': 'Invalid Email or password.'}
+
+    mocker.patch("requests.post", return_value=FakeExternalResponse())
+
+@pytest.fixture(scope='function')
+def fake_items_error(mocker):
     """
     Intentionally raises an error to test error response is correct
     """
-    class RaisesError(object):
-        def __init__(self):
-            raise Exception("An \"unexpected\" Exception was raised!")
+    def items():
+        raise Exception("An \"unexpected\" Exception was raised!")
 
-    mocker.patch("request.args", return_value=RaisesError())
+    mocker.patch('app.utils.Paginator.items', return_value=items, side_effect=items)
+
+@pytest.fixture(scope='function')
+def fake_commit_error(mocker):
+    """
+    Intentionally raises an error to test error response is correct
+    """
+    def commit():
+        raise Exception("An \"unexpected\" Exception was raised!")
+
+    mocker.patch('app.db.session.commit', return_value=commit, side_effect=commit)
+
+@pytest.fixture(scope='function')
+def fake_key_query_error(mocker):
+    """
+    Intentionally raises an error to test error response is correct
+    """
+    def key_query():
+        raise Exception()
+
+    mocker.patch('app.models.Key.query', return_value=key_query, side_effect=key_query)
