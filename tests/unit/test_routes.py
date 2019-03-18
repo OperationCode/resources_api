@@ -53,6 +53,11 @@ def test_get_single_resource(module_client, module_db):
     assert (resource.get('id') == 5)
 
 
+def test_get_favicon(module_client):
+    response = module_client.get("favicon.ico")
+    assert (response.status_code == 200)
+
+
 def test_paginator(module_client, module_db):
     client = module_client
 
