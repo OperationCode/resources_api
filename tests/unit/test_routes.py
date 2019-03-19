@@ -3,6 +3,7 @@ from tests import conftest
 from app.models import Resource, Language, Category
 from configs import PaginatorConfig
 from app.cli import import_resources
+from datetime import datetime, timedelta
 
 
 ##########################################
@@ -32,6 +33,19 @@ def test_get_resources(module_client, module_db):
         assert (isinstance(resource.get('category'), str))
         assert (resource.get('category'))
         assert (isinstance(resource.get('languages'), list))
+
+    ua = datetime.now() + timedelta(days=-7)
+    uaString = ua.strftime('%m-%d-%Y')
+    response = client.get(f"/api/v1/resources?updated_after={uaString}")
+    assert (response.status_code == 200)
+
+    # If updated_after date is after today, then should return a 422
+    ua = datetime.now() + timedelta(days=1)
+    uaString = ua.strftime('%m-%d-%Y')
+    response = client.get(f"/api/v1/resources?updated_after={uaString}")
+    assert (response.status_code == 422)
+    assert (response.json.get('errors')[0].get('code') == "unprocessable-entity")
+    assert ("updated_after" in response.json.get('errors')[0].get('message'))
 
 
 def test_get_single_resource(module_client, module_db):
