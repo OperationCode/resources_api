@@ -85,7 +85,7 @@ def apikey():
         logger.info(apikey.serialize)
         return standardize_response(payload=dict(data=apikey.serialize))
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
         return standardize_response(status_code=500)
 
 
@@ -97,11 +97,11 @@ def get_resource(id):
 
     except MultipleResultsFound as e:
         print_tb(e.__traceback__)
-        logger.error(e)
+        logger.exception(e)
 
     except NoResultFound as e:
         print_tb(e.__traceback__)
-        logger.error(e)
+        logger.exception(e)
         return redirect('/404')
 
     if resource:
@@ -152,7 +152,7 @@ def get_resources():
                 raise Exception("updated_after greater than today's date")
             uaDate = uaDate.strftime("%Y-%m-%d")
         except Exception as e:
-            logger.error(e)
+            logger.exception(e)
             message = 'The value for "updated_after" is invalid'
             res = dict(errors=[{'code': 'unprocessable-entity', 'message': message}])
             return standardize_response(payload=res, status_code=422)
@@ -169,7 +169,7 @@ def get_resources():
             resource.serialize for resource in resource_paginator.items(q)
         ]
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
         return standardize_response(status_code=500)
 
     return standardize_response(payload=dict(data=resource_list))
@@ -184,7 +184,7 @@ def get_languages():
             language.serialize for language in language_paginator.items(query)
         ]
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
         return standardize_response(status_code=500)
 
     return standardize_response(payload=dict(data=language_list))
@@ -200,7 +200,7 @@ def get_categories():
         ]
 
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
         return standardize_response(status_code=500)
 
     return standardize_response(payload=dict(data=category_list))
@@ -232,16 +232,16 @@ def update_votes(id, vote_direction):
 
     except MultipleResultsFound as e:
         print_tb(e.__traceback__)
-        logger.error(e)
+        logger.exception(e)
 
     except NoResultFound as e:
         print_tb(e.__traceback__)
-        logger.error(e)
+        logger.exception(e)
         return redirect('/404')
 
     except Exception as e:
         print_tb(e.__traceback__)
-        logger.error(e)
+        logger.exception(e)
         return standardize_response(status_code=500)
 
     initial_count = getattr(resource, vote_direction)
@@ -281,7 +281,7 @@ def set_resource(id, json, db):
             payload=dict(data=resource.serialize)
             )
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
         return standardize_response(status_code=500)
 
 
@@ -301,7 +301,7 @@ def create_resource(json, db):
 
         return standardize_response(payload=dict(data=new_resource.serialize))
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
         return standardize_response(status_code=500)
 
 
@@ -321,5 +321,5 @@ def create_new_apikey(email):
 
         return standardize_response(payload=dict(data=new_key.serialize))
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
         return standardize_response(status_code=500)

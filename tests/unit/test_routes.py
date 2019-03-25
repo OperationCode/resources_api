@@ -39,13 +39,16 @@ def test_get_resources(module_client, module_db):
     response = client.get(f"/api/v1/resources?updated_after={uaString}")
     assert (response.status_code == 200)
 
+
+def test_get_resources_post_date_failure(module_client):
+    client = module_client
     # If updated_after date is after today, then should return a 422
     ua = datetime.now() + timedelta(days=1)
     uaString = ua.strftime('%m-%d-%Y')
     response = client.get(f"/api/v1/resources?updated_after={uaString}")
     assert (response.status_code == 422)
     assert (response.json.get('errors')[0].get('code') == "unprocessable-entity")
-    assert ("updated_after" in response.json.get('errors')[0].get('message'))
+    assert (isinstance(response.json.get('errors')[0].get('message'), str))
 
 
 def test_get_single_resource(module_client, module_db):

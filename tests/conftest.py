@@ -137,29 +137,29 @@ def fake_invalid_auth_from_oc(mocker):
 @pytest.fixture(scope='function')
 def fake_items_error(mocker):
     """
-    Intentionally raises an error to test error response is correct
+    Mocks an exception being raised during pagination to test error handling
     """
     def items():
         raise Exception("An \"unexpected\" Exception was raised!")
 
-    mocker.patch('app.utils.Paginator.items', return_value=items, side_effect=items)
+    mocker.patch('app.utils.Paginator.items', side_effect=items)
 
 @pytest.fixture(scope='function')
 def fake_commit_error(mocker):
     """
-    Intentionally raises an error to test error response is correct
+    Mocks an exception being raised during a db commit to test error handling
     """
     def commit():
         raise Exception("An \"unexpected\" Exception was raised!")
 
-    mocker.patch('app.db.session.commit', return_value=commit, side_effect=commit)
+    mocker.patch('app.db.session.commit', side_effect=commit)
 
 @pytest.fixture(scope='function')
 def fake_key_query_error(mocker):
     """
-    Intentionally raises an error to test error response is correct
+    Mocks an exception being raised during a query to test error handling
     """
     def key_query():
         raise Exception()
 
-    mocker.patch('app.models.Key.query', return_value=key_query, side_effect=key_query)
+    mocker.patch('app.models.Key.query', side_effect=key_query)
