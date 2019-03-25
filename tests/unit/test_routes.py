@@ -3,11 +3,13 @@ from tests import conftest
 from app.models import Resource, Language, Category
 from configs import PaginatorConfig
 from app.cli import import_resources
+from datetime import datetime, timedelta
 
 
 ##########################################
 ## Test Routes
 ##########################################
+
 
 # TODO: We need negative unit tests (what happens when bad data is sent)
 def test_get_resources(module_client, module_db):
@@ -32,6 +34,22 @@ def test_get_resources(module_client, module_db):
         assert (resource.get('category'))
         assert (isinstance(resource.get('languages'), list))
 
+    ua = datetime.now() + timedelta(days=-7)
+    uaString = ua.strftime('%m-%d-%Y')
+    response = client.get(f"/api/v1/resources?updated_after={uaString}")
+    assert (response.status_code == 200)
+
+
+def test_get_resources_post_date_failure(module_client):
+    client = module_client
+    # If updated_after date is after today, then should return a 422
+    ua = datetime.now() + timedelta(days=1)
+    uaString = ua.strftime('%m-%d-%Y')
+    response = client.get(f"/api/v1/resources?updated_after={uaString}")
+    assert (response.status_code == 422)
+    assert (response.json.get('errors')[0].get('code') == "unprocessable-entity")
+    assert (isinstance(response.json.get('errors')[0].get('message'), str))
+
 
 def test_get_single_resource(module_client, module_db):
     client = module_client
@@ -51,6 +69,11 @@ def test_get_single_resource(module_client, module_db):
     assert (isinstance(resource.get('languages'), list))
 
     assert (resource.get('id') == 5)
+
+
+def test_get_favicon(module_client):
+    response = module_client.get("favicon.ico")
+    assert (response.status_code == 200)
 
 
 def test_paginator(module_client, module_db):
@@ -141,6 +164,11 @@ def test_update_votes(module_client, module_db):
     assert (response.status_code == 200)
     assert (response.json['data'].get(f"{vote_direction}s") == initial_votes + 1)
 
+    vote_direction = 'downvote'
+    response = client.put(f"/api/v1/resources/{id}/{vote_direction}", follow_redirects=True)
+    assert (response.status_code == 200)
+    assert (response.json['data'].get(f"{vote_direction}s") == initial_votes + 1)
+
     # Check voting on an invalid resource
     id = 'waffles'
     response = client.put(f"/api/v1/resources/{id}/{vote_direction}", follow_redirects=True)
@@ -159,6 +187,17 @@ def test_update_votes(module_client, module_db):
 ##########################################
 
 
+def test_apikey_commit_error(module_client, module_db, fake_auth_from_oc, fake_commit_error):
+    client = module_client
+
+    response = client.post('api/v1/apikey', json = dict(
+        email="test@example.org",
+        password="supersecurepassword"
+    ))
+
+    assert (response.status_code == 500)
+
+
 def test_get_api_key(module_client, module_db, fake_auth_from_oc):
     client = module_client
 
@@ -172,28 +211,100 @@ def test_get_api_key(module_client, module_db, fake_auth_from_oc):
     assert (isinstance(response.json['data'].get('apikey'), str))
 
 
+def test_get_api_key(module_client, module_db, fake_invalid_auth_from_oc):
+    client = module_client
+
+    response = client.post('api/v1/apikey',
+        follow_redirects=True,
+        json = dict(
+            email="test@example.org",
+            password="invalidpassword"
+    ))
+
+    assert (response.status_code == 401)
+
+
 def test_create_resource(module_client, module_db, fake_auth_from_oc):
     client = module_client
 
+    # Happy Path
     apikey = get_api_key(client)
     response = create_resource(client, apikey)
     assert (response.status_code == 200)
     assert (isinstance(response.json['data'].get('id'), int))
     assert (response.json['data'].get('name') == "Some Name")
 
+    # Invalid API Key Path
+    response = create_resource(client, "invalidapikey")
+    assert (response.status_code == 401)
+
 
 def test_update_resource(module_client, module_db, fake_auth_from_oc):
     client = module_client
 
+    # Happy Path
+    apikey = get_api_key(client)
+
+    response = client.put("/api/v1/resources/1",
+        json = dict(
+            name="New name",
+            languages=["New language"],
+            category="New Category",
+            url="https://new.url",
+            paid=False,
+            notes="New notes"
+        ),
+        headers = {'x-apikey': apikey}
+    )
+
+    assert (response.status_code == 200)
+    assert (response.json['data'].get('name') == "New name")
+
+    # Resource not found
+    response = client.put("/api/v1/resources/0",
+        json = dict(name="New name"),
+        headers = {'x-apikey': apikey},
+        follow_redirects = True
+    )
+    assert (response.status_code == 404)
+
+
+def test_commit_errors(module_client, module_db, fake_auth_from_oc, fake_commit_error):
+    client = module_client
     apikey = get_api_key(client)
 
     response = client.put("/api/v1/resources/1",
         json = dict(name="New name"),
         headers = {'x-apikey': apikey}
     )
+    assert (response.status_code == 500)
 
-    assert (response.status_code == 200)
-    assert (response.json['data'].get('name') == "New name")
+    response = create_resource(client, apikey)
+    assert (response.status_code == 500)
+
+
+def test_key_query_error(module_client, module_db, fake_auth_from_oc, fake_key_query_error):
+    client = module_client
+    response = client.post('api/v1/apikey', json = dict(
+        email="test@example.org",
+        password="supersecurepassword"
+    ))
+    assert (response.status_code == 500)
+
+def test_internal_server_error_handler(module_client, module_db, fake_items_error):
+    client = module_client
+
+    response = client.get('api/v1/resources')
+    assert (response.status_code == 500)
+    assert (response.json['errors'][0].get("code") == "server-error")
+
+    response = client.get('api/v1/languages')
+    assert (response.status_code == 500)
+    assert (response.json['errors'][0].get("code") == "server-error")
+
+    response = client.get('api/v1/categories')
+    assert (response.status_code == 500)
+    assert (response.json['errors'][0].get("code") == "server-error")
 
 
 ##########################################

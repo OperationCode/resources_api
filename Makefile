@@ -46,6 +46,10 @@ routes:
 test: build
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} py.test --cov=app/ tests/
 
+.PHONY: test-coverage
+test-coverage:
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} py.test --cov-report html --cov=app/ tests/
+
 .PHONY: lint
 lint:
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flake8 app --statistics --count
