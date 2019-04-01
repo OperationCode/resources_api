@@ -10,7 +10,7 @@ from .models import Category, Language, Resource
 def import_resources(db):
     # Step 1: Get data
     with open('resources.yml', encoding='utf-8') as f:
-        data = yaml.load(f)
+        data = yaml.full_load(f)
 
     # Step 2: Uniquify resources
     unique_resources = remove_duplicates(data)
