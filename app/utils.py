@@ -48,7 +48,7 @@ def standardize_response(payload=None, status_code=200):
         401: "Unauthorized",
         403: "Unauthorized",
         404: "Not Found",
-        405: "Not Found",
+        405: "Method Not Allowed",
         422: "Unprocessable Entity",
         429: "Rate Limit Exceeded",
         500: "Server Error"
