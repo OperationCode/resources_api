@@ -28,7 +28,7 @@ rm-exited-containers:
 	${DOCKER} ps -a -q -f status=exited | xargs ${DOCKER} rm -v
 
 .PHONY: fresh-restart
-fresh-restart: minty-fresh test run
+fresh-restart: minty-fresh test setup run
 
 .PHONY: run
 run: build
