@@ -8,6 +8,7 @@ from app.utils import standardize_response
 def page_not_found(e):
     return standardize_response(status_code=404)
 
+
 @bp.app_errorhandler(405)
 def method_not_allowed(e):
     return standardize_response(status_code=405)
