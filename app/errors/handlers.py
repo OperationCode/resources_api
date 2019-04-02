@@ -9,6 +9,11 @@ def page_not_found(e):
     return standardize_response(status_code=404)
 
 
+@bp.app_errorhandler(405)
+def method_not_allowed(e):
+    return standardize_response(status_code=405)
+
+
 @bp.app_errorhandler(429)
 def ratelimit_handler(e):
     return standardize_response(status_code=429)
