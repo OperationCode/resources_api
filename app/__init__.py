@@ -15,6 +15,7 @@ API_VERSION = "1.0"
 def create_app(config_class=Config):
     app = Flask(__name__, static_folder=None)
     app.config.from_object(config_class)
+    app.url_map.strict_slashes = False
 
     Limiter(
         app,
