@@ -269,6 +269,30 @@ def test_update_resource(module_client, module_db, fake_auth_from_oc):
     assert (response.status_code == 404)
 
 
+def test_bad_requests(module_client, module_db, fake_auth_from_oc):
+    client = module_client
+
+    apikey = get_api_key(client)
+    bad_json = "{\"test\": \"bad json\" \"test2\": \"still bad\"}"
+    response = client.post("api/v1/resources",
+        data = bad_json,
+        content_type='application/json',
+        headers = {'x-apikey': apikey},
+        follow_redirects = True
+    )
+    assert (response.status_code == 400)
+    assert (isinstance(response.json, dict))
+
+    response = client.put("api/v1/resources/1",
+        data = '',
+        content_type='application/json',
+        headers = {'x-apikey': apikey},
+        follow_redirects = True
+    )
+    assert (response.status_code == 400)
+    assert (isinstance(response.json, dict))
+
+
 def test_commit_errors(module_client, module_db, fake_auth_from_oc, fake_commit_error):
     client = module_client
     apikey = get_api_key(client)
