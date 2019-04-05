@@ -109,6 +109,11 @@ def test_paginator(module_client, module_db):
     response = client.get(f"api/v1/resources?page_size=100&page={too_far}")
     assert (not response.json['data'])
 
+    # Test pagination details are included
+    response = client.get('api/v1/resources').json
+    assert (response['number_of_pages'] is not None)
+    assert (response['records_per_page'] == PaginatorConfig.per_page)
+    assert (response['page'] == 1)
 
 def test_filters(module_client, module_db):
     client = module_client
@@ -340,7 +345,7 @@ def test_key_query_error(module_client, module_db, fake_auth_from_oc, fake_key_q
     ))
     assert (response.status_code == 500)
 
-def test_internal_server_error_handler(module_client, module_db, fake_items_error):
+def test_internal_server_error_handler(module_client, module_db, fake_paginated_data_error):
     client = module_client
 
     response = client.get('api/v1/resources')
