@@ -14,11 +14,13 @@ class Paginator:
         if self.page_size > configuration.max_page_size:
             self.page_size = configuration.max_page_size
 
-    def items(self, query):
-        return query.paginate(self.page, self.page_size, False).items
 
+    def paginated_data(self, query):
+        data = query.paginate(self.page, self.page_size, False)
+        setattr(data, "per_page", self.configuration.per_page)
+        return data
 
-def standardize_response(payload=None, status_code=200):
+def standardize_response(payload=None, status_code=200, paginated_data=None):
     """Response helper
     This simplifies the response creation process by providing an internally
     defined mapping of status codes to messages for errors. It also knows when
@@ -71,6 +73,11 @@ def standardize_response(payload=None, status_code=200):
         resp["status"] = "error"
     else:
         resp["data"] = data
+
+    if paginated_data:
+        resp["page"] = paginated_data.page
+        resp["number_of_pages"] = paginated_data.pages
+        resp["records_per_page"] = paginated_data.per_page
 
     return jsonify(resp), resp["status_code"], {'Content-Type': 'application/json'}
 
