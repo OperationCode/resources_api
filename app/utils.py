@@ -14,11 +14,11 @@ class Paginator:
         if self.page_size > configuration.max_page_size:
             self.page_size = configuration.max_page_size
 
-
     def paginated_data(self, query):
         data = query.paginate(self.page, self.page_size, False)
         setattr(data, "per_page", self.configuration.per_page)
         return data
+
 
 def standardize_response(payload=None, status_code=200, paginated_data=None):
     """Response helper

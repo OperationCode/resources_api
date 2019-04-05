@@ -174,7 +174,8 @@ def get_resources():
         logger.exception(e)
         return standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=resource_list), paginated_data=paginated_resources)
+    return standardize_response(payload=dict(data=resource_list),
+                                paginated_data=paginated_resources)
 
 
 def get_languages():
@@ -190,7 +191,8 @@ def get_languages():
         logger.exception(e)
         return standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=language_list), paginated_data=paginated_languages)
+    return standardize_response(payload=dict(data=language_list),
+                                paginated_data=paginated_languages)
 
 
 def get_categories():
@@ -207,7 +209,8 @@ def get_categories():
         logger.exception(e)
         return standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=category_list), paginated_data=paginated_categories)
+    return standardize_response(payload=dict(data=category_list),
+                                paginated_data=paginated_categories)
 
 
 def get_attributes(json):
