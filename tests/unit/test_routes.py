@@ -182,6 +182,31 @@ def test_update_votes(module_client, module_db):
     assert (response.json.get('errors')[0].get('code') == "not-found")
 
 
+def test_add_click(module_client, module_db):
+    client = module_client
+
+    # Check clicking on a valid resource
+    id = 1
+    data = client.get(f"api/v1/resources/{id}").json['data']
+    response = client.put(f"/api/v1/resources/{id}/click", follow_redirects=True)
+    initial_click_count = data.get(f"times_clicked")
+
+    assert (response.status_code == 200)
+    assert (response.json['data'].get(f"times_clicked") == initial_click_count + 1)
+
+    # Check clicking on an invalid resource
+    id = 'pancakes'
+    response = client.put(f"/api/v1/resources/{id}/click", follow_redirects=True)
+    assert (response.status_code == 404)
+    assert (response.json.get('errors')[0].get('code') == "not-found")
+
+    # Check clicking on a resource that doesn't exist
+    too_high = 99999999
+    response = client.put(f"/api/v1/resources/{too_high}/click", follow_redirects=True)
+    assert (response.status_code == 404)
+    assert (response.json.get('errors')[0].get('code') == "not-found")
+
+
 ##########################################
 ## Authenticated Routes
 ##########################################

@@ -49,6 +49,11 @@ def downvote(id):
     return update_votes(id, 'downvotes')
 
 
+@bp.route('/resources/<int:id>/click', methods=['PUT'])
+def update_resource_click(id):
+    return add_click(id)
+
+
 @bp.route('/languages', methods=['GET'])
 def languages():
     return get_languages()
@@ -246,6 +251,34 @@ def update_votes(id, vote_direction):
 
     initial_count = getattr(resource, vote_direction)
     setattr(resource, vote_direction, initial_count+1)
+    db.session.commit()
+
+    return standardize_response(payload=dict(data=resource.serialize))
+
+
+def add_click(id):
+    try:
+        resource = Resource.query.get(id)
+
+        if not resource:
+            return redirect('/404')
+
+    except MultipleResultsFound as e:
+        print_tb(e.__traceback__)
+        logger.exception(e)
+
+    except NoResultFound as e:
+        print_tb(e.__traceback__)
+        logger.exception(e)
+        return redirect('/404')
+
+    except Exception as e:
+        print_tb(e.__traceback__)
+        logger.exception(e)
+        return standardize_response(status_code=500)
+
+    initial_count = getattr(resource, 'times_clicked')
+    setattr(resource, 'times_clicked', initial_count + 1)
     db.session.commit()
 
     return standardize_response(payload=dict(data=resource.serialize))
