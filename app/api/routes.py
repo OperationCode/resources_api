@@ -255,10 +255,6 @@ def add_click(id):
         if not resource:
             return redirect('/404')
 
-    except MultipleResultsFound as e:
-        print_tb(e.__traceback__)
-        logger.exception(e)
-
     except NoResultFound as e:
         print_tb(e.__traceback__)
         logger.exception(e)
