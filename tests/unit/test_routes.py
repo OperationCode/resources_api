@@ -114,6 +114,9 @@ def test_paginator(module_client, module_db):
     assert (response['number_of_pages'] is not None)
     assert (response['records_per_page'] == PaginatorConfig.per_page)
     assert (response['page'] == 1)
+    assert (response['total_count'] is not None)
+    assert (response['has_next'] is not None)
+    assert (response['has_prev'] is not None)
 
 def test_filters(module_client, module_db):
     client = module_client

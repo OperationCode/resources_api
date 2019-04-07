@@ -24,7 +24,10 @@ class Paginator:
             "pagination_details": {
                 "page": paginated_data.page,
                 "number_of_pages": paginated_data.pages,
-                "records_per_page": paginated_data.per_page
+                "records_per_page": paginated_data.per_page,
+                "total_count": paginated_data.total,
+                "has_next": paginated_data.has_next,
+                "has_prev": paginated_data.has_prev
             }
         }
 
