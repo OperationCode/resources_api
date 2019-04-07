@@ -2,7 +2,7 @@ from traceback import print_tb
 
 from flask import request, redirect
 from sqlalchemy import or_, func
-from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
 
 from app.api import bp
 from app.api.auth import is_user_oc_member, authenticate
@@ -99,10 +99,6 @@ def get_resource(id):
     resource = None
     try:
         resource = Resource.query.get(id)
-
-    except MultipleResultsFound as e:
-        print_tb(e.__traceback__)
-        logger.exception(e)
 
     except NoResultFound as e:
         print_tb(e.__traceback__)
@@ -234,10 +230,6 @@ def update_votes(id, vote_direction):
 
         if not resource:
             return redirect('/404')
-
-    except MultipleResultsFound as e:
-        print_tb(e.__traceback__)
-        logger.exception(e)
 
     except NoResultFound as e:
         print_tb(e.__traceback__)
