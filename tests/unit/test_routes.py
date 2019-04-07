@@ -143,6 +143,9 @@ def test_languages(module_client, module_db):
         assert (isinstance(language.get('id'), int))
         assert (isinstance(language.get('name'), str))
         assert (language.get('name'))
+    assert (response.json['number_of_pages'] is not None)
+    assert (response.json['records_per_page'] == PaginatorConfig.per_page)
+    assert (response.json['page'] == 1)
 
 
 def test_categories(module_client, module_db):
@@ -154,6 +157,9 @@ def test_categories(module_client, module_db):
         assert (isinstance(category.get('id'), int))
         assert (isinstance(category.get('name'), str))
         assert (category.get('name'))
+    assert (response.json['number_of_pages'] is not None)
+    assert (response.json['records_per_page'] == PaginatorConfig.per_page)
+    assert (response.json['page'] == 1)
 
 
 def test_update_votes(module_client, module_db):
