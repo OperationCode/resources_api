@@ -170,12 +170,12 @@ def get_resources():
         resource_list = [
             resource.serialize for resource in paginated_resources.items
         ]
+        pagination_details = resource_paginator.pagination_details(paginated_resources)
     except Exception as e:
         logger.exception(e)
         return standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=resource_list),
-                                paginated_data=paginated_resources)
+    return standardize_response(payload=dict(data=resource_list, **pagination_details))
 
 
 def get_languages():
@@ -187,12 +187,12 @@ def get_languages():
         language_list = [
             language.serialize for language in paginated_languages.items
         ]
+        pagination_details = language_paginator.pagination_details(paginated_languages)
     except Exception as e:
         logger.exception(e)
         return standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=language_list),
-                                paginated_data=paginated_languages)
+    return standardize_response(payload=dict(data=language_list, **pagination_details))
 
 
 def get_categories():
@@ -204,13 +204,12 @@ def get_categories():
         category_list = [
             category.serialize for category in paginated_categories.items
         ]
-
+        pagination_details = category_paginator.pagination_details(paginated_categories)
     except Exception as e:
         logger.exception(e)
         return standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=category_list),
-                                paginated_data=paginated_categories)
+    return standardize_response(payload=dict(data=category_list, **pagination_details))
 
 
 def get_attributes(json):
