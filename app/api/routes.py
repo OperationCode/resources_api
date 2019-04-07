@@ -167,6 +167,8 @@ def get_resources():
 
     try:
         paginated_resources = resource_paginator.paginated_data(q)
+        if not paginated_resources:
+            return redirect('/404')
         resource_list = [
             resource.serialize for resource in paginated_resources.items
         ]
@@ -184,6 +186,8 @@ def get_languages():
 
     try:
         paginated_languages = language_paginator.paginated_data(query)
+        if not paginated_languages:
+            return redirect('/404')
         language_list = [
             language.serialize for language in paginated_languages.items
         ]
@@ -201,6 +205,8 @@ def get_categories():
         query = Category.query
 
         paginated_categories = category_paginator.paginated_data(query)
+        if not paginated_categories:
+            return redirect('/404')
         category_list = [
             category.serialize for category in paginated_categories.items
         ]

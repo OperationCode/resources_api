@@ -16,6 +16,9 @@ class Paginator:
 
     def paginated_data(self, query):
         data = query.paginate(self.page, self.page_size, False)
+        if self.page > data.pages:
+            return None
+
         setattr(data, "per_page", self.configuration.per_page)
         return data
 
