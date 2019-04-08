@@ -16,7 +16,12 @@ language_identifier = db.Table('language_identifier',
                                )
 
 
-class Resource(db.Model):
+class TimestampMixin:
+    created_at = db.Column(DateTime(timezone=True), server_default=func.now())
+    last_updated = db.Column(DateTime(timezone=True), onupdate=func.now())
+
+
+class Resource(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     url = db.Column(URLType, nullable=False, unique=True)
@@ -30,8 +35,6 @@ class Resource(db.Model):
     upvotes = db.Column(db.INTEGER, default=0)
     downvotes = db.Column(db.INTEGER, default=0)
     times_clicked = db.Column(db.INTEGER, default=0)
-    created_at = db.Column(DateTime(timezone=True), server_default=func.now())
-    last_updated = db.Column(DateTime(timezone=True), onupdate=func.now())
 
     @property
     def serialize(self):
@@ -149,12 +152,10 @@ class Language(db.Model):
         return f"<Language {self.name}>"
 
 
-class Key(db.Model):
+class Key(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     apikey = db.Column(db.String, unique=True, nullable=False, index=True)
     email = db.Column(db.String, unique=True, nullable=False)
-    created_at = db.Column(DateTime(timezone=True), server_default=func.now())
-    last_updated = db.Column(DateTime(timezone=True), onupdate=func.now())
 
     @property
     def serialize(self):
