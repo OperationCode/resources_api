@@ -78,6 +78,20 @@ def test_get_single_resource(module_client, module_db):
     assert (resource.get('id') == 5)
 
 
+def test_single_resource_out_of_bounds(module_client, module_db):
+    client = module_client
+
+    too_low = 0
+    too_high = 9999
+    response = client.get(f"api/v1/resources{too_low}")
+
+    assert (response.status_code == 404)
+
+    response = client.get(f"api/v1/resources{too_high}")
+
+    assert (response.status_code == 404)
+
+
 def test_get_favicon(module_client):
     response = module_client.get("favicon.ico")
     assert (response.status_code == 200)
