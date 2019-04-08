@@ -108,7 +108,7 @@ def get_resource(id):
     if resource:
         return standardize_response(payload=dict(data=(resource.serialize)))
 
-    redirect('/404')
+    return redirect('/404')
 
 
 def get_resources():
