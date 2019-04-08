@@ -14,11 +14,28 @@ class Paginator:
         if self.page_size > configuration.max_page_size:
             self.page_size = configuration.max_page_size
 
-    def items(self, query):
-        return query.paginate(self.page, self.page_size, False).items
+    def paginated_data(self, query):
+        data = query.paginate(self.page, self.page_size, False)
+        if self.page > data.pages:
+            return None
+
+        setattr(data, "per_page", self.page_size)
+        return data
+
+    def pagination_details(self, paginated_data):
+        return {
+            "pagination_details": {
+                "page": paginated_data.page,
+                "number_of_pages": paginated_data.pages,
+                "records_per_page": paginated_data.per_page,
+                "total_count": paginated_data.total,
+                "has_next": paginated_data.has_next,
+                "has_prev": paginated_data.has_prev
+            }
+        }
 
 
-def standardize_response(payload=None, status_code=200):
+def standardize_response(payload={}, status_code=200):
     """Response helper
     This simplifies the response creation process by providing an internally
     defined mapping of status codes to messages for errors. It also knows when
@@ -32,10 +49,9 @@ def standardize_response(payload=None, status_code=200):
     status_code -- a valid HTTP status code. For errors it defaults to 500,
     for 'ok' it defaults to 200
     """
-    if not payload:
-        payload = {}
     data = payload.get("data")
     errors = payload.get("errors")
+    pagination_details = payload.get("pagination_details")
     resp = dict(
         apiVersion=API_VERSION,
         status="ok",
@@ -71,6 +87,9 @@ def standardize_response(payload=None, status_code=200):
         resp["status"] = "error"
     else:
         resp["data"] = data
+
+    if pagination_details:
+        resp.update(pagination_details)
 
     return jsonify(resp), resp["status_code"], {'Content-Type': 'application/json'}
 

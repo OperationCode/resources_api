@@ -33,11 +33,18 @@ def test_get_resources(module_client, module_db):
         assert (isinstance(resource.get('category'), str))
         assert (resource.get('category'))
         assert (isinstance(resource.get('languages'), list))
+    assert (resources['number_of_pages'] is not None)
 
     ua = datetime.now() + timedelta(days=-7)
     uaString = ua.strftime('%m-%d-%Y')
     response = client.get(f"/api/v1/resources?updated_after={uaString}")
     assert (response.status_code == 200)
+
+    # Test trying to get a page of results that doesn't exist
+    too_far = 99999999
+    response = client.get(f"api/v1/resources?page_size=100&page={too_far}", follow_redirects=True)
+    assert (response.status_code == 404)
+    assert (response.json.get('errors')[0].get('code') == "not-found")
 
 
 def test_get_resources_post_date_failure(module_client):
@@ -103,11 +110,17 @@ def test_paginator(module_client, module_db):
     too_long = PaginatorConfig.max_page_size + 1
     response = client.get(f"api/v1/resources?page_size={too_long}")
     assert (len(response.json['data']) == PaginatorConfig.max_page_size)
+    assert (response.json['records_per_page'] == PaginatorConfig.max_page_size)
 
-    # Test farther than last page
-    too_far = 99999999
-    response = client.get(f"api/v1/resources?page_size=100&page={too_far}")
-    assert (not response.json['data'])
+    # Test pagination details are included
+    page_size = 51
+    response = client.get(f"api/v1/resources?page_size={page_size}").json
+    assert (response['number_of_pages'] is not None)
+    assert (response['records_per_page'] == page_size)
+    assert (response['page'] == 1)
+    assert (response['total_count'] is not None)
+    assert (response['has_next'] is not None)
+    assert (response['has_prev'] is not None)
 
 
 def test_filters(module_client, module_db):
@@ -138,6 +151,13 @@ def test_languages(module_client, module_db):
         assert (isinstance(language.get('id'), int))
         assert (isinstance(language.get('name'), str))
         assert (language.get('name'))
+    assert (response.json['number_of_pages'] is not None)
+
+    # Test trying to get a page of results that doesn't exist
+    too_far = 99999999
+    response = client.get(f"api/v1/languages?page_size=100&page={too_far}", follow_redirects=True)
+    assert (response.status_code == 404)
+    assert (response.json.get('errors')[0].get('code') == "not-found")
 
 
 def test_categories(module_client, module_db):
@@ -149,6 +169,14 @@ def test_categories(module_client, module_db):
         assert (isinstance(category.get('id'), int))
         assert (isinstance(category.get('name'), str))
         assert (category.get('name'))
+    assert (response.json['number_of_pages'] is not None)
+
+
+    # Test trying to get a page of results that doesn't exist
+    too_far = 99999999
+    response = client.get(f"api/v1/categories?page_size=100&page={too_far}", follow_redirects=True)
+    assert (response.status_code == 404)
+    assert (response.json.get('errors')[0].get('code') == "not-found")
 
 
 def test_update_votes(module_client, module_db):
@@ -340,7 +368,7 @@ def test_key_query_error(module_client, module_db, fake_auth_from_oc, fake_key_q
     ))
     assert (response.status_code == 500)
 
-def test_internal_server_error_handler(module_client, module_db, fake_items_error):
+def test_internal_server_error_handler(module_client, module_db, fake_paginated_data_error):
     client = module_client
 
     response = client.get('api/v1/resources')

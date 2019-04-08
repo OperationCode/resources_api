@@ -166,14 +166,18 @@ def get_resources():
         )
 
     try:
+        paginated_resources = resource_paginator.paginated_data(q)
+        if not paginated_resources:
+            return redirect('/404')
         resource_list = [
-            resource.serialize for resource in resource_paginator.items(q)
+            resource.serialize for resource in paginated_resources.items
         ]
+        pagination_details = resource_paginator.pagination_details(paginated_resources)
     except Exception as e:
         logger.exception(e)
         return standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=resource_list))
+    return standardize_response(payload=dict(data=resource_list, **pagination_details))
 
 
 def get_languages():
@@ -181,14 +185,18 @@ def get_languages():
     query = Language.query
 
     try:
+        paginated_languages = language_paginator.paginated_data(query)
+        if not paginated_languages:
+            return redirect('/404')
         language_list = [
-            language.serialize for language in language_paginator.items(query)
+            language.serialize for language in paginated_languages.items
         ]
+        pagination_details = language_paginator.pagination_details(paginated_languages)
     except Exception as e:
         logger.exception(e)
         return standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=language_list))
+    return standardize_response(payload=dict(data=language_list, **pagination_details))
 
 
 def get_categories():
@@ -196,15 +204,18 @@ def get_categories():
         category_paginator = Paginator(Config.CATEGORY_PAGINATOR, request)
         query = Category.query
 
+        paginated_categories = category_paginator.paginated_data(query)
+        if not paginated_categories:
+            return redirect('/404')
         category_list = [
-            category.serialize for category in category_paginator.items(query)
+            category.serialize for category in paginated_categories.items
         ]
-
+        pagination_details = category_paginator.pagination_details(paginated_categories)
     except Exception as e:
         logger.exception(e)
         return standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=category_list))
+    return standardize_response(payload=dict(data=category_list, **pagination_details))
 
 
 def get_attributes(json):

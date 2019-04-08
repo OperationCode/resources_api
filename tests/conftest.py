@@ -135,14 +135,14 @@ def fake_invalid_auth_from_oc(mocker):
     mocker.patch("requests.post", return_value=FakeExternalResponse())
 
 @pytest.fixture(scope='function')
-def fake_items_error(mocker):
+def fake_paginated_data_error(mocker):
     """
     Mocks an exception being raised during pagination to test error handling
     """
-    def items():
+    def paginated_data():
         raise Exception("An \"unexpected\" Exception was raised!")
 
-    mocker.patch('app.utils.Paginator.items', side_effect=items)
+    mocker.patch('app.utils.Paginator.paginated_data', side_effect=paginated_data)
 
 @pytest.fixture(scope='function')
 def fake_commit_error(mocker):
