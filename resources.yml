@@ -2401,7 +2401,7 @@
 - name: VetForce
   url: https://veterans.force.com/VetForceVeteranRegistration
   category: Veterans
-  languages:
+  languages: ["Salesforce"]
   paid: false
   notes: Free salesforce training for vets
 
@@ -7497,7 +7497,7 @@
 - name: Kubernetes Illustrated Guide
   url: https://deis.com/blog/2016/kubernetes-illustrated-guide/
   category: DevOps
-  languages: ["k8s"]
+  languages: ["Kubernetes"]
   paid: false
   notes:
 
@@ -11816,7 +11816,7 @@
 - name: Kubernetes The Hard Way
   url: https://github.com/kelseyhightower/kubernetes-the-hard-way
   category: DevOps
-  languages: ["k8s"]
+  languages: ["Kubernetes"]
   paid: false
   notes:
 
@@ -13133,5 +13133,1153 @@
   url: https://dev.to/aspittel/css-from-zero-to-hero-3o16
   category: Front End Dev
   languages: ["CSS"]
+  paid: false
+  notes:
+
+- name: "Security Engineering: A Guide to Building Dependable Distributed Systems"
+  url: https://www.amazon.com/Security-Engineering-Building-Dependable-Distributed/dp/0470068523
+  category: Books
+  languages: []
+  paid: true
+  notes: Information Security
+
+- name: "The Practice of Network Security Monitoring: Understanding Incident Detection and Response"
+  url: https://www.amazon.com/gp/product/B00E5REN34/ref=dbs_a_def_rwt_hsch_vapi_taft_p1_i0
+  category: Books
+  languages: []
+  paid: true
+  notes: Information Security
+
+- name: "Tribe of Hackers: Cybersecurity Advice from the Best Hackers in the World"
+  url: https://www.amazon.com/Tribe-Hackers-Cybersecurity-Advice-World/dp/1793464189
+  category: Books
+  languages: []
+  paid: true
+  notes: Information Security
+
+- name: "Penetration Testing: A Hands-On Introduction to Hacking"
+  url: https://www.amazon.com/Penetration-Testing-Hands-Introduction-Hacking/dp/1593275641
+  category: Books
+  languages: []
+  paid: true
+  notes: Information Security
+
+- name: "Hacking: The Art of Exploitation, 2nd Edition"
+  url: https://www.amazon.com/Hacking-Art-Exploitation-Jon-Erickson/dp/1593271441
+  category: Books
+  languages: []
+  paid: true
+  notes: Information Security
+
+- name: "Countdown to Zero Day: Stuxnet and the Launch of the World's First Digital Weapon"
+  url: https://www.amazon.com/Countdown-Zero-Day-Stuxnet-Digital/dp/0770436196
+  category: Books
+  languages: []
+  paid: true
+  notes: Information Security
+
+- name: "Click Here to Kill Everybody: Security and Survival in a Hyper-connected World"
+  url: https://www.amazon.com/Click-Here-Kill-Everybody-Hyper-connected-ebook/dp/B07BLMQKZK
+  category: Books
+  languages: []
+  paid: true
+  notes: Information Security
+
+- name: Hiding From The Internet
+  url: https://inteltechniques.com/book2.html
+  category: Books
+  languages: []
+  paid: true
+  notes: Information Security
+
+- name: My Collection of Cybersecurity, Intelligence and Recommended Books
+  url: https://www.linkedin.com/pulse/my-collection-cybersecurity-books-christophe-foulon-cissp/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: "Defensive Security Handbook: Best Practices for Securing Infrastructure"
+  url: https://www.amazon.com/Defensive-Security-Handbook-Practices-Infrastructure/dp/1491960388
+  category: Books
+  languages: []
+  paid: true
+  notes: Information Security
+
+- name: How to Measure Anything in Cybersecurity Risk
+  url: https://www.amazon.com/How-Measure-Anything-Cybersecurity-Risk/dp/1119085292
+  category: Books
+  languages: []
+  paid: true
+  notes: Information Security
+
+- name: Effective Go
+  url: https://golang.org/doc/effective_go.html
+  category: Web Dev
+  languages: ["Go"]
+  paid: false
+  notes:
+
+- name: The Go Programming Language
+  url: https://www.amazon.com/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440
+  category: Books
+  languages: ["Go"]
+  paid: true
+  notes: First chapter for free here http://www.gopl.io/
+
+- name: The Go Programming Language (First Chapter)
+  url: http://www.gopl.io/
+  category: Books
+  languages: ["Go"]
+  paid: false
+  notes:
+
+- name: Building Web Application with Golang
+  url: https://github.com/astaxie/build-web-application-with-golang/blob/master/en/preface.md
+  category: Tutorials
+  languages: ["Go"]
+  paid: false
+  notes:
+
+- name: A Tour of Go
+  url: https://tour.golang.org/welcome/1
+  category: Tutorials
+  languages: ["Go"]
+  paid: false
+  notes:
+
+- name: Introduction to Python
+  url: http://introtopython.org/
+  category: Back End Dev
+  languages: ["Python"]
+  paid: false
+  notes: Introduction to Python is a resource for students who want to learn Python as their first language, and for teachers who want a free and open curriculum to use with their students
+
+- name: "Python Tutorial for Beginners"
+  url: https://www.youtube.com/watch?v=YYXdXT2l-Gg&list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU
+  category: Back End Dev
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: Python 101
+  url: https://leanpub.com/python_101
+  category: Back End Dev
+  languages: ["Python"]
+  paid: true
+  notes:
+
+- name: PyFinTech
+  url: https://github.com/j-goheen/PyFinTech
+  category: Personal Finance
+  languages: ["Python", "C++", "Java"]
+  paid:
+  notes: Source for all things Finance + Python | C++ | Java
+
+- name: Try Hack Me
+  url: https://tryhackme.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: "Five Pillars of Success: Curated Content for Early Stage Entrepreneurs"
+  url: https://www.techstars.com/content/accelerators/five-pillars-success-curated-content-early-stage-entrepreneurs/?utm_source=LinkedIn&utm_medium=Social%20Media&utm_campaign=saba_mar7
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes:
+
+- name: Pwnable.kr
+  url: https://pwnable.kr/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: How to keep calm and become a Security Engineer
+  url: https://medium.freecodecamp.org/keep-calm-and-become-a-security-engineer-8547bd33a5cd
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Veterans Legal Institute
+  url: https://www.vetslegal.com/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: VA Home Loans
+  url: https://www.benefits.va.gov/homeloans/resources_veteran.asp
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: First-Time Homebuyers & the Advantages of VA Loans
+  url: https://www.military.com/money/va-loans/first-time-homebuyers-and-advantages-of-va-loans.html
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: VA Home Loans for First Time Buyers
+  url: https://militarybenefits.info/va-home-loans-for-first-time-buyers/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Veterans' Assistance (Moving)
+  url: https://www.mynextmove.org/vets/help/vets_assistance/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Moving Discounts
+  url: https://www.dav.org/membership/members/member-advantages/moving-discounts/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Veteran’s Business Network
+  url: https://veteransbusinessnetwork.com/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Coalition for Veteran Owned Business
+  url: http://veteranbusinesscoalition.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: National Veteran Business Development Council
+  url: http://nvbdc.org/events.html
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: America’s SBDC
+  url: https://americassbdc.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: For Service-Disabled Veteran-Owned Small Businesses
+  url: https://www.gsa.gov/small-business/find-and-pursue-government-contracts/seek-opportunities/setasides-special-interest-groups/for-servicedisabled-veteranowned-small-businesses
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Veteran-owned businesses
+  url: https://www.sba.gov/business-guide/grow-your-business/veteran-owned-businesses
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: National Veteran Owned Business Association
+  url: https://navoba.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: VictorySpark
+  url: https://angel.co/victoryspark
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Tech Stars
+  url: https://www.techstars.com/
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes:
+
+- name: Small Business Cybersecurity Corner
+  url: https://www.nist.gov/itl/smallbusinesscyber
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Basic Color Theory for Web Developers
+  url: https://dev.to/nzonnenberg/basic-color-theory-for-web-developers-15a0
+  category: Front End Dev
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Free Courses from Corporate Finance Institute
+  url: https://courses.corporatefinanceinstitute.com/collections/free
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: Salary Negotiation Tips from White Men in Tech
+  url: https://keirstenbrager.tech/salarytips-part1/
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Finding a Job
+  url: https://github.com/kevinkiklee/kevinkiklee/blob/gh-pages/content/posts/rambles/20171228-finding-a-job/index.md
+  category: Jobs
+  languages: []
+  paid: false
+  notes: From our very own @KevinKLee
+
+- name: Operation Code Algorithms Curriculum
+  url: https://github.com/OperationCode/algorithms/blob/master/README.md
+  category: Computer Science
+  languages: []
+  paid: false
+  notes: From our very own @KevinKLee
+
+- name: INE
+  url: https://ine.com/
+  category: Online Courses
+  languages: []
+  paid: true
+  notes:
+
+- name: SFDC Vets
+  url: https://sfdcvets.com/2019/03/17/where-to-begin/
+  category: Veterans
+  languages: ["Salesforce"]
+  paid: false
+  notes: Salesforce
+
+- name: Awesome SDLC
+  url: https://github.com/doshyt/Awesome-SDLC
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Collection of resources on building Secure Development Lifecycle.
+
+- name: htmlreference.io
+  url: https://htmlreference.io/
+  category: Front End Dev
+  languages: ["HTML"]
+  paid: false
+  notes:
+
+- name: OWASP Top 10 (2017)
+  url: https://www.youtube.com/playlist?list=PLpNYlUeSK_rnsMu5S4UGtGy2HSmZdTUNl
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: The Open Guide to Amazon Web Services
+  url: https://github.com/open-guides/og-aws
+  category: Cloud Computing
+  languages: []
+  paid: false
+  notes:
+
+- name: Absolute AppSec
+  url: https://absoluteappsec.com/
+  category: Podcasts
+  languages: []
+  paid: false
+  notes:
+
+- name: Salary strategies everyone in tech already knows — but you don't
+  url: https://teamcandor.com/salary/guide/
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: C# Guide
+  url: https://docs.microsoft.com/en-us/dotnet/csharp/index
+  category: Back End Dev
+  languages: ["C#"]
+  paid: false
+  notes:
+
+- name: Ruby Under a Microscope
+  url: http://patshaughnessy.net/ruby-under-a-microscope
+  category: Books
+  languages: ["Ruby"]
+  paid: true
+  notes:
+
+- name: "The Ruby Programming Language: Everything You Need to Know"
+  url: https://www.amazon.com/Ruby-Programming-Language-Everything-Need/dp/0596516177
+  category: Books
+  languages: ["Ruby"]
+  paid: true
+  notes:
+
+- name: Mastering Ruby Closures
+  url: https://pragprog.com/book/btrubyclo/mastering-ruby-closures
+  category: Books
+  languages: ["Ruby"]
+  paid: true
+  notes:
+
+- name: The Secure Developer
+  url: https://www.heavybit.com/library/podcasts/the-secure-developer/
+  category: Podcasts
+  languages: []
+  paid: false
+  notes: Information Security
+
+- name: "Securing Serverless: A Newbie’s Guide"
+  url: https://www.jeremydaly.com/securing-serverless-a-newbies-guide/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: "Dawn of the Code War: America's Battle Against Russia, China, and the Rising Global Cyber Threat"
+  url: https://www.amazon.com/Dawn-Code-War-Americas-Against/dp/B07J9L41HH/ref=sr_1_11
+  category: Information Security
+  languages: []
+  paid: true
+  notes: The inside story of how America's enemies launched a cyberwar against us - and how we've learned to fight back.
+
+- name: Tek Systems
+  url: https://www.teksystems.com
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Insight Global
+  url: https://www.insightglobal.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Bradley Morris
+  url: https://www.bradley-morris.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Lucas Group
+  url: https://www.lucasgroup.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Kelly Services
+  url: https://www.kellyservices.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: USA Jobs
+  url: https://www.usajobs.gov/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Veteran Recruiting
+  url: https://veteranrecruiting.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Hire Veterans
+  url: https://hireveterans.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Vet Jobs
+  url: https://vetjobs.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: CSI Executive Search
+  url: https://www.csi-executivesearch.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Recruit Military
+  url: https://recruitmilitary.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: The Veteran Staffing Network
+  url: http://www.easterseals.com/DCMDVA/our-programs/military-veteran-services/veteran-staffing-network.html
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Military Hire
+  url: https://www.militaryhire.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Leave No Veteran Behind
+  url: https://www.leavenoveteranbehind.org/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Cameron-Brooks
+  url: https://www.cameron-brooks.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Government Jobs
+  url: https://www.governmentjobs.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Career One Stop
+  url: http://www.careeronestop.org/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Department of Labor
+  url: https://www.dol.gov/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Federal Government Jobs
+  url: http://federalgovernmentjobs.us/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Robert Half
+  url: https://www.roberthalf.com/work-with-us/our-services/technology
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Zip Recruiter
+  url: https://www.ziprecruiter.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Monster
+  url: https://www.monster.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: HUD-VASH VOUCHERS
+  url: https://www.hud.gov/program_offices/public_indian_housing/programs/hcv/vash
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Illinois Veteran Grant
+  url: https://www.isac.org/isac-gift-assistance-programs/illinois-veteran-grant/ivg-eligibility-requirements.html
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: The Mission Continues
+  url: https://missioncontinues.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Team RWB
+  url: https://www.teamrwb.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: IAVA
+  url: https://iava.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Team Rubicon USA
+  url: https://teamrubiconusa.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: The American Legion
+  url: https://www.legion.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Veterans of Foreign Wars
+  url: https://www.vfw.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Next Step Service Dogs
+  url: https://www.nextstepservicedogs.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Veterans Moving Forward
+  url: https://vetsfwd.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Caliber Collision Recycled Rides
+  url: https://calibercollision.com/about-us/community-involvement/recycled-rides
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: American Veterans
+  url: https://amvets.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Paralyzed Veterans of America
+  url: https://www.pva.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Blinded Veterans Association
+  url: https://www.bva.org/bva-convention/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Marine Corps League
+  url: https://www.mclnational.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Jewish War Veterans
+  url: https://www.jwv.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Wounded Warrior Project
+  url: https://www.woundedwarriorproject.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: National Association of Black Veterans
+  url: https://nabvets.weebly.com/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Catholic War Veterans
+  url: http://www.cwv.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: National Veterans Outreach
+  url: http://www.agif-nvop.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Honor Flight
+  url: https://www.honorflight.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Air Force Sergeants Association
+  url: https://www.hqafsa.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Polish Legion of American Veterans
+  url: http://www.plav.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: ABCA Recycling
+  url: https://www.itamvets.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Fleet Reserve Association
+  url: https://www.fra.org/fra/Web/About_FRA/Web/About_FRA.aspx?hkey=218ef517-7b91-433d-8cbc-e4a9f2cc54df
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: THE ENTREPRENEURSHIP BOOTCAMP FOR VETERANS
+  url: http://ebv.vets.syr.edu/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Veteran eMentor
+  url: https://www.ementorprogram.org/veteran-ementor/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Strength in Support
+  url: https://www.strengthinsupport.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Orion Talent
+  url: https://www.oriontalent.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: 570 Free Online Programming & Computer Science Courses You Can Start in April
+  url: https://medium.freecodecamp.org/570-free-online-programming-computer-science-courses-you-can-start-in-april-b8ddbdda61e2
+  category: Online Courses
+  languages: []
+  paid: false
+  notes:
+
+- name: Veterans Job Fairs
+  url: https://veteransjobfairs.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Books that Junior Developers should read in 2019
+  url: https://medium.freecodecamp.org/9-books-for-junior-developers-in-2019-e41fc7ecc586
+  category: Getting Started
+  languages: []
+  paid: false
+  notes:
+
+- name: Domain Driven Design Quickly
+  url: https://www.infoq.com/minibooks/domain-driven-design-quickly
+  category: Books
+  languages: []
+  paid: false
+  notes:
+
+- name: JS Party
+  url: https://changelog.com/jsparty
+  category: Podcasts
+  languages: []
+  paid: false
+  notes:
+
+- name: Real Talk JavaScript
+  url: https://realtalkjavascript.simplecast.fm/
+  category: Podcasts
+  languages: ["JavaScript"]
+  paid: false
+  notes:
+
+- name: LevelUpTuts
+  url: https://www.youtube.com/channel/UCyU5wkjgQYGRB0hIHMwm2Sg
+  category: Tutorials
+  languages: []
+  paid: false
+  notes:
+
+- name: Dev Tips
+  url: https://www.youtube.com/channel/UCyIe-61Y8C4_o-zZCtO4ETQ
+  category: Getting Started
+  languages: []
+  paid: false
+  notes:
+
+- name: Technical Interview Practice
+  url: https://codesignal.com/developers/interview-practice/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: "CYBER: A Hacking Podcast"
+  url: https://motherboard.vice.com/en_us/article/59vpnx/introducing-cyber-a-hacking-podcast-by-motherboard
+  category: Podcasts
+  languages: []
+  paid: false
+  notes: Information Security
+
+- name: "Operation Code and Sam Bisbee Talk About Getting Started in Security"
+  url: https://www.threatstack.com/blog/operation-code-and-sam-bisbee-talk-about-getting-started-in-security
+  category: Getting Started
+  languages: []
+  paid: false
+  notes: Information Security
+
+- name: "Breaking into Information Security: Learning the Ropes 101"
+  url: https://leanpub.com/ltr101-breaking-into-infosec
+  category: Books
+  languages: []
+  paid: true
+  notes: Information Security
+
+- name: "Conference notes: The Bug Hunters Methodology v3(ish) (LevelUp 0x02 / 2018)"
+  url: https://pentester.land/conference-notes/2018/08/02/levelup-2018-the-bug-hunters-methodology-v3.html
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: JSON Web Tokens (JWT)
+  url: https://www.google.nl/imgres?imgurl=https://cheatsheets.pragmaticwebsecurity.com/img/jwt.png&imgrefurl=https://cheatsheets.pragmaticwebsecurity.com/jwt.html&docid=ho8lNbeqUnZHZM&tbnid=UdMCHiLu4IeQpM:&vet=1&w=595&h=842&hl=nl-nl&source=sh/x/im
+  category: Cheat Sheets
+  languages: []
+  paid: false
+  notes:
+
+- name: How to Format a Cover Letter (With Example)
+  url: https://www.indeed.com/career-advice/resumes-cover-letters/how-to-format-a-cover-letter-example
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Hacking With Go
+  url: https://github.com/parsiya/Hacking-with-Go
+  category: Information Security
+  languages: ["Go"]
+  paid: false
+  notes:
+
+- name: A Guide to Seed Fundraising
+  url: https://blog.ycombinator.com/how-to-raise-a-seed-round/
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes:
+
+- name: BASIC NETWORKING POWERSHELL CMDLETS CHEATSHEET TO REPLACE NETSH, IPCONFIG, NSLOOKUP AND MORE
+  url: https://www.thomasmaurer.ch/2016/02/basic-networking-powershell-cmdlets-cheatsheet-to-replace-netsh-ipconfig-nslookup-and-more/
+  category: Cheat Sheets
+  languages: []
+  paid: false
+  notes: Information Security
+
+- name: Reverse Shells
+  url: https://alamot.github.io/reverse_shells/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Web Security Academy
+  url: https://portswigger.net/web-security
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Games to Test Your Coding Skills
+  url: https://www.tunnelsup.com/games-to-test-your-coding-skills/
+  category: Code Challenges
+  languages: []
+  paid: false
+  notes:
+
+- name: "CYBERPUNK: Outlaws and Hackers on the Computer Frontier"
+  url: https://www.amazon.com/CYBERPUNK-Outlaws-Hackers-Computer-Frontier/dp/0684818620
+  category: Books
+  languages: []
+  paid: true
+  notes: Information Security
+
+- name: The Unescape Room
+  url: https://github.com/jobertabma/unescape-room
+  category: Information Security
+  languages: []
+  paid: false
+  notes: The Unescape Room is a game that automatically generates levels to test your Cross-Site Scripting (XSS) skills
+
+- name: The Unescape Room
+  url: https://unescape-room.jobertabma.nl/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: This game will help you improve your Cross-Site Scripting (XSS) skills through challenges
+
+- name: PROGRAMMING FROM THE GROUND UP
+  url: https://programminggroundup.blogspot.com/
+  category: Getting Started
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Front End Checklist
+  url: https://frontendchecklist.io/
+  category: Front End Dev
+  languages: []
+  paid: false
+  notes: The Front-End Checklist Application is perfect for modern websites and meticulous developers
+
+- name: My Definition of DevOps
+  url: https://kenmugrage.com/2017/05/05/my-new-definition-of-devops/
+  category: DevOps
+  languages: []
+  paid: false
+  notes:
+
+- name: Rainier Cyber
+  url: https://rainiercyber.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Free On Demand Courses
+  url: https://www.tenable.com/education/on-demand-courses
+  category: Online Courses
+  languages: []
+  paid: false
+  notes:
+
+- name: "The Linux Command Line, 2nd Edition: A Complete Introduction"
+  url: https://www.amazon.com/dp/1593279523/ref=cm_sw_em_r_mt_dp_U_tanRCb061BH09
+  category: Books
+  languages: ["Linux"]
+  paid: true
+  notes:
+
+- name: "The Linux Programming Interface: A Linux and UNIX System Programming Handbook"
+  url: https://www.amazon.com/Linux-Programming-Interface-System-Handbook/dp/1593272200
+  category: Books
+  languages: []
+  paid: true
+  notes:
+
+- name: Merivis Foundation
+  url: https://merivisfoundation.org/
+  category: Veterans
+  languages: ["Salesforce"]
+  paid: false
+  notes:
+
+- name: Data Scientist vs Data Engineer
+  url: https://www.datacamp.com/community/blog/data-scientist-vs-data-engineer
+  category: Data Science
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Big Data and AI Strategies
+  url: https://www.cfasociety.org/cleveland/Lists/Events%20Calendar/Attachments/1045/BIG-Data_AI-JPMmay2017.pdf
+  category: Data Science
+  languages: []
+  paid: false
+  notes:
+
+- name: Frontend Bootcamp
+  url: https://github.com/Microsoft/frontend-bootcamp
+  category: Front End Dev
+  languages: []
+  paid: false
+  notes:
+
+- name: K Means Algorithm
+  url: https://scikit-learn.org/stable/modules/clustering.html#k-means
+  category: Computer Science
+  languages: []
+  paid: false
+  notes:
+
+- name: Everything You Need To Know Before Starting A Startup
+  url: https://about.crunchbase.com/blog/before-starting-startup/
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes:
+
+- name: Equity Compensation
+  url: https://www.holloway.com/g/equity-compensation
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: Legal Concepts for Founders
+  url: https://handbook.clerky.com/
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes:
+
+- name: The System Design Primer
+  url: https://github.com/donnemartin/system-design-primer
+  category: DevOps
+  languages: []
+  paid: false
+  notes: Learn how to design large-scale systems. Prep for the system design interview.
+
+- name: Node.js Security Best Practices
+  url: https://medium.com/@nodepractices/were-under-attack-23-node-js-security-best-practices-e33c146cb87d
+  category: Information Security
+  languages: ["JavaScript"]
+  paid: false
+  notes:
+
+- name: Practical Binary Analysis
+  url: https://practicalbinaryanalysis.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: I’ve read thousands of resumes. Most of them suck. Yours doesn’t have to.
+  url: https://medium.com/@emeyerson/ive-read-thousands-of-resumes-most-of-them-suck-yours-doesn-t-have-to-ab6107fa8ace
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: The New Boston
+  url: https://www.youtube.com/user/thenewboston
+  category: Tutorials
+  languages: []
+  paid: false
+  notes:
+
+- name: Awesome Python Security
+  url: https://github.com/guardrailsio/awesome-python-security
+  category: Information Security
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: Python Playground
+  url: https://nostarch.com/pythonplayground
+  category: Books
+  languages: ["Python"]
+  paid: true
+  notes:
+
+- name: Serious Python
+  url: https://serious-python.com/
+  category: Books
+  languages: ["Python"]
+  paid: true
+  notes:
+
+- name: A Bridge Program to NYU Tandon
+  url: https://engineering.nyu.edu/academics/programs/bridge-program-nyu-tandon
+  category: Computer Science
+  languages: []
+  paid: true
+  notes: Created for individuals with non-engineering backgrounds, the program provides you the tools needed to be admitted into select graduate-level programs at the School of Engineering
+
+- name: CSS Selectors Cheat Sheet
+  url: https://codepen.io/nana8/pen/aXQgoj
+  category: Cheat Sheets
+  languages: ["CSS"]
+  paid: false
+  notes:
+
+- name: Thoughtbot Books
+  url: https://books.thoughtbot.com/
+  category: Books
+  languages: ["Ruby", "JavaScript", "Haskell", "Git"]
+  paid: false
+  notes:
+
+- name: CSS Selectors Cheat Sheet
+  url: https://frontend30.com/css-selectors-cheatsheet/
+  category: Front End Dev
+  languages: ["CSS"]
+  paid: false
+  notes:
+
+- name: The definitive guide to setup my Python workspace
+  url: https://medium.com/@henriquebastos/the-definitive-guide-to-setup-my-python-workspace-628d68552e14
+  category: Getting Started
+  languages: ["Python"]
+  paid: false
+  notes:
+
+- name: SoloLearn
+  url: https://www.sololearn.com/
+  category: Tutorials
+  languages: ["C++", "Python", "Java"]
   paid: false
   notes:
