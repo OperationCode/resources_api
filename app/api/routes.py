@@ -126,6 +126,7 @@ def get_resources():
     language = request.args.get('language')
     category = request.args.get('category')
     updated_after = request.args.get('updated_after')
+    paid = request.args.get('paid')
 
     q = Resource.query
 
@@ -164,6 +165,11 @@ def get_resources():
                 Resource.last_updated >= uaDate
             )
         )
+
+    # Filter on paid
+    if isinstance(paid, str):
+        paidAsBool = paid.lower() == 'true'
+        q = q.filter(Resource.paid == paidAsBool)
 
     try:
         paginated_resources = resource_paginator.paginated_data(q)
