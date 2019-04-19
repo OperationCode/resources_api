@@ -329,6 +329,17 @@ def test_create_resource(module_client, module_db, fake_auth_from_oc):
     response = create_resource(client, "invalidapikey")
     assert (response.status_code == 401)
 
+    # Invalid Resource Path
+    response = client.post('/api/v1/resources',
+        headers = {'x-apikey': apikey}
+    )
+    assert (response.status_code == 422)
+    response = client.post('/api/v1/resources',
+        json = dict(notes="Missing Required fields"),
+        headers = {'x-apikey': apikey}
+    )
+    assert (response.status_code == 422)
+
 
 def test_update_resource(module_client, module_db, fake_auth_from_oc):
     client = module_client
@@ -444,6 +455,8 @@ def test_rate_limit(module_client, module_db):
 ##########################################
 ## Helpers
 ##########################################
+
+
 def create_resource(client, apikey):
     return client.post('/api/v1/resources',
         json = dict(

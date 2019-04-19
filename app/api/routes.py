@@ -25,6 +25,9 @@ def resources():
 @bp.route('/resources', methods=['POST'], endpoint='create_resource')
 @authenticate
 def post_resources():
+    validation_errors = validate_resource(request.get_json())
+    if validation_errors:
+        return standardize_response(payload=validation_errors, status_code=422)
     return create_resource(request.get_json(), db)
 
 
@@ -361,3 +364,27 @@ def create_new_apikey(email):
     except Exception as e:
         logger.exception(e)
         return standardize_response(status_code=500)
+
+
+def validate_resource(json):
+    validation_errors = {'errors': {'type': 'validation'}}
+    if not json:
+        message = "A JSON body is required to use this endpoint, but none was given"
+        validation_errors['errors']['message'] = message
+        return validation_errors
+
+    validation_errors['errors']['missing_params'] = []
+
+    required = []
+    for column in Resource.__table__.columns:
+        if column.nullable is False and column.name != 'id':
+            # strip _id from category_id
+            name = column.name.replace('_id', '')
+            required.append(name)
+
+    for prop in required:
+        if not json.get(prop):
+            validation_errors['errors']['missing_params'].append(prop)
+
+    if validation_errors['errors']['missing_params']:
+        return validation_errors
