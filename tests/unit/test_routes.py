@@ -137,6 +137,30 @@ def test_paginator(module_client, module_db):
     assert (response['has_prev'] is not None)
 
 
+def test_paid_filter(module_client, module_db):
+    client = module_client
+
+    total_resources = client.get('api/v1/resources').json['total_count']
+
+    # Filter by paid
+    response = client.get('api/v1/resources?paid=false')
+
+    total_free_resources = response.json['total_count']
+
+    assert all([res.get('paid') == False for res in response.json['data']])
+
+    response = client.get('api/v1/resources?paid=true')
+
+    total_paid_resources = response.json['total_count']
+
+    assert all([res.get('paid') == True for res in response.json['data']])
+
+    # Check that the number of resources appear correct
+    assert (total_paid_resources > 0)
+    assert (total_free_resources > 0)
+    assert (total_resources == total_free_resources + total_paid_resources)
+
+
 def test_filters(module_client, module_db):
     client = module_client
 

@@ -30,7 +30,7 @@ class Resource(TimestampMixin, db.Model):
                             nullable=False)
     category = db.relationship('Category')
     languages = db.relationship('Language', secondary=language_identifier)
-    paid = db.Column(db.Boolean, default=False)
+    paid = db.Column(db.Boolean, nullable=False, default=False)
     notes = db.Column(db.String)
     upvotes = db.Column(db.INTEGER, default=0)
     downvotes = db.Column(db.INTEGER, default=0)
