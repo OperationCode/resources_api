@@ -16,13 +16,22 @@ def get_sys_exec_root_or_drive():
     return path
 
 
-if not os.environ.get('SQLALCHEMY_DATABASE_URI'):
-    raise KeyError("Application requires 'SQLALCHEMY_DATABASE_URI' to run in non DEVELOPMENT")
+postgres_user = os.environ.get('POSTGRES_USER')
+if not postgres_user:
+    raise KeyError("Application requires 'POSTGRES_USER' to run")
+
+postgres_password = os.environ.get('POSTGRES_PASSWORD')
+if not postgres_password:
+    raise KeyError("Application requires 'POSTGRES_PASSWORD' to run")
+
+postgres_db = os.environ.get('POSTGRES_DB')
+if not postgres_db:
+    raise KeyError("Application requires 'POSTGRES_DB' to run")
 
 
 class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = f"postgresql://{postgres_user}:{postgres_password}@{postgres_db}:5432/{postgres_db}"
 
     # Can pass in changes to defaults, such as PaginatorConfig(per_page=40)
     RESOURCE_PAGINATOR = PaginatorConfig()
