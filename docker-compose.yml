@@ -20,8 +20,8 @@ services:
     image: postgres:10.1-alpine
     container_name: resources-psql
     environment:
-    - POSTGRES_USER=user_name
-    - POSTGRES_PASSWORD=change_password
+    - POSTGRES_USER=${POSTGRES_USER}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     - POSTGRES_DB=${POSTGRES_DB}
     ports:
     - 5432:5432
