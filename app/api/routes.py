@@ -383,7 +383,7 @@ def validate_resource(json):
             required.append(name)
 
     for prop in required:
-        if not json.get(prop):
+        if json.get(prop) is None:
             validation_errors['errors']['missing_params'].append(prop)
 
     if validation_errors['errors']['missing_params']:
