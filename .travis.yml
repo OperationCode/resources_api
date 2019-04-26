@@ -1,6 +1,9 @@
 env:
   global:
     - SQLALCHEMY_DATABASE_URI="sqlite:///:memory:"
+    - IMAGE_NAME=resources-api
+    - DEPLOY_BRANCHES="master staging"
+    - AWS_REGION=us-east-2
 language: python
 sudo: required
 dist: xenial
@@ -37,3 +40,4 @@ after_script:
   - docker-compose run resources-api coverage xml
   - docker-compose -f docker-compose.yml down
   - if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then ./cc-test-reporter -r 147d129d98f3d606ce69bc151bbeded40dc684fe11e0f5a831f11f6b36680b22 after-build --exit-code $TRAVIS_TEST_RESULT; fi
+  - bash bin/run.sh
