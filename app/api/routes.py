@@ -2,7 +2,6 @@ from traceback import print_tb
 
 from flask import request, redirect
 from sqlalchemy import or_, func
-from sqlalchemy.orm.exc import NoResultFound
 
 from app.api import bp
 from app.api.auth import is_user_oc_member, authenticate
@@ -99,14 +98,7 @@ def apikey():
 
 # Helpers
 def get_resource(id):
-    resource = None
-    try:
-        resource = Resource.query.get(id)
-
-    except NoResultFound as e:
-        print_tb(e.__traceback__)
-        logger.exception(e)
-        return redirect('/404')
+    resource = Resource.query.get(id)
 
     if resource:
         return standardize_response(payload=dict(data=(resource.serialize)))
@@ -251,11 +243,6 @@ def update_votes(id, vote_direction):
         if not resource:
             return redirect('/404')
 
-    except NoResultFound as e:
-        print_tb(e.__traceback__)
-        logger.exception(e)
-        return redirect('/404')
-
     except Exception as e:
         print_tb(e.__traceback__)
         logger.exception(e)
@@ -274,11 +261,6 @@ def add_click(id):
 
         if not resource:
             return redirect('/404')
-
-    except NoResultFound as e:
-        print_tb(e.__traceback__)
-        logger.exception(e)
-        return redirect('/404')
 
     except Exception as e:
         print_tb(e.__traceback__)
