@@ -83,11 +83,11 @@ def test_single_resource_out_of_bounds(module_client, module_db):
 
     too_low = 0
     too_high = 9999
-    response = client.get(f"api/v1/resources{too_low}", follow_redirects=True)
+    response = client.get(f"api/v1/resources/{too_low}", follow_redirects=True)
 
     assert (response.status_code == 404)
 
-    response = client.get(f"api/v1/resources{too_high}", follow_redirects=True)
+    response = client.get(f"api/v1/resources/{too_high}", follow_redirects=True)
 
     assert (response.status_code == 404)
 
