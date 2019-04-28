@@ -18,7 +18,7 @@ Sometimes these installs can be tricky.  If you get stuck ask for help in the Sl
 - Linux: install [docker compose](https://docs.docker.com/compose/install/#install-compose) as well.
 4. [Install Make](http://gnuwin32.sourceforge.net/packages/make.htm) if you're on Windows. OSX already has it installed. Linux will tell you how to install it (i.e., `sudo apt-get install make`)
 5. Run `make setup`
-6. Run `make all` and then navigate to http://localhost:8000/api/v1/resources
+6. Run `make all` and then navigate to http://localhost:5000/api/v1/resources
 
 If you see some JSON with a bunch of resources, it worked! If you encounter any errors, please open an issue or contact us on slack in #oc-python-projects.
 
@@ -26,7 +26,7 @@ If you see some JSON with a bunch of resources, it worked! If you encounter any 
 
  Routes that modify the database (e.g., `POST` and `PUT`) are authenticated routes. You need to include a header in your request with your API key. To generate an API key:
 
- 1. Send a POST to http://localhost:8000/api/v1/apikey with the following JSON payload:
+ 1. Send a POST to http://localhost:5000/api/v1/apikey with the following JSON payload:
 ```json
 {
 	"email": "your@email.com",
@@ -51,7 +51,7 @@ The email and password specified should be your login credentials for the Operat
 Example curl request to an authenticated route:
 ```bash
 curl -X POST \
-  http://127.0.0.1:8000/api/v1/resources \
+  http://127.0.0.1:5000/api/v1/resources \
   -H 'Content-Type: application/json' \
   -H 'x-apikey: 0a14f702da134390ae43f3639686fe26' \
   -d '{

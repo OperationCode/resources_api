@@ -10,7 +10,7 @@ services:
     volumes:
     - .:/src
     ports:
-    - 8000:8000
+    - 5000:5000
     links:
     - resources-postgres
     depends_on:
