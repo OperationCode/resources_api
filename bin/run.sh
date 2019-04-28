@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eu
+
 # Only process first job in matrix (TRAVIS_JOB_NUMBER ends with ".1")
 if [[ ! $TRAVIS_JOB_NUMBER =~ \.1$ ]]; then
   echo "Skipping deploy since it's not the first job in matrix"

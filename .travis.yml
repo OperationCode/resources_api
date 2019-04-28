@@ -1,8 +1,6 @@
 env:
   global:
     - SQLALCHEMY_DATABASE_URI="sqlite:///:memory:"
-    - IMAGE_NAME=resources-api
-    - DEPLOY_BRANCHES="master"
 language: python
 sudo: required
 dist: xenial
@@ -13,6 +11,8 @@ services:
 
 env:
   - DOCKER_COMPOSE_VERSION=1.22.0
+  - IMAGE_NAME=resources-api
+  - DEPLOY_BRANCHES="master"
 
 install:
   - pip install pipenv
