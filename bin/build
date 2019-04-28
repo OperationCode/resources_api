@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 set -eu
-# import util functions
-source "${SCRIPTDIR}/../lib/util.sh"
+
+echo "IMAGE_NAME $IMAGE_NAME"
+IMAGE_NAME="resources-api"
 
 echo "Building Docker image..."
-runCommand "docker build -t $IMAGE_NAME -f Dockerfile ." || exit $?
+docker build -t $IMAGE_NAME -f Dockerfile . || exit $?
