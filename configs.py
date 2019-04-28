@@ -28,10 +28,14 @@ postgres_db = os.environ.get('POSTGRES_DB')
 if not postgres_db:
     raise KeyError("Application requires 'POSTGRES_DB' to run")
 
+postgres_host = os.environ.get('POSTGRES_HOST')
+if not postgres_host:
+    raise KeyError("Application requires 'POSTGRES_HOST' to run")
+
 
 class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = f"postgresql://{postgres_user}:{postgres_password}@{postgres_db}:5432/{postgres_db}"
+    SQLALCHEMY_DATABASE_URI = f"postgresql://{postgres_user}:{postgres_password}@{postgres_host}:5432/{postgres_db}"
 
     # Can pass in changes to defaults, such as PaginatorConfig(per_page=40)
     RESOURCE_PAGINATOR = PaginatorConfig()
