@@ -7,6 +7,7 @@
 set -eu
 
 DOCKER_REPO="operationcode/resources-api"
+IMAGE_NAME="resources-api"
 
 IMAGE_ID=$(docker images $IMAGE_NAME:latest --format "{{.ID}}")
 
