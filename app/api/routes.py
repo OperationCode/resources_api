@@ -1,5 +1,3 @@
-from traceback import print_tb
-
 from flask import request, redirect
 from sqlalchemy import or_, func
 
@@ -237,16 +235,11 @@ def get_attributes(json):
 
 
 def update_votes(id, vote_direction):
-    try:
-        resource = Resource.query.get(id)
 
-        if not resource:
-            return redirect('/404')
+    resource = Resource.query.get(id)
 
-    except Exception as e:
-        print_tb(e.__traceback__)
-        logger.exception(e)
-        return standardize_response(status_code=500)
+    if not resource:
+        return redirect('/404')
 
     initial_count = getattr(resource, vote_direction)
     setattr(resource, vote_direction, initial_count+1)
@@ -256,16 +249,10 @@ def update_votes(id, vote_direction):
 
 
 def add_click(id):
-    try:
-        resource = Resource.query.get(id)
+    resource = Resource.query.get(id)
 
-        if not resource:
-            return redirect('/404')
-
-    except Exception as e:
-        print_tb(e.__traceback__)
-        logger.exception(e)
-        return standardize_response(status_code=500)
+    if not resource:
+        return redirect('/404')
 
     initial_count = getattr(resource, 'times_clicked')
     setattr(resource, 'times_clicked', initial_count + 1)
@@ -275,7 +262,6 @@ def add_click(id):
 
 
 def set_resource(id, json, db):
-    resource = None
     resource = Resource.query.get(id)
 
     if not resource:

@@ -417,6 +417,7 @@ def test_key_query_error(module_client, module_db, fake_auth_from_oc, fake_key_q
     ))
     assert (response.status_code == 500)
 
+
 def test_internal_server_error_handler(module_client, module_db, fake_paginated_data_error):
     client = module_client
 
@@ -432,6 +433,13 @@ def test_internal_server_error_handler(module_client, module_db, fake_paginated_
     assert (response.status_code == 500)
     assert (response.json['errors'][0].get("code") == "server-error")
 
+
+def test_method_not_allowed_handler(module_client):
+    client = module_client
+
+    response = client.patch('api/v1/resources')
+    assert (response.status_code == 405)
+    assert (response.json['errors'][0].get("code") == "method-not-allowed")
 
 ##########################################
 ## Other Routes

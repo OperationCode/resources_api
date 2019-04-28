@@ -124,7 +124,7 @@ def update_resource(resource, existing_resource):   # pragma: no cover
     existing_resource.languages = resource['languages']
 
 
-def register(app, db):
+def register(app, db):  # pragma: no cover
     @app.cli.group()
     def db_migrate():
         """ migration commands"""
