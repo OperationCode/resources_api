@@ -2,8 +2,7 @@ env:
   global:
     - SQLALCHEMY_DATABASE_URI="sqlite:///:memory:"
     - IMAGE_NAME=resources-api
-    - DEPLOY_BRANCHES="master staging"
-    - AWS_REGION=us-east-2
+    - DEPLOY_BRANCHES="master"
 language: python
 sudo: required
 dist: xenial

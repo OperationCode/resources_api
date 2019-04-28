@@ -21,12 +21,7 @@ if [[ ! " ${BRANCHES_TO_DEPLOY[@]} " =~ " ${TRAVIS_BRANCH} " ]]; then
   exit 0
 fi
 
-pip install awscli -q
-
 if [ $? = 0 ]; then
-  AWSBIN=$(which aws)
-  AWSPATH=$(dirname $AWSBIN)
-  export PATH=$PATH:$AWSPATH
 
   # Get absolute path of dir where run.sh is located
   SOURCE="${BASH_SOURCE[0]}"
@@ -40,7 +35,4 @@ if [ $? = 0 ]; then
   bash ${SCRIPTDIR}/build &&
   bash ${SCRIPTDIR}/publish
 
-else
-  echo "Failed to install AWS CLI"
-  exit 1
 fi
