@@ -19,6 +19,7 @@ if [[ ! " ${BRANCHES_TO_DEPLOY} " =~ " ${TRAVIS_BRANCH} " ]]; then
   # whatever you want to do when arr contains value
   echo "Branches to deploy: ${DEPLOY_BRANCHES}"
   echo "Travis Branch: ${TRAVIS_BRANCH}"
+
   echo "Skipping deploy, not a branch to be deployed"
   exit 0
 fi
