@@ -7,7 +7,7 @@ from sqlalchemy import exc
 from .models import Category, Language, Resource
 
 
-def import_resources(db):
+def import_resources(db):   # pragma: no cover
     # Step 1: Get data
     with open('resources.yml', encoding='utf-8') as f:
         data = yaml.full_load(f)
@@ -115,7 +115,7 @@ def create_resource(resource, db):
         print('exception', e)
 
 
-def update_resource(resource, existing_resource):
+def update_resource(resource, existing_resource):   # pragma: no cover
     existing_resource.name = resource['name']
     existing_resource.url = resource['url']
     existing_resource.category = resource['category']
@@ -124,7 +124,7 @@ def update_resource(resource, existing_resource):
     existing_resource.languages = resource['languages']
 
 
-def register(app, db):
+def register(app, db):  # pragma: no cover
     @app.cli.group()
     def db_migrate():
         """ migration commands"""

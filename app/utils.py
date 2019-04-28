@@ -97,7 +97,7 @@ def standardize_response(payload={}, status_code=200):
 def setup_logger(name, log_file, level=logging.INFO):
     """Function setup as many loggers as you want"""
     if not os.path.exists('log'):
-        os.makedirs('log')
+        os.makedirs('log')  # pragma: no cover
 
     formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
     handler = logging.FileHandler(log_file)
