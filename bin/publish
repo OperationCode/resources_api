@@ -6,6 +6,8 @@
 
 set -eu
 
+echo "IMAGE_NAME $IMAGE_NAME"
+
 DOCKER_REPO="operationcode/resources-api"
 IMAGE_NAME="resources-api"
 
