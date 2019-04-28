@@ -2,7 +2,6 @@
 
 set -eu
 # import util functions
-source "${SCRIPTDIR}/../lib/util.sh"
 IMAGE_NAME="resources-api"
 
 echo "Building Docker image..."
