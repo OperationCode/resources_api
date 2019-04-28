@@ -2,6 +2,9 @@
 
 set -eu
 
+IMAGE_NAME="resources-api"
+DEPLOY_BRANCHES="master"
+
 # Only process first job in matrix (TRAVIS_JOB_NUMBER ends with ".1")
 if [[ ! $TRAVIS_JOB_NUMBER =~ \.1$ ]]; then
   echo "Skipping deploy since it's not the first job in matrix"
