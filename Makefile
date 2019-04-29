@@ -1,7 +1,7 @@
 DOCKER := docker
 DOCKER_COMPOSE := docker-compose
 RESOURCES_CONTAINER := resources-api
-RESOURCES_DB := resources-psql
+RESOURCES_DB := resources-postgres
 FLASK := flask
 
 .PHONY: all

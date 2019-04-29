@@ -12,13 +12,13 @@ services:
     ports:
     - 8000:8000
     links:
-    - resources-psql
+    - resources-postgres
     depends_on:
-    - resources-psql
+    - resources-postgres
 
-  resources-psql:
+  resources-postgres:
     image: postgres:10.1-alpine
-    container_name: resources-psql
+    container_name: resources-postgres
     environment:
     - POSTGRES_USER=${POSTGRES_USER}
     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
