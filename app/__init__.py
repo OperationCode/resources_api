@@ -1,3 +1,4 @@
+from algoliasearch.search_client import SearchClient
 from configs import Config
 from flask import Flask
 from flask_migrate import Migrate
@@ -12,6 +13,10 @@ API_VERSION = "1.0"
 
 # healthcheck uses API_VERSION so this has to come after it's declared
 from app.healthcheck import add_health_check # noqa
+
+# Connect to Agolia
+search_client = SearchClient.create(Config.SEARCH_USER, Config.SEARCH_KEY)
+index = search_client.init_index(Config.SEARCH_RESOURCE_INDEX)
 
 
 def create_app(config_class=Config):
