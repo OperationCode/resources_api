@@ -80,6 +80,13 @@ def search():
 
 @latency_summary.time()
 @failures_counter.count_exceptions()
+@bp.route('/search', methods=['GET'])
+def search():
+    return search_results()
+
+
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/languages', methods=['GET'])
 def languages():
     return get_languages()
