@@ -1,4 +1,4 @@
-from app import API_VERSION
+from app import API_VERSION, index
 from flask import jsonify
 import logging
 import os
@@ -108,3 +108,11 @@ def setup_logger(name, log_file, level=logging.INFO):
     logger.addHandler(handler)
 
     return logger
+
+
+def reindex_search(query):
+    print("Reindexing Database")
+
+    index.clear_objects()
+    db_list = [u.serialize_algolia_search for u in query.all()]
+    index.save_objects(db_list)

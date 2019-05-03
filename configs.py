@@ -32,10 +32,20 @@ postgres_host = os.environ.get('POSTGRES_HOST')
 if not postgres_host:
     raise KeyError("Application requires 'POSTGRES_HOST' to run")
 
+search_user = os.environ.get('SEARCH_USER')
+search_key = os.environ.get('SEARCH_KEY')
+if not all([search_user, search_key]):
+    print("Application requires 'SEARCH_USER' and 'SEARCH_KEY' for search functionality.")
+
+search_resource_index = os.environ.get("SEARCH_RESOURCE_INDEX")
+
 
 class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = f"postgresql://{postgres_user}:{postgres_password}@{postgres_host}:5432/{postgres_db}"
+    SEARCH_USER = search_user
+    SEARCH_KEY = search_key
+    SEARCH_RESOURCE_INDEX = search_resource_index
 
     # Can pass in changes to defaults, such as PaginatorConfig(per_page=40)
     RESOURCE_PAGINATOR = PaginatorConfig()

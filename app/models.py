@@ -64,6 +64,12 @@ class Resource(TimestampMixin, db.Model):
         }
 
     @property
+    def serialize_algolia_search(self):
+        result = self.serialize
+        result['objectID'] = self.id
+        return result
+
+    @property
     def serialize_languages(self):
         return [lang.name for lang in self.languages]
 
