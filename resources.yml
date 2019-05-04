@@ -14283,3 +14283,423 @@
   languages: ["C++", "Python", "Java"]
   paid: false
   notes:
+
+- name: Problem Solving with C++
+  url: https://www.pearson.com/us/higher-education/program/Savitch-Problem-Solving-with-C-Plus-My-Lab-Programming-with-Pearson-e-Text-Access-Card-Package-10th-Edition/PGM1743309.html
+  category: Books
+  languages: ["C++"]
+  paid: true
+  notes:
+
+- name: "Starting Out with Java: From Control Structures through Objects"
+  url: https://www.amazon.com/dp/0134802217/ref=cm_sw_r_cp_api_i_04UYCbPP29HAK
+  category: Books
+  languages: ["Java"]
+  paid: true
+  notes:
+
+- name: "Introducing GitHub Learning Lab: A new way to level up on GitHub"
+  url: https://github.blog/2018-04-19-introducing-github-learning-lab/
+  category: Open Source
+  languages: ["Git"]
+  paid: false
+  notes:
+
+- name: MacOS Malware Encyclopedia
+  url: https://macos.checkpoint.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: AWS IAM EXPLOITATION
+  url: https://securityriskadvisors.com/blog/aws-iam-exploitation/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: WHAT IS LDAP RECONNAISSANCE?
+  url: https://attack.stealthbits.com/ldap-reconnaissance-active-directory
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
+
+- name:
+  url:
+  category:
+  languages: []
+  paid:
+  notes:
