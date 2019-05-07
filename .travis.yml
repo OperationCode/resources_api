@@ -1,43 +1,38 @@
 env:
+  matrix:
+  - DOCKER_COMPOSE_VERSION=1.22.0
   global:
-    - SQLALCHEMY_DATABASE_URI="sqlite:///:memory:"
-    - IMAGE_NAME=resources-api
+    secure: NK1OVpi2Zo+B1cUEVuGEkVAkFnZuPqbrLgU2KDiLPwdiJjR2SSeqk9S4FZyWol4ZLQaSHXX6dNjI+D+g+ccgnIMJyBx2mPwGP0AvodYYJjOjHRYPZt7FecMRK0aohXrxSYTtpWp1HD5iTd6y/7EAizYqLXjbbhcBSHjXoIzHi6qymQrlw3Ki5YsytBp96yErfPPXl0iF4fPWN+H58nmIPAmDqYVBg4cjrnEK2/W2c09ZVI7w9HBf+69A+A5wqlRn0/LFBY8/qwadroMqF3kGjn0QH7IFJp7RbRSh4nXUI7unT8I/8DZiTeeL23g1lrR36x54FNQCSuIYPVarR7x82kzuA3CKtsr9F7xvzROamgz88kQH+iT3Jxj6Tpt9Iuh8G93aAmUuyXvB3To0KnXYDs6zn+fPDvhTaan8jtV6XtrH9AmkFDAqVKrWL6cJ15vvQP+36nb7gKgWTg1d/7Jasj3+DB9jl9H+Kcacb6BmmSHK/8VRocXaTTRMt6SbZSZh18gsPi+8A7vGjLpSMSIghoRJcNigWEoTUiaALViInem4u1VHBozVZYHv4YX+4k7oJl/Tw0evqesNC3D2Eb9I8levEZGuHfmXq0IGdgl50+faTj5UibizMZG1+o5GdBbRWKudsotbzWKVd4zmzrLfPiAuAIhkllSa2FogEzitEqs=
 language: python
 sudo: required
 dist: xenial
-python: "3.7"
-
+python: '3.7'
 services:
-  - docker
-
-env:
-  - DOCKER_COMPOSE_VERSION=1.22.0
-
+- docker
 install:
-  - pip install pipenv
-  - pipenv install --dev
-
+- pip install pipenv
+- pipenv install --dev
 before_script:
-  - sudo rm /usr/local/bin/docker-compose
-  - sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-  - sudo chmod +x /usr/local/bin/docker-compose
-  - sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
-  - 'make bg'
-  - docker ps -a
-  - sleep 30
-
+- sudo rm /usr/local/bin/docker-compose
+- sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname
+  -s`-`uname -m` -o /usr/local/bin/docker-compose
+- sudo chmod +x /usr/local/bin/docker-compose
+- sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+  > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- "./cc-test-reporter before-build"
+- make bg
+- docker ps -a
+- sleep 30
 script:
-  - 'make build'
-  - 'make test'
-  - 'make lint'
-
+- make build
+- make test
+- make lint
 after_success:
-  - bash bin/run.sh
-
+- bash bin/run.sh
 after_script:
-  - docker-compose run resources-api coverage xml
-  - docker-compose -f docker-compose.yml down
-  - if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then ./cc-test-reporter -r 147d129d98f3d606ce69bc151bbeded40dc684fe11e0f5a831f11f6b36680b22 after-build --exit-code $TRAVIS_TEST_RESULT; fi
+- docker-compose run resources-api coverage xml
+- docker-compose -f docker-compose.yml down
+- if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then ./cc-test-reporter -r $CCAPIKEY
+  after-build --exit-code $TRAVIS_TEST_RESULT; fi
