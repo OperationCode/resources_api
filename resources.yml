@@ -14283,3 +14283,682 @@
   languages: ["C++", "Python", "Java"]
   paid: false
   notes:
+
+- name: Problem Solving with C++
+  url: https://www.pearson.com/us/higher-education/program/Savitch-Problem-Solving-with-C-Plus-My-Lab-Programming-with-Pearson-e-Text-Access-Card-Package-10th-Edition/PGM1743309.html
+  category: Books
+  languages: ["C++"]
+  paid: true
+  notes:
+
+- name: "Starting Out with Java: From Control Structures through Objects"
+  url: https://www.amazon.com/dp/0134802217/ref=cm_sw_r_cp_api_i_04UYCbPP29HAK
+  category: Books
+  languages: ["Java"]
+  paid: true
+  notes:
+
+- name: "Introducing GitHub Learning Lab: A new way to level up on GitHub"
+  url: https://github.blog/2018-04-19-introducing-github-learning-lab/
+  category: Open Source
+  languages: ["Git"]
+  paid: false
+  notes:
+
+- name: MacOS Malware Encyclopedia
+  url: https://macos.checkpoint.com/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: AWS IAM EXPLOITATION
+  url: https://securityriskadvisors.com/blog/aws-iam-exploitation/
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: WHAT IS LDAP RECONNAISSANCE?
+  url: https://attack.stealthbits.com/ldap-reconnaissance-active-directory
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: 80 Best Data Science Books That Are Worthy Reading
+  url: https://www.bigdatanews.datasciencecentral.com/profiles/blogs/80-best-data-science-books-that-are-worthy-reading
+  category: Books
+  languages: []
+  paid: true
+  notes: Data Science
+
+- name: Best Sellers in Probability & Statistics
+  url: https://www.amazon.com/Best-Sellers-Books-Probability-Statistics/zgbs/books/13983
+  category: Books
+  languages: []
+  paid: true
+  notes: Data Science
+
+- name: "These are the best books for learning modern statistics—and they’re all free"
+  url: https://qz.com/1206229/this-is-the-best-book-for-learning-modern-statistics-its-free/
+  category: Books
+  languages: []
+  paid: false
+  notes: Data Science
+
+- name: Introduction to Probability
+  url: https://drive.google.com/file/d/1VmkAAGOYCTORq1wxSQqy255qLJjTNvBI/view
+  category: Books
+  languages: []
+  paid: false
+  notes: Data Science
+
+- name: A Cheat Sheet on Probability
+  url: https://www.datasciencecentral.com/profiles/blogs/a-cheat-sheet-on-probability
+  category: Cheat Sheets
+  languages: []
+  paid: false
+  notes: Data Science
+
+- name: Authentication Lab Walkthroughs
+  url: https://digi.ninja/projects/authlab.php
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Break Line
+  url: https://breakline.org/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Tiny Seed
+  url: https://tinyseed.com/
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes: The first startup accelerator designed for bootstrappers.
+
+- name: Small Business Loans for Veterans
+  url: https://streetshares.com/small-business-loans-focused-on-veteran-owned-businesses/business-funding/veteran-small-business-loans/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Microsoft Developer
+  url: https://www.youtube.com/channel/UCsMica-v34Irf9KVTh6xx-g
+  category: Microsoft
+  languages: []
+  paid: false
+  notes:
+
+- name: Double Your Freelancing
+  url: https://doubleyourfreelancing.com/
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes:
+
+- name: Top 6 Cheat Sheets Novice Machine Learning Engineers Need
+  url: https://medium.com/ai%C2%B3-theory-practice-business/top-6-cheat-sheets-novice-machine-engineers-need-5ea43d1be3de
+  category: Data Science
+  languages: []
+  paid: false
+  notes:
+
+- name: "Kubernetes: Master Post"
+  url: https://carnal0wnage.attackresearch.com/2019/01/kubernetes-master-post.html
+  category: Information Security
+  languages: ["Kubernetes"]
+  paid: false
+  notes: Hacking k8s
+
+- name: Formation
+  url: https://github.com/minamarkham/formation
+  category: Tools
+  languages: []
+  paid: false
+  notes: Formation is a shell script to set up a macOS laptop for design and development
+
+- name: IDesign
+  url: http://www.idesign.net/
+  category: Design
+  languages: []
+  paid: false
+  notes: IDesign focuses on the design and architecture phases of software development with our unmatched architecture consulting and project design.
+
+- name: CQRS
+  url: https://martinfowler.com/bliki/CQRS.html
+  category: Design
+  languages: []
+  paid: false
+  notes: CQRS stands for Command Query Responsibility Segregation
+
+- name: Learn Advanced Distributed Systems Design
+  url: https://particular.net/adsd
+  category: Design
+  languages: []
+  paid: true
+  notes:
+
+- name: Microservices Resource Guide
+  url: https://martinfowler.com/microservices/
+  category: Design
+  languages: []
+  paid: false
+  notes:
+
+- name: Awesome Domain-Driven Design
+  url: https://github.com/heynickc/awesome-ddd
+  category: Design
+  languages: []
+  paid: false
+  notes:
+
+- name: Implementing Domain-Driven Design
+  url: https://www.oreilly.com/library/view/implementing-domain-driven-design/9780133039900/
+  category: Design
+  languages: []
+  paid: true
+  notes:
+
+- name: Domain-Driven Design Quickly
+  url: http://carfield.com.hk/document/software%2Bdesign/dddquickly.pdf
+  category: Design
+  languages: []
+  paid: false
+  notes:
+
+- name: The Ultimate Guide to Liquidation Preferences
+  url: https://medium.com/@CharlesYu/the-ultimate-guide-to-liquidation-preferences-478dda9f9332
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes:
+
+- name: Sidebar.io
+  url: https://sidebar.io/
+  category: Web Design
+  languages: []
+  paid: false
+  notes: The five best design links, every day.
+
+- name: Design for Non-Designers
+  url: https://dev.to/tracymakes/design-for-non-designers-part-1-28m2
+  category: Web Design
+  languages: []
+  paid: false
+  notes:
+
+- name: 3 Machine Learning Books that Helped me Level Up as a Data Scientist
+  url: https://dev.to/strikingloo/3-machine-learning-books-that-helped-me-level-up-as-a-data-scientist-15lm
+  category: Data Science
+  languages: []
+  paid: true
+  notes:
+
+- name: Class Rebel
+  url: https://classrebel.co/
+  category: Entrepreneurship
+  languages: []
+  paid: true
+  notes:
+
+- name: Transitioning Servicemembers Cheat Sheet
+  url: https://www.cheatography.com/xfaith/cheat-sheets/transitioning-servicemembers/
+  category: Veterans
+  languages: []
+  paid: false
+  notes:
+
+- name: Ciencia & Datos
+  url: https://blog.cienciaydatos.org/
+  category: Data Science
+  languages: []
+  paid: false
+  notes:
+
+- name: My Philosophy on Alerting
+  url: http://files.catwell.info/misc/mirror/rob-ewaschuk-google-sre-philosophy-alerting.pdf
+  category: DevOps
+  languages: []
+  paid: false
+  notes:
+
+- name: "The RED Method: key metrics for microservices architecture"
+  url: https://www.weave.works/blog/the-red-method-key-metrics-for-microservices-architecture/
+  category: DevOps
+  languages: []
+  paid: false
+  notes:
+
+- name: Issue Hub
+  url: http://issuehub.io/
+  category: Open Source
+  languages: []
+  paid: false
+  notes: Contribute to Open Source. Search issue labels to find the right project for you!
+
+- name: Secure Code Warrior
+  url: https://www.youtube.com/channel/UCGXOkj26t4wItqf_BAt3W0Q/videos
+  category: Information Security
+  languages: []
+  paid: false
+  notes:
+
+- name: Cheat.sh
+  url: http://cheat.sh/
+  category: Cheat Sheets
+  languages: []
+  paid: false
+  notes:
+
+- name: A Red Teamer's guide to pivoting
+  url: https://artkond.com/2017/03/23/pivoting-guide/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: flAWS 2
+  url: http://flaws2.cloud/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Cloud Security
+
+- name: Socat Cheat Sheet
+  url: https://blog.xathrya.id/2016/12/26/socat-cheatsheet/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Skillset
+  url: https://www.skillset.com/
+  category: Certifications
+  languages: []
+  paid: true
+  notes: Comprehensive practice exam engine
+
+- name: The Modern JavaScript Tutorial
+  url: https://javascript.info/
+  category: Front End Dev
+  languages: ["JavaScript"]
+  paid: false
+  notes: From the basics to advanced topics with simple, but detailed explanations
+
+- name: Golang Playground
+  url: https://goplay.space/
+  category: Back End Dev
+  languages: ["Go"]
+  paid: false
+  notes: This is an experimental alternative Go Playground frontend that is built in Go itself
+
+- name: Why You Should Apply To Engineering Jobs You Aren't Qualified For
+  url: https://angel.co/blog/why-you-should-apply-to-engineering-jobs-you-arent-qualified-for
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Everything You Need To Know About Angel Investors
+  url: https://about.crunchbase.com/blog/angel-investors/
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Data Science Office Hours
+  url: https://www.youtube.com/channel/UC5c7r0SlnNmPfqxEyni71FA
+  category: Data Science
+  languages: []
+  paid: false
+  notes:
+
+- name: Napkin Finance
+  url: https://napkinfinance.com/
+  category: Personal Finance
+  languages: []
+  paid: false
+  notes:
+
+- name: PTSD
+  url: https://maketheconnection.net/conditions/ptsd
+  category: Veterans
+  languages: []
+  paid: false
+  notes: Learn more about PTSD, treatment options, self-help tools, and resources to help you recover.
+
+- name: 10 Lessons Learned Conducting Code Reviews
+  url: https://dev.to/jnschrag/10-lessons-learned-conducting-code-reviews-5di6
+  category: Career Development
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: The Seven Habits of the Highly Effective DevSecOp
+  url: https://www.slideshare.net/wickett/the-seven-habits-of-the-highly-effective-devsecop
+  category: DevOps
+  languages: []
+  paid: false
+  notes:
+
+- name: "How to Learn Penetration Testing: A Beginners Tutorial"
+  url: https://dev.to/kathyra_/how-to-learn-penetration-testing-a-beginners-tutorial-505a
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: 5 Common Things Not To Do When Running a Business
+  url: https://about.crunchbase.com/blog/running-business/
+  category: Entrepreneurship
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Cross-Site Request Forgery Cheat Sheet
+  url: https://trustfoundry.net/cross-site-request-forgery-cheat-sheet/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: The JavaScript Developer's Reading List
+  url: https://dev.to/twhite/the-javascript-developers-reading-list-3fmp
+  category: Front End Dev
+  languages: []
+  paid: false
+  notes:
+
+- name: 10 Data Structure, Algorithms, and SQL Courses to Crack Any Programming Job Interview
+  url: https://dev.to/javinpaul/10-data-structure-algorithms-sql-and-java-courses-to-crack-any-programming-job-interview-11f6
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: "Why Your Job Offer Was Rescinded—And How To Handle It"
+  url: https://angel.co/blog/why-your-job-offer-was-rescinded-and-how-to-handle-it
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: 5 Things No One Tells You About Going to a Coding BootCamp
+  url: https://dev.to/donita/5-things-no-one-tells-you-about-going-to-a-coding-bootcamp-40c0
+  category: Coding Schools
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Command Line Heroes
+  url: https://www.redhat.com/en/command-line-heroes
+  category: Podcasts
+  languages: []
+  paid: false
+  notes:
+
+- name: Key Values
+  url: https://www.keyvalues.com/
+  category: Jobs
+  languages: []
+  paid: false
+  notes: Find engineering teams that share your values
+
+- name: Virtual Hacking Labs
+  url: https://www.virtualhackinglabs.com/
+  category: Information Security
+  languages: []
+  paid: true
+  notes:
+
+- name: The Net Ninja
+  url: https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg
+  category: Tutorials
+  languages: ["JavaScript", "PHP", "GraphQL", "CSS"]
+  paid:
+  notes:
+
+- name: The Weird Rules I Set Myself That Got Me a Job
+  url: https://dev.to/healeycodes/the-weird-rules-i-set-myself-that-got-me-a-job-2g9m
+  category: Jobs
+  languages: []
+  paid: false
+  notes:
+
+- name: Getting Into InfoSec
+  url: https://gettingintoinfosec.simplecast.fm
+  category: Podcasts
+  languages: []
+  paid: false
+  notes:
+
+- name: Simplifying Front-End State Management with Observable Store
+  url: https://blog.codewithdan.com/simplifying-front-end-state-management-with-observable-store/
+  category: Front End Dev
+  languages: ["JavaScript"]
+  paid: false
+  notes: Blog Post
+
+- name: Event Bubbling and Capturing
+  url: https://www.youtube.com/watch?v=0sfPDJiMTXk
+  category: Front End Dev
+  languages: ["HTML"]
+  paid: false
+  notes:
+
+- name: What the heck is the event loop anyway?
+  url: https://www.youtube.com/watch?v=8aGhZQkoFbQ
+  category: Front End Dev
+  languages: ["JavaScript"]
+  paid: false
+  notes:
+
+- name: Compiler Explorer
+  url: https://godbolt.org/
+  category: Computer Science
+  languages: ["C++"]
+  paid: false
+  notes: Compiler Explorer is an interactive compiler.
+
+- name: Plotting and Programming in Python
+  url: https://swcarpentry.github.io/python-novice-gapminder/
+  category: Back End Dev
+  languages: ["Python"]
+  paid: false
+  notes: This lesson is an introduction to programming in Python for people with little or no previous programming experience
+
+- name: Library Carpentry
+  url: https://librarycarpentry.org/lessons/
+  category: Online Courses
+  languages: []
+  paid: false
+  notes:
+
+- name: Data Carpentry
+  url: https://datacarpentry.org/lessons/
+  category: Data Science
+  languages: []
+  paid: false
+  notes:
+
+- name: Software Carpentry
+  url: https://software-carpentry.org/lessons/
+  category: Online Courses
+  languages: []
+  paid: false
+  notes:
+
+- name: Searching Samples
+  url: https://maxkersten.nl/binary-analysis-course/obtaining-samples/searching-samples/
+  category: Information Security
+  languages: []
+  paid: false
+  notes: malware samples
+
+- name: Linux Command Cheat Sheet
+  url: https://www.loggly.com/wp-content/uploads/2015/05/Linux-Cheat-Sheet-Sponsored-By-Loggly.pdf
+  category: Cheat Sheets
+  languages: ["Linux"]
+  paid: false
+  notes:
+
+- name: 5 Mistakes New Programmers Make
+  url: https://www.youtube.com/watch?v=h8tzF-1luC0
+  category: Getting Started
+  languages: []
+  paid: false
+  notes:
+
+- name: Introduction to libp2p
+  url: https://www.youtube.com/watch?v=CRe_oDtfRLw
+  category: Tools
+  languages: []
+  paid: false
+  notes: libp2p is a networking stack and library modularized out of The IPFS Project, and bundled separately for other tools to use.
+
+- name: Web development, illustrated.
+  url: https://illustrated.dev/
+  category: Web Dev
+  languages: []
+  paid: false
+  notes:
+
+- name: "Zero to 60 in Software Development: How to Jumpstart Your Career"
+  url: https://www.youtube.com/watch?v=-qPh6I2hfjw
+  category: Career Development
+  languages: []
+  paid: false
+  notes:
+
+- name: Mega Project List
+  url: https://github.com/karan/Projects
+  category: Code Challenges
+  languages: []
+  paid: false
+  notes: A list of practical projects that anyone can solve in any programming language
+
+- name: GRC Professional Podcast
+  url: https://www.professional.org.au/grc-professional-podcast
+  category: Podcasts
+  languages: []
+  paid: false
+  notes:
+
+- name: Layout in CSS
+  url: https://medium.com/@sargalias/layout-in-css-634c3ca3dcff
+  category: Web Design
+  languages: ["CSS"]
+  paid: false
+  notes: Blog Post
+
+- name: "Boost Your Page Speed: Reduce File Size"
+  url: https://medium.com/@Charles_Stover/boost-your-page-speed-reduce-file-size-470057090c29
+  category: Front End Dev
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: How I passed Google Certified Professional Cloud Architect Exam
+  url: https://matscloud.blogspot.com/2018/03/how-i-passed-google-certified.html
+  category: Cloud Computing
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: On Passing All Google Cloud Certifications
+  url: https://medium.com/@sathishvj/on-passing-all-google-cloud-certifications-54b2cc1e428c
+  category: Cloud Computing
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: "GCP Certified : The GCP Professional Cloud Security Engineer Exam"
+  url: https://antonitzavelas.com/2019/03/08/gcp-certified-the-gcp-professional-cloud-security-engineer-exam-beta/
+  category: Cloud Computing
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Notes from my beta Google Cloud Professional Security Engineer Certification Exam
+  url: https://medium.com/@sathishvj/notes-from-my-beta-google-cloud-professional-security-engineer-certification-exam-bff02c93d757
+  category: Cloud Computing
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Google Cloud Professional Security Engineer Exam Guide
+  url: https://www.linkedin.com/pulse/google-cloud-professional-security-engineer-exam-guide-darpan-shah/
+  category: Cloud Computing
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Google Professional Cloud Security Engineer Beta Exam walkthrough
+  url: http://deploy.live/blog/google-professional-cloud-security-engineer-beta-exam/
+  category: Cloud Computing
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Google Cloud Developer's Cheat Sheet
+  url: https://raw.githubusercontent.com/gregsramblings/google-cloud-4-words/master/Poster-medres.png
+  category: Cheat Sheets
+  languages: []
+  paid: false
+  notes:
+
+- name: How to become a Google Cloud Certified Professional Architect in One month
+  url: https://medium.com/faun/how-to-become-a-google-cloud-certified-professional-architect-in-one-month-d13b88b1d307
+  category: Cloud Computing
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: How to pass the Google Professional Cloud Architect Exam
+  url: https://www.deskscaler.com/how-to-pass-the-google-professional-cloud-architect-exam/
+  category: Cloud Computing
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: "Passing the Google Certified Professional – Cloud Architect exam: Tips & Resources"
+  url: https://www.cloudreach.com/fr/blog/google-certified-professional-cloud-architect-exam/
+  category: Cloud Computing
+  languages: []
+  paid: false
+  notes: Blog Post
+
+- name: Awesome GCP Certifications
+  url: https://github.com/ddneves/awesome-gcp-certifications
+  category: Cloud Computing
+  languages: []
+  paid: false
+  notes: A curated list of resources for learning about Google Cloud Platform certifications and how to prepare for it
+
+- name: Edyoda
+  url: https://www.edyoda.com/
+  category: Mentorship
+  languages: []
+  paid: false
+  notes: Learn technology for free, share knowledge with all.
+
+- name: Be Internet Awesome
+  url: https://beinternetawesome.withgoogle.com/en_us
+  category: Programming for Kids
+  languages: []
+  paid: false
+  notes: Teach kids how to be safe online
+
+- name: Cybersecurity Talent Initiative
+  url: https://www.cybertalentinitiative.org/
+  category: Information Security
+  languages: []
+  paid: true
+  notes:
