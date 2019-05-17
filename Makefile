@@ -13,7 +13,7 @@ nuke:
 
 .PHONY: minty-fresh
 minty-fresh:
-	${DOCKER_COMPOSE} down --rmi all --volumes
+	${DOCKER_COMPOSE} down --rmi all --volumes --remove-orphans
 
 .PHONY: rmi
 rmi:
@@ -32,6 +32,7 @@ fresh-restart: minty-fresh test setup run
 
 .PHONY: run
 run: build
+	if [ "$$(${DOCKER} ps -q -f name=resources-api)" ]; then ${DOCKER_COMPOSE} down; fi
 	${DOCKER_COMPOSE} run -p 5000:5000 ${RESOURCES_CONTAINER}
 
 .PHONY: bg
