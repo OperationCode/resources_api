@@ -13273,7 +13273,7 @@
   url: https://github.com/j-goheen/PyFinTech
   category: Personal Finance
   languages: ["Python", "C++", "Java"]
-  paid:
+  paid: false
   notes: Source for all things Finance + Python | C++ | Java
 
 - name: Try Hack Me
@@ -14722,7 +14722,7 @@
   url: https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg
   category: Tutorials
   languages: ["JavaScript", "PHP", "GraphQL", "CSS"]
-  paid:
+  paid: false
   notes:
 
 - name: The Weird Rules I Set Myself That Got Me a Job
