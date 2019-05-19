@@ -1,8 +1,7 @@
-from app import cli, create_app, db, API_VERSION
+from app import cli, create_app, db
 from app.models import Category, Language, Resource, db
 from werkzeug.wsgi import DispatcherMiddleware
 from prometheus_client import make_wsgi_app
-import json
 
 app = create_app()
 cli.register(app, db)
