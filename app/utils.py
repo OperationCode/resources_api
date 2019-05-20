@@ -1,4 +1,4 @@
-from app import API_VERSION, index
+from app import API_VERSION
 from flask import jsonify
 import logging
 import os
