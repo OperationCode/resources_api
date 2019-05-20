@@ -13,8 +13,8 @@ migrate = Migrate()
 API_VERSION = "1.0"
 
 # Connect to Agolia
-search_client = SearchClient.create(Config.SEARCH_USER, Config.SEARCH_KEY)
-index = search_client.init_index(Config.SEARCH_RESOURCE_INDEX)
+search_client = SearchClient.create(Config.SEARCH_ID, Config.SEARCH_KEY)
+index = search_client.init_index(Config.INDEX_NAME)
 
 
 def create_app(config_class=Config):
