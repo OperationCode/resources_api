@@ -13,18 +13,19 @@ app_dispatch = DispatcherMiddleware(app, {
 })
 
 with app.app_context():
-    if os.environ.get('INDEX_CHECKED') == "FALSE":
+    if os.environ.get('INDEX_SEARCHED') == "FALSE":
         query = Resource.query
         indicies = search_client.list_indices()
         for ind in indicies['items']:
-            if ind['name'] == 'resources_api':
+            if ind['name'] == os.environ.get('INDEX_NAME'):
                 curr_index = ind
-                if curr_index['entries'] != query.all().count():
-                    print("ReIndexing Database")
+
+                if curr_index['entries'] != query.count():
                     db_list = [u.serialize_algolia_search for u in query.all()]
                     index.replace_all_objects(db_list)
-                os.environ["INDEX_CHECKED"] = "TRUE"
-            break
+
+                os.environ["INDEX_SEARCHED"] = "TRUE"
+                break
 
 
 @app.shell_context_processor

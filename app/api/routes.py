@@ -1,6 +1,6 @@
 from flask import request, redirect
 from sqlalchemy import or_, func
-from algoliasearch.exceptions import AlgoliaUnreachableHostException
+from algoliasearch.exceptions import AlgoliaUnreachableHostException, AlgoliaException
 from app.api import bp
 from app.api.auth import is_user_oc_member, authenticate
 from app.models import Language, Resource, Category, Key
@@ -48,8 +48,8 @@ def resource(id):
 @failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>', methods=['PUT'], endpoint='update_resource')
 @authenticate
-def update_resource(id):
-    return set_resource(id, request.get_json(), db)
+def put_resource(id):
+    return update_resource(id, request.get_json(), db)
 
 
 @latency_summary.time()
@@ -215,9 +215,9 @@ def search_results():
     term = request.args.get('q', '', str)
     page = request.args.get('page', 0, int)
     query = Resource.query
-
     search_result = index.search(f'{term}', {
         'page': page,
+        'hitsPerPage': request.args.get('page_size', Config.RESOURCE_PAGINATOR.per_page, int)
     })
 
     if page >= int(search_result['nbPages']):
@@ -319,34 +319,49 @@ def add_click(id):
     return standardize_response(payload=dict(data=resource.serialize))
 
 
-def set_resource(id, json, db):
+def update_resource(id, json, db):
     resource = Resource.query.get(id)
 
     if not resource:
         return redirect('/404')
 
     langs, categ = get_attributes(json)
+    index_object = {'objectID': resource.id}
 
     try:
         logger.info(f"Updating resource. Old data: {resource.serialize}")
         if json.get('languages'):
             resource.languages = langs
+            index_object['languages'] = resource.serialize['languages']
         if json.get('category'):
             resource.category = categ
+            index_object['categories'] = categ
         if json.get('name'):
             resource.name = json.get('name')
+            index_object['name'] = json.get('name')
         if json.get('url'):
             resource.url = json.get('url')
+            index_object['url'] = json.get('url')
         if 'paid' in json:
             resource.paid = json.get('paid')
+            index_object['paid'] = json.get('paid')
         if 'notes' in json:
             resource.notes = json.get('notes')
+            index_object['notes'] = json.get('notes')
 
         db.session.commit()
+
+        try:
+            index.partial_update_objects(index_object)
+
+        except (AlgoliaUnreachableHostException, AlgoliaException) as e:
+            logger.exception(e)
+            print(f"Algolia failed to update index for resource '{resource.name}'")
 
         return standardize_response(
             payload=dict(data=resource.serialize)
             )
+
     except Exception as e:
         logger.exception(e)
         return standardize_response(status_code=500)
@@ -367,7 +382,7 @@ def create_resource(json, db):
         db.session.commit()
         index.save_object(new_resource.serialize_algolia_search)
 
-    except AlgoliaUnreachableHostException as e:
+    except (AlgoliaUnreachableHostException, AlgoliaException) as e:
         logger.exception(e)
         print(f"Algolia failed to index new resource '{new_resource.name}'")
 
