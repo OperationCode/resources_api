@@ -55,6 +55,10 @@ test-coverage:
 lint:
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flake8 app --statistics --count
 
+.PHONY: bandit
+bandit:
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} bandit -r .
+
 .PHONY: help
 help: build
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} --help

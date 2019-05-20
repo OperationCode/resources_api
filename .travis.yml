@@ -29,6 +29,7 @@ script:
 - make build
 - make test
 - make lint
+- make bandit
 after_success:
 - bash bin/run.sh
 after_script:
