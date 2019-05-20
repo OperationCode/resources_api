@@ -221,10 +221,9 @@ def search_results():
     page = request.args.get('page', 0, int)
     page_size = request.args.get('page_size', Config.RESOURCE_PAGINATOR.per_page, int)
     query = Resource.query
-
     search_result = index.search(f'{term}', {
         'page': page,
-        'hitsPerPage': page_size
+        'hitsPerPage': request.args.get('page_size', Config.RESOURCE_PAGINATOR.per_page, int)
     })
 
     if page >= int(search_result['nbPages']):
