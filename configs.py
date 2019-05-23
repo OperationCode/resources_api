@@ -32,9 +32,9 @@ postgres_host = os.environ.get('POSTGRES_HOST')
 if not postgres_host:
     raise KeyError("Application requires 'POSTGRES_HOST' to run")
 
-search_id = os.environ.get('APPLICATION_ID')
-search_key = os.environ.get('API_KEY')
-if not all([search_id, search_key]):
+application_id = os.environ.get('APPLICATION_ID')
+api_key = os.environ.get('API_KEY')
+if not all([application_id, api_key]):
     print("Application requires 'APPLICATION_ID' and 'API_KEY' for search functionality.")
 
 index_name = os.environ.get("INDEX_NAME")
@@ -43,8 +43,8 @@ index_name = os.environ.get("INDEX_NAME")
 class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = f"postgresql://{postgres_user}:{postgres_password}@{postgres_host}:5432/{postgres_db}"
-    SEARCH_ID = search_id
-    SEARCH_KEY = search_key
+    APPLICATION_ID = application_id
+    API_KEY = api_key
     INDEX_NAME = index_name
 
     # Can pass in changes to defaults, such as PaginatorConfig(per_page=40)
