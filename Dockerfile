@@ -15,7 +15,6 @@ RUN mkdir /static
 RUN apt-get update \
     && apt-get install -y libpq-dev gcc \
     && rm -rf /var/lib/apt/lists/* \
-    && apt-get purge -y --auto-remove gcc \
     && pip install --upgrade pip
 
 RUN pip install -r requirements.txt
@@ -24,4 +23,4 @@ COPY . /src
 
 EXPOSE 5000
 
-CMD ["flask", "run", "-h", "0.0.0.0"]
+CMD [ "uwsgi", "--ini", "app.ini" ]

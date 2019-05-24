@@ -30,10 +30,15 @@ rm-exited-containers:
 .PHONY: fresh-restart
 fresh-restart: minty-fresh test setup run
 
+.PHONY: run-with-metrics
+run-with-metrics: build
+	if [ "$$(${DOCKER} ps -q -f name=resources-api)" ]; then ${DOCKER_COMPOSE} down; fi
+	${DOCKER_COMPOSE} run -p 5000:5000 ${RESOURCES_CONTAINER}
+
 .PHONY: run
 run: build
 	if [ "$$(${DOCKER} ps -q -f name=resources-api)" ]; then ${DOCKER_COMPOSE} down; fi
-	${DOCKER_COMPOSE} run -p 5000:5000 ${RESOURCES_CONTAINER}
+	${DOCKER_COMPOSE} run -p 5000:5000 ${RESOURCES_CONTAINER} ${FLASK} run -h 0.0.0.0
 
 .PHONY: bg
 bg:
