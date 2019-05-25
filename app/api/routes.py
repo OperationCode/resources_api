@@ -15,7 +15,7 @@ import uuid
 failures_counter = Counter('my_failures', 'Number of exceptions raised')
 latency_summary = Summary('request_latency_seconds', 'Length of request')
 
-logger = setup_logger('routes_logger', 'log/routes.log')
+logger = setup_logger('routes_logger')
 
 
 # Routes
