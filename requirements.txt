@@ -10,4 +10,4 @@ SQLAlchemy-Utils==0.33.11
 prometheus_client==0.6.0
 uWSGI==2.0.18
 py-healthcheck==1.8.1
-bandit==1.5.1
+bandit==1.6.0
