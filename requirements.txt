@@ -5,7 +5,7 @@ psycopg2-binary==2.7.7
 pytest-cov==2.6.1
 pytest-mock==1.10.1
 pyyaml==5.1
-requests==2.21.0
+requests==2.22.0
 SQLAlchemy-Utils==0.33.11
 prometheus_client==0.6.0
 uWSGI==2.0.18
