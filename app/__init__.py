@@ -6,11 +6,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
-
 db = SQLAlchemy()
 migrate = Migrate()
 
 API_VERSION = "1.0"
+
+# healthcheck uses API_VERSION so this has to come after it's declared
+from app.healthcheck import add_health_check # noqa
 
 # Connect to Agolia
 search_client = SearchClient.create(Config.APPLICATION_ID, Config.API_KEY)
@@ -39,5 +41,7 @@ def create_app(config_class=Config):
 
     from app.errors import bp as error_bp
     app.register_blueprint(error_bp)
+
+    add_health_check(app)
 
     return app

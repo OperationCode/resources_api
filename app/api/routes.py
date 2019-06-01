@@ -8,17 +8,26 @@ from app import Config, db, index
 from app.utils import Paginator, standardize_response, setup_logger
 from dateutil import parser
 from datetime import datetime
+from prometheus_client import Counter, Summary
 import uuid
 
-logger = setup_logger('routes_logger', 'log/routes.log')
+# Metrics
+failures_counter = Counter('my_failures', 'Number of exceptions raised')
+latency_summary = Summary('request_latency_seconds', 'Length of request')
+
+logger = setup_logger('routes_logger')
 
 
 # Routes
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/resources', methods=['GET'], endpoint='get_resources')
 def resources():
     return get_resources()
 
 
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/resources', methods=['POST'], endpoint='create_resource')
 @authenticate
 def post_resources():
@@ -28,47 +37,65 @@ def post_resources():
     return create_resource(request.get_json(), db)
 
 
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>', methods=['GET'], endpoint='get_resource')
 def resource(id):
     return get_resource(id)
 
 
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>', methods=['PUT'], endpoint='update_resource')
 @authenticate
 def put_resource(id):
     return update_resource(id, request.get_json(), db)
 
 
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>/upvote', methods=['PUT'])
 def upvote(id):
     return update_votes(id, 'upvotes')
 
 
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>/downvote', methods=['PUT'])
 def downvote(id):
     return update_votes(id, 'downvotes')
 
 
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>/click', methods=['PUT'])
 def update_resource_click(id):
     return add_click(id)
 
 
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/search', methods=['GET'])
 def search():
     return search_results()
 
 
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/languages', methods=['GET'])
 def languages():
     return get_languages()
 
 
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/categories', methods=['GET'])
 def categories():
     return get_categories()
 
 
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/apikey', methods=['POST'], endpoint='apikey')
 def apikey():
     """

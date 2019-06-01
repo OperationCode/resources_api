@@ -3,8 +3,8 @@ from flask import request
 from app.models import Key
 from app.utils import standardize_response, setup_logger
 
-create_logger = setup_logger('create_auth_logger', 'log/create_auth.log')
-update_logger = setup_logger('update_auth_logger', 'log/update_auth.log')
+create_logger = setup_logger('create_auth_logger')
+update_logger = setup_logger('update_auth_logger')
 
 
 def authenticate(func):
