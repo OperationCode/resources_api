@@ -22,10 +22,9 @@ def authenticate(func):
 
 
 def is_user_oc_member(email, password):
-    response = requests.post('https://api.operationcode.org/api/v1/sessions', json=dict(
-            user=dict(email=email,
-                      password=password
-                      )
+    response = requests.post('https://api.operationcode.org/auth/login/', json=dict(
+            email=email,
+            password=password
         )
     )
 
