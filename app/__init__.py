@@ -18,6 +18,7 @@ from app.healthcheck import add_health_check # noqa
 search_client = SearchClient.create(Config.APPLICATION_ID, Config.API_KEY)
 index = search_client.init_index(Config.INDEX_NAME)
 
+
 def create_app(config_class=Config):
     app = Flask(__name__, static_folder=None)
     app.config.from_object(config_class)

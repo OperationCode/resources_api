@@ -84,3 +84,6 @@ migrate: build
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} db migrate
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} db upgrade
 
+.PHONY: reindex
+reindex: 
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} algolia reindex

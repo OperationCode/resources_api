@@ -73,18 +73,6 @@ def update_resource_click(id):
     return add_click(id)
 
 
-@bp.route('/search', methods=['GET'])
-def search():
-    return search_results()
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/search', methods=['GET'])
-def search():
-    return search_results()
-
-
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/search', methods=['GET'])
