@@ -215,7 +215,6 @@ def search_results():
     term = request.args.get('q', '', str)
     page = request.args.get('page', 0, int)
     page_size = request.args.get('page_size', Config.RESOURCE_PAGINATOR.per_page, int)
-    query = Resource.query
 
     search_result = index.search(f'{term}', {
         'page': page,
@@ -225,8 +224,7 @@ def search_results():
     if page >= int(search_result['nbPages']):
         return redirect('/404')
 
-    object_ids = [result['objectID'] for result in search_result['hits']]
-    results = [r.serialize for r in query.filter(Resource.id.in_(object_ids))]
+    results = [format_resource_search(result) for result in search_result['hits']]
 
     pagination_details = {
                 "pagination_details": {
@@ -437,3 +435,22 @@ def validate_resource(json):
 
     if validation_errors['errors']['missing_params']:
         return validation_errors
+
+
+def format_resource_search(hit):
+    formatted = {
+        'id':  hit['id'],
+        'name': hit['name'],
+        'url': hit['url'],
+        'category': hit['category'],
+        'languages': hit['languages'],
+        'paid': hit['paid'],
+        'notes': hit['notes'],
+        'upvotes': hit['upvotes'],
+        'downvotes': hit['downvotes'],
+        'times_clicked': hit['times_clicked'],
+        'created_at': hit['created_at'],
+        'last_updated': hit['last_updated'],
+    }
+
+    return formatted
