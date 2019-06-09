@@ -89,8 +89,8 @@ def standardize_response(payload={}, status_code=200):
     else:
         resp["data"] = data
 
-    if pagination_details:
-        resp.update(pagination_details)
+        if pagination_details:
+            resp.update(pagination_details)
 
     return jsonify(resp), resp["status_code"], {'Content-Type': 'application/json'}
 

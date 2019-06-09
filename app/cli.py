@@ -1,9 +1,9 @@
 import time
-
+import os
 import yaml
 
 from sqlalchemy import exc
-
+from app import search_client, index
 from .models import Category, Language, Resource
 
 
@@ -124,10 +124,25 @@ def update_resource(resource, existing_resource):   # pragma: no cover
     existing_resource.languages = resource['languages']
 
 
+def reindex_all():
+    query = Resource.query
+    indicies = search_client.list_indices()
+    for ind in indicies['items']:
+        if ind['name'] == os.environ.get('INDEX_NAME'):
+            db_list = [u.serialize_algolia_search for u in query.all()]
+            index.replace_all_objects(db_list)
+    print("Finished Reindexing.")
+
+
 def register(app, db):  # pragma: no cover
     @app.cli.group()
     def db_migrate():
         """ migration commands"""
+        pass
+
+    @app.cli.group()
+    def algolia():
+        """Reindex Commands"""
         pass
 
     @db_migrate.command()
@@ -143,3 +158,7 @@ def register(app, db):  # pragma: no cover
     @db_migrate.command()
     def create_tables():
         db.create_all()
+
+    @algolia.command()
+    def reindex():
+        reindex_all()
