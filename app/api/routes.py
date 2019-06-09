@@ -1,10 +1,10 @@
 from flask import request, redirect
 from sqlalchemy import or_, func
-
+from algoliasearch.exceptions import AlgoliaUnreachableHostException, AlgoliaException
 from app.api import bp
 from app.api.auth import is_user_oc_member, authenticate
 from app.models import Language, Resource, Category, Key
-from app import Config, db
+from app import Config, db, index
 from app.utils import Paginator, standardize_response, setup_logger
 from dateutil import parser
 from datetime import datetime
@@ -48,8 +48,8 @@ def resource(id):
 @failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>', methods=['PUT'], endpoint='update_resource')
 @authenticate
-def update_resource(id):
-    return set_resource(id, request.get_json(), db)
+def put_resource(id):
+    return update_resource(id, request.get_json(), db)
 
 
 @latency_summary.time()
@@ -71,6 +71,13 @@ def downvote(id):
 @bp.route('/resources/<int:id>/click', methods=['PUT'])
 def update_resource_click(id):
     return add_click(id)
+
+
+@latency_summary.time()
+@failures_counter.count_exceptions()
+@bp.route('/search', methods=['GET'])
+def search():
+    return search_results()
 
 
 @latency_summary.time()
@@ -204,6 +211,34 @@ def get_resources():
     return standardize_response(payload=dict(data=resource_list, **pagination_details))
 
 
+def search_results():
+    term = request.args.get('q', '', str)
+    page = request.args.get('page', 0, int)
+    page_size = request.args.get('page_size', Config.RESOURCE_PAGINATOR.per_page, int)
+    query = Resource.query
+
+    search_result = index.search(f'{term}', {
+        'page': page,
+        'hitsPerPage': page_size
+    })
+
+    if page >= int(search_result['nbPages']):
+        return redirect('/404')
+
+    object_ids = [result['objectID'] for result in search_result['hits']]
+    results = [r.serialize for r in query.filter(Resource.id.in_(object_ids))]
+
+    pagination_details = {
+                "pagination_details": {
+                    "page": search_result['page'],
+                    "number_of_pages": search_result['nbPages'],
+                    "records_per_page": search_result['hitsPerPage'],
+                    "total_count": search_result['nbHits'],
+                }
+        }
+    return standardize_response(payload=dict(data=results, **pagination_details))
+
+
 def get_languages():
     language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, request)
     query = Language.query
@@ -286,34 +321,49 @@ def add_click(id):
     return standardize_response(payload=dict(data=resource.serialize))
 
 
-def set_resource(id, json, db):
+def update_resource(id, json, db):
     resource = Resource.query.get(id)
 
     if not resource:
         return redirect('/404')
 
     langs, categ = get_attributes(json)
+    index_object = {'objectID': resource.id}
 
     try:
         logger.info(f"Updating resource. Old data: {resource.serialize}")
         if json.get('languages'):
             resource.languages = langs
+            index_object['languages'] = resource.serialize['languages']
         if json.get('category'):
             resource.category = categ
+            index_object['categories'] = categ
         if json.get('name'):
             resource.name = json.get('name')
+            index_object['name'] = json.get('name')
         if json.get('url'):
             resource.url = json.get('url')
+            index_object['url'] = json.get('url')
         if 'paid' in json:
             resource.paid = json.get('paid')
+            index_object['paid'] = json.get('paid')
         if 'notes' in json:
             resource.notes = json.get('notes')
+            index_object['notes'] = json.get('notes')
 
         db.session.commit()
+
+        try:
+            index.partial_update_objects(index_object)
+
+        except (AlgoliaUnreachableHostException, AlgoliaException) as e:
+            logger.exception(e)
+            print(f"Algolia failed to update index for resource '{resource.name}'")
 
         return standardize_response(
             payload=dict(data=resource.serialize)
             )
+
     except Exception as e:
         logger.exception(e)
         return standardize_response(status_code=500)
@@ -332,11 +382,17 @@ def create_resource(json, db):
     try:
         db.session.add(new_resource)
         db.session.commit()
+        index.save_object(new_resource.serialize_algolia_search)
 
-        return standardize_response(payload=dict(data=new_resource.serialize))
+    except (AlgoliaUnreachableHostException, AlgoliaException) as e:
+        logger.exception(e)
+        print(f"Algolia failed to index new resource '{new_resource.name}'")
+
     except Exception as e:
         logger.exception(e)
         return standardize_response(status_code=500)
+
+    return standardize_response(payload=dict(data=new_resource.serialize))
 
 
 def create_new_apikey(email):
