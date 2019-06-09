@@ -1,4 +1,3 @@
-
 from app import cli, create_app, db, search_client, index
 from app.models import Category, Language, Resource, db
 from werkzeug.wsgi import DispatcherMiddleware
