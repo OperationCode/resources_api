@@ -5,8 +5,8 @@ from app.api import bp
 from app.api.auth import is_user_oc_member, authenticate
 from app.models import Language, Resource, Category, Key
 from app import Config, db, index
-from app.utils import Paginator, standardize_response, setup_logger, format_resource_search,\
-    validate_resource, create_new_apikey
+from app.utils import Paginator, standardize_response, setup_logger, \
+    format_resource_search, validate_resource, create_new_apikey
 from dateutil import parser
 from datetime import datetime
 from prometheus_client import Counter, Summary
