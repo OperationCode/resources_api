@@ -1,8 +1,10 @@
-from app import API_VERSION
+from app import API_VERSION, db
 from flask import jsonify
+from .models import Resource, Key
 import logging
 import os
 import sys
+import uuid
 
 
 class Paginator:
@@ -34,6 +36,45 @@ class Paginator:
                 "has_prev": paginated_data.has_prev
             }
         }
+
+
+def create_new_apikey(email, logger):
+    # TODO: we should put this in a while loop in the extremely unlikely chance
+    # there is a collision of UUIDs in the database. It is assumed at this point
+    # in the flow that the DB was already checked for this email address, and
+    # no key exists yet.
+    new_key = Key(
+        apikey=uuid.uuid4().hex,
+        email=email
+    )
+
+    try:
+        db.session.add(new_key)
+        db.session.commit()
+
+        return standardize_response(payload=dict(data=new_key.serialize))
+    except Exception as e:
+        logger.exception(e)
+        return standardize_response(status_code=500)
+
+
+def format_resource_search(hit):
+    formatted = {
+        'id':  hit['id'],
+        'name': hit['name'],
+        'url': hit['url'],
+        'category': hit['category'],
+        'languages': hit['languages'],
+        'paid': hit['paid'],
+        'notes': hit['notes'],
+        'upvotes': hit['upvotes'],
+        'downvotes': hit['downvotes'],
+        'times_clicked': hit['times_clicked'],
+        'created_at': hit['created_at'],
+        'last_updated': hit['last_updated'],
+    }
+
+    return formatted
 
 
 def standardize_response(payload={}, status_code=200):
@@ -109,3 +150,27 @@ def setup_logger(name, level=logging.INFO):
     logger.addHandler(handler)
 
     return logger
+
+
+def validate_resource(json):
+    validation_errors = {'errors': {'type': 'validation'}}
+    if not json:
+        message = "A JSON body is required to use this endpoint, but none was given"
+        validation_errors['errors']['message'] = message
+        return validation_errors
+
+    validation_errors['errors']['missing_params'] = []
+
+    required = []
+    for column in Resource.__table__.columns:
+        if column.nullable is False and column.name != 'id':
+            # strip _id from category_id
+            name = column.name.replace('_id', '')
+            required.append(name)
+
+    for prop in required:
+        if json.get(prop) is None:
+            validation_errors['errors']['missing_params'].append(prop)
+
+    if validation_errors['errors']['missing_params']:
+        return validation_errors

@@ -5,11 +5,12 @@ from app.api import bp
 from app.api.auth import is_user_oc_member, authenticate
 from app.models import Language, Resource, Category, Key
 from app import Config, db, index
-from app.utils import Paginator, standardize_response, setup_logger
+from app.utils import Paginator, standardize_response, setup_logger, format_resource_search,\
+    validate_resource, create_new_apikey
 from dateutil import parser
 from datetime import datetime
 from prometheus_client import Counter, Summary
-import uuid
+
 
 # Metrics
 failures_counter = Counter('my_failures', 'Number of exceptions raised')
@@ -118,7 +119,7 @@ def apikey():
         if not apikey:
             # Since they're already authenticated by is_oc_user(), we know we
             # can generate an API key for them if they don't already have one
-            return create_new_apikey(email)
+            return create_new_apikey(email, logger)
         logger.info(apikey.serialize)
         return standardize_response(payload=dict(data=apikey.serialize))
     except Exception as e:
@@ -391,66 +392,3 @@ def create_resource(json, db):
         return standardize_response(status_code=500)
 
     return standardize_response(payload=dict(data=new_resource.serialize))
-
-
-def create_new_apikey(email):
-    # TODO: we should put this in a while loop in the extremely unlikely chance
-    # there is a collision of UUIDs in the database. It is assumed at this point
-    # in the flow that the DB was already checked for this email address, and
-    # no key exists yet.
-    new_key = Key(
-        apikey=uuid.uuid4().hex,
-        email=email
-    )
-
-    try:
-        db.session.add(new_key)
-        db.session.commit()
-
-        return standardize_response(payload=dict(data=new_key.serialize))
-    except Exception as e:
-        logger.exception(e)
-        return standardize_response(status_code=500)
-
-
-def validate_resource(json):
-    validation_errors = {'errors': {'type': 'validation'}}
-    if not json:
-        message = "A JSON body is required to use this endpoint, but none was given"
-        validation_errors['errors']['message'] = message
-        return validation_errors
-
-    validation_errors['errors']['missing_params'] = []
-
-    required = []
-    for column in Resource.__table__.columns:
-        if column.nullable is False and column.name != 'id':
-            # strip _id from category_id
-            name = column.name.replace('_id', '')
-            required.append(name)
-
-    for prop in required:
-        if json.get(prop) is None:
-            validation_errors['errors']['missing_params'].append(prop)
-
-    if validation_errors['errors']['missing_params']:
-        return validation_errors
-
-
-def format_resource_search(hit):
-    formatted = {
-        'id':  hit['id'],
-        'name': hit['name'],
-        'url': hit['url'],
-        'category': hit['category'],
-        'languages': hit['languages'],
-        'paid': hit['paid'],
-        'notes': hit['notes'],
-        'upvotes': hit['upvotes'],
-        'downvotes': hit['downvotes'],
-        'times_clicked': hit['times_clicked'],
-        'created_at': hit['created_at'],
-        'last_updated': hit['last_updated'],
-    }
-
-    return formatted
