@@ -5,17 +5,17 @@ from app.api import bp
 from app.api.auth import is_user_oc_member, authenticate
 from app.models import Language, Resource, Category, Key
 from app import Config, db, index
-from app.utils import Paginator, standardize_response, setup_logger
 from dateutil import parser
 from datetime import datetime
 from prometheus_client import Counter, Summary
-import uuid
+import app.utils as utils
+
 
 # Metrics
 failures_counter = Counter('my_failures', 'Number of exceptions raised')
 latency_summary = Summary('request_latency_seconds', 'Length of request')
 
-logger = setup_logger('routes_logger')
+logger = utils.setup_logger('routes_logger')
 
 
 # Routes
@@ -31,9 +31,9 @@ def resources():
 @bp.route('/resources', methods=['POST'], endpoint='create_resource')
 @authenticate
 def post_resources():
-    validation_errors = validate_resource(request.get_json())
+    validation_errors = utils.validate_resource(request.get_json())
     if validation_errors:
-        return standardize_response(payload=validation_errors, status_code=422)
+        return utils.standardize_response(payload=validation_errors, status_code=422)
     return create_resource(request.get_json(), db)
 
 
@@ -110,7 +110,7 @@ def apikey():
 
     if not is_oc_member:
         payload = dict(errors=["Invalid username or password"])
-        return standardize_response(payload=payload, status_code=401)
+        return utils.standardize_response(payload=payload, status_code=401)
 
     try:
         # We need to check the database for an existing key
@@ -118,12 +118,12 @@ def apikey():
         if not apikey:
             # Since they're already authenticated by is_oc_user(), we know we
             # can generate an API key for them if they don't already have one
-            return create_new_apikey(email)
+            return utils.create_new_apikey(email, logger)
         logger.info(apikey.serialize)
-        return standardize_response(payload=dict(data=apikey.serialize))
+        return utils.standardize_response(payload=dict(data=apikey.serialize))
     except Exception as e:
         logger.exception(e)
-        return standardize_response(status_code=500)
+        return utils.standardize_response(status_code=500)
 
 
 # Helpers
@@ -131,7 +131,7 @@ def get_resource(id):
     resource = Resource.query.get(id)
 
     if resource:
-        return standardize_response(payload=dict(data=(resource.serialize)))
+        return utils.standardize_response(payload=dict(data=(resource.serialize)))
 
     return redirect('/404')
 
@@ -145,7 +145,7 @@ def get_resources():
 
     The filters are case insensitive.
     """
-    resource_paginator = Paginator(Config.RESOURCE_PAGINATOR, request)
+    resource_paginator = utils.Paginator(Config.RESOURCE_PAGINATOR, request)
 
     # Fetch the filter params from the url, if they were provided.
     language = request.args.get('language')
@@ -182,7 +182,7 @@ def get_resources():
             logger.exception(e)
             message = 'The value for "updated_after" is invalid'
             res = dict(errors=[{'code': 'unprocessable-entity', 'message': message}])
-            return standardize_response(payload=res, status_code=422)
+            return utils.standardize_response(payload=res, status_code=422)
 
         q = q.filter(
             or_(
@@ -206,16 +206,17 @@ def get_resources():
         pagination_details = resource_paginator.pagination_details(paginated_resources)
     except Exception as e:
         logger.exception(e)
-        return standardize_response(status_code=500)
+        return utils.standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=resource_list, **pagination_details))
+    return utils.standardize_response(payload=dict(
+        data=resource_list,
+        **pagination_details))
 
 
 def search_results():
     term = request.args.get('q', '', str)
     page = request.args.get('page', 0, int)
     page_size = request.args.get('page_size', Config.RESOURCE_PAGINATOR.per_page, int)
-    query = Resource.query
 
     search_result = index.search(f'{term}', {
         'page': page,
@@ -225,8 +226,7 @@ def search_results():
     if page >= int(search_result['nbPages']):
         return redirect('/404')
 
-    object_ids = [result['objectID'] for result in search_result['hits']]
-    results = [r.serialize for r in query.filter(Resource.id.in_(object_ids))]
+    results = [utils.format_resource_search(result) for result in search_result['hits']]
 
     pagination_details = {
                 "pagination_details": {
@@ -236,11 +236,11 @@ def search_results():
                     "total_count": search_result['nbHits'],
                 }
         }
-    return standardize_response(payload=dict(data=results, **pagination_details))
+    return utils.standardize_response(payload=dict(data=results, **pagination_details))
 
 
 def get_languages():
-    language_paginator = Paginator(Config.LANGUAGE_PAGINATOR, request)
+    language_paginator = utils.Paginator(Config.LANGUAGE_PAGINATOR, request)
     query = Language.query
 
     try:
@@ -253,14 +253,16 @@ def get_languages():
         pagination_details = language_paginator.pagination_details(paginated_languages)
     except Exception as e:
         logger.exception(e)
-        return standardize_response(status_code=500)
+        return utils.standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=language_list, **pagination_details))
+    return utils.standardize_response(payload=dict(
+        data=language_list,
+        **pagination_details))
 
 
 def get_categories():
     try:
-        category_paginator = Paginator(Config.CATEGORY_PAGINATOR, request)
+        category_paginator = utils.Paginator(Config.CATEGORY_PAGINATOR, request)
         query = Category.query
 
         paginated_categories = category_paginator.paginated_data(query)
@@ -272,9 +274,11 @@ def get_categories():
         pagination_details = category_paginator.pagination_details(paginated_categories)
     except Exception as e:
         logger.exception(e)
-        return standardize_response(status_code=500)
+        return utils.standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=category_list, **pagination_details))
+    return utils.standardize_response(payload=dict(
+        data=category_list,
+        **pagination_details))
 
 
 def get_attributes(json):
@@ -305,7 +309,7 @@ def update_votes(id, vote_direction):
     setattr(resource, vote_direction, initial_count+1)
     db.session.commit()
 
-    return standardize_response(payload=dict(data=resource.serialize))
+    return utils.standardize_response(payload=dict(data=resource.serialize))
 
 
 def add_click(id):
@@ -318,7 +322,7 @@ def add_click(id):
     setattr(resource, 'times_clicked', initial_count + 1)
     db.session.commit()
 
-    return standardize_response(payload=dict(data=resource.serialize))
+    return utils.standardize_response(payload=dict(data=resource.serialize))
 
 
 def update_resource(id, json, db):
@@ -360,13 +364,13 @@ def update_resource(id, json, db):
             logger.exception(e)
             print(f"Algolia failed to update index for resource '{resource.name}'")
 
-        return standardize_response(
+        return utils.standardize_response(
             payload=dict(data=resource.serialize)
             )
 
     except Exception as e:
         logger.exception(e)
-        return standardize_response(status_code=500)
+        return utils.standardize_response(status_code=500)
 
 
 def create_resource(json, db):
@@ -390,50 +394,6 @@ def create_resource(json, db):
 
     except Exception as e:
         logger.exception(e)
-        return standardize_response(status_code=500)
+        return utils.standardize_response(status_code=500)
 
-    return standardize_response(payload=dict(data=new_resource.serialize))
-
-
-def create_new_apikey(email):
-    # TODO: we should put this in a while loop in the extremely unlikely chance
-    # there is a collision of UUIDs in the database. It is assumed at this point
-    # in the flow that the DB was already checked for this email address, and
-    # no key exists yet.
-    new_key = Key(
-        apikey=uuid.uuid4().hex,
-        email=email
-    )
-
-    try:
-        db.session.add(new_key)
-        db.session.commit()
-
-        return standardize_response(payload=dict(data=new_key.serialize))
-    except Exception as e:
-        logger.exception(e)
-        return standardize_response(status_code=500)
-
-
-def validate_resource(json):
-    validation_errors = {'errors': {'type': 'validation'}}
-    if not json:
-        message = "A JSON body is required to use this endpoint, but none was given"
-        validation_errors['errors']['message'] = message
-        return validation_errors
-
-    validation_errors['errors']['missing_params'] = []
-
-    required = []
-    for column in Resource.__table__.columns:
-        if column.nullable is False and column.name != 'id':
-            # strip _id from category_id
-            name = column.name.replace('_id', '')
-            required.append(name)
-
-    for prop in required:
-        if json.get(prop) is None:
-            validation_errors['errors']['missing_params'].append(prop)
-
-    if validation_errors['errors']['missing_params']:
-        return validation_errors
+    return utils.standardize_response(payload=dict(data=new_resource.serialize))
