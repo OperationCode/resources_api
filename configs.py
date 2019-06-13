@@ -32,10 +32,10 @@ pg_host = os.environ.get('POSTGRES_HOST')
 if not pg_host:
     raise KeyError("Application requires 'POSTGRES_HOST' to run")
 
-application_id = os.environ.get('APPLICATION_ID')
-api_key = os.environ.get('API_KEY')
-if not all([application_id, api_key]):
-    print("Application requires SEARCH_USER' and 'SEARCH_KEY' for search")
+algolia_app_id = os.environ.get('ALGOLIA_APP_ID')
+algolia_api_key = os.environ.get('ALGOLIA_API_KEY')
+if not all([algolia_app_id, algolia_api_key]):
+    print("Application requires 'ALGOLIA_APP_ID' and 'ALGOLIA_API_KEY' for search")
 
 index_name = os.environ.get("INDEX_NAME")
 
@@ -45,8 +45,8 @@ class Config:
 
     SQLALCHEMY_DATABASE_URI = f"postgresql://{pg_user}:{pg_pw}@{pg_host}:5432/{pg_db}"
 
-    APPLICATION_ID = application_id
-    API_KEY = api_key
+    ALGOLIA_APP_ID = algolia_app_id
+    ALGOLIA_API_KEY = algolia_api_key
     INDEX_NAME = index_name
 
     # Can pass in changes to defaults, such as PaginatorConfig(per_page=40)

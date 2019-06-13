@@ -15,7 +15,7 @@ API_VERSION = "1.0"
 from app.healthcheck import add_health_check # noqa
 
 # Connect to Agolia
-search_client = SearchClient.create(Config.APPLICATION_ID, Config.API_KEY)
+search_client = SearchClient.create(Config.ALGOLIA_APP_ID, Config.ALGOLIA_API_KEY)
 index = search_client.init_index(Config.INDEX_NAME)
 
 
