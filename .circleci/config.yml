@@ -53,7 +53,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose run resources-api py.test --cov=app/ tests/
+            docker-compose run resources-api py.test tests/
 #            make build
 #            make test
 
