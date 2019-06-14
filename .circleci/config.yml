@@ -1,0 +1,80 @@
+version: 2.1
+
+workflows:
+  build_test_deploy:
+    jobs:
+      - build_test
+
+      # push new Docker image to Docker Hub
+      - dockerhub_build_and_push:
+          requires:
+            - build_test
+          filters:
+            branches:
+              only:
+                - master
+
+jobs:
+  build_test:
+    docker:
+      - image: circleci/python:3.7.1
+        environment: # environment variables for primary container
+          CC_TEST_REPORTER_ID: 08bad9e4f229f88064fd6ee1c0fe4f64be37943beff36f37f8b8896123ef6752
+
+    steps:
+
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: Initializing CodeClimate
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter
+            chmod +x /usr/local/bin/cc-test-reporter
+            /usr/local/bin/cc-test-reporter before-build
+
+      - run:
+          name: Docker build
+          command: |
+            make bg
+
+      - run:
+          name: Run tests
+          command: |
+            make test
+
+      - run:
+          name: Run linting and coverage
+          command: |
+            make lint
+            docker-compose run resources-api coverage xml
+            docker-compose -f docker-compose.yml down
+            /usr/local/bin/cc-test-reporter after-build
+
+      - run:
+          name: Run Bandit security analysis
+          command: |
+            make bandit
+
+  dockerhub_build_and_push:
+    docker:
+      - image: circleci/python:3.7.1
+
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: Build and push to DockerHub
+          command: |
+            echo ${DOCKER_USERNAME} | docker login -u ${DOCKER_PASSWORD} --password-stdin
+
+            echo "Pushing image $IMAGE_NAME:$TRAVIS_BRANCH"
+            docker tag $IMAGE_ID $DOCKER_REPO
+            docker tag $IMAGE_ID ${DOCKER_REPO}:${TRAVIS_BUILD_NUMBER}
+            docker push $DOCKER_REPO
+            docker push ${DOCKER_REPO}:${TRAVIS_BUILD_NUMBER}
