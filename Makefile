@@ -50,7 +50,7 @@ routes:
 
 .PHONY: test
 test: build
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} py.test --cov=app/
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} py.test --cov=app/ tests/
 
 .PHONY: test-coverage
 test-coverage:
