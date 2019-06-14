@@ -25,6 +25,8 @@ jobs:
 
       - checkout
 
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+
       - setup_remote_docker:
           docker_layer_caching: true
 
