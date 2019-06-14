@@ -42,6 +42,7 @@ jobs:
           command: |
             make bg
             docker ps -a
+            sleep 30
 
       - run:
           name: Run tests
