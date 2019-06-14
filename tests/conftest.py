@@ -1,4 +1,8 @@
 import pytest
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from app import create_app, db as _db
 from configs import Config
 
@@ -95,12 +99,14 @@ def module_db():
 
     _db.drop_all()
 
+
 @pytest.fixture(scope='function')
 def fake_auth_from_oc(mocker):
     """
     Changes the return value of requests.post to be a custom response
     object so that we aren't validating external APIs in our unit tests
     """
+
     class ExternalApiRequest(object):
         @classmethod
         def post(cls):
@@ -115,12 +121,14 @@ def fake_auth_from_oc(mocker):
 
     mocker.patch("requests.post", return_value=FakeExternalResponse())
 
+
 @pytest.fixture(scope='function')
 def fake_invalid_auth_from_oc(mocker):
     """
     Changes the return value of requests.post to be a custom response
     object so that we aren't validating external APIs in our unit tests
     """
+
     class ExternalApiRequest(object):
         @classmethod
         def post(cls):
@@ -134,31 +142,37 @@ def fake_invalid_auth_from_oc(mocker):
 
     mocker.patch("requests.post", return_value=FakeExternalResponse())
 
+
 @pytest.fixture(scope='function')
 def fake_paginated_data_error(mocker):
     """
     Mocks an exception being raised during pagination to test error handling
     """
+
     def paginated_data():
         raise Exception("An \"unexpected\" Exception was raised!")
 
     mocker.patch('app.utils.Paginator.paginated_data', side_effect=paginated_data)
+
 
 @pytest.fixture(scope='function')
 def fake_commit_error(mocker):
     """
     Mocks an exception being raised during a db commit to test error handling
     """
+
     def commit():
         raise Exception("An \"unexpected\" Exception was raised!")
 
     mocker.patch('app.db.session.commit', side_effect=commit)
+
 
 @pytest.fixture(scope='function')
 def fake_key_query_error(mocker):
     """
     Mocks an exception being raised during a query to test error handling
     """
+
     def key_query():
         raise Exception()
 
