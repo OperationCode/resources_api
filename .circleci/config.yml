@@ -36,25 +36,26 @@ jobs:
       #            chmod +x /usr/local/bin/cc-test-reporter
       #            /usr/local/bin/cc-test-reporter before-build
 
-      - run:
-          name: Pre-test scripts
-          command: |
-            sudo rm /usr/bin/docker-compose
-            sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-            sudo chmod +x /usr/local/bin/docker-compose
-            sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-            ./cc-test-reporter before-build
-            make bg
-            docker ps -a
-            sleep 30
+#      - run:
+#          name: Pre-test scripts
+#          command: |
+#            sudo rm /usr/bin/docker-compose
+#            sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+#            sudo chmod +x /usr/local/bin/docker-compose
+#            sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+#            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+#            chmod +x ./cc-test-reporter
+#            ./cc-test-reporter before-build
+#            make bg
+#            docker ps -a
+#            sleep 30
 
       - run:
           name: Run tests
           command: |
-            make build
-            make test
+            docker-compose run resources-api py.test --cov=app/ tests/
+#            make build
+#            make test
 
       - run:
           name: Run linting and coverage
