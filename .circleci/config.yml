@@ -20,79 +20,96 @@ jobs:
       - image: circleci/python:3.7.1
         environment: # environment variables for primary container
           CC_TEST_REPORTER_ID: 08bad9e4f229f88064fd6ee1c0fe4f64be37943beff36f37f8b8896123ef6752
-          DOCKER_COMPOSE_VERSION: 1.22.0
     steps:
 
       - checkout
 
       - run: sudo chown -R circleci:circleci /usr/local/bin
 
-      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
+#      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
 
-      - restore_cache:  # ensure this step occurs *before* installing dependencies
-          keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run:
-          name: Installing dependencies
-          command: |
-            sudo pip install --upgrade pip
-            pip install -r requirements.txt
-
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter
-            chmod +x /usr/local/bin/cc-test-reporter
+      - setup_remote_docker
 
 
-      - run:
-          name: Initializing CodeClimate
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter
-            chmod +x /usr/local/bin/cc-test-reporter
-            /usr/local/bin/cc-test-reporter before-build
-
-      - save_cache:
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
-          paths:
-            - "/usr/local/bin"
-            - "/usr/local/lib/python3.7/site-packages"
-
+      #      - restore_cache:  # ensure this step occurs *before* installing dependencies
+#          keys:
+#            - v1-dependencies-{{ checksum "requirements.txt" }}
+#            # fallback to using the latest cache if no exact match is found
+#            - v1-dependencies-
+#
+#      - run:
+#          name: Installing dependencies
+#          command: |
+#            sudo pip install --upgrade pip
+#            pip install -r requirements.txt
+#
+#            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter
+#            chmod +x /usr/local/bin/cc-test-reporter
+#
+#
+#      - run:
+#          name: Initializing CodeClimate
+#          command: |
+#            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter
+#            chmod +x /usr/local/bin/cc-test-reporter
+#            /usr/local/bin/cc-test-reporter before-build
+#
+#      - save_cache:
+#          key: v1-dependencies-{{ checksum "requirements.txt" }}
+#          paths:
+#            - "/usr/local/bin"
+#            - "/usr/local/lib/python3.7/site-packages"
+#
+#
+#      - run:
+#          name: Run tests
+#          command: |
+#            py.test --cov=app/ tests/
 
       - run:
           name: Run tests
           command: |
-            py.test --cov=app/ tests/
 
-      - run:
-          name: Run linting and coverage
-          command: |
-            flake8 . --exclude migrations,tests --statistics --count
-            coverage xml
-            /usr/local/bin/cc-test-reporter after-build
+            docker build -t resources .
 
-      - run:
-          name: Run Bandit security analysis
-          command: |
-            bandit -r .
+            # create a dummy container which will hold a volume with src
+            docker create -v /src --name vol alpine:3.4 /bin/true
+            # copy files into this volume
+            docker cp . vol:/src
+            # start an application container using this volume
+            docker run --volumes-from vol resources:latest py.test --cov=app/ tests/
+
+#      - run:
+#          name: Run linting and coverage
+#          command: |
+#            flake8 . --exclude migrations,tests --statistics --count
+#            coverage xml
+#            /usr/local/bin/cc-test-reporter after-build
+#
+#      - run:
+#          name: Run Bandit security analysis
+#          command: |
+#            bandit -r .
 
   dockerhub_build_and_push:
     docker:
       - image: circleci/python:3.7.1
+        environment: # environment variables build container
+          IMAGE_ID: operationcode/resources-api
+
 
     steps:
       - checkout
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
 
       - run:
           name: Build and push to DockerHub
           command: |
+            echo "Pushing image $IMAGE_ID:$CIRCLE_BUILD_NUM for branch - $CIRCLE_BRANCH"
+
             echo ${DOCKER_USERNAME} | docker login -u ${DOCKER_PASSWORD} --password-stdin
 
-            echo "Pushing image $IMAGE_NAME:$TRAVIS_BRANCH"
-            docker tag $IMAGE_ID $DOCKER_REPO
-            docker tag $IMAGE_ID ${DOCKER_REPO}:${TRAVIS_BUILD_NUMBER}
-            docker push $DOCKER_REPO
-            docker push ${DOCKER_REPO}:${TRAVIS_BUILD_NUMBER}
+            docker build -t ${IMAGE_ID}:latest -t ${IMAGE_ID}:${CIRCLE_BUILD_NUM} .
+            docker push ${IMAGE_ID}:latest
+            docker push ${IMAGE_ID}:${CIRCLE_BUILD_NUM}
