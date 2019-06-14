@@ -79,6 +79,12 @@ jobs:
             # start an application container using this volume
             docker run --volumes-from vol resources:latest py.test --cov=app/ tests/
 
+      - run:
+          name: Run linting and coverage
+          command: |
+            docker run --volumes-from vol resources:latest flake8 . --exclude migrations,tests --statistics --count
+            docker run --volumes-from vol resources:latest coverage xml
+
 #      - run:
 #          name: Run linting and coverage
 #          command: |
@@ -90,6 +96,10 @@ jobs:
 #          name: Run Bandit security analysis
 #          command: |
 #            bandit -r .
+      - run:
+          name: Run Bandit security analysis
+          command: |
+            docker run --volumes-from vol resources:latest bandit -r .
 
   dockerhub_build_and_push:
     docker:
