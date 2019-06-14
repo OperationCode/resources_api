@@ -37,10 +37,6 @@ jobs:
             chmod +x /usr/local/bin/cc-test-reporter
             /usr/local/bin/cc-test-reporter before-build
 
-      - run:
-          name: Docker build
-          command: |
-            make bg
 
       - run:
           name: Run tests
