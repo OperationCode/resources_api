@@ -20,26 +20,34 @@ jobs:
       - image: circleci/python:3.7.1
         environment: # environment variables for primary container
           CC_TEST_REPORTER_ID: 08bad9e4f229f88064fd6ee1c0fe4f64be37943beff36f37f8b8896123ef6752
-
+          DOCKER_COMPOSE_VERSION: 1.22.0
     steps:
 
       - checkout
 
       - run: sudo chown -R circleci:circleci /usr/local/bin
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
+
+      #      - run:
+      #          name: Initializing CodeClimate
+      #          command: |
+      #            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter
+      #            chmod +x /usr/local/bin/cc-test-reporter
+      #            /usr/local/bin/cc-test-reporter before-build
 
       - run:
-          name: Initializing CodeClimate
+          name: Pre-test scripts
           command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter
-            chmod +x /usr/local/bin/cc-test-reporter
-            /usr/local/bin/cc-test-reporter before-build
-
-      - run:
-          name: Docker build
-          command: |
+            sudo rm /usr/local/bin/docker-compose
+            sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname
+            -s`-`uname -m` -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+            sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+            > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            "./cc-test-reporter before-build"
             make bg
             docker ps -a
             sleep 30
