@@ -47,12 +47,12 @@ jobs:
 #            chmod +x /usr/local/bin/cc-test-reporter
 #
 #
-#      - run:
-#          name: Initializing CodeClimate
-#          command: |
-#            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter
-#            chmod +x /usr/local/bin/cc-test-reporter
-#            /usr/local/bin/cc-test-reporter before-build
+      - run:
+          name: Initializing CodeClimate
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter before-build
 #
 #      - save_cache:
 #          key: v1-dependencies-{{ checksum "requirements.txt" }}
@@ -84,6 +84,7 @@ jobs:
           command: |
             docker run --volumes-from vol resources:latest flake8 . --exclude migrations,tests --statistics --count
             docker run --volumes-from vol resources:latest coverage xml
+            docker run --volumes-from vol resources:latest cc-test-reporter after-build
 
 #      - run:
 #          name: Run linting and coverage
