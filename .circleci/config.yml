@@ -1,0 +1,77 @@
+version: 2.1
+
+workflows:
+  build_test_deploy:
+    jobs:
+      - build_test
+
+      # push new Docker image to Docker Hub
+      - dockerhub_build_and_push:
+          requires:
+            - build_test
+          filters:
+            branches:
+              only:
+                - master
+
+jobs:
+  build_test:
+
+    machine:
+      image: ubuntu-1604:201903-01
+
+    environment:
+      CC_TEST_REPORTER_ID: 08bad9e4f229f88064fd6ee1c0fe4f64be37943beff36f37f8b8896123ef6752
+
+    steps:
+
+      - checkout
+
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+
+      - run:
+          name: Initializing CodeClimate
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter
+            chmod +x /usr/local/bin/cc-test-reporter
+            /usr/local/bin/cc-test-reporter before-build
+
+      - run:
+          name: Run tests
+          command: |
+            make test
+
+
+      - run:
+          name: Run linting and coverage
+          command: |
+            make lint
+            docker-compose run resources-api coverage xml
+            /usr/local/bin/cc-test-reporter after-build
+
+      - run:
+          name: Run Bandit security analysis
+          command: |
+            make bandit
+
+  dockerhub_build_and_push:
+    docker:
+      - image: circleci/python:3.7.1
+        environment: # environment variables build container
+          IMAGE_ID: operationcode/resources-api
+
+    steps:
+      - checkout
+
+      - setup_remote_docker
+
+      - run:
+          name: Build and push to DockerHub
+          command: |
+            echo "Pushing image $IMAGE_ID:$CIRCLE_BUILD_NUM for branch - $CIRCLE_BRANCH"
+
+            echo ${DOCKER_USERNAME} | docker login -u ${DOCKER_PASSWORD} --password-stdin
+
+            docker build -t ${IMAGE_ID}:latest -t ${IMAGE_ID}:${CIRCLE_BUILD_NUM} .
+            docker push ${IMAGE_ID}:latest
+            docker push ${IMAGE_ID}:${CIRCLE_BUILD_NUM}
