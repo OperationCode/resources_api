@@ -70,7 +70,7 @@ jobs:
           command: |
             echo "Pushing image $IMAGE_ID:$CIRCLE_BUILD_NUM for branch - $CIRCLE_BRANCH"
 
-            echo ${DOCKER_USERNAME} | docker login -u ${DOCKER_PASSWORD} --password-stdin
+            echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
 
             docker build -t ${IMAGE_ID}:latest -t ${IMAGE_ID}:${CIRCLE_BUILD_NUM} .
             docker push ${IMAGE_ID}:latest
