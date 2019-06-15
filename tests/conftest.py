@@ -1,8 +1,4 @@
 import pytest
-from dotenv import load_dotenv
-
-load_dotenv()
-
 from app import create_app, db as _db
 from configs import Config
 

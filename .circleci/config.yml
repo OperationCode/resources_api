@@ -39,7 +39,6 @@ jobs:
       - run:
           name: Run tests
           command: |
-
             make test
 
 
