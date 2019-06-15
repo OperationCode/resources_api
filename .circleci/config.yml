@@ -47,6 +47,7 @@ jobs:
           name: Run linting and coverage
           command: |
             make lint
+            docker-compose run resources-api coverage xml
             /usr/local/bin/cc-test-reporter after-build
 
       - run:
