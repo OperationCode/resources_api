@@ -1,8 +1,10 @@
 from flask import request, redirect
 from sqlalchemy import or_, func
+from sqlalchemy.exc import IntegrityError
 from algoliasearch.exceptions import AlgoliaUnreachableHostException, AlgoliaException
 from app.api import bp
 from app.api.auth import is_user_oc_member, authenticate
+from app.api.validations import validate_resource, requires_body
 from app.models import Language, Resource, Category, Key
 from app import Config, db, index
 from dateutil import parser
@@ -29,9 +31,11 @@ def resources():
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/resources', methods=['POST'], endpoint='create_resource')
+@requires_body
 @authenticate
 def post_resources():
-    validation_errors = utils.validate_resource(request.get_json())
+    validation_errors = validate_resource(request)
+
     if validation_errors:
         return utils.standardize_response(payload=validation_errors, status_code=422)
     return create_resource(request.get_json(), db)
@@ -47,8 +51,13 @@ def resource(id):
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>', methods=['PUT'], endpoint='update_resource')
+@requires_body
 @authenticate
 def put_resource(id):
+    validation_errors = validate_resource(request, id)
+
+    if validation_errors:
+        return utils.standardize_response(payload=validation_errors, status_code=422)
     return update_resource(id, request.get_json(), db)
 
 
@@ -111,6 +120,7 @@ def category(id):
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/apikey', methods=['POST'], endpoint='apikey')
+@requires_body
 def apikey():
     """
     Verify OC membership and return an API key. The API key will be
@@ -123,7 +133,8 @@ def apikey():
     is_oc_member = is_user_oc_member(email, password)
 
     if not is_oc_member:
-        payload = dict(errors=["Invalid username or password"])
+        message = "The email or password you submitted is incorrect"
+        payload = {'errors': {"invalid_credentials": {"message": message}}}
         return utils.standardize_response(payload=payload, status_code=401)
 
     try:
@@ -195,7 +206,7 @@ def get_resources():
         except Exception as e:
             logger.exception(e)
             message = 'The value for "updated_after" is invalid'
-            res = dict(errors=[{'code': 'unprocessable-entity', 'message': message}])
+            res = {"errors": {"unprocessable-entity": {"message": message}}}
             return utils.standardize_response(payload=res, status_code=422)
 
         q = q.filter(
@@ -386,8 +397,13 @@ def update_resource(id, json, db):
             resource.url = json.get('url')
             index_object['url'] = json.get('url')
         if 'paid' in json:
-            resource.paid = json.get('paid')
-            index_object['paid'] = json.get('paid')
+            paid = json.get('paid')
+
+            # Converts "false" and "true" to their bool
+            if type(paid) is str and paid.lower() in ["true", "false"]:
+                paid = paid.lower().strip() == "true"
+            resource.paid = paid
+            index_object['paid'] = paid
         if 'notes' in json:
             resource.notes = json.get('notes')
             index_object['notes'] = json.get('notes')
@@ -404,6 +420,10 @@ def update_resource(id, json, db):
         return utils.standardize_response(
             payload=dict(data=resource.serialize)
             )
+
+    except IntegrityError as e:
+        logger.exception(e)
+        return utils.standardize_response(status_code=422)
 
     except Exception as e:
         logger.exception(e)
@@ -428,6 +448,10 @@ def create_resource(json, db):
     except (AlgoliaUnreachableHostException, AlgoliaException) as e:
         logger.exception(e)
         print(f"Algolia failed to index new resource '{new_resource.name}'")
+
+    except IntegrityError as e:
+        logger.exception(e)
+        return utils.standardize_response(status_code=422)
 
     except Exception as e:
         logger.exception(e)
