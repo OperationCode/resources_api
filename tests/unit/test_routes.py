@@ -1,4 +1,4 @@
-import pytest
+import pytest, time, names
 from tests import conftest
 from app.models import Resource, Language, Category
 from configs import PaginatorConfig
@@ -369,6 +369,66 @@ def test_update_resource(module_client, module_db, fake_auth_from_oc):
         follow_redirects = True
     )
     assert (response.status_code == 404)
+
+
+def test_search(module_client, module_db, fake_auth_from_oc):
+    client = module_client
+    first_term = names.get_full_name()
+    apikey = get_api_key(client)
+
+    # Create resource and find it in the search results.
+    resource = client.post("/api/v1/resources",
+                          json=dict(
+                              name=f"{first_term}",
+                              category="Website",
+                              url=f"{first_term}",
+                              paid=False,
+                          ),
+                          headers={'x-apikey': apikey}
+                          )
+    result = client.get(f"/api/v1/search?q={first_term}")
+
+    # Prevents false negative from race condition.
+    while result.status_code == 302:
+        time.sleep(.5)
+        result = client.get(f"/api/v1/search?q={first_term}")
+
+    assert (resource.status_code == 200)
+    assert (result.status_code == 200)
+
+    found = False
+    for entry in result.json['data']:
+        if entry.get('url') == resource.json['data'].get('url'):
+            found = True
+
+    assert found
+
+    # Update the resource and test that search results reflect changes
+    updated_term = names.get_full_name()
+    resource_id = resource.json['data'].get('id')
+    resource = client.put(f"/api/v1/resources/{resource_id}",
+                           json=dict(
+                               url=f"{updated_term}",
+                           ),
+                           headers={'x-apikey': apikey}
+                           )
+
+    result = client.get(f"/api/v1/search?q={updated_term}")
+
+    assert (resource.status_code == 200)
+
+    while result.status_code == 302:
+        time.sleep(.5)
+        result = client.get(f"/api/v1/search?q={updated_term}")
+
+    assert (result.status_code == 200)
+
+    found = False
+    for entry in result.json['data']:
+        if entry.get('url') == resource.json['data'].get('url'):
+            found = True
+
+    assert found
 
 
 def test_bad_requests(module_client, module_db, fake_auth_from_oc):

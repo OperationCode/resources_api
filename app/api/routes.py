@@ -332,7 +332,7 @@ def update_resource(id, json, db):
         return redirect('/404')
 
     langs, categ = get_attributes(json)
-    index_object = {'objectID': resource.id}
+    index_object = {'objectID': id}
 
     try:
         logger.info(f"Updating resource. Old data: {resource.serialize}")
@@ -341,7 +341,7 @@ def update_resource(id, json, db):
             index_object['languages'] = resource.serialize['languages']
         if json.get('category'):
             resource.category = categ
-            index_object['categories'] = categ
+            index_object['category'] = categ.name
         if json.get('name'):
             resource.name = json.get('name')
             index_object['name'] = json.get('name')
@@ -358,11 +358,12 @@ def update_resource(id, json, db):
         db.session.commit()
 
         try:
-            index.partial_update_objects(index_object)
+            index.partial_update_object(index_object)
 
         except (AlgoliaUnreachableHostException, AlgoliaException) as e:
             logger.exception(e)
             print(f"Algolia failed to update index for resource '{resource.name}'")
+            print(f'Update data: {index_object}')
 
         return utils.standardize_response(
             payload=dict(data=resource.serialize)
