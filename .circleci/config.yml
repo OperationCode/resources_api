@@ -1,12 +1,24 @@
 version: 2.1
 
+orbs:
+  docker: circleci/docker@0.5.1
+
 workflows:
   build_test_deploy:
     jobs:
       - build_test
 
       # push new Docker image to Docker Hub
-      - dockerhub_build_and_push:
+      - docker/publish:
+          image: operationcode/resources-api
+          tag: latest
+          after_build:
+            - run:
+                name: Tag and Push with $CIRCLE_BUILD_NUM
+                command: |
+                  IMAGE_ID=operationcode/resources-api
+                  docker tag ${IMAGE_ID}:latest ${IMAGE_ID}:${CIRCLE_BUILD_NUM}
+                  docker push ${IMAGE_ID}:${CIRCLE_BUILD_NUM}
           requires:
             - build_test
           filters:
@@ -53,25 +65,3 @@ jobs:
           name: Run Bandit security analysis
           command: |
             make bandit
-
-  dockerhub_build_and_push:
-    docker:
-      - image: circleci/python:3.7.1
-        environment: # environment variables build container
-          IMAGE_ID: operationcode/resources-api
-
-    steps:
-      - checkout
-
-      - setup_remote_docker
-
-      - run:
-          name: Build and push to DockerHub
-          command: |
-            echo "Pushing image $IMAGE_ID:$CIRCLE_BUILD_NUM for branch - $CIRCLE_BRANCH"
-
-            echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
-
-            docker build -t ${IMAGE_ID}:latest -t ${IMAGE_ID}:${CIRCLE_BUILD_NUM} .
-            docker push ${IMAGE_ID}:latest
-            docker push ${IMAGE_ID}:${CIRCLE_BUILD_NUM}
