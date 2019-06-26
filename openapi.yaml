@@ -1,0 +1,234 @@
+openapi: 3.0.1
+info:
+  title: Operation Code Resources API
+  description: A collection of programming and cyber security learning resources for
+    the Operation Code community.
+  contact:
+    name: Operation Code
+    url: https://operationcode.org/contact
+  version: "0.1"
+servers:
+- url: https://resources.operationcode.org/api/v1
+paths:
+  /categories:
+    get:
+      description: Gets a list of all available resource categories, such as books,
+        tutorials, and coding challenges.
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+              examples:
+                0:
+                  value: |
+                    {"apiVersion":"1.0","data":[{"id":1,"name":"Books"},{"id":2,"name":"Code Challenges"},{"id":3,"name":"Getting Started"},{"id":4,"name":"Tutorials"},{"id":5,"name":"Online Courses"},{"id":6,"name":"Jobs"},{"id":7,"name":"Tools"},{"id":8,"name":"Programming for Kids"},{"id":9,"name":"REPL/Code Simulators"},{"id":10,"name":"Design"},{"id":11,"name":"Computer Hardware"},{"id":12,"name":"Computer Networking"},{"id":13,"name":"Cloud IDEs"},{"id":14,"name":"Docker"},{"id":15,"name":"Regular Expressions"},{"id":16,"name":"Mentorship"},{"id":17,"name":"News"},{"id":18,"name":"Back End Dev"},{"id":19,"name":"Mobile Dev"},{"id":20,"name":"Cheat Sheets"}],"has_next":true,"has_prev":false,"number_of_pages":4,"page":1,"records_per_page":20,"status":"ok","status_code":200,"total_count":72}
+  /languages:
+    get:
+      description: Gets list of all languages and topics available
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+              examples:
+                0:
+                  value: |
+                    {"apiVersion":"1.0","data":[{"id":1,"name":"multiple"},{"id":2,"name":"Python"},{"id":3,"name":"Unix/Linux/*nix"},{"id":4,"name":"Bash"},{"id":5,"name":"C"},{"id":6,"name":"Sysadmin"},{"id":7,"name":"JavaScript"},{"id":8,"name":"HTML"},{"id":9,"name":"PHP"},{"id":10,"name":"Ruby"},{"id":11,"name":"Aspectwerkz"},{"id":12,"name":"Artificial Intelligence"},{"id":13,"name":"C++"},{"id":14,"name":"MongoDB"},{"id":15,"name":"SQL"},{"id":16,"name":"R"},{"id":17,"name":"GraphQL"},{"id":18,"name":"Swift"},{"id":19,"name":"Android"},{"id":20,"name":"CSS"}],"has_next":true,"has_prev":false,"number_of_pages":4,"page":1,"records_per_page":20,"status":"ok","status_code":200,"total_count":73}
+  /resources/{id}:
+    get:
+      description: Gets more details about a specific resource, given the resource
+        ID
+      parameters:
+      - name: id
+        in: path
+        description: Resource ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Resource response successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+              examples:
+                0:
+                  value: |
+                    {"apiVersion":"1.0","data":{"category":"Books","created_at":"2019-06-15 17:55:32","downvotes":0,"id":3,"languages":[],"last_updated":"","name":"Free Tech Books","notes":"Focuses on general computer science concepts rather than a specific language","paid":false,"times_clicked":0,"upvotes":0,"url":"http://www.freetechbooks.com/"},"status":"ok","status_code":200}
+  /resources:
+    get:
+      description: Gets list of all available resource entries
+      responses:
+        200:
+          description: Resources list retrieval successful
+        404:
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      description: Creates a new resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Resource'
+        required: true
+      responses:
+        200:
+          description: Added new resource
+        404:
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - ApiKeyAuth: []
+  /search:
+    get:
+      description: Searches the API for a given keyword
+      responses:
+        200: {}
+  /apikey:
+    post:
+      description: Request API key by providing Operation Code credentials
+      responses:
+        200:
+          description: API Key response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    Resource:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        status_code:
+          type: integer
+        data:
+          $ref: '#/components/schemas/Resource_data'
+        status:
+          type: string
+    ApiKeyResponse:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        data:
+          $ref: '#/components/schemas/ApiKeyResponse_data'
+        status:
+          type: string
+    inline_response_200_data:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: integer
+    inline_response_200:
+      type: object
+      properties:
+        records_per_page:
+          type: integer
+        apiVersion:
+          type: string
+        status_code:
+          type: integer
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/inline_response_200_data'
+        number_of_pages:
+          type: integer
+        total_count:
+          type: integer
+        has_next:
+          type: boolean
+        has_prev:
+          type: boolean
+        page:
+          type: integer
+        status:
+          type: string
+    Resource_data:
+      type: object
+      properties:
+        last_updated:
+          type: string
+        notes:
+          type: string
+        times_clicked:
+          type: integer
+        languages:
+          type: array
+          items:
+            type: string
+        upvotes:
+          type: integer
+        name:
+          type: string
+        paid:
+          type: boolean
+        created_at:
+          type: string
+        id:
+          type: integer
+        category:
+          type: string
+        downvotes:
+          type: integer
+        url:
+          type: string
+    ApiKeyResponse_data:
+      type: object
+      properties:
+        apikey:
+          type: string
+        email:
+          type: string
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-API-Key
+      in: header
