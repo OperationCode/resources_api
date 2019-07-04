@@ -173,3 +173,45 @@ def fake_key_query_error(mocker):
         raise Exception()
 
     mocker.patch('app.models.Key.query', side_effect=key_query)
+
+
+@pytest.fixture(scope='function')
+def fake_algolia_save(mocker):
+    """
+    Mocks a save_object() call to algolia
+    """
+
+    mocker.patch('algoliasearch.search_index.SearchIndex.save_object', return_value=None)
+    mocker.patch('algoliasearch.search_index.SearchIndex.partial_update_object', return_value=None)
+
+
+@pytest.fixture(scope='function')
+def fake_algolia_search(mocker):
+    """
+    Mocks a save_object() call to algolia
+    """
+
+    def algolia_search(term, page_info):
+
+        results = {
+            'id': '0',
+            'name': 'Mock',
+            'url': term,
+            'category': 'Mock',
+            'languages': 'Mock',
+            'paid': 'Mock',
+            'notes': 'Mock',
+            'upvotes': 0,
+            'downvotes': 0,
+            'times_clicked': 0,
+            'created_at': 0,
+            'last_updated': 0
+        }
+
+        return {'hits': [results],
+                'page': page_info['page'],
+                'nbPages': 2,
+                'hitsPerPage': page_info['hitsPerPage'],
+                'nbHits': 2}
+
+    mocker.patch('algoliasearch.search_index.SearchIndex.search', side_effect=algolia_search)

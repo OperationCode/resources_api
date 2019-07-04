@@ -1,5 +1,6 @@
-import pytest, time, names
+import pytest, time, random, string
 from tests import conftest
+
 from app.models import Resource, Language, Category
 from configs import PaginatorConfig
 from app.cli import import_resources
@@ -217,7 +218,7 @@ def test_categories(module_client, module_db):
     assert (response.json.get('errors')[0].get('code') == "not-found")
 
 
-def test_update_votes(module_client, module_db):
+def test_update_votes(module_client, module_db, fake_algolia_save):
     client = module_client
     vote_direction = 'upvote'
     id = 1
@@ -315,7 +316,7 @@ def test_get_api_key(module_client, module_db, fake_invalid_auth_from_oc):
     assert (response.status_code == 401)
 
 
-def test_create_resource(module_client, module_db, fake_auth_from_oc):
+def test_create_resource(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client
 
     # Happy Path
@@ -341,7 +342,7 @@ def test_create_resource(module_client, module_db, fake_auth_from_oc):
     assert (response.status_code == 422)
 
 
-def test_update_resource(module_client, module_db, fake_auth_from_oc):
+def test_update_resource(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client
 
     # Happy Path
@@ -371,9 +372,10 @@ def test_update_resource(module_client, module_db, fake_auth_from_oc):
     assert (response.status_code == 404)
 
 
-def test_search(module_client, module_db, fake_auth_from_oc):
+def test_search(module_client, module_db, fake_auth_from_oc, fake_algolia_save, fake_algolia_search):
     client = module_client
-    first_term = names.get_full_name()
+
+    first_term = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
     apikey = get_api_key(client)
 
     # Create resource and find it in the search results.
@@ -388,23 +390,12 @@ def test_search(module_client, module_db, fake_auth_from_oc):
                           )
     result = client.get(f"/api/v1/search?q={first_term}")
 
-    # Prevents false negative from race condition.
-    while result.status_code == 302:
-        time.sleep(.5)
-        result = client.get(f"/api/v1/search?q={first_term}")
-
     assert (resource.status_code == 200)
     assert (result.status_code == 200)
-
-    found = False
-    for entry in result.json['data']:
-        if entry.get('url') == resource.json['data'].get('url'):
-            found = True
-
-    assert found
+    assert (result.json['data'][0]['url'] == resource.json['data'].get('url'))
 
     # Update the resource and test that search results reflect changes
-    updated_term = names.get_full_name()
+    updated_term = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
     resource_id = resource.json['data'].get('id')
     resource = client.put(f"/api/v1/resources/{resource_id}",
                            json=dict(
@@ -416,22 +407,11 @@ def test_search(module_client, module_db, fake_auth_from_oc):
     result = client.get(f"/api/v1/search?q={updated_term}")
 
     assert (resource.status_code == 200)
-
-    while result.status_code == 302:
-        time.sleep(.5)
-        result = client.get(f"/api/v1/search?q={updated_term}")
-
     assert (result.status_code == 200)
-
-    found = False
-    for entry in result.json['data']:
-        if entry.get('url') == resource.json['data'].get('url'):
-            found = True
-
-    assert found
+    assert (result.json['data'][0]['url'] == resource.json['data'].get('url'))
 
 
-def test_bad_requests(module_client, module_db, fake_auth_from_oc):
+def test_bad_requests(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client
 
     apikey = get_api_key(client)
@@ -455,7 +435,7 @@ def test_bad_requests(module_client, module_db, fake_auth_from_oc):
     assert (isinstance(response.json, dict))
 
 
-def test_commit_errors(module_client, module_db, fake_auth_from_oc, fake_commit_error):
+def test_commit_errors(module_client, module_db, fake_auth_from_oc, fake_commit_error, fake_algolia_save):
     client = module_client
     apikey = get_api_key(client)
 
