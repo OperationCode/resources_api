@@ -411,6 +411,82 @@ def test_search(module_client, module_db, fake_auth_from_oc, fake_algolia_save, 
     assert (result.json['data'][0]['url'] == resource.json['data'].get('url'))
 
 
+def test_algolia_exception_error(module_client, module_db, fake_auth_from_oc, fake_algolia_exception):
+    client = module_client
+    first_term = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    apikey = get_api_key(client)
+
+    result = client.get(f"/api/v1/search?q=python")
+
+    assert (result.status_code == 500)
+
+    resource = client.post("/api/v1/resources",
+                           json=dict(
+                               name=f"{first_term}",
+                               category="Website",
+                               url=f"{first_term}",
+                               paid=False,
+                           ),
+                           headers={'x-apikey': apikey}
+                           )
+
+    assert (resource.status_code == 200)
+
+    updated_term = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+
+    response = client.put(f"/api/v1/resources/{resource.json['data'].get('id')}",
+                          json=dict(
+                              name="New name",
+                              languages=["New language"],
+                              category="New Category",
+                              url=f"https://{updated_term}.url",
+                              paid=False,
+                              notes="New notes"
+                          ),
+                          headers={'x-apikey': apikey}
+                          )
+
+    assert (response.status_code == 200)
+
+
+def test_algolia_unreachable_host_error(module_client, module_db, fake_auth_from_oc, fake_algolia_unreachable_host, ):
+    client = module_client
+    first_term = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    apikey = get_api_key(client)
+
+    result = client.get(f"/api/v1/search?q=python")
+
+    assert (result.status_code == 500)
+
+    resource = client.post("/api/v1/resources",
+                           json=dict(
+                               name=f"{first_term}",
+                               category="Website",
+                               url=f"{first_term}",
+                               paid=False,
+                           ),
+                           headers={'x-apikey': apikey}
+                           )
+
+    assert (resource.status_code == 200)
+
+    updated_term = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+
+    response = client.put(f"/api/v1/resources/{resource.json['data'].get('id')}",
+                          json=dict(
+                              name="New name",
+                              languages=["New language"],
+                              category="New Category",
+                              url=f"https://{updated_term}.url",
+                              paid=False,
+                              notes="New notes"
+                          ),
+                          headers={'x-apikey': apikey}
+                          )
+
+    assert (response.status_code == 200)
+
+
 def test_bad_requests(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client
 
@@ -518,10 +594,11 @@ def create_resource(client, apikey):
         headers = {'x-apikey': apikey}
     )
 
+
 def get_api_key(client):
-   response = client.post('api/v1/apikey', json = dict(
+    response = client.post('api/v1/apikey', json = dict(
         email="test@example.org",
         password="supersecurepassword"
-   ))
+    ))
 
-   return response.json['data'].get('apikey')
+    return response.json['data'].get('apikey')

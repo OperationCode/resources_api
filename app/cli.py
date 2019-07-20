@@ -124,7 +124,7 @@ def update_resource(resource, existing_resource):   # pragma: no cover
     existing_resource.languages = resource['languages']
 
 
-def reindex_all():
+def reindex_all():  # pragma: no cover
     query = Resource.query
     indicies = search_client.list_indices()
     for ind in indicies['items']:

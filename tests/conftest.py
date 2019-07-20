@@ -1,5 +1,6 @@
 import pytest
 from app import create_app, db as _db
+from algoliasearch.exceptions import AlgoliaUnreachableHostException, AlgoliaException
 from configs import Config
 
 TEST_DATABASE_URI = 'sqlite:///:memory:'
@@ -215,3 +216,29 @@ def fake_algolia_search(mocker):
                 'nbHits': 2}
 
     mocker.patch('algoliasearch.search_index.SearchIndex.search', side_effect=algolia_search)
+
+
+@pytest.fixture(scope='function')
+def fake_algolia_unreachable_host(mocker):
+    """
+    Mocks a save_object() call to algolia
+    """
+    def algolia_exception(*args):
+        raise AlgoliaUnreachableHostException()
+
+    mocker.patch('algoliasearch.search_index.SearchIndex.search', side_effect=algolia_exception)
+    mocker.patch('algoliasearch.search_index.SearchIndex.save_object', side_effect=algolia_exception)
+    mocker.patch('algoliasearch.search_index.SearchIndex.partial_update_object', side_effect=algolia_exception)
+
+
+@pytest.fixture(scope='function')
+def fake_algolia_exception(mocker):
+    """
+    Mocks a save_object() call to algolia
+    """
+    def algolia_exception(*args):
+        raise AlgoliaException()
+
+    mocker.patch('algoliasearch.search_index.SearchIndex.search', side_effect=algolia_exception)
+    mocker.patch('algoliasearch.search_index.SearchIndex.save_object', side_effect=algolia_exception)
+    mocker.patch('algoliasearch.search_index.SearchIndex.partial_update_object', side_effect=algolia_exception)

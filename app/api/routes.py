@@ -218,10 +218,15 @@ def search_results():
     page = request.args.get('page', 0, int)
     page_size = request.args.get('page_size', Config.RESOURCE_PAGINATOR.per_page, int)
 
-    search_result = index.search(f'{term}', {
-        'page': page,
-        'hitsPerPage': page_size
-    })
+    try:
+        search_result = index.search(f'{term}', {
+            'page': page,
+            'hitsPerPage': page_size
+        })
+
+    except (AlgoliaUnreachableHostException, AlgoliaException) as e:
+        logger.exception(e)
+        return utils.standardize_response(status_code=500)
 
     if page >= int(search_result['nbPages']):
         return redirect('/404')
