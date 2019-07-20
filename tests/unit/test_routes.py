@@ -1,11 +1,12 @@
-import pytest, time, random, string
-from tests import conftest
-
+import pytest
+import random
+import string
+import time
 from app.models import Resource, Language, Category
-from configs import PaginatorConfig
 from app.cli import import_resources
+from configs import PaginatorConfig
 from datetime import datetime, timedelta
-
+from tests import conftest
 
 ##########################################
 ## Test Routes

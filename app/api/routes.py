@@ -368,7 +368,6 @@ def update_resource(id, json, db):
         except (AlgoliaUnreachableHostException, AlgoliaException) as e:
             logger.exception(e)
             print(f"Algolia failed to update index for resource '{resource.name}'")
-            print(f'Update data: {index_object}')
 
         return utils.standardize_response(
             payload=dict(data=resource.serialize)
