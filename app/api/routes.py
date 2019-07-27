@@ -218,10 +218,15 @@ def search_results():
     page = request.args.get('page', 0, int)
     page_size = request.args.get('page_size', Config.RESOURCE_PAGINATOR.per_page, int)
 
-    search_result = index.search(f'{term}', {
-        'page': page,
-        'hitsPerPage': page_size
-    })
+    try:
+        search_result = index.search(f'{term}', {
+            'page': page,
+            'hitsPerPage': page_size
+        })
+
+    except (AlgoliaUnreachableHostException, AlgoliaException) as e:
+        logger.exception(e)
+        return utils.standardize_response(status_code=500)
 
     if page >= int(search_result['nbPages']):
         return redirect('/404')
@@ -332,7 +337,7 @@ def update_resource(id, json, db):
         return redirect('/404')
 
     langs, categ = get_attributes(json)
-    index_object = {'objectID': resource.id}
+    index_object = {'objectID': id}
 
     try:
         logger.info(f"Updating resource. Old data: {resource.serialize}")
@@ -341,7 +346,7 @@ def update_resource(id, json, db):
             index_object['languages'] = resource.serialize['languages']
         if json.get('category'):
             resource.category = categ
-            index_object['categories'] = categ
+            index_object['category'] = categ.name
         if json.get('name'):
             resource.name = json.get('name')
             index_object['name'] = json.get('name')
@@ -358,7 +363,7 @@ def update_resource(id, json, db):
         db.session.commit()
 
         try:
-            index.partial_update_objects(index_object)
+            index.partial_update_object(index_object)
 
         except (AlgoliaUnreachableHostException, AlgoliaException) as e:
             logger.exception(e)
