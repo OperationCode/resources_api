@@ -1,9 +1,8 @@
 import pytest
-import random
-import string
 import time
 from app.models import Resource, Language, Category
 from app.cli import import_resources
+from app.utils import random_string
 from configs import PaginatorConfig
 from datetime import datetime, timedelta
 from tests import conftest
@@ -376,7 +375,7 @@ def test_update_resource(module_client, module_db, fake_auth_from_oc, fake_algol
 def test_search(module_client, module_db, fake_auth_from_oc, fake_algolia_save, fake_algolia_search):
     client = module_client
 
-    first_term = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    first_term = random_string()
     apikey = get_api_key(client)
 
     # Create resource and find it in the search results.
@@ -396,7 +395,7 @@ def test_search(module_client, module_db, fake_auth_from_oc, fake_algolia_save, 
     assert (result.json['data'][0]['url'] == resource.json['data'].get('url'))
 
     # Update the resource and test that search results reflect changes
-    updated_term = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    updated_term = random_string()
     resource_id = resource.json['data'].get('id')
     resource = client.put(f"/api/v1/resources/{resource_id}",
                            json=dict(
@@ -414,7 +413,7 @@ def test_search(module_client, module_db, fake_auth_from_oc, fake_algolia_save, 
 
 def test_algolia_exception_error(module_client, module_db, fake_auth_from_oc, fake_algolia_exception):
     client = module_client
-    first_term = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    first_term = random_string()
     apikey = get_api_key(client)
 
     result = client.get(f"/api/v1/search?q=python")
@@ -433,7 +432,7 @@ def test_algolia_exception_error(module_client, module_db, fake_auth_from_oc, fa
 
     assert (resource.status_code == 200)
 
-    updated_term = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    updated_term = random_string()
 
     response = client.put(f"/api/v1/resources/{resource.json['data'].get('id')}",
                           json=dict(
@@ -452,7 +451,7 @@ def test_algolia_exception_error(module_client, module_db, fake_auth_from_oc, fa
 
 def test_algolia_unreachable_host_error(module_client, module_db, fake_auth_from_oc, fake_algolia_unreachable_host, ):
     client = module_client
-    first_term = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    first_term = random_string()
     apikey = get_api_key(client)
 
     result = client.get(f"/api/v1/search?q=python")
@@ -471,7 +470,7 @@ def test_algolia_unreachable_host_error(module_client, module_db, fake_auth_from
 
     assert (resource.status_code == 200)
 
-    updated_term = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    updated_term = random_string()
 
     response = client.put(f"/api/v1/resources/{resource.json['data'].get('id')}",
                           json=dict(

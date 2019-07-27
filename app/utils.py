@@ -3,6 +3,8 @@ from flask import jsonify
 from .models import Resource, Key
 import logging
 import os
+import random
+import string
 import sys
 import uuid
 
@@ -174,3 +176,7 @@ def validate_resource(json):
 
     if validation_errors['errors']['missing_params']:
         return validation_errors
+
+
+def random_string(n=10):
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
