@@ -199,6 +199,35 @@ def test_languages(module_client, module_db):
     assert (response.json.get('errors')[0].get('code') == "not-found")
 
 
+def test_get_single_language(module_client, module_db):
+    client = module_client
+
+    response = client.get('api/v1/languages/3')
+
+    # Status should be OK
+    assert (response.status_code == 200)
+
+    language = response.json['data']
+    assert (isinstance(language.get('name'), str))
+    assert (language.get('name'))
+
+    assert (language.get('id') == 3)
+
+
+def test_single_language_out_of_bounds(module_client, module_db):
+    client = module_client
+
+    too_low = 0
+    too_high = 9999
+    response = client.get(f"api/v1/languages/{too_low}", follow_redirects=True)
+
+    assert (response.status_code == 404)
+
+    response = client.get(f"api/v1/languages/{too_high}", follow_redirects=True)
+
+    assert (response.status_code == 404)
+
+
 def test_categories(module_client, module_db):
     client = module_client
 

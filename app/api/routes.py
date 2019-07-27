@@ -89,6 +89,13 @@ def languages():
 
 @latency_summary.time()
 @failures_counter.count_exceptions()
+@bp.route('/languages/<int:id>', methods=['GET'], endpoint='get_language')
+def language(id):
+    return get_language(id)
+
+
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/categories', methods=['GET'])
 def categories():
     return get_categories()
@@ -263,6 +270,15 @@ def get_languages():
     return utils.standardize_response(payload=dict(
         data=language_list,
         **pagination_details))
+
+
+def get_language(id):
+    language = Language.query.get(id)
+
+    if language:
+        return utils.standardize_response(payload=dict(data=(language.serialize)))
+
+    return redirect('/404')
 
 
 def get_categories():
