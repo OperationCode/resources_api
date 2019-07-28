@@ -1,4 +1,4 @@
-from flask import request, redirect, render_template
+from flask import request, redirect
 from sqlalchemy import or_, func
 from algoliasearch.exceptions import AlgoliaUnreachableHostException, AlgoliaException
 from app.api import bp
