@@ -16,8 +16,8 @@ info:
     Operation Code Resources API is a collection of programming and cyber security learning resources curated by and for the Operation Code community.
 
     # Authentication
-    Create (POST) and update (PUT) routes are protected and require an API key. API key requests to the `/apikey` endpoint require valid Operation Code credentials in the request body. 
-    
+    Create (POST) and update (PUT) routes are protected and require an API key. API key requests to the `/apikey` endpoint require valid Operation Code credentials in the request body.
+
     If you are not already a member of our community, join Operation Code [HERE](https://operationcode.org/join).
 
     When you create a request to an authenticated route, you *MUST* include the header `x-apikey` along with your API key.
@@ -32,7 +32,7 @@ paths:
     post:
       summary: API Key Request
       description: Request API key by providing valid Operation Code credentials
-      tags: 
+      tags:
         - Request Key
       requestBody:
         content:
@@ -81,7 +81,7 @@ paths:
     get:
       summary: Search
       description: Searches for resources containing a given keyword. For example, to search for any resource containing the term `binary trees`, make a `GET` request to `search?q=binary trees` Note&#58; The `page` attribute in the response of the `/search` endpoint begins with `0`, but the `page` attribute in the response of the `List Resources` endpoint begins with `1`.
-      tags: 
+      tags:
         - Search
       parameters:
         - in: query
@@ -131,7 +131,7 @@ paths:
     get:
       summary: List Categories
       description: Gets a list of all available categories. Note&#58; The `page` attribute in the response of the `/search` endpoint begins with `0`, but the `page` attribute in the response of the `List Categories` endpoint begins with `1`.
-      tags: 
+      tags:
         - List Categories
       responses:
         200:
@@ -177,7 +177,7 @@ paths:
     get:
       summary: Get Category
       description: Gets more details about a specific category, given the Category ID
-      tags: 
+      tags:
         - Get Category
       parameters:
       - name: id
@@ -258,7 +258,7 @@ paths:
     get:
       summary: Get Language
       description: Gets more details about a specific language, given the language ID
-      tags: 
+      tags:
         - Get Language
       parameters:
       - name: id
@@ -293,7 +293,7 @@ paths:
     get:
       summary: Get Resource
       description: Gets more details about a specific resource, given the resource ID
-      tags: 
+      tags:
         - Get Resource
       parameters:
       - name: id
@@ -328,7 +328,7 @@ paths:
                     'times_clicked':0,
                     'upvotes':0,
                     'url':'http://www.freetechbooks.com/'
-                    
+
                   },
                   'status':'ok',
                   'status_code':200
@@ -337,7 +337,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     put:
       summary: Update Resource
-      description: Updates an existing learning resource entry. The request body should be a JSON object containing the properties to be updated and their corresponding new values. 
+      description: Updates an existing learning resource entry. The request body should be a JSON object containing the properties to be updated and their corresponding new values.
       tags:
         - Update Resource
       requestBody:
@@ -348,7 +348,7 @@ paths:
             example: |
               {
                 'name': 'Updated Book Title'
-              }  
+              }
         required: true
       parameters:
         - name: id
@@ -359,7 +359,7 @@ paths:
           explode: false
           schema:
             type: integer
-            format: int64   
+            format: int64
       responses:
         200:
           description: Updated resource
@@ -396,8 +396,8 @@ paths:
     put:
       summary: Update Resource - Increment Number of Views
       description: |
-        Increments the `times_clicked` property of a resource. The intention of this endpoint is to collect data about how popular a resource is based on how many times it is accessed. Please set up your integration to increment the `times_clicked` property when a user clicks through to view a resource. 
-      tags: 
+        Increments the `times_clicked` property of a resource. The intention of this endpoint is to collect data about how popular a resource is based on how many times it is accessed. Please set up your integration to increment the `times_clicked` property when a user clicks through to view a resource.
+      tags:
         - Update Resource
       parameters:
       - name: id
@@ -411,7 +411,7 @@ paths:
           format: int64
       responses:
         200:
-          description: Updated resource 
+          description: Updated resource
           content:
             application/json:
               schema:
@@ -485,7 +485,7 @@ paths:
               example: |
                 {
                   'apiVersion': '1.0',
-                  'data': 
+                  'data':
                   [
                       {
                         'category': 'Tutorial',
@@ -583,20 +583,20 @@ paths:
 
       security:
       - ApiKeyAuth: []
-  
+
 components:
   schemas:
 
     Error:
       type: object
       properties:
-        apiVersion: 
+        apiVersion:
           type: string
           description: API version
-        data: 
+        data:
           type: object
           description: A data object
-        errors: 
+        errors:
           type: array
           description: List of errors
           items:
@@ -619,13 +619,13 @@ components:
                 items:
                   type: string
             required: [code, message]
-        status: 
+        status:
           type: string
           description: Status message
-        status_code: 
+        status_code:
           type: integer
           description: Status code
-            
+
 
     Resource:
       type: object
@@ -635,10 +635,10 @@ components:
           description: API version
         data:
           $ref: '#/components/schemas/Resource_data'
-        status: 
+        status:
           type: string
           description: Status message
-        status_code: 
+        status_code:
           type: integer
           description: Status code
 
@@ -664,10 +664,10 @@ components:
         records_per_page:
           type: integer
           description: Records per page
-        status: 
+        status:
           type: string
           description: Status message
-        status_code: 
+        status_code:
           type: integer
           description: Status code
         total_count:
@@ -708,10 +708,10 @@ components:
         records_per_page:
           type: integer
           description: Records per page
-        status: 
+        status:
           type: string
           description: Status message
-        status_code: 
+        status_code:
           type: integer
           description: Status code
         total_count:
@@ -726,13 +726,13 @@ components:
         name:
           type: string
           description: Language Name
-    
+
 
     CreateResourceRequest:
       allOf:
         - $ref: '#/components/schemas/ResourceRequest'
         - required: [category, name, paid, url]
-    
+
     ResourceRequest:
       type: object
       properties:
@@ -756,7 +756,7 @@ components:
         url:
           type: string
           description: Resource url
-  
+
     Resource_data:
       type: object
       properties:
@@ -797,7 +797,7 @@ components:
         url:
           type: string
           description: Resource url
-      
+
     SearchResponse:
       type: object
       properties:
@@ -817,16 +817,16 @@ components:
         records_per_page:
           type: integer
           description: Records per page
-        status: 
+        status:
           type: string
           description: Status message
-        status_code: 
+        status_code:
           type: integer
           description: Status code
         total_count:
           type: integer
           description: Total resources retrieved
-    
+
     FilteredResourcesResponse:
       type: object
       properties:
@@ -852,10 +852,10 @@ components:
         records_per_page:
           type: integer
           description: Records per page
-        status: 
+        status:
           type: string
           description: Status message
-        status_code: 
+        status_code:
           type: integer
           description: Status code
         total_count:
@@ -864,7 +864,7 @@ components:
 
 ##############################
 # API Request and Response
-############################## 
+##############################
     ApiKeyRequest:
       type: object
       properties:
@@ -873,7 +873,7 @@ components:
           description: A valid e-mail address registered with Operation Code
         password:
           type: string
-          description: Password 
+          description: Password
     ApiKeyResponse:
       type: object
       properties:
@@ -882,10 +882,10 @@ components:
           description: API version
         data:
           $ref: '#/components/schemas/ApiKeyResponse_data'
-        status: 
+        status:
           type: string
           description: Status message
-        status_code: 
+        status_code:
           type: integer
           description: Status code
     ApiKeyResponse_data:
@@ -966,7 +966,7 @@ components:
               ],
               'status': 'Bad Request',
               'status_code': 400
-            } 
+            }
 
   securitySchemes:
     ApiKeyAuth:
@@ -993,11 +993,11 @@ x-tagGroups:
   - name: API Key Request
     tags:
       - Request Key
-  - name: Search 
+  - name: Search
     tags:
       - Search
   - name: Resources
-    tags: 
+    tags:
       - List Resources
       - Get Resource
       - Create Resource
@@ -1010,4 +1010,3 @@ x-tagGroups:
     tags:
       - List Languages
       - Get Language
-
