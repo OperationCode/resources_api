@@ -103,6 +103,13 @@ def categories():
 
 @latency_summary.time()
 @failures_counter.count_exceptions()
+@bp.route('/categories/<int:id>', methods=['GET'], endpoint='get_category')
+def category(id):
+    return get_category(id)
+
+
+@latency_summary.time()
+@failures_counter.count_exceptions()
 @bp.route('/apikey', methods=['POST'], endpoint='apikey')
 def apikey():
     """
@@ -300,6 +307,15 @@ def get_categories():
     return utils.standardize_response(payload=dict(
         data=category_list,
         **pagination_details))
+
+
+def get_category(id):
+    category = Category.query.get(id)
+
+    if category:
+        return utils.standardize_response(payload=dict(data=(category.serialize)))
+
+    return redirect('/404')
 
 
 def get_attributes(json):
