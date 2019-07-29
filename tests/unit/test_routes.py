@@ -246,6 +246,33 @@ def test_categories(module_client, module_db):
     assert (response.status_code == 404)
     assert (response.json.get('errors')[0].get('code') == "not-found")
 
+def test_get_single_category(module_client, module_db):
+    client = module_client
+
+    response = client.get('api/v1/categories/4')
+
+    # Status should be OK
+    assert (response.status_code == 200)
+
+    category = response.json['data']
+    assert (isinstance(category.get('name'), str))
+    assert (category.get('name') == 'Tutorials')
+    assert (category.get('id') == 4)
+
+
+def test_get_single_category_out_of_bounds(module_client, module_db):
+    client = module_client
+
+    too_low = 0
+    too_high = 9999
+    response = client.get(f"api/v1/categories/{too_low}", follow_redirects=True)
+
+    assert (response.status_code == 404)
+
+    response = client.get(f"api/v1/categories/{too_high}", follow_redirects=True)
+
+    assert (response.status_code == 404)
+
 
 def test_update_votes(module_client, module_db, fake_algolia_save):
     client = module_client
