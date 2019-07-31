@@ -272,9 +272,17 @@ def test_get_single_category_out_of_bounds(module_client, module_db):
     response = client.get(f"api/v1/categories/{too_high}", follow_redirects=True)
     assert (response.status_code == 404)
 
-    # Check GET request to invalid category id - string
-    invalid_id = 'waffles'
-    response = client.get(f"api/v1/categories/{invalid_id}", follow_redirects=True)
+    # Check GET request to invalid category id - non integer
+    string = 'waffles'
+    response = client.get(f"api/v1/categories/{string}", follow_redirects=True)
+    assert (response.status_code == 404)
+
+    empty_string = ' '
+    response = client.get(f"api/v1/categories/{empty_string}", follow_redirects=True)
+    assert (response.status_code == 404)
+
+    symbol = '$'
+    response = client.get(f"api/v1/categories/{symbol}", follow_redirects=True)
     assert (response.status_code == 404)
 
 
