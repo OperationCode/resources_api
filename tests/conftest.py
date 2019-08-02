@@ -1,5 +1,6 @@
 import pytest
 from app import create_app, db as _db
+from app.utils import standardize_response
 from algoliasearch.exceptions import AlgoliaUnreachableHostException, AlgoliaException
 from configs import Config
 
@@ -242,3 +243,26 @@ def fake_algolia_exception(mocker):
     mocker.patch('algoliasearch.search_index.SearchIndex.search', side_effect=algolia_exception)
     mocker.patch('algoliasearch.search_index.SearchIndex.save_object', side_effect=algolia_exception)
     mocker.patch('algoliasearch.search_index.SearchIndex.partial_update_object', side_effect=algolia_exception)
+
+
+@pytest.fixture(scope='function')
+def fake_validation(mocker):
+    """
+    Mocks a save_object() call to algolia
+    """
+    def validate(*args):
+        return
+
+    mocker.patch('app.validations.validate_resource', side_effect=validate)
+
+
+@pytest.fixture(scope='function')
+def unmapped_standardize_response(mocker):
+    """
+    Mocks a save_object() call to algolia
+    """
+    def response(*args):
+
+        return standardize_response(dict(), 1337)
+
+    mocker.patch('app.utils.standardize_response', return_value=response())

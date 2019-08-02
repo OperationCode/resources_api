@@ -9,6 +9,29 @@ import sys
 import uuid
 
 
+err_map = {
+    400: "Bad Request",
+    401: "Unauthorized",
+    403: "Forbidden",
+    404: "Not Found",
+    405: "Method Not Allowed",
+    422: "Unprocessable Entity",
+    429: "Rate Limit Exceeded",
+    500: "Server Error"
+}
+
+msg_map = {
+    400: "Bad Request. Did you provide valid JSON?",
+    401: "You must provide a valid API token in the x-apikey header.",
+    403: "This endpoint is forbidden.",
+    404: "The resource you requested does not exist.",
+    405: "This method is not allowed.",
+    422: "This request failed validation",
+    429: "You have exceeded your rate limit. Try again later.",
+    500: "Something went wrong"
+}
+
+
 class Paginator:
     def __init__(self, configuration, request):
         self.configuration = configuration
@@ -102,28 +125,6 @@ def standardize_response(payload={}, status_code=200):
         status_code=status_code,
         data=None
     )
-
-    err_map = {
-        400: "Bad Request",
-        401: "Unauthorized",
-        403: "Forbidden",
-        404: "Not Found",
-        405: "Method Not Allowed",
-        422: "Unprocessable Entity",
-        429: "Rate Limit Exceeded",
-        500: "Server Error"
-    }
-
-    msg_map = {
-        400: "Bad Request. Did you provide valid JSON?",
-        401: "You must provide a valid API token in the x-apikey header.",
-        403: "This endpoint is forbidden.",
-        404: "The resource you requested does not exist.",
-        405: "This method is not allowed.",
-        422: "This request failed validation",
-        429: "You have exceeded your rate limit. Try again later.",
-        500: "Something went wrong"
-    }
 
     if status_code >= 400 and err_map.get(status_code):
         resp["status"] = err_map.get(status_code)

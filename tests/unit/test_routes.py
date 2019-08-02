@@ -3,7 +3,7 @@ from tests import conftest
 import time
 from app.models import Resource, Language, Category
 from app.cli import import_resources
-from app.utils import random_string
+from app.utils import random_string, msg_map, err_map
 from configs import PaginatorConfig
 from datetime import datetime, timedelta
 
@@ -349,6 +349,15 @@ def test_add_click(module_client, module_db):
     assert (isinstance(response.json.get('errors').get('not-found').get('message'), str))
 
 
+def test_bad_standardize_response(module_client, module_db, unmapped_standardize_response):
+    client = module_client
+    resources = client.get("api/v1/resources")
+
+    assert (resources.status_code == 500)
+    assert (resources.json['errors'] is not None)
+    assert (resources.json['errors']['errors']['server-error'] is not None)
+
+
 ##########################################
 ## Authenticated Routes
 ##########################################
@@ -674,6 +683,62 @@ def test_bad_requests(module_client, module_db, fake_auth_from_oc, fake_algolia_
     )
     assert (response.status_code == 400)
     assert (isinstance(response.json, dict))
+
+
+def false_validation(module_client, module_db, fake_auth_from_oc, fake_algolia_save, fake_validate_resource):
+    # Given the validate_resource method fails to catch errors
+    # When we commit the resource to the database
+    # Then the api returns a 422 response
+
+    client = module_client
+    first_term = random_string()
+    apikey = get_api_key(client)
+
+    resource = client.post("/api/v1/resources",
+                           json=dict(
+                               name=f"{first_term}",
+                               category="Website",
+                               url=f"{first_term}",
+                               paid=False,
+                           ),
+                           headers={'x-apikey': apikey}
+                           )
+
+    assert (resource.status_code == 200)
+
+    id = resource.json['data'].get("id")
+
+    resource = client.post("/api/v1/resources",
+                           json=dict(
+                               name=f"{first_term}",
+                               category="Website",
+                               url=f"{first_term}",
+                               paid=False,
+                           ),
+                           headers={'x-apikey': apikey}
+                           )
+
+    assert (resource.status_code == 422)
+    assert (resource.json['data'].get("errors") is not None)
+    assert (resource.json['data'].get("errors")['-'.join(err_map.get(resource.status_code).split(' ')).lower()] ==
+            msg_map[resource.status_code])
+
+    resource = client.put(f"/api/v1/resources/{id}",
+                          json=dict(
+                              name="New name",
+                              languages=["New language"],
+                              category="New Category",
+                              url=f"{first_term}",
+                              paid=False,
+                              notes="New notes"
+                          ),
+                          headers={'x-apikey': apikey}
+                          )
+
+    assert (resource.status_code == 422)
+    assert (resource.json['data'].get("errors") is not None)
+    assert (resource.json['data'].get("errors")['-'.join(err_map.get(resource.status_code).split(' ')).lower()] ==
+            msg_map[resource.status_code])
 
 
 def test_commit_errors(module_client, module_db, fake_auth_from_oc, fake_commit_error, fake_algolia_save):
