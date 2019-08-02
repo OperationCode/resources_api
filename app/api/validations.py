@@ -89,7 +89,8 @@ def validate_resource(request, id=-1):
             invalid_params["params"].append('url')
             message = f"Resource id {resource.id} already has this URL."
             invalid_params["message"] = message
-            invalid_params["resource"] = f"https://resources.operationcode.org/api/v1/{resource.id}"
+            invalid_params["resource"] = \
+                f"https://resources.operationcode.org/api/v1/{resource.id}"
 
     if missing_params["params"]:
         validation_errors["errors"]["missing-params"] = missing_params
