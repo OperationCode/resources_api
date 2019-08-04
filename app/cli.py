@@ -59,7 +59,7 @@ def import_resources(db):   # pragma: no cover
         print(resource)
 
 
-def remove_duplicates(data):
+def remove_duplicates(data):  # pragma: no cover
     unique_resources = []
     resource_dict = {}
     for resource in data:
@@ -97,7 +97,7 @@ def get_languages(resource, language_dict):
     return langs
 
 
-def create_resource(resource, db):
+def create_resource(resource, db):  # pragma: no cover
     new_resource = Resource(
         name=resource['name'],
         url=resource['url'],

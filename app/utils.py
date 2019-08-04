@@ -1,12 +1,35 @@
 from app import API_VERSION, db
 from flask import jsonify
-from .models import Resource, Key
+from .models import Key
 import logging
 import os
 import random
 import string
 import sys
 import uuid
+
+
+err_map = {
+    400: "Bad Request",
+    401: "Unauthorized",
+    403: "Forbidden",
+    404: "Not Found",
+    405: "Method Not Allowed",
+    422: "Unprocessable Entity",
+    429: "Rate Limit Exceeded",
+    500: "Server Error"
+}
+
+msg_map = {
+    400: "Bad Request. Did you provide valid JSON?",
+    401: "You must provide a valid API token in the x-apikey header.",
+    403: "This endpoint is forbidden.",
+    404: "The resource you requested does not exist.",
+    405: "This method is not allowed.",
+    422: "This request failed validation",
+    429: "You have exceeded your rate limit. Try again later.",
+    500: "Something went wrong"
+}
 
 
 class Paginator:
@@ -103,17 +126,6 @@ def standardize_response(payload={}, status_code=200):
         data=None
     )
 
-    err_map = {
-        400: "Bad Request",
-        401: "Unauthorized",
-        403: "Unauthorized",
-        404: "Not Found",
-        405: "Method Not Allowed",
-        422: "Unprocessable Entity",
-        429: "Rate Limit Exceeded",
-        500: "Server Error"
-    }
-
     if status_code >= 400 and err_map.get(status_code):
         resp["status"] = err_map.get(status_code)
         resp["status_code"] = status_code
@@ -121,14 +133,16 @@ def standardize_response(payload={}, status_code=200):
         if errors:
             resp["errors"] = errors
         else:
-            resp["errors"] = [{
-                "code": '-'.join(err_map.get(status_code).split(' ')).lower()
-            }]
+            code = '-'.join(err_map.get(status_code).split(' ')).lower()
+            message = msg_map.get(status_code)
+            resp["errors"] = {}
+            resp["errors"][code] = {"message": message}
 
     elif not data:
-        resp["errors"] = [{"code": "something-went-wrong"}]
+        message = "Something went wrong"
+        resp["errors"] = {'errors': {"server-error": {"message": message}}}
         resp["status_code"] = 500
-        resp["status"] = "error"
+        resp["status"] = "Server Error"
     else:
         resp["data"] = data
 
@@ -152,30 +166,6 @@ def setup_logger(name, level=logging.INFO):
     logger.addHandler(handler)
 
     return logger
-
-
-def validate_resource(json):
-    validation_errors = {'errors': {'type': 'validation'}}
-    if not json:
-        message = "A JSON body is required to use this endpoint, but none was given"
-        validation_errors['errors']['message'] = message
-        return validation_errors
-
-    validation_errors['errors']['missing_params'] = []
-
-    required = []
-    for column in Resource.__table__.columns:
-        if column.nullable is False and column.name != 'id':
-            # strip _id from category_id
-            name = column.name.replace('_id', '')
-            required.append(name)
-
-    for prop in required:
-        if json.get(prop) is None:
-            validation_errors['errors']['missing_params'].append(prop)
-
-    if validation_errors['errors']['missing_params']:
-        return validation_errors
 
 
 def random_string(n=10):

@@ -57,10 +57,10 @@ paths:
                   'status': 'ok',
                   'status_code': 200
                 }
+        400:
+          $ref: '#/components/responses/BadRequest'
         401:
-          $ref: '#/components/responses/Unauthorized'
-        422:
-          description: Invalid request
+          description: Unauthorized Access
           content:
             application/json:
               schema:
@@ -69,12 +69,13 @@ paths:
                 {
                   'apiVersion': '1.0',
                   'data': null,
-                  'errors': [{
-                      'code': 'unprocessable-entity',
-                      'message': 'Your username or password is incorrect',
-                  }],
-                  'status': 'Unprocessable Entity',
-                  'status_code': 422
+                  'errors': {
+                    'invalid-credentials': {
+                        'message': 'The email or password you submitted is incorrect'
+                    }
+                  },
+                  'status': 'Unauthorized',
+                  'status_code': 401
                 }
 
   /search:
@@ -173,6 +174,8 @@ paths:
                   'status_code':200,
                   'total_count':72
                 }
+        404:
+          $ref: '#/components/responses/NotFound'
   /categories/{id}:
     get:
       summary: Get Category
@@ -254,6 +257,8 @@ paths:
                       'status_code':200,
                       'total_count':73
                     }
+        404:
+          $ref: '#/components/responses/NotFound'
   /languages/{id}:
     get:
       summary: Get Language
@@ -391,7 +396,7 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
         401:
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/UnauthorizedCreateUpdate'
         422:
           description: Invalid request
           content:
@@ -402,13 +407,15 @@ paths:
                 {
                   'apiVersion': '1.0',
                   'data': null,
-                  'errors': [{
-                      'invalid_params': [
-                          'url'
-                      ],
-                      'message': 'This URL already exists in the database. Resource id 135 already has this URL.',
-                      'type': 'validation'
-                  }],
+                  'errors': {
+                    'invalid-params': {
+                        'message': 'The following params were invalid: url. Resource id 2137 already has this URL.',
+                        'params': [
+                            'url'
+                        ],
+                        'resource': 'https://resources.operationcode.org/api/v1/2137'
+                    }
+                  },
                   'status': 'Unprocessable Entity',
                   'status_code': 422
                 }
@@ -536,6 +543,26 @@ paths:
                 }
         404:
           $ref: '#/components/responses/NotFound'
+
+        422:
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example: |
+                {
+                  'apiVersion': '1.0',
+                  'data': null,
+                  'errors': {
+                    'unprocessable-entity': {
+                      'message': 'The value for "updated_after" is invalid'
+                    }
+                  },
+                  'status': 'Unprocessable Entity',
+                  'status_code': 422
+                }
+
     post:
       summary: Create Resource
       description: Creates a new learning resource entry. The required properties for a new entry are `category`, `name`, `paid`, and `url` and must be included in the request body.
@@ -581,8 +608,10 @@ paths:
                         'status': 'ok',
                         'status_code': 200
                       }
+        400:
+          $ref: '#/components/responses/BadRequest'
         401:
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/UnauthorizedCreateUpdate'
         422:
           description: Invalid request
           content:
@@ -593,13 +622,23 @@ paths:
                 {
                   'apiVersion': '1.0',
                   'data': null,
-                  'errors': [{
-                      'invalid_params': [
-                          'url'
-                      ],
-                      'message': 'This URL already exists in the database. Resource id 135 already has this URL.',
-                      'type': 'validation'
-                  }],
+                  'errors': {
+                    'invalid-params': {
+                        'message': 'The following params were invalid: url. Resource id 2137 already has this URL.',
+                        'params': [
+                            'url'
+                        ],
+                        'resource': 'https://resources.operationcode.org/api/v1/2137'
+                    },
+                    'missing-params': {
+                        'message': 'The following params were missing: name, category, paid.',
+                        'params': [
+                            'name',
+                            'category',
+                            'paid'
+                        ]
+                    }
+                  },
                   'status': 'Unprocessable Entity',
                   'status_code': 422
                 }
@@ -620,34 +659,78 @@ components:
           type: object
           description: A data object
         errors:
-          type: array
-          description: List of errors
-          items:
-            type: object
-            properties:
-              code:
-                description: Error code
-                type: string
-              message:
-                description: Error message
-                type: string
-              missing_params:
-                type: array
-                description: List of missing parameters
-                items:
-                  type: string
-              invalid_params:
-                description: List of invalid parameters
-                type: array
-                items:
-                  type: string
-            required: [code, message]
+          $ref: '#/components/schemas/Error_data'
         status:
           type: string
           description: Status message
         status_code:
           type: integer
           description: Status code
+    Error_data:
+      type: object
+      description: The response errors
+      properties:
+        missing-params:
+          type: object
+          properties:
+            params:
+              description: The associated parameters.
+              type: array
+              items:
+                type: string
+            message:
+              description: Error message
+              type: string
+        invalid-params:
+          type: object
+          properties:
+            params:
+              description: The associated parameters.
+              type: array
+              items:
+                type: string
+            message:
+              description: Error message
+              type: string
+            resource:
+              description: An href link to the resource with a duplicate url
+              type: string
+        invalid-credentials:
+          type: object
+          properties:
+            message:
+              description: Error message
+              type: string
+        unauthorized:
+          type: object
+          properties:
+            message:
+              description: Error message
+              type: string
+        missing-body:
+          type: object
+          properties:
+            message:
+              description: Error message
+              type: string
+        unprocessable-entity:
+          type: object
+          properties:
+            message:
+              description: Error message
+              type: string
+        bad-request:
+          type: object
+          properties:
+            message:
+              description: Error message
+              type: string
+        not-found:
+          type: object
+          properties:
+            message:
+              description: Error message
+              type: string
 
 
     Resource:
@@ -943,11 +1026,10 @@ components:
             {
               'apiVersion': '1.0',
               'data': null,
-              'errors': [
-                  {
-                      'code': 'not-found'
-                  }
-              ],
+              'errors': {
+                'not-found': {
+                  'message': 'The resource you requested does not exist.'
+              },
               'status': 'Not Found',
               'status_code': 404
             }
@@ -962,13 +1044,32 @@ components:
             {
               'apiVersion': '1.0',
               'data': null,
-              'errors': [
-                  {
-                      'code': 'unauthorized'
-                  }
-              ],
+              'errors': {
+                'invalid-credentials': {
+                  'message': 'The email or password you submitted is incorrect'
+                }
+              },
               'status': 'Unauthorized',
               'status_code': 401
+            }
+
+    UnauthorizedCreateUpdate:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example: |
+            {
+                'apiVersion': '1.0',
+                'data': null,
+                'errors': {
+                    'unauthorized': {
+                        'message': 'You must provide a valid API token in the x-apikey header.'
+                    }
+                },
+                'status': 'Unauthorized',
+                'status_code': 401
             }
 
     BadRequest:
@@ -981,12 +1082,10 @@ components:
             {
               'apiVersion': '1.0',
               'data': null,
-              'errors': [
-                  {
-                      'code': 'bad-request',
-                      'message': '400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)'
-                  }
-              ],
+              'errors': {
+                'bad-request': {
+                  'message': '400 Bad Request: Failed to decode JSON object: Expecting ',' delimiter: line 3 column 2 (char 25)'
+              },
               'status': 'Bad Request',
               'status_code': 400
             }
