@@ -390,6 +390,29 @@ paths:
 
         404:
           $ref: '#/components/responses/NotFound'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        422:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example: |
+                {
+                  'apiVersion': '1.0',
+                  'data': null,
+                  'errors': [{
+                      'invalid_params': [
+                          'url'
+                      ],
+                      'message': 'This URL already exists in the database. Resource id 135 already has this URL.',
+                      'type': 'validation'
+                  }],
+                  'status': 'Unprocessable Entity',
+                  'status_code': 422
+                }
+
       security:
       - ApiKeyAuth: []
   /resources/{id}/click:
