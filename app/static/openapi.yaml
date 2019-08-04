@@ -57,10 +57,10 @@ paths:
                   'status': 'ok',
                   'status_code': 200
                 }
+        400:
+          $ref: '#/components/responses/BadRequest'
         401:
-          $ref: '#/components/responses/Unauthorized'
-        422:
-          description: Invalid request
+          description: Unauthorized Access
           content:
             application/json:
               schema:
@@ -70,23 +70,12 @@ paths:
                   'apiVersion': '1.0',
                   'data': null,
                   'errors': {
-                    'invalid-params': {
-                      'message': 'The following params were invalid: url.',
-                      'params': [
-                        'url'
-                      ]
-                    },
-                    'missing-params': {
-                      'message': ' The following params were missing: name, url, category.',
-                      'params': [
-                        'name',
-                        'url',
-                        'category'
-                      ]
+                    'invalid-credentials': {
+                        'message': 'The email or password you submitted is incorrect'
                     }
                   },
-                  'status': 'Unprocessable Entity',
-                  'status_code': 422
+                  'status': 'Unauthorized',
+                  'status_code': 401
                 }
 
   /search:
@@ -185,6 +174,8 @@ paths:
                   'status_code':200,
                   'total_count':72
                 }
+        404:
+          $ref: '#/components/responses/NotFound'
   /categories/{id}:
     get:
       summary: Get Category
@@ -266,6 +257,8 @@ paths:
                       'status_code':200,
                       'total_count':73
                     }
+        404:
+          $ref: '#/components/responses/NotFound'
   /languages/{id}:
     get:
       summary: Get Language
@@ -414,13 +407,15 @@ paths:
                 {
                   'apiVersion': '1.0',
                   'data': null,
-                  'errors': [{
-                      'invalid_params': [
-                          'url'
-                      ],
-                      'message': 'This URL already exists in the database. Resource id 135 already has this URL.',
-                      'type': 'validation'
-                  }],
+                  'errors': {
+                    'invalid-params': {
+                        'message': 'The following params were invalid: url. Resource id 2137 already has this URL.',
+                        'params': [
+                            'url'
+                        ],
+                        'resource': 'https://resources.operationcode.org/api/v1/2137'
+                    }
+                  },
                   'status': 'Unprocessable Entity',
                   'status_code': 422
                 }
@@ -568,7 +563,6 @@ paths:
                   'status_code': 422
                 }
 
-
     post:
       summary: Create Resource
       description: Creates a new learning resource entry. The required properties for a new entry are `category`, `name`, `paid`, and `url` and must be included in the request body.
@@ -614,6 +608,8 @@ paths:
                         'status': 'ok',
                         'status_code': 200
                       }
+        400:
+          $ref: '#/components/responses/BadRequest'
         401:
           $ref: '#/components/responses/UnauthorizedCreateUpdate'
         422:
@@ -628,10 +624,19 @@ paths:
                   'data': null,
                   'errors': {
                     'invalid-params': {
-                      'message': 'The following params were invalid: url.',
-                      'params': [
-                        'url'
-                      ]
+                        'message': 'The following params were invalid: url. Resource id 2137 already has this URL.',
+                        'params': [
+                            'url'
+                        ],
+                        'resource': 'https://resources.operationcode.org/api/v1/2137'
+                    },
+                    'missing-params': {
+                        'message': 'The following params were missing: name, category, paid.',
+                        'params': [
+                            'name',
+                            'category',
+                            'paid'
+                        ]
                     }
                   },
                   'status': 'Unprocessable Entity',
@@ -665,7 +670,7 @@ components:
       type: object
       description: The response errors
       properties:
-        missing_params:
+        missing-params:
           type: object
           properties:
             params:
@@ -676,7 +681,7 @@ components:
             message:
               description: Error message
               type: string
-        invalid_params:
+        invalid-params:
           type: object
           properties:
             params:
@@ -684,6 +689,45 @@ components:
               type: array
               items:
                 type: string
+            message:
+              description: Error message
+              type: string
+            resource:
+              description: An href link to the resource with a duplicate url
+              type: string
+        invalid-credentials:
+          type: object
+          properties:
+            message:
+              description: Error message
+              type: string
+        unauthorized:
+          type: object
+          properties:
+            message:
+              description: Error message
+              type: string
+        missing-body:
+          type: object
+          properties:
+            message:
+              description: Error message
+              type: string
+        unprocessable-entity:
+          type: object
+          properties:
+            message:
+              description: Error message
+              type: string
+        bad-request:
+          type: object
+          properties:
+            message:
+              description: Error message
+              type: string
+        not-found:
+          type: object
+          properties:
             message:
               description: Error message
               type: string
@@ -1001,7 +1045,7 @@ components:
               'apiVersion': '1.0',
               'data': null,
               'errors': {
-                'invalid_credentials': {
+                'invalid-credentials': {
                   'message': 'The email or password you submitted is incorrect'
                 }
               },

@@ -134,7 +134,7 @@ def apikey():
 
     if not is_oc_member:
         message = "The email or password you submitted is incorrect"
-        payload = {'errors': {"invalid_credentials": {"message": message}}}
+        payload = {'errors': {"invalid-credentials": {"message": message}}}
         return utils.standardize_response(payload=payload, status_code=401)
 
     try:
