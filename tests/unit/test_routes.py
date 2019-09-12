@@ -429,8 +429,8 @@ def test_create_resource(module_client, module_db, fake_auth_from_oc, fake_algol
     apikey = get_api_key(client)
     response = create_resource(client, apikey)
     assert (response.status_code == 200)
-    assert (isinstance(response.json['data'].get('id'), int))
-    assert (response.json['data'].get('name') == "Some Name")
+    assert (isinstance(response.json['data'][0].get('id'), int))
+    assert (response.json['data'][0].get('name') == "Some Name")
 
     # Invalid API Key Path
     response = create_resource(client, "invalidapikey")
@@ -495,19 +495,167 @@ def test_create_resource(module_client, module_db, fake_auth_from_oc, fake_algol
 
     # Missing Required Fields
     response = client.post('/api/v1/resources',
-                           json=dict(notes="Missing Required fields"),
+                           json=[dict(notes="Missing Required fields")],
                            headers={'x-apikey': apikey})
     assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors').get(MISSING_PARAMS), dict))
-    assert (isinstance(response.json.get('errors').get(MISSING_PARAMS).get('message'), str))
-    assert ("name" in response.json.get('errors').get(MISSING_PARAMS).get("params"))
-    assert ("name" in response.json.get('errors').get(MISSING_PARAMS).get("message"))
-    assert ("url" in response.json.get('errors').get(MISSING_PARAMS).get("params"))
-    assert ("url" in response.json.get('errors').get(MISSING_PARAMS).get("message"))
-    assert ("category" in response.json.get('errors').get(MISSING_PARAMS).get("params"))
-    assert ("category" in response.json.get('errors').get(MISSING_PARAMS).get("message"))
-    assert ("paid" in response.json.get('errors').get(MISSING_PARAMS).get("params"))
-    assert ("paid" in response.json.get('errors').get(MISSING_PARAMS).get("message"))
+    assert (isinstance(response.json.get('errors')[0].get(MISSING_PARAMS), dict))
+    assert (isinstance(response.json.get('errors')[0].get(MISSING_PARAMS).get('message'), str))
+    assert ("name" in response.json.get('errors')[0].get(MISSING_PARAMS).get("params"))
+    assert ("name" in response.json.get('errors')[0].get(MISSING_PARAMS).get("message"))
+    assert ("url" in response.json.get('errors')[0].get(MISSING_PARAMS).get("params"))
+    assert ("url" in response.json.get('errors')[0].get(MISSING_PARAMS).get("message"))
+    assert ("category" in response.json.get('errors')[0].get(MISSING_PARAMS).get("params"))
+    assert ("category" in response.json.get('errors')[0].get(MISSING_PARAMS).get("message"))
+    assert ("paid" in response.json.get('errors')[0].get(MISSING_PARAMS).get("params"))
+    assert ("paid" in response.json.get('errors')[0].get(MISSING_PARAMS).get("message"))
+
+    # Too many resources in the list
+    response = client.post('/api/v1/resources',
+                            json=[{} for x in range(0,201)],
+                            headers={'x-apikey': apikey})
+
+    assert (response.status_code == 422)
+    assert (isinstance(response.json.get("errors")[0].get("too-long"), dict))
+    assert (isinstance(response.json.get("errors")[0].get("too-long").get("message"), str))
+
+
+def test_create_multiple_resources(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
+    client = module_client
+    apikey = get_api_key(client)
+
+    # Happy Path
+    url1 = f"http://example.org/{str(datetime.now())}"
+    url2 = f"http://example.com/{str(datetime.now())}"
+    data = [dict(
+                name="Some Name",
+                url=url1,
+                category="New Category",
+                languages=["Python", "New Language"],
+                paid=False,
+                notes="Some notes"),
+            dict(
+                name="Some Other Name",
+                url=url2,
+                category="Different Category",
+                languages=["Python", "New Language", "JSON"],
+                paid=True,
+                notes="Some notes")
+            ]
+    response = client.post('/api/v1/resources',
+                json=data,
+                headers={'x-apikey': apikey})
+
+    assert (response.status_code == 200)
+    response_data = response.get_json().get("data")
+    assert (len(response_data) == 2)
+    for res in response_data:
+        assert (res.get("url") == url1 or res.get("url") == url2)
+
+    # Sad path (duplicate URL)
+    data = [dict(
+                name="Some Name",
+                url=url1,
+                category="New Category",
+                languages=["Python", "New Language"],
+                paid=False,
+                notes="Some notes")]
+    response = client.post('/api/v1/resources',
+                json=data,
+                headers={'x-apikey': apikey})
+    assert (response.status_code == 422)
+    assert (response.get_json().get("data") == None)
+    errors = response.get_json().get("errors")
+    assert (isinstance(errors, list))
+    assert (errors[0].get("index") == 0)
+    assert (errors[0].get("invalid-params").get("message"))
+    assert (errors[0].get("invalid-params").get("resource"))
+    assert (isinstance(errors[0].get("invalid-params").get("params"), list))
+
+    # Sad path, check index
+    data = [dict(
+                name="Some Name",
+                url="some.new.url",
+                category="New Category",
+                languages=["Python", "New Language"],
+                paid=False,
+                notes="Some notes"),
+            dict(
+                name="Other Name"
+            )]
+    response = client.post('/api/v1/resources',
+                json=data,
+                headers={'x-apikey': apikey})
+    assert (response.status_code == 422)
+    assert (response.get_json().get("data") == None)
+    assert (response.get_json().get("errors")[0].get("index") == 1)
+
+
+def test_create_resource_wrong_type(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
+    client = module_client
+    apikey = get_api_key(client)
+    response = client.post('/api/v1/resources',
+            json={"expected_error": "This should be a list"},
+            headers={'x-apikey': apikey})
+    assert (response.status_code == 422)
+    assert ("object" in response.get_json().get("errors").get("invalid-type").get("message"))
+
+    response = client.post('/api/v1/resources',
+            json=1,
+            headers={'x-apikey': apikey})
+    assert (response.status_code == 422)
+    assert ("int" in response.get_json().get("errors").get("invalid-type").get("message"))
+
+    response = client.post('/api/v1/resources',
+            json=1.2,
+            headers={'x-apikey': apikey})
+    assert (response.status_code == 422)
+    assert ("number" in response.get_json().get("errors").get("invalid-type").get("message"))
+
+    response = client.post('/api/v1/resources',
+            json=True,
+            headers={'x-apikey': apikey})
+    assert (response.status_code == 422)
+    assert ("boolean" in response.get_json().get("errors").get("invalid-type").get("message"))
+
+    response = client.post('/api/v1/resources',
+            json="This should be a list",
+            headers={'x-apikey': apikey})
+    assert (response.status_code == 422)
+    assert ("string" in response.get_json().get("errors").get("invalid-type").get("message"))
+
+
+def test_update_resource_wrong_type(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
+    client = module_client
+    apikey = get_api_key(client)
+    response = client.put('/api/v1/resources/1',
+            json=[{"expected_error": "This should be a dict"}],
+            headers={'x-apikey': apikey})
+    assert (response.status_code == 422)
+    assert ("array" in response.get_json().get("errors").get("invalid-type").get("message"))
+
+    response = client.put('/api/v1/resources/1',
+            json=1,
+            headers={'x-apikey': apikey})
+    assert (response.status_code == 422)
+    assert ("int" in response.get_json().get("errors").get("invalid-type").get("message"))
+
+    response = client.put('/api/v1/resources/1',
+            json=4.2,
+            headers={'x-apikey': apikey})
+    assert (response.status_code == 422)
+    assert ("number" in response.get_json().get("errors").get("invalid-type").get("message"))
+
+    response = client.put('/api/v1/resources/1',
+            json=True,
+            headers={'x-apikey': apikey})
+    assert (response.status_code == 422)
+    assert ("boolean" in response.get_json().get("errors").get("invalid-type").get("message"))
+
+    response = client.put('/api/v1/resources/1',
+            json="This should be a dict",
+            headers={'x-apikey': apikey})
+    assert (response.status_code == 422)
+    assert ("string" in response.get_json().get("errors").get("invalid-type").get("message"))
 
 
 def test_update_resource(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
@@ -589,25 +737,6 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
 
     apikey = get_api_key(client)
 
-    # Input validation
-    # IntegrityError
-    response = client.put("/api/v1/resources/2",
-                          json=dict(
-                              name="New name",
-                              languages=["New language"],
-                              category="New Category",
-                              url="https://new.url",
-                              paid=False,
-                              notes="New notes"
-                          ),
-                          headers={'x-apikey': apikey})
-
-    assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors').get(INVALID_PARAMS), dict))
-    assert (isinstance(response.json.get('errors').get(INVALID_PARAMS).get('message'), str))
-    assert ("url" in response.json.get('errors').get(INVALID_PARAMS).get("params"))
-    assert ("url" in response.json.get('errors').get(INVALID_PARAMS).get("message"))
-
     # Type Conversion
     response = client.put("/api/v1/resources/2",
                           json=dict(
@@ -657,8 +786,8 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
     response = client.put("/api/v1/resources/2",
                           headers={'x-apikey': apikey}
                           )
-    assert (isinstance(response.json.get('errors').get(MISSING_BODY), dict))
-    assert (isinstance(response.json.get('errors').get(MISSING_BODY).get('message'), str))
+    assert (isinstance(response.json.get('errors')[0].get(MISSING_BODY), dict))
+    assert (isinstance(response.json.get('errors')[0].get(MISSING_BODY).get('message'), str))
 
     response = client.put("api/v1/resources/1",
                           data='',
@@ -666,8 +795,8 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
                           headers={'x-apikey': apikey},
                           follow_redirects=True)
     assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors').get(MISSING_BODY), dict))
-    assert (isinstance(response.json.get('errors').get(MISSING_BODY).get('message'), str))
+    assert (isinstance(response.json.get('errors')[0].get(MISSING_BODY), dict))
+    assert (isinstance(response.json.get('errors')[0].get(MISSING_BODY).get('message'), str))
 
 
 def test_search(module_client, module_db, fake_auth_from_oc, fake_algolia_save, fake_algolia_search):
@@ -678,22 +807,22 @@ def test_search(module_client, module_db, fake_auth_from_oc, fake_algolia_save, 
 
     # Create resource and find it in the search results.
     resource = client.post("/api/v1/resources",
-                           json=dict(
+                           json=[dict(
                                name=f"{first_term}",
                                category="Website",
                                url=f"{first_term}",
                                paid=False,
-                           ),
+                           )],
                            headers={'x-apikey': apikey})
     result = client.get(f"/api/v1/search?q={first_term}")
 
     assert (resource.status_code == 200)
     assert (result.status_code == 200)
-    assert (result.json['data'][0]['url'] == resource.json['data'].get('url'))
+    assert (result.json['data'][0]['url'] == resource.json['data'][0].get('url'))
 
     # Update the resource and test that search results reflect changes
     updated_term = random_string()
-    resource_id = resource.json['data'].get('id')
+    resource_id = resource.json['data'][0].get('id')
     resource = client.put(f"/api/v1/resources/{resource_id}",
                           json=dict(url=f"{updated_term}",),
                           headers={'x-apikey': apikey})
@@ -783,12 +912,12 @@ def test_algolia_exception_error(module_client,
     assert (result.status_code == 500)
 
     resource = client.post("/api/v1/resources",
-                           json=dict(
+                           json=[dict(
                                name=f"{first_term}",
                                category="Website",
                                url=f"{first_term}",
                                paid=False,
-                           ),
+                           )],
                            headers={'x-apikey': apikey}
                            )
 
@@ -796,7 +925,7 @@ def test_algolia_exception_error(module_client,
 
     updated_term = random_string()
 
-    response = client.put(f"/api/v1/resources/{resource.json['data'].get('id')}",
+    response = client.put(f"/api/v1/resources/{resource.json['data'][0].get('id')}",
                           json=dict(
                               name="New name",
                               languages=["New language"],
@@ -824,12 +953,12 @@ def test_algolia_unreachable_host_error(module_client,
     assert (result.status_code == 500)
 
     resource = client.post("/api/v1/resources",
-                           json=dict(
+                           json=[dict(
                                name=f"{first_term}",
                                category="Website",
                                url=f"{first_term}",
                                paid=False,
-                           ),
+                           )],
                            headers={'x-apikey': apikey}
                            )
 
@@ -837,7 +966,7 @@ def test_algolia_unreachable_host_error(module_client,
 
     updated_term = random_string()
 
-    response = client.put(f"/api/v1/resources/{resource.json['data'].get('id')}",
+    response = client.put(f"/api/v1/resources/{resource.json['data'][0].get('id')}",
                           json=dict(
                               name="New name",
                               languages=["New language"],
@@ -880,12 +1009,12 @@ def false_validation(module_client,
     apikey = get_api_key(client)
 
     resource = client.post("/api/v1/resources",
-                           json=dict(
+                           json=[dict(
                                name=f"{first_term}",
                                category="Website",
                                url=f"{first_term}",
                                paid=False,
-                           ),
+                           )],
                            headers={'x-apikey': apikey}
                            )
 
@@ -1010,13 +1139,13 @@ def create_resource(client,
                     headers=None,
                     endpoint='/api/v1/resources'):
     return client.post(endpoint,
-                       json=dict(
+                       json=[dict(
                            name="Some Name" if not name else name,
                            url=f"http://example.org/{str(datetime.now())}" if not url else url,
                            category="New Category" if not category else category,
                            languages=["Python", "New Language"] if not languages else languages,
                            paid=False if not paid else paid,
-                           notes="Some notes" if not notes else notes),
+                           notes="Some notes" if not notes else notes)],
                        headers={'x-apikey': apikey} if not headers else headers)
 
 

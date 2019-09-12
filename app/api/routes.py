@@ -4,13 +4,15 @@ from sqlalchemy.exc import IntegrityError
 from algoliasearch.exceptions import AlgoliaUnreachableHostException, AlgoliaException
 from app.api import bp
 from app.api.auth import is_user_oc_member, authenticate
-from app.api.validations import validate_resource, requires_body
+from app.api.validations import validate_resource, validate_resource_list, \
+    requires_body, wrong_type
 from app.models import Language, Resource, Category, Key
 from app import Config, db, index
 from dateutil import parser
 from datetime import datetime
 from prometheus_client import Counter, Summary
 import app.utils as utils
+from os import environ
 
 
 # Metrics
@@ -30,15 +32,21 @@ def resources():
 
 @latency_summary.time()
 @failures_counter.count_exceptions()
-@bp.route('/resources', methods=['POST'], endpoint='create_resource')
+@bp.route('/resources', methods=['POST'], endpoint='create_resources')
 @requires_body
 @authenticate
 def post_resources():
-    validation_errors = validate_resource(request)
+    json = request.get_json()
+
+    if not isinstance(json, list):
+        return wrong_type("list of resources objects", type(json))
+
+    validation_errors = validate_resource_list(request.method, json)
 
     if validation_errors:
         return utils.standardize_response(payload=validation_errors, status_code=422)
-    return create_resource(request.get_json(), db)
+
+    return create_resources(json, db)
 
 
 @latency_summary.time()
@@ -54,10 +62,16 @@ def resource(id):
 @requires_body
 @authenticate
 def put_resource(id):
-    validation_errors = validate_resource(request, id)
+    json = request.get_json()
+
+    if not isinstance(json, dict):
+        return wrong_type("resource object", type(json))
+
+    validation_errors = validate_resource(request.method, json, id)
 
     if validation_errors:
-        return utils.standardize_response(payload=validation_errors, status_code=422)
+        errors = {"errors": validation_errors}
+        return utils.standardize_response(payload=errors, status_code=422)
     return update_resource(id, request.get_json(), db)
 
 
@@ -465,6 +479,30 @@ def update_resource(id, json, db):
         return utils.standardize_response(status_code=500)
 
 
+def create_resources(json, db):
+    try:
+        created_resources = []
+
+        for resource in json:
+            res = create_resource(resource, db)
+
+            # Pass along standardized responses generated from create_resource
+            # such as the result of `utils.standardize_response(status_code=500)`
+            if isinstance(res, tuple):
+                return res
+
+            # If it's anything other than a resource, something went wrong so bail here
+            if not isinstance(res, dict):
+                raise Exception(res)
+
+            created_resources.append(res)
+
+        return utils.standardize_response(payload=dict(data=created_resources))
+    except Exception as e:
+        logger.exception(e)
+        return utils.standardize_response(status_code=500)
+
+
 def create_resource(json, db):
     langs, categ = get_attributes(json)
     new_resource = Resource(
@@ -480,16 +518,21 @@ def create_resource(json, db):
         db.session.commit()
         index.save_object(new_resource.serialize_algolia_search)
 
-    except (AlgoliaUnreachableHostException, AlgoliaException) as e:
-        logger.exception(e)
-        print(f"Algolia failed to index new resource '{new_resource.name}'")
-
     except IntegrityError as e:
         logger.exception(e)
         return utils.standardize_response(status_code=422)
+
+    except (AlgoliaUnreachableHostException, AlgoliaException) as e:
+        if (environ.get("FLASK_ENV") != 'development'):
+            db.session.rollback()
+            logger.exception(e)
+            msg = f"Algolia failed to index new resource '{new_resource.name}'"
+            print(msg)
+            error = {'errors': [{"algolia-failed": {"message": msg}}]}
+            return utils.standardize_response(payload=error, status_code=500)
 
     except Exception as e:
         logger.exception(e)
         return utils.standardize_response(status_code=500)
 
-    return utils.standardize_response(payload=dict(data=new_resource.serialize))
+    return new_resource.serialize
