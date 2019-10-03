@@ -10,7 +10,7 @@ feature requests, or writing code which can be merged into any of our
 repositories.
 
 The team at Operation Code urges all contributors to join our Slack team.
-Participating in discussions with the community on our Slack channel, is the
+Participating in discussions with the community on our Slack channel is the
 best way to run new ideas by the team, and is the best place to get help. You
 can get an invitation to our Slack channel by
 [requesting to join Operation Code](https://operationcode.org/join). Once in our
@@ -18,7 +18,7 @@ Slack team, simply type: '/open #oc-python-projects' and then click enter. Feel
 free to ask for help; everyone is a beginner at first :smile_cat:!
 
 **This guide assumes that you have some at least some familiarity with
-submitting a pull request on Github. If you don't, that's ok too though. Simply
+submitting a pull request on Github. If you don't, that's ok too. Simply
 start by reading Github's own user documentation on how to fork a repository,
 and make your own edits. That documentation is
 [here](https://help.github.com/articles/about-pull-requests/) and
@@ -26,7 +26,7 @@ and make your own edits. That documentation is
 tutorials on Git/Github can be found
 [here](https://medium.freecodecamp.org/what-is-git-and-how-to-use-it-c341b049ae61)
 and
-[here](https://medium.freecodecamp.org/how-to-use-git-efficiently-54320a236369?source=linkShare-e41cd5edcdac-1535829065)**
+[here](https://medium.freecodecamp.org/how-to-use-git-efficiently-54320a236369?source=linkShare-e41cd5edcdac-1535829065)**.
 
 ## Development Workflow
 
@@ -71,16 +71,16 @@ Cheatsheets are a nice way to get an high at-a-glance view of the
 technology/tool. It's a very nice way to ramp up quickly with specific tooling.
 
 - Python
-  - [here](https://learnxinyminutes.com/docs/python3/)
-  - [here](https://devhints.io/python)
+  - [Learn X in Y Minutes](https://learnxinyminutes.com/docs/python3/)
+  - [Devhints](https://devhints.io/python)
 - Flask
-  - [here](https://s3.us-east-2.amazonaws.com/prettyprinted/flask_cheatsheet.pdf)
-  - [here](http://flask-cheat-sheet.herokuapp.com/)
+  - [Pretty Printed](https://s3.us-east-2.amazonaws.com/prettyprinted/flask_cheatsheet.pdf)
+  - [Flash Cheat Sheet](http://flask-cheat-sheet.herokuapp.com/)
 - Docker
-  - [here](https://devhints.io/docker)
+  - [Devhints](https://devhints.io/docker)
   - [Official Docker cheatsheet here](https://www.docker.com/sites/default/files/Docker_CheatSheet_08.09.2016_0.pdf)
 - Docker Compose
-  - [here](https://devhints.io/docker-compose)
+  - [Devhints](https://devhints.io/docker-compose)
 
 ### Finding An Issue
 
@@ -99,21 +99,21 @@ technology/tool. It's a very nice way to ramp up quickly with specific tooling.
 
 - After forking this repository to your own github account, and cloning it to
   your dev environment, you can now create a new branch on your machine. It's
-  wise to name this branch, after the issue you are trying to fix, or the
+  wise to name this branch after the issue you are trying to fix or the
   feature you are trying to add.
 
-      	```bash
-      	git checkout -b creatingContributionGuide
-      	```
+  ```bash
+  git checkout -b creatingContributionGuide
+  ```
 
 - In the example above, I have created a new branch, named
   "creatingContributionGuide". This command also "checks out" the branch,
   meaning git now knows that is the branch you are working on. You can check
   what branch you are working on by using the `branch` command.
 
-      	```bash
-      	git branch
-      	```
+  ```bash
+  git branch
+  ```
 
 - Following my example, `git branch`, would output "creatingContributionGuide"
   in my terminal.
@@ -124,15 +124,14 @@ technology/tool. It's a very nice way to ramp up quickly with specific tooling.
 - To return to your main `master` branch, type the following command in your
   terminal.
 
-      ```bash
-      git checkout master
-      ```
+  ```bash
+  git checkout master
+  ```
 
   </details>
 
 Before committing, please lint your code:
 
 ```sh
-pip install --upgrade flake8
-flake8 app
+make lint
 ```
