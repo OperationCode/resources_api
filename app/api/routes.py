@@ -243,8 +243,22 @@ def search_results():
     page = request.args.get('page', 0, int)
     page_size = request.args.get('page_size', Config.RESOURCE_PAGINATOR.per_page, int)
 
+    # Fetch the filter params from the url, if they were provided.
+    paid = request.args.get('paid')
+    filters = ''
+
+    # Filter on paid
+    if isinstance(paid, str):
+        paid = paid.lower()
+        # algolia filters boolean attributes with either 0 or 1
+        if paid == 'true':
+            filters += 'paid=1'
+        elif paid == 'false':
+            filters += 'paid=0'
+
     try:
         search_result = index.search(f'{term}', {
+            'filters': filters,
             'page': page,
             'hitsPerPage': page_size
         })
