@@ -217,7 +217,7 @@ def get_resources():
         )
 
     # Filter on paid
-    if isinstance(paid, str):
+    if isinstance(paid, str) and paid.lower() in ['true', 'false']:
         paidAsBool = paid.lower() == 'true'
         q = q.filter(Resource.paid == paidAsBool)
 

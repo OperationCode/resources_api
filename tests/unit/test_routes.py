@@ -163,6 +163,28 @@ def test_paid_filter(module_client, module_db):
     assert (total_resources == total_free_resources + total_paid_resources)
 
 
+def test_paid_filter_works_with_uppercase_parameter(module_client, module_db):
+    client = module_client
+
+    total_resources = client.get('api/v1/resources').json['total_count']
+
+    response = client.get('api/v1/resources?paid=TRUE')
+    assert all([res.get('paid') == True for res in response.json['data']])
+
+    response = client.get('api/v1/resources?paid=FALSE')
+    assert all([res.get('paid') == False for res in response.json['data']])
+
+def test_paid_filter_defaults_all_when_invalid_paid_parameter(module_client, module_db):
+    client = module_client
+
+    total_resources = client.get('api/v1/resources').json['total_count']
+    response = client.get('api/v1/resources?paid=na93ns8i1ns')
+
+    assert (True in [res.get('paid') for res in response.json['data']])
+    assert (False in [res.get('paid') for res in response.json['data']])
+
+
+
 def test_filters(module_client, module_db):
     client = module_client
 
