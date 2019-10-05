@@ -594,6 +594,22 @@ def test_search(module_client, module_db, fake_auth_from_oc, fake_algolia_save, 
     assert (result.json['data'][0]['url'] == resource.json['data'].get('url'))
 
 
+def test_search_paid_filter(module_client, module_db, fake_auth_from_oc, fake_algolia_save, fake_algolia_search):
+    client = module_client
+
+    # Test on the unpaid resources
+    result = client.get("/api/v1/search?paid=false")
+    assert (result.status_code == 200)
+
+    # Test on the paid resources
+    result = client.get("/api/v1/search?paid=true")
+    assert (result.status_code == 200)
+
+    # Test with invalid paid attribute given ( defaults to all )
+    result = client.get("/api/v1/search?paid=something")
+    assert (result.status_code == 200)
+
+
 def test_algolia_exception_error(module_client, module_db, fake_auth_from_oc, fake_algolia_exception):
     client = module_client
     first_term = random_string()
