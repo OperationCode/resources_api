@@ -75,7 +75,7 @@ technology/tool. It's a very nice way to ramp up quickly with specific tooling.
   - [Devhints](https://devhints.io/python)
 - Flask
   - [Pretty Printed](https://s3.us-east-2.amazonaws.com/prettyprinted/flask_cheatsheet.pdf)
-  - [Flash Cheat Sheet](http://flask-cheat-sheet.herokuapp.com/)
+  - [Flask Cheat Sheet](http://flask-cheat-sheet.herokuapp.com/)
 - Docker
   - [Devhints](https://devhints.io/docker)
   - [Official Docker cheatsheet here](https://www.docker.com/sites/default/files/Docker_CheatSheet_08.09.2016_0.pdf)
