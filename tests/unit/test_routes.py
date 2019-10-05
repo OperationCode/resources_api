@@ -1,9 +1,10 @@
 import pytest, random
 from tests import conftest
 import time
+from app.api.validations import MISSING_BODY, MISSING_PARAMS, INVALID_PARAMS
 from app.models import Resource, Language, Category
 from app.cli import import_resources
-from app.utils import random_string, msg_map, err_map
+from app.utils import get_error_code_from_status, random_string, msg_map, err_map
 from configs import PaginatorConfig
 from datetime import datetime, timedelta
 
@@ -45,8 +46,8 @@ def test_get_resources(module_client, module_db):
     too_far = 99999999
     response = client.get(f"api/v1/resources?page_size=100&page={too_far}", follow_redirects=True)
     assert (response.status_code == 404)
-    assert (isinstance(response.json.get('errors').get('not-found'), dict))
-    assert (isinstance(response.json.get('errors').get('not-found').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
 
 def test_get_resources_post_date_failure(module_client):
@@ -56,8 +57,8 @@ def test_get_resources_post_date_failure(module_client):
     uaString = ua.strftime('%m-%d-%Y')
     response = client.get(f"/api/v1/resources?updated_after={uaString}")
     assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors').get('unprocessable-entity'), dict))
-    assert (isinstance(response.json.get('errors').get('unprocessable-entity').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
 
 def test_get_single_resource(module_client, module_db):
@@ -197,8 +198,8 @@ def test_languages(module_client, module_db):
     too_far = 99999999
     response = client.get(f"api/v1/languages?page_size=100&page={too_far}", follow_redirects=True)
     assert (response.status_code == 404)
-    assert (isinstance(response.json.get('errors').get('not-found'), dict))
-    assert (isinstance(response.json.get('errors').get('not-found').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
 
 def test_get_single_language(module_client, module_db):
@@ -246,8 +247,8 @@ def test_categories(module_client, module_db):
     too_far = 99999999
     response = client.get(f"api/v1/categories?page_size=100&page={too_far}", follow_redirects=True)
     assert (response.status_code == 404)
-    assert (isinstance(response.json.get('errors').get('not-found'), dict))
-    assert (isinstance(response.json.get('errors').get('not-found').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
 def test_get_single_category(module_client, module_db):
     client = module_client
@@ -311,15 +312,15 @@ def test_update_votes(module_client, module_db, fake_algolia_save):
     id = 'waffles'
     response = client.put(f"/api/v1/resources/{id}/{vote_direction}", follow_redirects=True)
     assert (response.status_code == 404)
-    assert (isinstance(response.json.get('errors').get('not-found'), dict))
-    assert (isinstance(response.json.get('errors').get('not-found').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
     # Check voting on a resource that doesn't exist
     too_high = 99999999
     response = client.put(f"/api/v1/resources/{too_high}/{vote_direction}", follow_redirects=True)
     assert (response.status_code == 404)
-    assert (isinstance(response.json.get('errors').get('not-found'), dict))
-    assert (isinstance(response.json.get('errors').get('not-found').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
 
 def test_add_click(module_client, module_db):
@@ -338,15 +339,15 @@ def test_add_click(module_client, module_db):
     id = 'pancakes'
     response = client.put(f"/api/v1/resources/{id}/click", follow_redirects=True)
     assert (response.status_code == 404)
-    assert (isinstance(response.json.get('errors').get('not-found'), dict))
-    assert (isinstance(response.json.get('errors').get('not-found').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
     # Check clicking on a resource that doesn't exist
     too_high = 99999999
     response = client.put(f"/api/v1/resources/{too_high}/click", follow_redirects=True)
     assert (response.status_code == 404)
-    assert (isinstance(response.json.get('errors').get('not-found'), dict))
-    assert (isinstance(response.json.get('errors').get('not-found').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
 
 def test_bad_standardize_response(module_client, module_db, unmapped_standardize_response):
@@ -424,16 +425,16 @@ def test_create_resource(module_client, module_db, fake_auth_from_oc, fake_algol
         headers = {'x-apikey': apikey}
     )
     assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors').get('missing-params'), dict))
-    assert (isinstance(response.json.get('errors').get('missing-params').get('message'), str))
-    assert ("name" in response.json.get('errors').get('missing-params').get("params"))
-    assert ("name" in response.json.get('errors').get('missing-params').get("message"))
-    assert ("url" in response.json.get('errors').get('missing-params').get("params"))
-    assert ("url" in response.json.get('errors').get('missing-params').get("message"))
-    assert ("category" in response.json.get('errors').get('missing-params').get("params"))
-    assert ("category" in response.json.get('errors').get('missing-params').get("message"))
-    assert ("paid" in response.json.get('errors').get('missing-params').get("params"))
-    assert ("paid" in response.json.get('errors').get('missing-params').get("message"))
+    assert (isinstance(response.json.get('errors').get(MISSING_PARAMS), dict))
+    assert (isinstance(response.json.get('errors').get(MISSING_PARAMS).get('message'), str))
+    assert ("name" in response.json.get('errors').get(MISSING_PARAMS).get("params"))
+    assert ("name" in response.json.get('errors').get(MISSING_PARAMS).get("message"))
+    assert ("url" in response.json.get('errors').get(MISSING_PARAMS).get("params"))
+    assert ("url" in response.json.get('errors').get(MISSING_PARAMS).get("message"))
+    assert ("category" in response.json.get('errors').get(MISSING_PARAMS).get("params"))
+    assert ("category" in response.json.get('errors').get(MISSING_PARAMS).get("message"))
+    assert ("paid" in response.json.get('errors').get(MISSING_PARAMS).get("params"))
+    assert ("paid" in response.json.get('errors').get(MISSING_PARAMS).get("message"))
 
 
 def test_update_resource(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
@@ -487,10 +488,10 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
     )
 
     assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors').get('invalid-params'), dict))
-    assert (isinstance(response.json.get('errors').get('invalid-params').get('message'), str))
-    assert ("url" in response.json.get('errors').get('invalid-params').get("params"))
-    assert ("url" in response.json.get('errors').get('invalid-params').get("message"))
+    assert (isinstance(response.json.get('errors').get(INVALID_PARAMS), dict))
+    assert (isinstance(response.json.get('errors').get(INVALID_PARAMS).get('message'), str))
+    assert ("url" in response.json.get('errors').get(INVALID_PARAMS).get("params"))
+    assert ("url" in response.json.get('errors').get(INVALID_PARAMS).get("message"))
 
     # Type Conversion
     response = client.put("/api/v1/resources/2",
@@ -517,10 +518,10 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
                           )
 
     assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors').get('invalid-params'), dict))
-    assert (isinstance(response.json.get('errors').get('invalid-params').get('message'), str))
-    assert ("url" in response.json.get('errors').get('invalid-params').get("params"))
-    assert ("url" in response.json.get('errors').get('invalid-params').get("message"))
+    assert (isinstance(response.json.get('errors').get(INVALID_PARAMS), dict))
+    assert (isinstance(response.json.get('errors').get(INVALID_PARAMS).get('message'), str))
+    assert ("url" in response.json.get('errors').get(INVALID_PARAMS).get("params"))
+    assert ("url" in response.json.get('errors').get(INVALID_PARAMS).get("message"))
 
     response = client.put("/api/v1/resources/2",
                           json=dict(
@@ -531,18 +532,18 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
                           )
 
     assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors').get('invalid-params'), dict))
-    assert (isinstance(response.json.get('errors').get('invalid-params').get('message'), str))
-    assert ("name" in response.json.get('errors').get('invalid-params').get("params"))
-    assert ("name" in response.json.get('errors').get('invalid-params').get("message"))
-    assert ("languages" in response.json.get('errors').get('invalid-params').get("params"))
-    assert ("languages" in response.json.get('errors').get('invalid-params').get("message"))
+    assert (isinstance(response.json.get('errors').get(INVALID_PARAMS), dict))
+    assert (isinstance(response.json.get('errors').get(INVALID_PARAMS).get('message'), str))
+    assert ("name" in response.json.get('errors').get(INVALID_PARAMS).get("params"))
+    assert ("name" in response.json.get('errors').get(INVALID_PARAMS).get("message"))
+    assert ("languages" in response.json.get('errors').get(INVALID_PARAMS).get("params"))
+    assert ("languages" in response.json.get('errors').get(INVALID_PARAMS).get("message"))
 
     response = client.put("/api/v1/resources/2",
                           headers={'x-apikey': apikey}
                           )
-    assert (isinstance(response.json.get('errors').get('missing-body'), dict))
-    assert (isinstance(response.json.get('errors').get('missing-body').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(MISSING_BODY), dict))
+    assert (isinstance(response.json.get('errors').get(MISSING_BODY).get('message'), str))
 
     response = client.put("api/v1/resources/1",
         data = '',
@@ -551,8 +552,8 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
         follow_redirects = True
     )
     assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors').get('missing-body'), dict))
-    assert (isinstance(response.json.get('errors').get('missing-body').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(MISSING_BODY), dict))
+    assert (isinstance(response.json.get('errors').get(MISSING_BODY).get('message'), str))
 
 
 def test_search(module_client, module_db, fake_auth_from_oc, fake_algolia_save, fake_algolia_search):
@@ -736,7 +737,7 @@ def false_validation(module_client, module_db, fake_auth_from_oc, fake_algolia_s
 
     assert (resource.status_code == 422)
     assert (resource.json['data'].get("errors") is not None)
-    assert (resource.json['data'].get("errors")['-'.join(err_map.get(resource.status_code).split(' ')).lower()] ==
+    assert (resource.json['data'].get("errors")[get_error_code_from_status(resource.status_code)] ==
             msg_map[resource.status_code])
 
     resource = client.put(f"/api/v1/resources/{id}",
@@ -753,7 +754,7 @@ def false_validation(module_client, module_db, fake_auth_from_oc, fake_algolia_s
 
     assert (resource.status_code == 422)
     assert (resource.json['data'].get("errors") is not None)
-    assert (resource.json['data'].get("errors")['-'.join(err_map.get(resource.status_code).split(' ')).lower()] ==
+    assert (resource.json['data'].get("errors")[get_error_code_from_status(resource.status_code)] ==
             msg_map[resource.status_code])
 
 
@@ -785,18 +786,18 @@ def test_internal_server_error_handler(module_client, module_db, fake_paginated_
 
     response = client.get('api/v1/resources')
     assert (response.status_code == 500)
-    assert (isinstance(response.json.get('errors').get('server-error'), dict))
-    assert (isinstance(response.json.get('errors').get('server-error').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
     response = client.get('api/v1/languages')
     assert (response.status_code == 500)
-    assert (isinstance(response.json.get('errors').get('server-error'), dict))
-    assert (isinstance(response.json.get('errors').get('server-error').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
     response = client.get('api/v1/categories')
     assert (response.status_code == 500)
-    assert (isinstance(response.json.get('errors').get('server-error'), dict))
-    assert (isinstance(response.json.get('errors').get('server-error').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
 
 def test_method_not_allowed_handler(module_client):
@@ -804,8 +805,8 @@ def test_method_not_allowed_handler(module_client):
 
     response = client.patch('api/v1/resources')
     assert (response.status_code == 405)
-    assert (isinstance(response.json.get('errors').get('method-not-allowed'), dict))
-    assert (isinstance(response.json.get('errors').get('method-not-allowed').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
 ##########################################
 ## Other Routes
@@ -822,8 +823,8 @@ def test_rate_limit(module_client, module_db):
     # Response should be a failure on request 51
     response = client.get('api/v1/resources')
     assert(response.status_code == 429)
-    assert (isinstance(response.json.get('errors').get('rate-limit-exceeded'), dict))
-    assert (isinstance(response.json.get('errors').get('rate-limit-exceeded').get('message'), str))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
 
 ##########################################

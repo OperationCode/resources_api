@@ -133,16 +133,17 @@ def standardize_response(payload={}, status_code=200):
         if errors:
             resp["errors"] = errors
         else:
-            code = '-'.join(err_map.get(status_code).split(' ')).lower()
+            code = get_error_code_from_status(status_code)
             message = msg_map.get(status_code)
             resp["errors"] = {}
             resp["errors"][code] = {"message": message}
 
     elif not data:
-        message = "Something went wrong"
+        # 500 Error case -- Something went wrong.
+        message = msg_map.get(500)
         resp["errors"] = {'errors': {"server-error": {"message": message}}}
         resp["status_code"] = 500
-        resp["status"] = "Server Error"
+        resp["status"] = err_map.get(500)
     else:
         resp["data"] = data
 
@@ -167,6 +168,8 @@ def setup_logger(name, level=logging.INFO):
 
     return logger
 
+def get_error_code_from_status(status_code):
+  return '-'.join(err_map.get(status_code).split(' ')).lower()
 
 def random_string(n=10):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))

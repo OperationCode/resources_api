@@ -2,6 +2,9 @@ from flask import request
 from app.models import Resource
 from app.utils import standardize_response
 
+MISSING_BODY = "missing-body"
+MISSING_PARAMS = "missing-params"
+INVALID_PARAMS = "invalid-params"
 
 def requires_body(func):
     def wrapper(*args, **kwargs):
@@ -20,7 +23,7 @@ def requires_body(func):
 
 def missing_json_error():
     message = "You must provide a valid JSON body to use this endpoint"
-    error = {'errors': {"missing-body": {"message": message}}}
+    error = {'errors': {MISSING_BODY: {"message": message}}}
     return standardize_response(error, status_code=422)
 
 
@@ -93,18 +96,18 @@ def validate_resource(request, id=-1):
                 f"https://resources.operationcode.org/api/v1/{resource.id}"
 
     if missing_params["params"]:
-        validation_errors["errors"]["missing-params"] = missing_params
+        validation_errors["errors"][MISSING_PARAMS] = missing_params
         msg = " The following params were missing: "
         msg += ", ".join(missing_params.get("params")) + "."
-        validation_errors["errors"]["missing-params"]["message"] = msg
+        validation_errors["errors"][MISSING_PARAMS]["message"] = msg
         errors = True
 
     if invalid_params["params"]:
-        validation_errors["errors"]["invalid-params"] = invalid_params
+        validation_errors["errors"][INVALID_PARAMS] = invalid_params
         msg = " The following params were invalid: "
         msg += ", ".join(invalid_params.get("params")) + ". "
         msg += invalid_params.get("message", "")
-        validation_errors["errors"]["invalid-params"]["message"] = msg.strip()
+        validation_errors["errors"][INVALID_PARAMS]["message"] = msg.strip()
         errors = True
 
     if errors:
