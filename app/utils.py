@@ -168,8 +168,10 @@ def setup_logger(name, level=logging.INFO):
 
     return logger
 
+
 def get_error_code_from_status(status_code):
-  return '-'.join(err_map.get(status_code).split(' ')).lower()
+    return '-'.join(err_map.get(status_code).split(' ')).lower()
+
 
 def random_string(n=10):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))

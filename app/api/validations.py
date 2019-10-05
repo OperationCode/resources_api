@@ -6,6 +6,7 @@ MISSING_BODY = "missing-body"
 MISSING_PARAMS = "missing-params"
 INVALID_PARAMS = "invalid-params"
 
+
 def requires_body(func):
     def wrapper(*args, **kwargs):
         try:
