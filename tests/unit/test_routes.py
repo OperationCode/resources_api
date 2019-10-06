@@ -479,6 +479,21 @@ def test_update_resource(module_client, module_db, fake_auth_from_oc, fake_algol
     assert (response.status_code == 200)
     assert (response.json['data'].get('name') == "New name")
 
+    # Paid parameter as "FALSE" instead of False
+    response = client.put("/api/v1/resources/1",
+        json = dict(
+            name="New name 2",
+            languages=["New language"],
+            category="New Category",
+            url="https://new.url",
+            paid="FALSE",
+            notes="New notes"
+        ),
+        headers = {'x-apikey': apikey}
+    )
+
+    assert (response.status_code == 200)
+    assert (response.json['data'].get('name') == "New name 2")
 
     # Resource not found
     response = client.put("/api/v1/resources/0",
