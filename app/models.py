@@ -77,21 +77,20 @@ class Resource(TimestampMixin, db.Model):
         return self.url
 
     def __eq__(self, other):
-        if isinstance(other, Resource):
-            if self.name != other.name:
-                return False
-            if self.url != other.url:
-                return False
-            if self.paid != other.paid:
-                return False
-            if self.notes != other.notes:
-                return False
-            if self.category != other.category:
-                return False
-            if self.languages != other.languages:
-                return False
-            return True
-        return False
+        return isinstance(other, Resource) and all(
+            (
+                getattr(self, attribute)
+                == getattr(other, attribute)
+                for attribute in [
+                    "name",
+                    "url",
+                    "paid",
+                    "notes",
+                    "category",
+                    "languages",
+                ]
+            )
+        )
 
     def __hash__(self):
         return hash(self.url)
