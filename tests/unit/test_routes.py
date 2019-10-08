@@ -163,6 +163,28 @@ def test_paid_filter(module_client, module_db):
     assert (total_resources == total_free_resources + total_paid_resources)
 
 
+def test_paid_filter_works_with_uppercase_parameter(module_client, module_db):
+    client = module_client
+
+    total_resources = client.get('api/v1/resources').json['total_count']
+
+    response = client.get('api/v1/resources?paid=TRUE')
+    assert all([res.get('paid') == True for res in response.json['data']])
+
+    response = client.get('api/v1/resources?paid=FALSE')
+    assert all([res.get('paid') == False for res in response.json['data']])
+
+def test_paid_filter_defaults_all_when_invalid_paid_parameter(module_client, module_db):
+    client = module_client
+
+    total_resources = client.get('api/v1/resources').json['total_count']
+    response = client.get('api/v1/resources?paid=na93ns8i1ns')
+
+    assert (True in [res.get('paid') for res in response.json['data']])
+    assert (False in [res.get('paid') for res in response.json['data']])
+
+
+
 def test_filters(module_client, module_db):
     client = module_client
 
@@ -457,6 +479,21 @@ def test_update_resource(module_client, module_db, fake_auth_from_oc, fake_algol
     assert (response.status_code == 200)
     assert (response.json['data'].get('name') == "New name")
 
+    # Paid parameter as "FALSE" instead of False
+    response = client.put("/api/v1/resources/1",
+        json = dict(
+            name="New name 2",
+            languages=["New language"],
+            category="New Category",
+            url="https://new.url",
+            paid="FALSE",
+            notes="New notes"
+        ),
+        headers = {'x-apikey': apikey}
+    )
+
+    assert (response.status_code == 200)
+    assert (response.json['data'].get('name') == "New name 2")
 
     # Resource not found
     response = client.put("/api/v1/resources/0",
