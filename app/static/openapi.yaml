@@ -90,6 +90,18 @@ paths:
           description: Whether the data is paid or not. To search for *free* resources, make a `GET` request to `/search?paid=false`.
           schema:
             type: boolean
+        - in: query
+          name: languages
+          required: false
+          description: Language(s) of the resource to search. For example, to filter for JavaScript and Python resources, make a `GET` request to `/search?languages=python&languages=javascript`.
+          schema:
+            type: array of strings
+        - in: query
+          name: category
+          required: false
+          description: Category of the resource. For example, to filter for book resources, make a `GET` request to `/search?category=books`.
+          schema:
+            type: string
       responses:
         200:
           description: Search results

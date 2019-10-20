@@ -245,20 +245,36 @@ def search_results():
 
     # Fetch the filter params from the url, if they were provided.
     paid = request.args.get('paid')
-    filters = ''
+    category = request.args.get('category')
+    languages = request.args.getlist('languages')
+    filters = []
 
     # Filter on paid
     if isinstance(paid, str):
         paid = paid.lower()
         # algolia filters boolean attributes with either 0 or 1
         if paid == 'true':
-            filters += 'paid=1'
+            filters.append('paid=1')
         elif paid == 'false':
-            filters += 'paid=0'
+            filters.append('paid=0')
+
+    # Filter on category
+    if isinstance(category, str):
+        filters.append(
+            f"category:{category}"
+        )
+
+    # Filter on languages
+    if isinstance(languages, list):
+        for i, _ in enumerate(languages):
+            languages[i] = f"languages:{languages[i]}"
+
+        # joining all possible language values to algolia filter query
+        filters.append(f"( {' OR '.join(languages)} )")
 
     try:
         search_result = index.search(f'{term}', {
-            'filters': filters,
+            'filters': "AND".join(filters),
             'page': page,
             'hitsPerPage': page_size
         })

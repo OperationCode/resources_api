@@ -646,6 +646,31 @@ def test_search_paid_filter(module_client, module_db, fake_auth_from_oc, fake_al
     result = client.get("/api/v1/search?paid=something")
     assert (result.status_code == 200)
 
+def test_search_category_filter(module_client, module_db, fake_auth_from_oc, fake_algolia_save, fake_algolia_search):
+    client = module_client
+
+    # Test on book resources
+    result = client.get("/api/v1/search?category=books")
+    assert (result.status_code == 200)
+
+    result = client.get("/api/v1/search?category=Books")
+    assert (result.status_code == 200)
+
+
+def test_search_language_filter(module_client, module_db, fake_auth_from_oc, fake_algolia_save, fake_algolia_search):
+    client = module_client
+
+    # Test on Python resources
+    result = client.get("/api/v1/search?languages=python")
+    assert (result.status_code == 200)
+    
+    result = client.get("/api/v1/search?languages=Python")
+    assert (result.status_code == 200)
+
+    # Test on multiple languages
+    result = client.get("/api/v1/search?languages=python&languages=javascript")
+    assert (result.status_code == 200)
+    
 
 def test_algolia_exception_error(module_client, module_db, fake_auth_from_oc, fake_algolia_exception):
     client = module_client
