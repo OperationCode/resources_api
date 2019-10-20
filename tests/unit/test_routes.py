@@ -188,12 +188,20 @@ def test_paid_filter_defaults_all_when_invalid_paid_parameter(module_client, mod
 def test_filters(module_client, module_db):
     client = module_client
 
-    # Filter by language
-    response = client.get('api/v1/resources?language=python')
+    # Filter by one language
+    response = client.get('api/v1/resources?languages=python')
 
     for resource in response.json['data']:
         assert (isinstance(resource.get('languages'), list))
         assert ('Python' in resource.get('languages'))
+
+    # Filter by multiple languages
+    response = client.get('api/v1/resources?languages=python&languages=javascript')
+
+    for resource in response.json['data']:
+        assert (isinstance(resource.get('languages'), list))
+        assert (('Python' in resource.get('languages')) or
+            ('JavaScript' in resource.get('languages')))
 
     # Filter by category
     response = client.get('api/v1/resources?category=Back%20End%20Dev')
@@ -663,14 +671,14 @@ def test_search_language_filter(module_client, module_db, fake_auth_from_oc, fak
     # Test on Python resources
     result = client.get("/api/v1/search?languages=python")
     assert (result.status_code == 200)
-    
+
     result = client.get("/api/v1/search?languages=Python")
     assert (result.status_code == 200)
 
     # Test on multiple languages
     result = client.get("/api/v1/search?languages=python&languages=javascript")
     assert (result.status_code == 200)
-    
+
 
 def test_algolia_exception_error(module_client, module_db, fake_auth_from_oc, fake_algolia_exception):
     client = module_client

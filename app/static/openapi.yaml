@@ -499,9 +499,9 @@ paths:
           schema:
             type: boolean
         - in: query
-          name: language
+          name: languages
           required: false
-          description: Language or main technical focus of resource. For example, to filter for Python resources, make a `GET` request to `/resources?language=python`.
+          description: Language(s) of the resource. For example, to filter for Python and JavaScript resources, make a `GET` request to `/resources?languages=python&languages=javascript`
           schema:
             type: string
         - in: query

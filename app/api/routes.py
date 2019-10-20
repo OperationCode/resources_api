@@ -165,7 +165,7 @@ def get_resources():
     """
     Gets a paginated list of resources.
 
-    If the URL parameters `language` or `category` are found
+    If the URL parameters `languages` or `category` are found
     in the request, the list will be filtered by these parameters.
 
     The filters are case insensitive.
@@ -173,20 +173,21 @@ def get_resources():
     resource_paginator = utils.Paginator(Config.RESOURCE_PAGINATOR, request)
 
     # Fetch the filter params from the url, if they were provided.
-    language = request.args.get('language')
+    languages = request.args.getlist('languages')
     category = request.args.get('category')
     updated_after = request.args.get('updated_after')
     paid = request.args.get('paid')
 
     q = Resource.query
 
-    # Filter on language
-    if language:
+    # Filter on languages
+    if languages:
+        # Take the list of languages they pass in, join them all with OR
         q = q.filter(
-            Resource.languages.any(
-                Language.name.ilike(language)
+            or_(*map(Resource.languages.any,
+                map(Language.name.ilike, languages))
+                )
             )
-        )
 
     # Filter on category
     if category:
