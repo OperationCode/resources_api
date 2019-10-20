@@ -380,7 +380,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Resource'
+              $ref: '#/components/schemas/ResourceRequest'
             example:
               name: 'Updated Book Title'
         required: true
