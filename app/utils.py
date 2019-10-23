@@ -1,5 +1,7 @@
-from app import API_VERSION, db
+from app import db
 from flask import jsonify
+
+from .versioning import versioned
 from .models import Key
 import logging
 import os
@@ -102,7 +104,8 @@ def format_resource_search(hit):
     return formatted
 
 
-def standardize_response(payload={}, status_code=200):
+@versioned
+def standardize_response(payload={}, status_code=200, version=0.0):
     """Response helper
     This simplifies the response creation process by providing an internally
     defined mapping of status codes to messages for errors. It also knows when
@@ -120,7 +123,7 @@ def standardize_response(payload={}, status_code=200):
     errors = payload.get("errors")
     pagination_details = payload.get("pagination_details")
     resp = dict(
-        apiVersion=API_VERSION,
+        apiVersion=version,
         status="ok",
         status_code=status_code,
         data=None

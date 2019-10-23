@@ -1,7 +1,7 @@
 import pytest
 from flask import Flask, Response
 
-from app.versioning import versioned, DEFAULT_VERSION
+from app.versioning import versioned, LATEST_API_VERSION
 
 
 def test_passes_version_specified_in_correct_header_to_wrapped_route(app, client):
@@ -23,7 +23,7 @@ def test_defaults_to_app_version_when_correct_header_is_not_passed(app, client):
 
     response: Response = client.get('/endpoint')
 
-    expected_version = float(DEFAULT_VERSION)
+    expected_version = float(LATEST_API_VERSION)
     assert response.json == dict(version=expected_version)
 
 

@@ -2,8 +2,8 @@ from typing import Callable
 
 import flask
 
-DEFAULT_VERSION = '1.0'
-"""default API version to utilize when none other is requested"""
+LATEST_API_VERSION = '1.0'
+"""latest API version to default to when none other is requested"""
 
 
 def versioned(function: Callable):
@@ -16,7 +16,7 @@ def versioned(function: Callable):
     """
 
     def wrapper(*args, **kwargs):
-        version = flask.request.headers.get('x-api-version', DEFAULT_VERSION)
+        version = flask.request.headers.get('x-api-version', LATEST_API_VERSION)
         kwargs['version'] = float(version)
         return function(*args, **kwargs)
 
