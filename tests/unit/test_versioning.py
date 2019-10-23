@@ -1,7 +1,7 @@
 import pytest
 from flask import Flask, Response
 
-from app.api.versioning import versioned, DEFAULT_VERSION
+from app.versioning import versioned, DEFAULT_VERSION
 
 
 def test_passes_version_specified_in_correct_header_to_wrapped_route(app, client):
