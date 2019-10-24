@@ -1,5 +1,5 @@
 from healthcheck import HealthCheck, EnvironmentDump
-from app import API_VERSION
+from app.versioning import versioned
 
 
 def add_health_check(app):
@@ -13,9 +13,10 @@ def add_health_check(app):
     app.add_url_rule("/environment", "environment", view_func=lambda: envdump.run())
 
 
-def application_data():
+@versioned
+def application_data(version):
     return dict(
-        apiVersion=API_VERSION,
+        apiVersion=version,
         status="ok",
         status_code=200,
         data=None
