@@ -16,7 +16,11 @@ def versioned(function: Callable):
     """
 
     def wrapper(*args, **kwargs):
-        version = flask.request.headers.get('x-api-version', LATEST_API_VERSION)
+        if flask.has_request_context():
+            version = flask.request.headers.get('x-api-version', LATEST_API_VERSION)
+        else:
+            version = LATEST_API_VERSION
+
         kwargs['version'] = float(version)
         return function(*args, **kwargs)
 
