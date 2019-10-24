@@ -5,14 +5,10 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from app.healthcheck import add_health_check
 
 db = SQLAlchemy()
 migrate = Migrate()
-
-API_VERSION = "1.0"
-
-# healthcheck uses API_VERSION so this has to come after it's declared
-from app.healthcheck import add_health_check # noqa
 
 # Connect to Agolia
 search_client = SearchClient.create(Config.ALGOLIA_APP_ID, Config.ALGOLIA_API_KEY)
