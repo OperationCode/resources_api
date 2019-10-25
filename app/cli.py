@@ -1,9 +1,13 @@
-import time
 import os
+import time
+
 import yaml
 
+import click
+from app import index, search_client
+from app.models import Key
 from sqlalchemy import exc
-from app import search_client, index
+
 from .models import Category, Language, Resource
 
 
@@ -43,7 +47,7 @@ def import_resources(db):   # pragma: no cover
 
         if existing_resource:
             resource == existing_resource or \
-                        update_resource(resource, existing_resource)
+                update_resource(resource, existing_resource)
         else:
             create_resource(resource, db)
 
@@ -145,6 +149,11 @@ def register(app, db):  # pragma: no cover
         """Reindex Commands"""
         pass
 
+    @app.cli.group()
+    def apikeys():
+        """apikey commands"""
+        pass
+
     @db_migrate.command()
     def init():
         print(db)
@@ -162,3 +171,37 @@ def register(app, db):  # pragma: no cover
     @algolia.command()
     def reindex():
         reindex_all()
+
+    @apikeys.command()
+    @click.argument('apikey')
+    def blacklist(apikey):
+        key = Key.query.filter_by(apikey=apikey).first()
+        if not key:
+            print('Could not find that apikey.')
+            return 1
+
+        if key.blacklisted:
+            print('Already blacklisted.')
+            return 2
+
+        key.blacklisted = True
+        db.session.commit()
+
+        print(f'Blacklisted {apikey}')
+
+    @apikeys.command()
+    @click.argument('apikey')
+    def reactivate(apikey):
+        key = Key.query.filter_by(apikey=apikey).first()
+        if not key:
+            print('Could not find that apikey.')
+            return 1
+
+        if not key.blacklisted:
+            print('Not blacklisted.')
+            return 2
+
+        key.blacklisted = False
+        db.session.commit()
+
+        print(f'Reactivated {apikey}')
