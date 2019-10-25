@@ -180,12 +180,20 @@ def test_paid_filter_defaults_all_when_invalid_paid_parameter(module_client, mod
 def test_filters(module_client, module_db):
     client = module_client
 
-    # Filter by language
-    response = client.get('api/v1/resources?language=python')
+    # Filter by one language
+    response = client.get('api/v1/resources?languages=python')
 
     for resource in response.json['data']:
         assert (isinstance(resource.get('languages'), list))
         assert ('Python' in resource.get('languages'))
+
+    # Filter by multiple languages
+    response = client.get('api/v1/resources?languages=python&languages=javascript')
+
+    for resource in response.json['data']:
+        assert (isinstance(resource.get('languages'), list))
+        assert (('Python' in resource.get('languages')) or
+            ('JavaScript' in resource.get('languages')))
 
     # Filter by category
     response = client.get('api/v1/resources?category=Back%20End%20Dev')

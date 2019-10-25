@@ -3,7 +3,7 @@ flake8==3.7.8
 Flask-Limiter==1.1.0
 Flask-Migrate==2.5.2
 psycopg2-binary==2.8.4
-pytest-mock==1.11.1
+pytest-mock==1.11.2
 pytest-cov==2.8.1
 pyyaml==5.1.2
 requests==2.22.0
