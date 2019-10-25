@@ -987,8 +987,9 @@ def create_resource(client,
                     languages=None,
                     paid=None,
                     notes=None,
-                    headers=None):
-    return client.post('/api/v1/resources',
+                    headers=None,
+                    endpoint='/api/v1/resources'):
+    return client.post(endpoint,
                        json=dict(
                            name="Some Name" if not name else name,
                            url=f"http://example.org/{str(datetime.now())}" if not url else url,
