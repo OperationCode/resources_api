@@ -26,17 +26,32 @@ This project provides an API for storing and retrieving learning resources that 
 
 Sometimes these installs can be tricky.  If you get stuck ask for help in the Slack [#oc-python-projects](https://operation-code.slack.com/messages/C7NJLCCMB) channel!
 
+1. If you are not a member of Operation Code, please sign up at https://operationcode.org/join
+    - Provide your email, name, zip code, and a password of your choosing.
+    - You will need this email and password later when creating your API key.
+    - Look for a Slack invite email and join the Slack organization, and then the [#oc-python-projects](https://operation-code.slack.com/messages/C7NJLCCMB) channel.
+
 1. Install [Git](https://git-scm.com/downloads).
-- Choose your OS from the website and follow the prompts.  This installs Git and the Bash Terminal on your machine.
-- Extra: [Git Documentation](https://git-scm.com/doc) for more information on Git.
-2. Fork & Clone
-- [Fork a repository](https://help.github.com/articles/fork-a-repo/)
-- Create a local clone of your fork (Step 2 in the document above)
-3. Install Docker [Mac and Windows](https://www.docker.com/products/docker-desktop) or [Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/) and ensure it is running
-- Linux: install [docker compose](https://docs.docker.com/compose/install/#install-compose) as well.
-4. [Install Make](http://gnuwin32.sourceforge.net/packages/make.htm) if you're on Windows. OSX already has it installed. Linux will tell you how to install it (i.e., `sudo apt-get install make`)
-5. Run `make setup`
-6. Run `make all` and then navigate to http://localhost:5000/api/v1/resources
+    - Choose your OS from the website and follow the prompts.  This installs Git and the Bash Terminal on your machine.
+    - Windows users: use the Git Bash Terminal for any of
+      the commands in the remainder of this README.
+      [The Bash Primer](http://www.compciv.org/bash-guide/)
+    - Extra: [Git Documentation](https://git-scm.com/doc) for more information on Git.
+
+1. Fork & Clone
+    - [Fork a repository](https://help.github.com/articles/fork-a-repo/)
+    - Create a local clone of your fork (Step 2 in the document above)
+
+1. Install Docker and ensure it is running
+    - [Docker Desktop for Mac and Windows](https://www.docker.com/products/docker-desktop)
+    - [Docker Engine for Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+    - Additional step for Linux: install [docker compose](https://docs.docker.com/compose/install/#install-compose) as well.
+ 
+1. [Install Make](http://gnuwin32.sourceforge.net/packages/make.htm) if you're on Windows. OSX already has it installed. Linux will tell you how to install it (i.e., `sudo apt-get install make`)
+
+1. Run `make setup`
+
+1. Run `make all` and then navigate to http://localhost:5000/api/v1/resources
 
 If you see some JSON with a bunch of resources, it worked! If you encounter any errors, please open an issue or contact us on slack in #oc-python-projects.
 
@@ -45,42 +60,59 @@ If you see some JSON with a bunch of resources, it worked! If you encounter any 
  Routes that modify the database (e.g., `POST` and `PUT`) are authenticated routes. You need to include a header in your request with your API key. To generate an API key:
 
  1. Send a POST to http://localhost:5000/api/v1/apikey with the following JSON payload:
-```json
-{
-	"email": "your@email.com",
-	"password": "yoursupersecretpassword"
-}
-```
-The email and password specified should be your login credentials for the Operation Code website. If you are not a member of Operation Code, please sign up at https://operationcode.org/join
 
- 2. The response will have the following structure (but will contain your email and apikey):
-```json
-{
-    "apiVersion": "1.0",
-    "data": {
-        "apikey": "yourapikey",
-        "email": "your@email.com"
-    },
-    "status": "ok"
-}
-```
-3. When you create a request to an authenticated route, you must include a header `x-apikey: yourapikey`
+    ```json
+    {
+      "email": "your@email.com",
+      "password": "yoursupersecretpassword"
+    }
+    ```
 
-Example curl request to an authenticated route:
-```bash
-curl -X POST \
-  http://127.0.0.1:5000/api/v1/resources \
-  -H 'Content-Type: application/json' \
-  -H 'x-apikey: 0a14f702da134390ae43f3639686fe26' \
-  -d '{
-        "category": "Regular Expressions",
-        "languages": ["Regex"],
-        "name": "Regex101",
-        "notes": "Regular Expression tester",
-        "paid": false,
-        "url": "https://regex101.com/"
-}'
-```
+    The email and password specified should be your login credentials for the Operation Code website. If you are not a member of Operation Code, please sign up at https://operationcode.org/join
+
+    Example `curl` command:
+    ```sh
+    curl -X POST \
+      http://localhost:5000/api/v1/apikey \
+      -H 'Content-Type: application/json' \
+      -d '{
+            "email": "your@email.com",
+            "password": "yoursupersecretpassword"
+          }'
+    ```
+
+ 1. The response will have the following structure (but will contain your email and apikey):
+    ```json
+    {
+        "apiVersion": "1.0",
+        "data": {
+            "apikey": "yourapikey",
+            "email": "your@email.com"
+        },
+        "status": "ok"
+    }
+    ```
+    - It may be helpful to save this apikey in a secure place like a password manager.
+    - Do not hard-code your apikey in your own scripts. Always use an [environment variable](https://www.twilio.com/blog/2017/01/how-to-set-environment-variables.html)
+    - You can always re-issue the POST to recover your apikey.
+
+1. When you create a request to an authenticated route, you must include a header `x-apikey: yourapikey`
+
+    Example curl request to an authenticated route:
+    ```bash
+    curl -X POST \
+      http://localhost:5000/api/v1/resources \
+      -H 'Content-Type: application/json' \
+      -H 'x-apikey: 0a14f702da134390ae43f3639686fe26' \
+      -d '{
+            "category": "Regular Expressions",
+            "languages": ["Regex"],
+            "name": "Regex101",
+            "notes": "Regular Expression tester",
+            "paid": false,
+            "url": "https://regex101.com/"
+    }'
+    ```
 
 ## Development Notes
 
@@ -95,6 +127,14 @@ Before committing, please lint your code:
 ```sh
 make lint
 ```
+
+And make sure the tests pass:
+
+```sh
+make test
+```
+
+There are [many more make commands available](Makefile) you may find useful.
 
 ## History
 
