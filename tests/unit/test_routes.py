@@ -421,7 +421,6 @@ def test_get_api_key(module_client, module_db, fake_invalid_auth_from_oc):
 
     assert (response.status_code == 401)
 
-
 def test_create_resource(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client
 
@@ -441,6 +440,60 @@ def test_create_resource(module_client, module_db, fake_auth_from_oc, fake_algol
         headers = {'x-apikey': apikey}
     )
     assert (response.status_code == 422)
+
+    # Bogus Data
+    name = False
+    url = "htt://bad_url.doesnotexist"
+    category = True
+    languages = False
+    paid = "Bad Data"
+    notes = True
+    response = create_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 422)
+    
+    # A String to Big for the DB
+    long_string = "x" * 6501 
+    name = long_string
+    url = long_string
+    category = long_string
+    languages = long_string
+    paid = True
+    notes = long_string
+    response = create_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 422)
+
+    # Unicode Characters
+    name = "😀"
+    url = None
+    category = None
+    languages = None
+    paid = True
+    notes = "∞"
+    response = create_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 200)
+
+    # Missing Required Fields
     response = client.post('/api/v1/resources',
         json = dict(notes="Missing Required fields"),
         headers = {'x-apikey': apikey}
@@ -460,40 +513,69 @@ def test_create_resource(module_client, module_db, fake_auth_from_oc, fake_algol
 
 def test_update_resource(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client
-
-    # Happy Path
     apikey = get_api_key(client)
 
-    response = client.put("/api/v1/resources/1",
-        json = dict(
-            name="New name",
-            languages=["New language"],
-            category="New Category",
-            url="https://new.url",
-            paid=False,
-            notes="New notes"
-        ),
-        headers = {'x-apikey': apikey}
-    )
-
+    # Happy Path
+    response = update_resource(client, apikey)
     assert (response.status_code == 200)
     assert (response.json['data'].get('name') == "New name")
 
     # Paid parameter as "FALSE" instead of False
-    response = client.put("/api/v1/resources/1",
-        json = dict(
-            name="New name 2",
-            languages=["New language"],
-            category="New Category",
-            url="https://new.url",
-            paid="FALSE",
-            notes="New notes"
-        ),
-        headers = {'x-apikey': apikey}
-    )
-
+    response = update_resource(client, apikey, name="New name 2", paid="FALSE")
     assert (response.status_code == 200)
     assert (response.json['data'].get('name') == "New name 2")
+
+    # Bogus Data
+    name = False
+    url = "htt://bad_url.doesnotexist"
+    category = True
+    languages = False
+    paid = "Bad Data"
+    notes = True
+    response = update_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 422)
+
+    # A String to Big for the DB
+    long_string = "x" * 6501 
+    name = long_string
+    url = long_string
+    category = long_string
+    languages = long_string
+    paid = True
+    notes = long_string
+    response = update_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 422)
+
+    # Unicode Characters
+    name = "😀"
+    url = None
+    category = None
+    languages = None
+    paid = True
+    notes = "∞"
+    response = update_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 200)
 
     # Resource not found
     response = client.put("/api/v1/resources/0",
@@ -502,7 +584,6 @@ def test_update_resource(module_client, module_db, fake_auth_from_oc, fake_algol
         follow_redirects = True
     )
     assert (response.status_code == 404)
-
 
 def test_validate_resource(module_client, module_db, fake_auth_from_oc):
     client = module_client
@@ -893,19 +974,47 @@ def test_rate_limit(module_client, module_db):
 ##########################################
 
 
-def create_resource(client, apikey):
+def create_resource(client,
+                    apikey,
+                    name=None,
+                    url=None,
+                    category=None,
+                    languages=None,
+                    paid=None,
+                    notes=None,
+                    headers=None):
     return client.post('/api/v1/resources',
         json = dict(
-            name="Some Name",
-            url=f"http://example.org/{str(datetime.now())}",
-            category="New Category",
-            languages=["Python", "New Language"],
-            paid=False,
-            notes="Some notes"
+            name="Some Name" if not name else name,
+            url=f"http://example.org/{str(datetime.now())}" if not url else url,
+            category="New Category" if not category else category,
+            languages=["Python", "New Language"] if not languages else languages,
+            paid=False if not paid else paid,
+            notes="Some notes" if not notes else notes
         ),
-        headers = {'x-apikey': apikey}
+        headers = {'x-apikey': apikey} if not headers else headers
     )
 
+def update_resource(client,
+                    apikey,
+                    name=None,
+                    url=None,
+                    category=None,
+                    languages=None,
+                    paid=None,
+                    notes=None,
+                    headers=None):
+    return client.put('/api/v1/resources/1',
+        json = dict(
+            name="New name" if not name else name,
+            url="https://new.url" if not url else url,
+            category="New Category" if not category else category,
+            languages=["New language"] if not languages else languages,
+            paid=False if not paid else paid,
+            notes="New notes" if not notes else notes
+        ),
+        headers = {'x-apikey': apikey} if not headers else headers
+    )    
 
 def get_api_key(client):
     response = client.post('api/v1/apikey', json = dict(
