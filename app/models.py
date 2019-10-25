@@ -1,8 +1,7 @@
 from app import db
-from sqlalchemy_utils import URLType
 from sqlalchemy import DateTime
 from sqlalchemy.sql import func
-
+from sqlalchemy_utils import URLType
 
 language_identifier = db.Table('language_identifier',
                                db.Column(
@@ -161,6 +160,7 @@ class Key(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     apikey = db.Column(db.String, unique=True, nullable=False, index=True)
     email = db.Column(db.String, unique=True, nullable=False)
+    blacklisted = db.Column(db.Boolean, default=False)
 
     @property
     def serialize(self):
@@ -189,4 +189,7 @@ class Key(TimestampMixin, db.Model):
         return hash(self.apikey)
 
     def __repr__(self):
-        return f"<Key email={self.email} apikey={self.apikey}>"
+        tags = ''
+        if self.blacklisted:
+            tags = ' BLACKLISTED'
+        return f"<Key email={self.email} apikey={self.apikey}{tags}>"
