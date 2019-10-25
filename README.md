@@ -40,7 +40,7 @@ Sometimes these installs can be tricky.  If you get stuck ask for help in the Sl
 
 1. Fork & Clone
     - [Fork a repository](https://help.github.com/articles/fork-a-repo/)
-    - Create a local clone of your fork (Step 2 in the document above)
+    - Create a local clone of your fork
 
 1. Install Docker and ensure it is running
     - [Docker Desktop for Mac and Windows](https://www.docker.com/products/docker-desktop)
