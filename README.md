@@ -118,19 +118,19 @@ If you see some JSON with a bunch of resources, it worked! If you encounter any 
 
 If you make changes to the models.py or other schemas, you need to run a migration and upgrade again:
 
-```sh
+```
 make migrate
 ```
 
 Before committing, please lint your code:
 
-```sh
+```
 make lint
 ```
 
 And make sure the tests pass:
 
-```sh
+```
 make test
 ```
 
