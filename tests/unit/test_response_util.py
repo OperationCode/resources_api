@@ -28,6 +28,17 @@ def test_defaults_to_fallback_api_version_when_none_specified(app, client):
     assert response.json['apiVersion'] == expected_version
 
 
+def test_defaults_to_fallback_api_version_when_invalid_one_is_specified(app, client):
+    @app.route('/endpoint')
+    def endpoint():
+        return standardize_response({})
+
+    response: Response = client.get('/endpoint', headers=[('X-API-Version', 'sue')])
+
+    expected_version = float(LATEST_API_VERSION)
+    assert response.json['apiVersion'] == expected_version
+
+
 @pytest.fixture
 def app():
     return Flask(__name__)

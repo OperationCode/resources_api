@@ -104,7 +104,7 @@ def format_resource_search(hit):
     return formatted
 
 
-@versioned
+@versioned(throw_on_invalid=False)
 def standardize_response(payload={}, status_code=200, version=0.0):
     """Response helper
     This simplifies the response creation process by providing an internally

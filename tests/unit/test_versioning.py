@@ -47,6 +47,17 @@ def test_throws_exception_when_invalid_version_passed_in_api_header(
             and response.status_code == 400)
 
 
+def test_does_not_throw_exception_on_invalid_version_when_told_not_to(app, client):
+    @app.route('/endpoint')
+    @versioned(throw_on_invalid=False)
+    def endpoint(version: float):
+        return dict(version=version)
+
+    response: Response = client.get('/endpoint', headers=[('X-API-Version', 'bob')])
+
+    assert response.json == dict(version=float(LATEST_API_VERSION))
+
+
 @pytest.fixture
 def app():
     return Flask(__name__)
