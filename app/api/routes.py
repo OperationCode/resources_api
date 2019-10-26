@@ -8,11 +8,12 @@ from algoliasearch.exceptions import (AlgoliaException,
                                       AlgoliaUnreachableHostException)
 from app import Config, db, index
 from app.api import bp
-from app.api.auth import authenticate, create_new_apikey, is_user_oc_member
+from app.api.auth import (authenticate, create_new_apikey, is_user_oc_member,
+                          rotate_key)
 from app.api.validations import (requires_body, validate_resource,
                                  validate_resource_list, wrong_type)
 from app.models import Category, Key, Language, Resource
-from flask import redirect, request
+from flask import g, redirect, request
 from prometheus_client import Counter, Summary
 from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
@@ -167,6 +168,17 @@ def apikey():
     except Exception as e:
         logger.exception(e)
         return utils.standardize_response(status_code=500)
+
+
+@latency_summary.time()
+@failures_counter.count_exceptions()
+@bp.route('/apikey/rotate', methods=['POST'], endpoint='rotate_apikey')
+@authenticate
+def rotate_apikey():
+    new_key = rotate_key(g.auth_key, db.session)
+    if not new_key:
+        return utils.standardize_response(status_code=500)
+    return utils.standardize_response(payload=dict(data=new_key.serialize))
 
 
 # Helpers

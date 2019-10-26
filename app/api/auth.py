@@ -4,7 +4,7 @@ from enum import Enum
 import requests
 from app.models import Key
 from app.utils import setup_logger, standardize_response
-from flask import request
+from flask import g, request
 
 auth_logger = setup_logger('auth_logger')
 create_logger = setup_logger('create_auth_logger')
@@ -94,6 +94,7 @@ def authenticate(func):
             return standardize_response(status_code=401)
 
         log_request(request, key)
+        g.auth_key = key
 
         return func(*args, **kwargs)
     return wrapper

@@ -450,6 +450,26 @@ def test_get_api_key_bad_password(module_client, module_db, fake_invalid_auth_fr
     assert (response.status_code == 401)
 
 
+def test_rotate_api_key_unauthorized(module_client, module_db):
+    client = module_client
+
+    response = client.post('api/v1/apikey/rotate')
+
+    assert (response.status_code == 401)
+
+
+def test_rotate_api_key(module_client, module_db, fake_auth_from_oc):
+    client = module_client
+
+    apikey = get_api_key(client)
+    response = client.post('api/v1/apikey/rotate', headers={'x-apikey': apikey})
+
+    assert (response.status_code == 200)
+    assert (isinstance(response.json['data'].get('email'), str))
+    assert (isinstance(response.json['data'].get('apikey'), str))
+    assert (response.json['data'].get('apikey') != apikey)
+
+
 def test_create_resource(
         module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client

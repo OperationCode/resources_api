@@ -4,6 +4,7 @@ from app.api.auth import (ApiKeyError, ApiKeyErrorCode, authenticate,
                           blacklist_key, find_key_by_apikey_or_email,
                           rotate_key)
 from app.models import Key
+from flask import g
 
 FAKE_EMAIL = 'test@example.org'
 FAKE_APIKEY = 'abcdef1234567890'
@@ -37,7 +38,7 @@ def test_authenticate_failure(module_client, function_empty_db):
 
 def test_authenticate_success(module_client, function_empty_db):
     # Arrange
-    create_fake_key(function_empty_db.session)
+    key = create_fake_key(function_empty_db.session)
 
     def callback(*args, **kwargs):
         return 1
@@ -52,6 +53,7 @@ def test_authenticate_success(module_client, function_empty_db):
 
     # Assert
     assert result == 1
+    assert g.auth_key == key
 
 
 def test_authenticate_blacklisted(module_client, function_empty_db):
