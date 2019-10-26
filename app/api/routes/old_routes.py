@@ -1,23 +1,18 @@
-from flask import request, redirect
-from sqlalchemy import or_, func
-from sqlalchemy.exc import IntegrityError
-from algoliasearch.exceptions import AlgoliaUnreachableHostException, AlgoliaException
-from app.api import bp
-from app.api.auth import is_user_oc_member, authenticate
-from app.api.validations import validate_resource, requires_body
-from app.models import Language, Resource, Category, Key
-from app import Config, db, index
-from dateutil import parser
 from datetime import datetime
-from prometheus_client import Counter, Summary
+
+from algoliasearch.exceptions import AlgoliaException, AlgoliaUnreachableHostException
+from dateutil import parser
+from flask import redirect, request
+from sqlalchemy import func, or_
+from sqlalchemy.exc import IntegrityError
+
 import app.utils as utils
-
-
-# Metrics
-failures_counter = Counter('my_failures', 'Number of exceptions raised')
-latency_summary = Summary('request_latency_seconds', 'Length of request')
-
-logger = utils.setup_logger('routes_logger')
+from app import Config, db, index
+from app.api import bp
+from app.api.auth import authenticate, is_user_oc_member
+from app.api.routes.utils import failures_counter, latency_summary, logger
+from app.api.validations import requires_body, validate_resource
+from app.models import Category, Key, Language, Resource
 
 
 # Routes
@@ -289,13 +284,13 @@ def search_results():
     results = [utils.format_resource_search(result) for result in search_result['hits']]
 
     pagination_details = {
-                "pagination_details": {
-                    "page": search_result['page'],
-                    "number_of_pages": search_result['nbPages'],
-                    "records_per_page": search_result['hitsPerPage'],
-                    "total_count": search_result['nbHits'],
-                }
+        "pagination_details": {
+            "page": search_result['page'],
+            "number_of_pages": search_result['nbPages'],
+            "records_per_page": search_result['hitsPerPage'],
+            "total_count": search_result['nbHits'],
         }
+    }
     return utils.standardize_response(payload=dict(data=results, **pagination_details))
 
 
@@ -377,14 +372,13 @@ def get_attributes(json):
 
 
 def update_votes(id, vote_direction):
-
     resource = Resource.query.get(id)
 
     if not resource:
         return redirect('/404')
 
     initial_count = getattr(resource, vote_direction)
-    setattr(resource, vote_direction, initial_count+1)
+    setattr(resource, vote_direction, initial_count + 1)
     db.session.commit()
 
     return utils.standardize_response(payload=dict(data=resource.serialize))
@@ -449,7 +443,7 @@ def update_resource(id, json, db):
 
         return utils.standardize_response(
             payload=dict(data=resource.serialize)
-            )
+        )
 
     except IntegrityError as e:
         logger.exception(e)
