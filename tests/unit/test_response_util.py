@@ -1,7 +1,7 @@
 import pytest
 from flask import Flask, Response
 
-from app.versioning import LATEST_API_VERSION
+from app.versioning import LATEST_API_VERSION, VALID_API_VERSIONS
 from app.utils import standardize_response
 
 
@@ -10,9 +10,11 @@ def test_presents_requested_api_version(app, client):
     def endpoint():
         return standardize_response({})
 
-    response: Response = client.get('/endpoint', headers=[('X-API-Version', '1.8')])
+    api_version = VALID_API_VERSIONS[0]
+    response: Response = client.get(
+        '/endpoint', headers=[('X-API-Version', api_version)])
 
-    assert response.json['apiVersion'] == 1.8
+    assert response.json['apiVersion'] == float(api_version)
 
 
 def test_defaults_to_fallback_api_version_when_none_specified(app, client):
