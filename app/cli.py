@@ -5,7 +5,8 @@ import yaml
 
 import click
 from app import index, search_client
-from app.api.auth import ApiKeyError, blacklist_key
+from app.api.auth import (ApiKeyError, blacklist_key,
+                          find_key_by_apikey_or_email, rotate_key)
 from sqlalchemy import exc
 
 from .models import Category, Language, Resource
@@ -150,7 +151,7 @@ def register(app, db):  # pragma: no cover
         pass
 
     @app.cli.group()
-    def apikeys():
+    def apikey():
         """apikey commands"""
         pass
 
@@ -172,7 +173,7 @@ def register(app, db):  # pragma: no cover
     def reindex():
         reindex_all()
 
-    @apikeys.command()
+    @apikey.command()
     @click.argument('apikey_or_email')
     def blacklist(apikey_or_email):
         try:
@@ -183,7 +184,7 @@ def register(app, db):  # pragma: no cover
 
         print(f'Blacklisted {key}')
 
-    @apikeys.command()
+    @apikey.command()
     @click.argument('apikey_or_email')
     def reactivate(apikey_or_email):
         try:
@@ -193,3 +194,18 @@ def register(app, db):  # pragma: no cover
             return error.error_code
 
         print(f'Reactivated {key}')
+
+    @apikey.command()
+    @click.argument('apikey_or_email')
+    def rotate(apikey_or_email):
+        key = find_key_by_apikey_or_email(apikey_or_email)
+        if not key:
+            print('Could not find apikey or email.')
+            return 1
+
+        key = rotate_key(key, db.session)
+        if not key:
+            print('Error trying to rotate key.')
+            return -1
+
+        print(f'Rotated {key}')

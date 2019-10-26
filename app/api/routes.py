@@ -158,7 +158,10 @@ def apikey():
         if not apikey:
             # Since they're already authenticated by is_oc_user(), we know we
             # can generate an API key for them if they don't already have one
-            return create_new_apikey(email, db.session)
+            apikey = create_new_apikey(email, db.session)
+            if not apikey:
+                return utils.standardize_response(status_code=500)
+
         logger.info(apikey.serialize)
         return utils.standardize_response(payload=dict(data=apikey.serialize))
     except Exception as e:
@@ -200,9 +203,9 @@ def get_resources():
         # Take the list of languages they pass in, join them all with OR
         q = q.filter(
             or_(*map(Resource.languages.any,
-                map(Language.name.ilike, languages))
+                     map(Language.name.ilike, languages))
                 )
-            )
+        )
 
     # Filter on category
     if category:
@@ -312,13 +315,13 @@ def search_results():
     results = [utils.format_resource_search(result) for result in search_result['hits']]
 
     pagination_details = {
-                "pagination_details": {
-                    "page": search_result['page'],
-                    "number_of_pages": search_result['nbPages'],
-                    "records_per_page": search_result['hitsPerPage'],
-                    "total_count": search_result['nbHits'],
-                }
+        "pagination_details": {
+            "page": search_result['page'],
+            "number_of_pages": search_result['nbPages'],
+            "records_per_page": search_result['hitsPerPage'],
+            "total_count": search_result['nbHits'],
         }
+    }
     return utils.standardize_response(payload=dict(data=results, **pagination_details))
 
 
@@ -476,7 +479,8 @@ def update_resource(id, json, db):
         db.session.commit()
 
         return utils.standardize_response(
-            payload=dict(data=resource.serialize))
+            payload=dict(data=resource.serialize)
+        )
 
     except IntegrityError as e:
         logger.exception(e)

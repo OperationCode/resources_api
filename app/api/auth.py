@@ -14,6 +14,7 @@ update_logger = setup_logger('update_auth_logger')
 class ApiKeyError(Exception):
     def __init__(self, message, error_code):
         super().__init__(message)
+        self.message = message
         self.error_code = error_code
 
 
@@ -68,20 +69,20 @@ def create_new_apikey(email, session):
         session.add(new_key)
         session.commit()
 
-        return standardize_response(payload=dict(data=new_key.serialize))
+        return new_key
     except Exception as e:
         auth_logger.exception(e)
-        return standardize_response(status_code=500)
+        return None
 
 
 def rotate_key(key, session):
     key.apikey = get_new_key_value()
     try:
         session.commit()
-        return standardize_response(payload=dict(data=key.serialize))
+        return key
     except Exception as e:
         auth_logger.exception(e)
-        return standardize_response(status_code=500)
+        return None
 
 
 def authenticate(func):
