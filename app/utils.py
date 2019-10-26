@@ -3,13 +3,12 @@ import os
 import random
 import string
 import sys
-import uuid
 
+from app import API_VERSION
+from .versioning import LATEST_API_VERSION, versioned
 from flask import jsonify
-
 from app import db
 from .models import Key
-from .versioning import LATEST_API_VERSION, versioned
 
 err_map = {
     400: "Bad Request",
@@ -63,26 +62,6 @@ class Paginator:
                 "has_prev": paginated_data.has_prev
             }
         }
-
-
-def create_new_apikey(email, logger):
-    # TODO: we should put this in a while loop in the extremely unlikely chance
-    # there is a collision of UUIDs in the database. It is assumed at this point
-    # in the flow that the DB was already checked for this email address, and
-    # no key exists yet.
-    new_key = Key(
-        apikey=uuid.uuid4().hex,
-        email=email
-    )
-
-    try:
-        db.session.add(new_key)
-        db.session.commit()
-
-        return standardize_response(payload=dict(data=new_key.serialize))
-    except Exception as e:
-        logger.exception(e)
-        return standardize_response(status_code=500)
 
 
 def format_resource_search(hit):

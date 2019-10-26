@@ -1,8 +1,6 @@
 from datetime import datetime
 
-import pytest
 from app.models import Category, Key, Language, Resource
-from tests import conftest
 
 
 def test_resource():
@@ -98,7 +96,9 @@ def test_key():
 
 def test_key_blacklisted():
     key = Key(email="test@example.org", apikey="1234abcd", blacklisted=True)
-    assert (key.__repr__() == f"<Key email=test@example.org apikey=1234abcd BLACKLISTED>")
+    assert (
+        key.__repr__() == f"<Key email=test@example.org apikey=1234abcd BLACKLISTED>"
+    )
     assert (key != 1)
     assert (key == key)
     time = datetime.now()

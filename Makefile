@@ -58,7 +58,7 @@ test-coverage:
 
 .PHONY: lint
 lint:
-	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flake8 . --exclude migrations,tests --statistics --count
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flake8 . --exclude migrations --statistics --count
 
 .PHONY: bandit
 bandit:

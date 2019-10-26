@@ -1,3 +1,4 @@
+import uuid
 from enum import Enum
 
 import requests
@@ -49,6 +50,30 @@ def blacklist_key(apikey_or_email, blacklisted, session=None):
     return key
 
 
+def rotate_key(key):
+    pass
+
+
+def create_new_apikey(email, logger, session):
+    # TODO: we should put this in a while loop in the extremely unlikely chance
+    # there is a collision of UUIDs in the database. It is assumed at this point
+    # in the flow that the DB was already checked for this email address, and
+    # no key exists yet.
+    new_key = Key(
+        apikey=uuid.uuid4().hex,
+        email=email
+    )
+
+    try:
+        session.add(new_key)
+        session.commit()
+
+        return standardize_response(payload=dict(data=new_key.serialize))
+    except Exception as e:
+        logger.exception(e)
+        return standardize_response(status_code=500)
+
+
 def authenticate(func):
     def wrapper(*args, **kwargs):
         apikey = request.headers.get('x-apikey')
@@ -64,10 +89,12 @@ def authenticate(func):
 
 
 def is_user_oc_member(email, password):
-    response = requests.post('https://api.operationcode.org/auth/login/', json=dict(
-        email=email,
-        password=password
-    )
+    response = requests.post(
+        'https://api.operationcode.org/auth/login/',
+        json=dict(
+            email=email,
+            password=password
+        )
     )
 
     return bool(response.json().get('token'))

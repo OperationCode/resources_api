@@ -1,18 +1,21 @@
-from flask import request, redirect
-from sqlalchemy import or_, func
-from sqlalchemy.exc import IntegrityError
-from algoliasearch.exceptions import AlgoliaUnreachableHostException, AlgoliaException
-from app.api import bp
-from app.api.auth import is_user_oc_member, authenticate
-from app.api.validations import validate_resource, validate_resource_list, \
-    requires_body, wrong_type
-from app.models import Language, Resource, Category, Key
-from app import Config, db, index
-from dateutil import parser
 from datetime import datetime
-from prometheus_client import Counter, Summary
-import app.utils as utils
 from os import environ
+
+from dateutil import parser
+
+import app.utils as utils
+from algoliasearch.exceptions import (AlgoliaException,
+                                      AlgoliaUnreachableHostException)
+from app import Config, db, index
+from app.api import bp
+from app.api.auth import authenticate, create_new_apikey, is_user_oc_member
+from app.api.validations import (requires_body, validate_resource,
+                                 validate_resource_list, wrong_type)
+from app.models import Category, Key, Language, Resource
+from flask import redirect, request
+from prometheus_client import Counter, Summary
+from sqlalchemy import func, or_
+from sqlalchemy.exc import IntegrityError
 
 # Metrics
 failures_counter = Counter('my_failures', 'Number of exceptions raised')
@@ -155,7 +158,7 @@ def apikey():
         if not apikey:
             # Since they're already authenticated by is_oc_user(), we know we
             # can generate an API key for them if they don't already have one
-            return utils.create_new_apikey(email, logger)
+            return create_new_apikey(email, logger, db.session)
         logger.info(apikey.serialize)
         return utils.standardize_response(payload=dict(data=apikey.serialize))
     except Exception as e:
