@@ -2,33 +2,12 @@ from algoliasearch.exceptions import AlgoliaException, AlgoliaUnreachableHostExc
 from flask import redirect, request
 
 import app.utils as utils
-from app import Config, db, index
+from app import Config, index
 from app.api import bp
 from app.api.auth import is_user_oc_member
 from app.api.routes.utils import failures_counter, latency_summary, logger
 from app.api.validations import requires_body
-from app.models import Key, Resource
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/resources/<int:id>/upvote', methods=['PUT'])
-def upvote(id):
-    return update_votes(id, 'upvotes')
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/resources/<int:id>/downvote', methods=['PUT'])
-def downvote(id):
-    return update_votes(id, 'downvotes')
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/resources/<int:id>/click', methods=['PUT'])
-def update_resource_click(id):
-    return add_click(id)
+from app.models import Key
 
 
 @latency_summary.time()
@@ -131,29 +110,3 @@ def search_results():
         }
     }
     return utils.standardize_response(payload=dict(data=results, **pagination_details))
-
-
-def update_votes(id, vote_direction):
-    resource = Resource.query.get(id)
-
-    if not resource:
-        return redirect('/404')
-
-    initial_count = getattr(resource, vote_direction)
-    setattr(resource, vote_direction, initial_count + 1)
-    db.session.commit()
-
-    return utils.standardize_response(payload=dict(data=resource.serialize))
-
-
-def add_click(id):
-    resource = Resource.query.get(id)
-
-    if not resource:
-        return redirect('/404')
-
-    initial_count = getattr(resource, 'times_clicked')
-    setattr(resource, 'times_clicked', initial_count + 1)
-    db.session.commit()
-
-    return utils.standardize_response(payload=dict(data=resource.serialize))
