@@ -7,7 +7,7 @@ from app.api import bp
 from app.api.auth import is_user_oc_member
 from app.api.routes.utils import failures_counter, latency_summary, logger
 from app.api.validations import requires_body
-from app.models import Key, Language, Resource
+from app.models import Key, Resource
 
 
 @latency_summary.time()
@@ -36,20 +36,6 @@ def update_resource_click(id):
 @bp.route('/search', methods=['GET'])
 def search():
     return search_results()
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/languages', methods=['GET'])
-def languages():
-    return get_languages()
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/languages/<int:id>', methods=['GET'], endpoint='get_language')
-def language(id):
-    return get_language(id)
 
 
 @latency_summary.time()
@@ -145,36 +131,6 @@ def search_results():
         }
     }
     return utils.standardize_response(payload=dict(data=results, **pagination_details))
-
-
-def get_languages():
-    language_paginator = utils.Paginator(Config.LANGUAGE_PAGINATOR, request)
-    query = Language.query
-
-    try:
-        paginated_languages = language_paginator.paginated_data(query)
-        if not paginated_languages:
-            return redirect('/404')
-        language_list = [
-            language.serialize for language in paginated_languages.items
-        ]
-        pagination_details = language_paginator.pagination_details(paginated_languages)
-    except Exception as e:
-        logger.exception(e)
-        return utils.standardize_response(status_code=500)
-
-    return utils.standardize_response(payload=dict(
-        data=language_list,
-        **pagination_details))
-
-
-def get_language(id):
-    language = Language.query.get(id)
-
-    if language:
-        return utils.standardize_response(payload=dict(data=(language.serialize)))
-
-    return redirect('/404')
 
 
 def update_votes(id, vote_direction):
