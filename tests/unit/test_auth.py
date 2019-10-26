@@ -1,14 +1,24 @@
 from unittest.mock import patch
 
 from app.api.auth import (ApiKeyError, ApiKeyErrorCode, authenticate,
-                          blacklist_key, find_key_by_apikey_or_email)
+                          blacklist_key, find_key_by_apikey_or_email,
+                          rotate_key)
 from app.models import Key
 
 FAKE_EMAIL = 'test@example.org'
 FAKE_APIKEY = 'abcdef1234567890'
 
 
-def test_authenticate_failure(module_client, module_db):
+def create_fake_key(session, **kwargs):
+    kwargs['email'] = kwargs.get('email', FAKE_EMAIL)
+    kwargs['apikey'] = kwargs.get('apikey', FAKE_APIKEY)
+    key = Key(**kwargs)
+    session.add(key)
+    session.commit()
+    return key
+
+
+def test_authenticate_failure(module_client, function_empty_db):
     # Arrange
     def callback(*args, **kwargs):
         return 1
@@ -25,10 +35,9 @@ def test_authenticate_failure(module_client, module_db):
     assert result[1] == 401
 
 
-def test_authenticate_success(module_client, module_db):
+def test_authenticate_success(module_client, function_empty_db):
     # Arrange
-    key = Key(email=FAKE_EMAIL, apikey=FAKE_APIKEY)
-    module_db.session.add(key)
+    create_fake_key(function_empty_db.session)
 
     def callback(*args, **kwargs):
         return 1
@@ -44,13 +53,10 @@ def test_authenticate_success(module_client, module_db):
     # Assert
     assert result == 1
 
-    module_db.session.rollback()
 
-
-def test_authenticate_blacklisted(module_client, module_db):
+def test_authenticate_blacklisted(module_client, function_empty_db):
     # Arrange
-    key = Key(email=FAKE_EMAIL, apikey=FAKE_APIKEY, blacklisted=True)
-    module_db.session.add(key)
+    create_fake_key(function_empty_db.session, blacklisted=True)
 
     def callback(*args, **kwargs):
         return 1
@@ -66,13 +72,10 @@ def test_authenticate_blacklisted(module_client, module_db):
     # Assert
     assert result[1] == 401
 
-    module_db.session.rollback()
 
-
-def test_find_key_by_apikey_or_email(module_client, module_db):
+def test_find_key_by_apikey_or_email(module_client, function_empty_db):
     # Arrange
-    key = Key(email=FAKE_EMAIL, apikey=FAKE_APIKEY)
-    module_db.session.add(key)
+    key = create_fake_key(function_empty_db.session)
 
     # Act
     key1 = find_key_by_apikey_or_email(FAKE_EMAIL)
@@ -82,16 +85,14 @@ def test_find_key_by_apikey_or_email(module_client, module_db):
     assert key == key1
     assert key == key2
 
-    module_db.session.rollback()
 
-
-def test_blacklist_key_not_found(module_client, module_db):
+def test_blacklist_key_not_found(module_client, function_empty_db):
     # Arrange
     error = None
 
     # Act
     try:
-        blacklist_key(FAKE_APIKEY + 'b', True)
+        blacklist_key(FAKE_APIKEY + 'b', True, function_empty_db.session)
     except ApiKeyError as e:
         error = e
 
@@ -99,16 +100,15 @@ def test_blacklist_key_not_found(module_client, module_db):
     assert error.error_code == ApiKeyErrorCode.NOT_FOUND
 
 
-def test_blacklist_key_already_blacklisted(module_client, module_db):
+def test_blacklist_key_already_blacklisted(module_client, function_empty_db):
     # Arrange
     error = None
     key1 = None
-    key = Key(email=FAKE_EMAIL, apikey=FAKE_APIKEY, blacklisted=True)
-    module_db.session.add(key)
+    create_fake_key(function_empty_db.session, blacklisted=True)
 
     # Act
     try:
-        key1 = blacklist_key(FAKE_APIKEY, True)
+        key1 = blacklist_key(FAKE_APIKEY, True, function_empty_db.session)
     except ApiKeyError as e:
         error = e
 
@@ -116,19 +116,16 @@ def test_blacklist_key_already_blacklisted(module_client, module_db):
     assert error.error_code == ApiKeyErrorCode.ALREADY_BLACKLISTED
     assert key1 is None
 
-    module_db.session.rollback()
 
-
-def test_blacklist_key_not_blacklisted(module_client, module_db):
+def test_blacklist_key_not_blacklisted(module_client, function_empty_db):
     # Arrange
     error = None
     key1 = None
-    key = Key(email=FAKE_EMAIL, apikey=FAKE_APIKEY)
-    module_db.session.add(key)
+    create_fake_key(function_empty_db.session)
 
     # Act
     try:
-        key1 = blacklist_key(FAKE_APIKEY, False)
+        key1 = blacklist_key(FAKE_APIKEY, False, function_empty_db.session)
     except ApiKeyError as e:
         error = e
 
@@ -136,34 +133,39 @@ def test_blacklist_key_not_blacklisted(module_client, module_db):
     assert error.error_code == ApiKeyErrorCode.NOT_BLACKLISTED
     assert key1 is None
 
-    module_db.session.rollback()
 
-
-def test_blacklist_key_set_blacklisted_on(module_client, module_db):
+def test_blacklist_key_set_blacklisted_on(module_client, function_empty_db):
     # Arrange
-    key = Key(email=FAKE_EMAIL, apikey=FAKE_APIKEY)
-    module_db.session.add(key)
+    key = create_fake_key(function_empty_db.session)
 
     # Act
-    key1 = blacklist_key(FAKE_APIKEY, True)
+    key1 = blacklist_key(FAKE_APIKEY, True, function_empty_db.session)
 
     # Assert
     assert key.blacklisted
     assert key == key1
 
-    module_db.session.rollback()
 
-
-def test_blacklist_key_set_blacklisted_off(module_client, module_db):
+def test_blacklist_key_set_blacklisted_off(module_client, function_empty_db):
     # Arrange
-    key = Key(email=FAKE_EMAIL, apikey=FAKE_APIKEY, blacklisted=True)
-    module_db.session.add(key)
+    key = create_fake_key(function_empty_db.session, blacklisted=True)
 
     # Act
-    key1 = blacklist_key(FAKE_APIKEY, False)
+    key1 = blacklist_key(FAKE_APIKEY, False, function_empty_db.session)
 
     # Assert
     assert not key.blacklisted
     assert key == key1
 
-    module_db.session.rollback()
+
+def test_rotate_key(module_client, function_empty_db):
+    # Arrange
+    key = create_fake_key(function_empty_db.session)
+    function_empty_db.session.add(key)
+    function_empty_db.session.commit()
+
+    # Act
+    rotate_key(key, function_empty_db.session)
+
+    # Assert
+    assert key.apikey != FAKE_APIKEY

@@ -101,6 +101,15 @@ def module_db():
 
 
 @pytest.fixture(scope='function')
+def function_empty_db():
+    # Create the database and the database table
+    _db.create_all()
+    yield _db  # this is where the testing happens!
+
+    _db.drop_all()
+
+
+@pytest.fixture(scope='function')
 def fake_auth_from_oc(mocker):
     """
     Changes the return value of requests.post to be a custom response

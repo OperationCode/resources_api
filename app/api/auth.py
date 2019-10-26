@@ -6,6 +6,7 @@ from app.models import Key
 from app.utils import setup_logger, standardize_response
 from flask import request
 
+auth_logger = setup_logger('auth_logger')
 create_logger = setup_logger('create_auth_logger')
 update_logger = setup_logger('update_auth_logger')
 
@@ -29,7 +30,7 @@ def find_key_by_apikey_or_email(apikey_or_email):
     return Key.query.filter_by(email=apikey_or_email).first()
 
 
-def blacklist_key(apikey_or_email, blacklisted, session=None):
+def blacklist_key(apikey_or_email, blacklisted, session):
     key = find_key_by_apikey_or_email(apikey_or_email)
     if not key:
         raise ApiKeyError('Could not find that apikey or email.',
@@ -44,23 +45,22 @@ def blacklist_key(apikey_or_email, blacklisted, session=None):
 
     key.blacklisted = blacklisted
 
-    if session:
-        session.commit()
+    session.commit()
 
     return key
 
 
-def rotate_key(key):
-    pass
+def get_new_key_value():
+    return uuid.uuid4().hex
 
 
-def create_new_apikey(email, logger, session):
+def create_new_apikey(email, session):
     # TODO: we should put this in a while loop in the extremely unlikely chance
     # there is a collision of UUIDs in the database. It is assumed at this point
     # in the flow that the DB was already checked for this email address, and
     # no key exists yet.
     new_key = Key(
-        apikey=uuid.uuid4().hex,
+        apikey=get_new_key_value(),
         email=email
     )
 
@@ -70,7 +70,17 @@ def create_new_apikey(email, logger, session):
 
         return standardize_response(payload=dict(data=new_key.serialize))
     except Exception as e:
-        logger.exception(e)
+        auth_logger.exception(e)
+        return standardize_response(status_code=500)
+
+
+def rotate_key(key, session):
+    key.apikey = get_new_key_value()
+    try:
+        session.commit()
+        return standardize_response(payload=dict(data=key.serialize))
+    except Exception as e:
+        auth_logger.exception(e)
         return standardize_response(status_code=500)
 
 

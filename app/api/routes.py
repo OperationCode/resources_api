@@ -158,7 +158,7 @@ def apikey():
         if not apikey:
             # Since they're already authenticated by is_oc_user(), we know we
             # can generate an API key for them if they don't already have one
-            return create_new_apikey(email, logger, db.session)
+            return create_new_apikey(email, db.session)
         logger.info(apikey.serialize)
         return utils.standardize_response(payload=dict(data=apikey.serialize))
     except Exception as e:
