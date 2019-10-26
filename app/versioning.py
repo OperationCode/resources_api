@@ -1,6 +1,7 @@
 from typing import Callable, List
 
 import flask
+from werkzeug.exceptions import HTTPException, BadRequest
 
 VALID_API_VERSIONS = ['1.0']
 """API versions that are valid for a user to request.
@@ -25,7 +26,7 @@ def versioned(valid_versions: List[str] = None):
             if flask.has_request_context():
                 version = flask.request.headers.get('x-api-version', LATEST_API_VERSION)
                 if version not in valid_versions:
-                    version = LATEST_API_VERSION
+                    raise InvalidApiVersion(version)
             else:
                 version = LATEST_API_VERSION
 
@@ -43,3 +44,9 @@ def versioned(valid_versions: List[str] = None):
         if not valid_versions:
             valid_versions = VALID_API_VERSIONS
         return decorator
+
+
+class InvalidApiVersion(BadRequest):
+    def __init__(self, version: str):
+        super(BadRequest, self).__init__()
+        self.description = f'{version} is not a valid API version'

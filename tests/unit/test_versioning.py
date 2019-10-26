@@ -1,7 +1,7 @@
 import pytest
 from flask import Flask, Response
 
-from app.versioning import versioned, LATEST_API_VERSION
+from app.versioning import versioned, LATEST_API_VERSION, InvalidApiVersion
 
 
 def test_passes_valid_version_specified_in_api_header_to_wrapped_route(app, client):
@@ -28,18 +28,23 @@ def test_defaults_to_latest_api_version_when_api_header_is_not_passed(app, clien
 
 
 @pytest.mark.parametrize('header_value', ['99.99', 'i-am-a-monkey', '1.2.0-alpha.1'])
-def test_defaults_to_latest_api_version_when_invalid_version_passed_in_api_header(
+def test_throws_exception_when_invalid_version_passed_in_api_header(
         app, client, header_value):
     @app.route('/endpoint')
     @versioned
     def endpoint(version: float):
         return dict(version=version)
 
+    @app.errorhandler(InvalidApiVersion)
+    def handle_exception(exception: InvalidApiVersion):
+        return exception.description, exception.code
+
     response: Response = client.get(
         '/endpoint', headers=[('X-API-Version', header_value)])
 
-    expected_version = float(LATEST_API_VERSION)
-    assert response.json == dict(version=expected_version)
+    response_text = str(response.data, 'utf-8')
+    assert (response_text == f'{header_value} is not a valid API version'
+            and response.status_code == 400)
 
 
 @pytest.fixture
