@@ -5,7 +5,7 @@ import yaml
 
 import click
 from app import index, search_client
-from app.models import Key
+from app.api.auth import ApiKeyError, blacklist_key
 from sqlalchemy import exc
 
 from .models import Category, Language, Resource
@@ -173,35 +173,23 @@ def register(app, db):  # pragma: no cover
         reindex_all()
 
     @apikeys.command()
-    @click.argument('apikey')
-    def blacklist(apikey):
-        key = Key.query.filter_by(apikey=apikey).first()
-        if not key:
-            print('Could not find that apikey.')
-            return 1
+    @click.argument('apikey_or_email')
+    def blacklist(apikey_or_email):
+        try:
+            key = blacklist_key(apikey_or_email, True, db.session)
+        except ApiKeyError as error:
+            print(error.message)
+            return error.error_code
 
-        if key.blacklisted:
-            print('Already blacklisted.')
-            return 2
-
-        key.blacklisted = True
-        db.session.commit()
-
-        print(f'Blacklisted {apikey}')
+        print(f'Blacklisted {key}')
 
     @apikeys.command()
-    @click.argument('apikey')
-    def reactivate(apikey):
-        key = Key.query.filter_by(apikey=apikey).first()
-        if not key:
-            print('Could not find that apikey.')
-            return 1
+    @click.argument('apikey_or_email')
+    def reactivate(apikey_or_email):
+        try:
+            key = blacklist_key(apikey_or_email, False, db.session)
+        except ApiKeyError as error:
+            print(error.message)
+            return error.error_code
 
-        if not key.blacklisted:
-            print('Not blacklisted.')
-            return 2
-
-        key.blacklisted = False
-        db.session.commit()
-
-        print(f'Reactivated {apikey}')
+        print(f'Reactivated {key}')
