@@ -7,7 +7,7 @@ from app.api import bp
 from app.api.auth import is_user_oc_member
 from app.api.routes.utils import failures_counter, latency_summary, logger
 from app.api.validations import requires_body
-from app.models import Category, Key, Language, Resource
+from app.models import Key, Language, Resource
 
 
 @latency_summary.time()
@@ -50,20 +50,6 @@ def languages():
 @bp.route('/languages/<int:id>', methods=['GET'], endpoint='get_language')
 def language(id):
     return get_language(id)
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/categories', methods=['GET'])
-def categories():
-    return get_categories()
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/categories/<int:id>', methods=['GET'], endpoint='get_category')
-def category(id):
-    return get_category(id)
 
 
 @latency_summary.time()
@@ -187,36 +173,6 @@ def get_language(id):
 
     if language:
         return utils.standardize_response(payload=dict(data=(language.serialize)))
-
-    return redirect('/404')
-
-
-def get_categories():
-    try:
-        category_paginator = utils.Paginator(Config.CATEGORY_PAGINATOR, request)
-        query = Category.query
-
-        paginated_categories = category_paginator.paginated_data(query)
-        if not paginated_categories:
-            return redirect('/404')
-        category_list = [
-            category.serialize for category in paginated_categories.items
-        ]
-        pagination_details = category_paginator.pagination_details(paginated_categories)
-    except Exception as e:
-        logger.exception(e)
-        return utils.standardize_response(status_code=500)
-
-    return utils.standardize_response(payload=dict(
-        data=category_list,
-        **pagination_details))
-
-
-def get_category(id):
-    category = Category.query.get(id)
-
-    if category:
-        return utils.standardize_response(payload=dict(data=(category.serialize)))
 
     return redirect('/404')
 
