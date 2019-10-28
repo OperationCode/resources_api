@@ -664,6 +664,10 @@ def test_search_category_filter(module_client, module_db, fake_auth_from_oc, fak
     result = client.get("/api/v1/search?category=Books")
     assert (result.status_code == 200)
 
+    # Test with invalid category attribute given ( defaults to all )
+    result = client.get("/api/v1/search?category=")
+    assert (result.status_code == 200)
+
 
 def test_search_language_filter(module_client, module_db, fake_auth_from_oc, fake_algolia_save, fake_algolia_search):
     client = module_client
@@ -677,6 +681,13 @@ def test_search_language_filter(module_client, module_db, fake_auth_from_oc, fak
 
     # Test on multiple languages
     result = client.get("/api/v1/search?languages=python&languages=javascript")
+    assert (result.status_code == 200)
+
+    # Tests with invalid languages attribute given ( defaults to all )
+    result = client.get("/api/v1/search?languages=")
+    assert (result.status_code == 200)
+
+    result = client.get("/api/v1/search?languages=test&languages=")
     assert (result.status_code == 200)
 
 
