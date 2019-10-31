@@ -251,7 +251,7 @@ def search_results():
     filters = []
 
     # Filter on paid
-    if isinstance(paid, str):
+    if paid:
         paid = paid.lower()
         # algolia filters boolean attributes with either 0 or 1
         if paid == 'true':
@@ -260,15 +260,19 @@ def search_results():
             filters.append('paid=0')
 
     # Filter on category
-    if isinstance(category, str):
+    if category:
+        # to not let double quotes conflict with algolia filter format
+        category = category.replace('"', "'")
+
         filters.append(
-            f"category:{category}"
+            f'category: "{category}"'
         )
 
     # Filter on languages
-    if isinstance(languages, list):
+    if languages and '' not in languages:
         for i, _ in enumerate(languages):
-            languages[i] = f"languages:{languages[i]}"
+            # to not let double quotes conflict with algolia filter format
+            languages[i] = 'languages:"{}"'.format(languages[i].replace('"', "'"))
 
         # joining all possible language values to algolia filter query
         filters.append(f"( {' OR '.join(languages)} )")
