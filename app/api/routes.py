@@ -133,6 +133,13 @@ def category(id):
     return get_category(id)
 
 
+def _unauthorized_response():
+    message = "The email or password you submitted is incorrect " \
+              "or your account is not allowed api access"
+    payload = {'errors': {"invalid-credentials": {"message": message}}}
+    return utils.standardize_response(payload=payload, status_code=401)
+
+
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/apikey', methods=['POST'], endpoint='apikey')
@@ -149,13 +156,16 @@ def apikey():
     is_oc_member = is_user_oc_member(email, password)
 
     if not is_oc_member:
-        message = "The email or password you submitted is incorrect"
-        payload = {'errors': {"invalid-credentials": {"message": message}}}
-        return utils.standardize_response(payload=payload, status_code=401)
+        return _unauthorized_response()
 
     try:
         # We need to check the database for an existing key
         apikey = Key.query.filter_by(email=email).first()
+
+        # Don't return success for blacklisted keys
+        if apikey and apikey.blacklisted:
+            return _unauthorized_response()
+
         if not apikey:
             # Since they're already authenticated by is_oc_user(), we know we
             # can generate an API key for them if they don't already have one

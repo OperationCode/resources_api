@@ -182,10 +182,7 @@ def fake_key_query_error(mocker):
     Mocks an exception being raised during a query to test error handling
     """
 
-    def key_query():
-        raise Exception()
-
-    mocker.patch('app.models.Key.query', side_effect=key_query)
+    mocker.patch('app.models.Key.query', new=None)
 
 
 @pytest.fixture(scope='function')
