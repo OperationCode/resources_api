@@ -279,7 +279,7 @@ def search_results():
 
     try:
         search_result = index.search(f'{term}', {
-            'filters': "AND".join(filters),
+            'filters': " AND ".join(filters),
             'page': page,
             'hitsPerPage': page_size
         })
