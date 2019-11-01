@@ -14,7 +14,7 @@ def test_presents_requested_api_version(app, client):
     response: Response = client.get(
         '/endpoint', headers=[('X-API-Version', api_version)])
 
-    assert response.json['apiVersion'] == float(api_version)
+    assert response.json['apiVersion'] == api_version
 
 
 def test_defaults_to_fallback_api_version_when_none_specified(app, client):
@@ -24,7 +24,7 @@ def test_defaults_to_fallback_api_version_when_none_specified(app, client):
 
     response: Response = client.get('/endpoint')
 
-    expected_version = float(LATEST_API_VERSION)
+    expected_version = LATEST_API_VERSION
     assert response.json['apiVersion'] == expected_version
 
 
@@ -35,7 +35,7 @@ def test_defaults_to_fallback_api_version_when_invalid_one_is_specified(app, cli
 
     response: Response = client.get('/endpoint', headers=[('X-API-Version', 'sue')])
 
-    expected_version = float(LATEST_API_VERSION)
+    expected_version = LATEST_API_VERSION
     assert response.json['apiVersion'] == expected_version
 
 

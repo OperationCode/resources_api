@@ -40,7 +40,7 @@ def versioned(
             else:
                 version = LATEST_API_VERSION
 
-            kwargs['version'] = float(version)
+            kwargs['version'] = version
             return function(*args, **kwargs)
 
         return wrapper
