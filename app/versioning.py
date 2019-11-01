@@ -1,9 +1,9 @@
-from typing import Callable, List
+from typing import Callable, Iterable
 
 import flask
 from werkzeug.exceptions import BadRequest
 
-VALID_API_VERSIONS = ['1.0']
+VALID_API_VERSIONS = ('1.0',)
 """API versions that are valid for a user to request.
 
 NOTE: the first value in this list should be the latest supported version, but the
@@ -13,7 +13,9 @@ LATEST_API_VERSION = VALID_API_VERSIONS[0]
 """latest API version to default to when none other is requested"""
 
 
-def versioned(valid_versions: List[str] = None, throw_on_invalid: bool = True):
+def versioned(
+        valid_versions: Iterable[str] = VALID_API_VERSIONS,
+        throw_on_invalid: bool = True):
     """
     Extracts requested API version from X-API-Version HTTP header and passes
     to wrapped function in the `version` kwarg.
