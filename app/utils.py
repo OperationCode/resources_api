@@ -1,8 +1,3 @@
-from app import db
-from flask import jsonify
-
-from .versioning import versioned
-from .models import Key
 import logging
 import os
 import random
@@ -10,6 +5,11 @@ import string
 import sys
 import uuid
 
+from flask import jsonify
+
+from app import db
+from .models import Key
+from .versioning import LATEST_API_VERSION, versioned
 
 err_map = {
     400: "Bad Request",
@@ -87,7 +87,7 @@ def create_new_apikey(email, logger):
 
 def format_resource_search(hit):
     formatted = {
-        'id':  hit['id'],
+        'id': hit['id'],
         'name': hit['name'],
         'url': hit['url'],
         'category': hit['category'],
@@ -105,7 +105,7 @@ def format_resource_search(hit):
 
 
 @versioned(throw_on_invalid=False)
-def standardize_response(payload={}, status_code=200, version=0.0):
+def standardize_response(payload={}, status_code=200, version=LATEST_API_VERSION):
     """Response helper
     This simplifies the response creation process by providing an internally
     defined mapping of status codes to messages for errors. It also knows when
