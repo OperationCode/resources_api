@@ -165,7 +165,7 @@ def get_resources():
     """
     Gets a paginated list of resources.
 
-    If the URL parameters `language` or `category` are found
+    If the URL parameters `languages` or `category` are found
     in the request, the list will be filtered by these parameters.
 
     The filters are case insensitive.
@@ -173,20 +173,21 @@ def get_resources():
     resource_paginator = utils.Paginator(Config.RESOURCE_PAGINATOR, request)
 
     # Fetch the filter params from the url, if they were provided.
-    language = request.args.get('language')
+    languages = request.args.getlist('languages')
     category = request.args.get('category')
     updated_after = request.args.get('updated_after')
     paid = request.args.get('paid')
 
     q = Resource.query
 
-    # Filter on language
-    if language:
+    # Filter on languages
+    if languages:
+        # Take the list of languages they pass in, join them all with OR
         q = q.filter(
-            Resource.languages.any(
-                Language.name.ilike(language)
+            or_(*map(Resource.languages.any,
+                map(Language.name.ilike, languages))
+                )
             )
-        )
 
     # Filter on category
     if category:
@@ -217,7 +218,7 @@ def get_resources():
         )
 
     # Filter on paid
-    if isinstance(paid, str):
+    if isinstance(paid, str) and paid.lower() in ['true', 'false']:
         paidAsBool = paid.lower() == 'true'
         q = q.filter(Resource.paid == paidAsBool)
 
@@ -245,20 +246,40 @@ def search_results():
 
     # Fetch the filter params from the url, if they were provided.
     paid = request.args.get('paid')
-    filters = ''
+    category = request.args.get('category')
+    languages = request.args.getlist('languages')
+    filters = []
 
     # Filter on paid
-    if isinstance(paid, str):
+    if paid:
         paid = paid.lower()
         # algolia filters boolean attributes with either 0 or 1
         if paid == 'true':
-            filters += 'paid=1'
+            filters.append('paid=1')
         elif paid == 'false':
-            filters += 'paid=0'
+            filters.append('paid=0')
+
+    # Filter on category
+    if category:
+        # to not let double quotes conflict with algolia filter format
+        category = category.replace('"', "'")
+
+        filters.append(
+            f'category: "{category}"'
+        )
+
+    # Filter on languages
+    if languages and '' not in languages:
+        for i, _ in enumerate(languages):
+            # to not let double quotes conflict with algolia filter format
+            languages[i] = 'languages:"{}"'.format(languages[i].replace('"', "'"))
+
+        # joining all possible language values to algolia filter query
+        filters.append(f"( {' OR '.join(languages)} )")
 
     try:
         search_result = index.search(f'{term}', {
-            'filters': filters,
+            'filters': " AND ".join(filters),
             'page': page,
             'hitsPerPage': page_size
         })

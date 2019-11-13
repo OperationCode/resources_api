@@ -1,15 +1,10 @@
-import pytest, random
-from tests import conftest
-import time
 from app.api.validations import MISSING_BODY, MISSING_PARAMS, INVALID_PARAMS
-from app.models import Resource, Language, Category
-from app.cli import import_resources
 from app.utils import get_error_code_from_status, random_string, msg_map, err_map
 from configs import PaginatorConfig
 from datetime import datetime, timedelta
 
 ##########################################
-## Test Routes
+# Test Routes
 ##########################################
 
 
@@ -150,13 +145,13 @@ def test_paid_filter(module_client, module_db):
 
     total_free_resources = response.json['total_count']
 
-    assert all([res.get('paid') == False for res in response.json['data']])
+    assert all([res.get('paid') is False for res in response.json['data']])
 
     response = client.get('api/v1/resources?paid=true')
 
     total_paid_resources = response.json['total_count']
 
-    assert all([res.get('paid') == True for res in response.json['data']])
+    assert all([res.get('paid') is True for res in response.json['data']])
 
     # Check that the number of resources appear correct
     assert (total_paid_resources > 0)
@@ -164,15 +159,42 @@ def test_paid_filter(module_client, module_db):
     assert (total_resources == total_free_resources + total_paid_resources)
 
 
+def test_paid_filter_works_with_uppercase_parameter(module_client, module_db):
+    client = module_client
+
+    response = client.get('api/v1/resources?paid=TRUE')
+    assert all([res.get('paid') is True for res in response.json['data']])
+
+    response = client.get('api/v1/resources?paid=FALSE')
+    assert all([res.get('paid') is False for res in response.json['data']])
+
+
+def test_paid_filter_defaults_all_when_invalid_paid_parameter(module_client, module_db):
+    client = module_client
+
+    response = client.get('api/v1/resources?paid=na93ns8i1ns')
+
+    assert (True in [res.get('paid') for res in response.json['data']])
+    assert (False in [res.get('paid') for res in response.json['data']])
+
+
 def test_filters(module_client, module_db):
     client = module_client
 
-    # Filter by language
-    response = client.get('api/v1/resources?language=python')
+    # Filter by one language
+    response = client.get('api/v1/resources?languages=python')
 
     for resource in response.json['data']:
         assert (isinstance(resource.get('languages'), list))
         assert ('Python' in resource.get('languages'))
+
+    # Filter by multiple languages
+    response = client.get('api/v1/resources?languages=python&languages=javascript')
+
+    for resource in response.json['data']:
+        assert (isinstance(resource.get('languages'), list))
+        assert (('Python' in resource.get('languages')) or
+            ('JavaScript' in resource.get('languages')))
 
     # Filter by category
     response = client.get('api/v1/resources?category=Back%20End%20Dev')
@@ -242,13 +264,13 @@ def test_categories(module_client, module_db):
         assert (category.get('name'))
     assert (response.json['number_of_pages'] is not None)
 
-
     # Test trying to get a page of results that doesn't exist
     too_far = 99999999
     response = client.get(f"api/v1/categories?page_size=100&page={too_far}", follow_redirects=True)
     assert (response.status_code == 404)
     assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)), dict))
     assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
+
 
 def test_get_single_category(module_client, module_db):
     client = module_client
@@ -360,17 +382,17 @@ def test_bad_standardize_response(module_client, module_db, unmapped_standardize
 
 
 ##########################################
-## Authenticated Routes
+# Authenticated Routes
 ##########################################
 
 
 def test_apikey_commit_error(module_client, module_db, fake_auth_from_oc, fake_commit_error):
     client = module_client
 
-    response = client.post('api/v1/apikey', json = dict(
-        email="test@example.org",
-        password="supersecurepassword"
-    ))
+    response = client.post('api/v1/apikey',
+                           json=dict(
+                               email="test@example.org",
+                               password="supersecurepassword"))
 
     assert (response.status_code == 500)
 
@@ -378,25 +400,24 @@ def test_apikey_commit_error(module_client, module_db, fake_auth_from_oc, fake_c
 def test_get_api_key(module_client, module_db, fake_auth_from_oc):
     client = module_client
 
-    response = client.post('api/v1/apikey', json = dict(
-        email="test@example.org",
-        password="supersecurepassword"
-    ))
+    response = client.post('api/v1/apikey',
+                           json=dict(
+                               email="test@example.org",
+                               password="supersecurepassword"))
 
     assert (response.status_code == 200)
     assert (response.json['data'].get('email') == "test@example.org")
     assert (isinstance(response.json['data'].get('apikey'), str))
 
 
-def test_get_api_key(module_client, module_db, fake_invalid_auth_from_oc):
+def test_get_api_key_with_invalid_auth(module_client, module_db, fake_invalid_auth_from_oc):
     client = module_client
 
     response = client.post('api/v1/apikey',
-        follow_redirects=True,
-        json = dict(
-            email="test@example.org",
-            password="invalidpassword"
-    ))
+                           follow_redirects=True,
+                           json=dict(
+                               email="test@example.org",
+                               password="invalidpassword"))
 
     assert (response.status_code == 401)
 
@@ -417,13 +438,65 @@ def test_create_resource(module_client, module_db, fake_auth_from_oc, fake_algol
 
     # Invalid Resource Path
     response = client.post('/api/v1/resources',
-        headers = {'x-apikey': apikey}
-    )
+                           headers={'x-apikey': apikey})
     assert (response.status_code == 422)
+
+    # Bogus Data
+    name = False
+    url = "htt://bad_url.doesnotexist"
+    category = True
+    languages = False
+    paid = "Bad Data"
+    notes = True
+    response = create_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 422)
+
+    # A String to Big for the DB
+    long_string = "x" * 6501
+    name = long_string
+    url = long_string
+    category = long_string
+    languages = long_string
+    paid = True
+    notes = long_string
+    response = create_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 422)
+
+    # Unicode Characters
+    name = "😀"
+    url = None
+    category = None
+    languages = None
+    paid = True
+    notes = "∞"
+    response = create_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 200)
+
+    # Missing Required Fields
     response = client.post('/api/v1/resources',
-        json = dict(notes="Missing Required fields"),
-        headers = {'x-apikey': apikey}
-    )
+                           json=dict(notes="Missing Required fields"),
+                           headers={'x-apikey': apikey})
     assert (response.status_code == 422)
     assert (isinstance(response.json.get('errors').get(MISSING_PARAMS), dict))
     assert (isinstance(response.json.get('errors').get(MISSING_PARAMS).get('message'), str))
@@ -439,32 +512,75 @@ def test_create_resource(module_client, module_db, fake_auth_from_oc, fake_algol
 
 def test_update_resource(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client
-
-    # Happy Path
     apikey = get_api_key(client)
 
-    response = client.put("/api/v1/resources/1",
-        json = dict(
-            name="New name",
-            languages=["New language"],
-            category="New Category",
-            url="https://new.url",
-            paid=False,
-            notes="New notes"
-        ),
-        headers = {'x-apikey': apikey}
-    )
-
+    # Happy Path
+    response = update_resource(client, apikey)
     assert (response.status_code == 200)
     assert (response.json['data'].get('name') == "New name")
 
+    # Paid parameter as "FALSE" instead of False
+    response = update_resource(client, apikey, name="New name 2", paid="FALSE")
+    assert (response.status_code == 200)
+    assert (response.json['data'].get('name') == "New name 2")
+
+    # Bogus Data
+    name = False
+    url = "htt://bad_url.doesnotexist"
+    category = True
+    languages = False
+    paid = "Bad Data"
+    notes = True
+    response = update_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 422)
+
+    # A String to Big for the DB
+    long_string = "x" * 6501
+    name = long_string
+    url = long_string
+    category = long_string
+    languages = long_string
+    paid = True
+    notes = long_string
+    response = update_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 422)
+
+    # Unicode Characters
+    name = "😀"
+    url = None
+    category = None
+    languages = None
+    paid = True
+    notes = "∞"
+    response = update_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 200)
 
     # Resource not found
     response = client.put("/api/v1/resources/0",
-        json = dict(name="New name"),
-        headers = {'x-apikey': apikey},
-        follow_redirects = True
-    )
+                          json=dict(name="New name"),
+                          headers={'x-apikey': apikey},
+                          follow_redirects=True)
     assert (response.status_code == 404)
 
 
@@ -476,16 +592,15 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
     # Input validation
     # IntegrityError
     response = client.put("/api/v1/resources/2",
-        json=dict(
-            name="New name",
-            languages=["New language"],
-            category="New Category",
-            url="https://new.url",
-            paid=False,
-            notes="New notes"
-        ),
-        headers={'x-apikey': apikey}
-    )
+                          json=dict(
+                              name="New name",
+                              languages=["New language"],
+                              category="New Category",
+                              url="https://new.url",
+                              paid=False,
+                              notes="New notes"
+                          ),
+                          headers={'x-apikey': apikey})
 
     assert (response.status_code == 422)
     assert (isinstance(response.json.get('errors').get(INVALID_PARAMS), dict))
@@ -546,11 +661,10 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
     assert (isinstance(response.json.get('errors').get(MISSING_BODY).get('message'), str))
 
     response = client.put("api/v1/resources/1",
-        data = '',
-        content_type='application/json',
-        headers = {'x-apikey': apikey},
-        follow_redirects = True
-    )
+                          data='',
+                          content_type='application/json',
+                          headers={'x-apikey': apikey},
+                          follow_redirects=True)
     assert (response.status_code == 422)
     assert (isinstance(response.json.get('errors').get(MISSING_BODY), dict))
     assert (isinstance(response.json.get('errors').get(MISSING_BODY).get('message'), str))
@@ -564,14 +678,13 @@ def test_search(module_client, module_db, fake_auth_from_oc, fake_algolia_save, 
 
     # Create resource and find it in the search results.
     resource = client.post("/api/v1/resources",
-                          json=dict(
-                              name=f"{first_term}",
-                              category="Website",
-                              url=f"{first_term}",
-                              paid=False,
-                          ),
-                          headers={'x-apikey': apikey}
-                          )
+                           json=dict(
+                               name=f"{first_term}",
+                               category="Website",
+                               url=f"{first_term}",
+                               paid=False,
+                           ),
+                           headers={'x-apikey': apikey})
     result = client.get(f"/api/v1/search?q={first_term}")
 
     assert (resource.status_code == 200)
@@ -582,11 +695,8 @@ def test_search(module_client, module_db, fake_auth_from_oc, fake_algolia_save, 
     updated_term = random_string()
     resource_id = resource.json['data'].get('id')
     resource = client.put(f"/api/v1/resources/{resource_id}",
-                           json=dict(
-                               url=f"{updated_term}",
-                           ),
-                           headers={'x-apikey': apikey}
-                           )
+                          json=dict(url=f"{updated_term}",),
+                          headers={'x-apikey': apikey})
 
     result = client.get(f"/api/v1/search?q={updated_term}")
 
@@ -595,7 +705,11 @@ def test_search(module_client, module_db, fake_auth_from_oc, fake_algolia_save, 
     assert (result.json['data'][0]['url'] == resource.json['data'].get('url'))
 
 
-def test_search_paid_filter(module_client, module_db, fake_auth_from_oc, fake_algolia_save, fake_algolia_search):
+def test_search_paid_filter(module_client,
+                            module_db,
+                            fake_auth_from_oc,
+                            fake_algolia_save,
+                            fake_algolia_search):
     client = module_client
 
     # Test on the unpaid resources
@@ -611,7 +725,55 @@ def test_search_paid_filter(module_client, module_db, fake_auth_from_oc, fake_al
     assert (result.status_code == 200)
 
 
-def test_algolia_exception_error(module_client, module_db, fake_auth_from_oc, fake_algolia_exception):
+def test_search_category_filter(module_client,
+                                module_db,
+                                fake_auth_from_oc,
+                                fake_algolia_save,
+                                fake_algolia_search):
+    client = module_client
+
+    # Test on book resources
+    result = client.get("/api/v1/search?category=books")
+    assert (result.status_code == 200)
+
+    result = client.get("/api/v1/search?category=Books")
+    assert (result.status_code == 200)
+
+    # Test with invalid category attribute given ( defaults to all )
+    result = client.get("/api/v1/search?category=")
+    assert (result.status_code == 200)
+
+
+def test_search_language_filter(module_client,
+                                module_db,
+                                fake_auth_from_oc,
+                                fake_algolia_save,
+                                fake_algolia_search):
+    client = module_client
+
+    # Test on Python resources
+    result = client.get("/api/v1/search?languages=python")
+    assert (result.status_code == 200)
+
+    result = client.get("/api/v1/search?languages=Python")
+    assert (result.status_code == 200)
+
+    # Test on multiple languages
+    result = client.get("/api/v1/search?languages=python&languages=javascript")
+    assert (result.status_code == 200)
+
+    # Tests with invalid languages attribute given ( defaults to all )
+    result = client.get("/api/v1/search?languages=")
+    assert (result.status_code == 200)
+
+    result = client.get("/api/v1/search?languages=test&languages=")
+    assert (result.status_code == 200)
+
+
+def test_algolia_exception_error(module_client,
+                                 module_db,
+                                 fake_auth_from_oc,
+                                 fake_algolia_exception):
     client = module_client
     first_term = random_string()
     apikey = get_api_key(client)
@@ -649,7 +811,10 @@ def test_algolia_exception_error(module_client, module_db, fake_auth_from_oc, fa
     assert (response.status_code == 200)
 
 
-def test_algolia_unreachable_host_error(module_client, module_db, fake_auth_from_oc, fake_algolia_unreachable_host, ):
+def test_algolia_unreachable_host_error(module_client,
+                                        module_db,
+                                        fake_auth_from_oc,
+                                        fake_algolia_unreachable_host,):
     client = module_client
     first_term = random_string()
     apikey = get_api_key(client)
@@ -693,16 +858,19 @@ def test_bad_requests(module_client, module_db, fake_auth_from_oc, fake_algolia_
     apikey = get_api_key(client)
     bad_json = "{\"test\": \"bad json\" \"test2\": \"still bad\"}"
     response = client.post("api/v1/resources",
-        data = bad_json,
-        content_type='application/json',
-        headers = {'x-apikey': apikey},
-        follow_redirects = True
-    )
+                           data=bad_json,
+                           content_type='application/json',
+                           headers={'x-apikey': apikey},
+                           follow_redirects=True)
     assert (response.status_code == 400)
     assert (isinstance(response.json, dict))
 
 
-def false_validation(module_client, module_db, fake_auth_from_oc, fake_algolia_save, fake_validate_resource):
+def false_validation(module_client,
+                     module_db,
+                     fake_auth_from_oc,
+                     fake_algolia_save,
+                     fake_validate_resource):
     # Given the validate_resource method fails to catch errors
     # When we commit the resource to the database
     # Then the api returns a 422 response
@@ -763,9 +931,8 @@ def test_commit_errors(module_client, module_db, fake_auth_from_oc, fake_commit_
     apikey = get_api_key(client)
 
     response = client.put("/api/v1/resources/1",
-        json = dict(name="New name"),
-        headers = {'x-apikey': apikey}
-    )
+                          json=dict(name="New name"),
+                          headers={'x-apikey': apikey})
     assert (response.status_code == 500)
 
     response = create_resource(client, apikey)
@@ -774,7 +941,7 @@ def test_commit_errors(module_client, module_db, fake_auth_from_oc, fake_commit_
 
 def test_key_query_error(module_client, module_db, fake_auth_from_oc, fake_key_query_error):
     client = module_client
-    response = client.post('api/v1/apikey', json = dict(
+    response = client.post('api/v1/apikey', json=dict(
         email="test@example.org",
         password="supersecurepassword"
     ))
@@ -809,7 +976,7 @@ def test_method_not_allowed_handler(module_client):
     assert (isinstance(response.json.get('errors').get(get_error_code_from_status(response.status_code)).get('message'), str))
 
 ##########################################
-## Other Routes
+# Other Routes
 ##########################################
 
 
@@ -828,26 +995,54 @@ def test_rate_limit(module_client, module_db):
 
 
 ##########################################
-## Helpers
+# Helpers
 ##########################################
 
 
-def create_resource(client, apikey):
-    return client.post('/api/v1/resources',
-        json = dict(
-            name="Some Name",
-            url=f"http://example.org/{str(datetime.now())}",
-            category="New Category",
-            languages=["Python", "New Language"],
-            paid=False,
-            notes="Some notes"
-        ),
-        headers = {'x-apikey': apikey}
-    )
+def create_resource(client,
+                    apikey,
+                    name=None,
+                    url=None,
+                    category=None,
+                    languages=None,
+                    paid=None,
+                    notes=None,
+                    headers=None,
+                    endpoint='/api/v1/resources'):
+    return client.post(endpoint,
+                       json=dict(
+                           name="Some Name" if not name else name,
+                           url=f"http://example.org/{str(datetime.now())}" if not url else url,
+                           category="New Category" if not category else category,
+                           languages=["Python", "New Language"] if not languages else languages,
+                           paid=False if not paid else paid,
+                           notes="Some notes" if not notes else notes),
+                       headers={'x-apikey': apikey} if not headers else headers)
+
+
+def update_resource(client,
+                    apikey,
+                    name=None,
+                    url=None,
+                    category=None,
+                    languages=None,
+                    paid=None,
+                    notes=None,
+                    headers=None,
+                    endpoint='/api/v1/resources/1'):
+    return client.put(endpoint,
+                      json=dict(
+                            name="New name" if not name else name,
+                            url="https://new.url" if not url else url,
+                            category="New Category" if not category else category,
+                            languages=["New language"] if not languages else languages,
+                            paid=False if not paid else paid,
+                            notes="New notes" if not notes else notes),
+                      headers={'x-apikey': apikey} if not headers else headers)
 
 
 def get_api_key(client):
-    response = client.post('api/v1/apikey', json = dict(
+    response = client.post('api/v1/apikey', json=dict(
         email="test@example.org",
         password="supersecurepassword"
     ))
