@@ -2,7 +2,7 @@
 
 ## Vision
 
-This project provides an API for storing and retrieving learning resources that might be helpful to members of [Operation Code](https://operationcode.org/). Ideally, this project will provide the backend for various interfaces for working with the data. The first, and most important front end will be https://operationcode.org/resources.
+This project provides an API for storing and retrieving learning resources that might be helpful to members of [Operation Code](https://operationcode.org/). Ideally, this project will provide the backend for various interfaces for working with the data. The first, and most important front end will be https://<span></span>operationcode.org/resources.
 
 ## Getting Started
 
@@ -28,7 +28,7 @@ Sometimes these installs can be tricky.  If you get stuck ask for help in the Sl
     - [Docker Desktop for Mac and Windows](https://www.docker.com/products/docker-desktop)
     - [Docker Engine for Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
     - Additional step for Linux: install [docker compose](https://docs.docker.com/compose/install/#install-compose) as well.
- 
+
 1. [Install Make](http://gnuwin32.sourceforge.net/packages/make.htm) if you're on Windows. OSX already has it installed. Linux will tell you how to install it (i.e., `sudo apt-get install make`)
 
 1. Run `make setup`
