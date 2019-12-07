@@ -1108,6 +1108,12 @@ def test_method_not_allowed_handler(module_client):
 # Other Routes
 ##########################################
 
+def test_health_check(module_client):
+    response = module_client.get('/healthz')
+    assert (response.status_code == 200)
+    print(response.get_json())
+    assert (response.get_json().get("application").get("status") == "ok")
+
 
 # This method must come last if using the persistent client and db
 def test_rate_limit(module_client, module_db):
