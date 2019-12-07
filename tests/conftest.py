@@ -229,6 +229,7 @@ def fake_algolia_unreachable_host(mocker):
 
     mocker.patch('algoliasearch.search_index.SearchIndex.search', side_effect=algolia_exception)
     mocker.patch('algoliasearch.search_index.SearchIndex.save_object', side_effect=algolia_exception)
+    mocker.patch('algoliasearch.search_index.SearchIndex.save_objects', side_effect=algolia_exception)
     mocker.patch('algoliasearch.search_index.SearchIndex.partial_update_object', side_effect=algolia_exception)
 
 

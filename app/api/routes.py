@@ -300,7 +300,10 @@ def search_results():
 
     except (AlgoliaUnreachableHostException, AlgoliaException) as e:
         logger.exception(e)
-        return utils.standardize_response(status_code=500)
+        msg = "Failed to get resources from Algolia"
+        logger.warn(msg)
+        error = {'errors': [{"algolia-failed": {"message": msg}}]}
+        return utils.standardize_response(payload=error, status_code=500)
 
     if page >= int(search_result['nbPages']):
         return redirect('/404')
@@ -457,18 +460,22 @@ def update_resource(id, json, db):
             resource.notes = json.get('notes')
             index_object['notes'] = json.get('notes')
 
-        db.session.commit()
-
         try:
             index.partial_update_object(index_object)
 
         except (AlgoliaUnreachableHostException, AlgoliaException) as e:
-            logger.exception(e)
-            print(f"Algolia failed to update index for resource '{resource.name}'")
+            if (environ.get("FLASK_ENV") != 'development'):
+                logger.exception(e)
+                msg = f"Algolia failed to update index for resource '{resource.name}'"
+                logger.warn(msg)
+                error = {'errors': [{"algolia-failed": {"message": msg}}]}
+                return utils.standardize_response(payload=error, status_code=500)
+
+        # Wait to commit the changes until we know that Aloglia was updated
+        db.session.commit()
 
         return utils.standardize_response(
-            payload=dict(data=resource.serialize)
-            )
+            payload=dict(data=resource.serialize))
 
     except IntegrityError as e:
         logger.exception(e)
@@ -481,58 +488,61 @@ def update_resource(id, json, db):
 
 def create_resources(json, db):
     try:
+        # Resources to return in the response
         created_resources = []
+        # Serialized Resources to send to Algolia
+        created_resources_algolia = []
+        # Resource IDs to delete if Algolia fails to index
+        resource_id_cache = []
 
+        # Create each Resource in the database one by one
         for resource in json:
-            res = create_resource(resource, db)
+            langs, categ = get_attributes(resource)
+            new_resource = Resource(
+                name=resource.get('name'),
+                url=resource.get('url'),
+                category=categ,
+                languages=langs,
+                paid=resource.get('paid'),
+                notes=resource.get('notes'))
 
-            # Pass along standardized responses generated from create_resource
-            # such as the result of `utils.standardize_response(status_code=500)`
-            if isinstance(res, tuple):
-                return res
+            try:
+                db.session.add(new_resource)
+                db.session.commit()
+                created_resources_algolia.append(new_resource.serialize_algolia_search)
+                resource_id_cache.append(new_resource.id)
 
-            # If it's anything other than a resource, something went wrong so bail here
-            if not isinstance(res, dict):
-                raise Exception(res)
+            except IntegrityError as e:
+                logger.exception(e)
+                return utils.standardize_response(status_code=422)
 
-            created_resources.append(res)
+            except Exception as e:
+                logger.exception(e)
+                return utils.standardize_response(status_code=500)
 
+            created_resources.append(new_resource.serialize)
+
+        # Take all the created resources and save them in Algolia with one API call
+        try:
+            index.save_objects(created_resources_algolia)
+
+        except (AlgoliaUnreachableHostException, AlgoliaException) as e:
+            if (environ.get("FLASK_ENV") != 'development'):
+                logger.exception(e)
+
+                # Remove created resources from the db to stay in sync with Algolia
+                for res_id in resource_id_cache:
+                    res = Resource.query.get(res_id)
+                    res.languages.clear()
+                    db.session.delete(res)
+                db.session.commit()
+
+                msg = "Algolia failed to index resources"
+                error = {'errors': [{"algolia-failed": {"message": msg}}]}
+                return utils.standardize_response(payload=error, status_code=500)
+
+        # Success
         return utils.standardize_response(payload=dict(data=created_resources))
     except Exception as e:
         logger.exception(e)
         return utils.standardize_response(status_code=500)
-
-
-def create_resource(json, db):
-    langs, categ = get_attributes(json)
-    new_resource = Resource(
-        name=json.get('name'),
-        url=json.get('url'),
-        category=categ,
-        languages=langs,
-        paid=json.get('paid'),
-        notes=json.get('notes'))
-
-    try:
-        db.session.add(new_resource)
-        db.session.commit()
-        index.save_object(new_resource.serialize_algolia_search)
-
-    except IntegrityError as e:
-        logger.exception(e)
-        return utils.standardize_response(status_code=422)
-
-    except (AlgoliaUnreachableHostException, AlgoliaException) as e:
-        if (environ.get("FLASK_ENV") != 'development'):
-            db.session.rollback()
-            logger.exception(e)
-            msg = f"Algolia failed to index new resource '{new_resource.name}'"
-            print(msg)
-            error = {'errors': [{"algolia-failed": {"message": msg}}]}
-            return utils.standardize_response(payload=error, status_code=500)
-
-    except Exception as e:
-        logger.exception(e)
-        return utils.standardize_response(status_code=500)
-
-    return new_resource.serialize

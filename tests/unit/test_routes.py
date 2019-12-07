@@ -2,6 +2,7 @@ from app.api.validations import MISSING_BODY, MISSING_PARAMS, INVALID_PARAMS
 from app.utils import get_error_code_from_status, random_string, msg_map, err_map
 from configs import PaginatorConfig
 from datetime import datetime, timedelta
+from os import environ
 
 ##########################################
 # Test Routes
@@ -903,15 +904,18 @@ def test_algolia_exception_error(module_client,
                                  module_db,
                                  fake_auth_from_oc,
                                  fake_algolia_exception):
+    # Reset the FLASK_ENV to run Algolia error handling code
+    environ["FLASK_ENV"] = "not_development"
     client = module_client
     first_term = random_string()
     apikey = get_api_key(client)
 
-    result = client.get(f"/api/v1/search?q=python")
+    response = client.get(f"/api/v1/search?q=python")
 
-    assert (result.status_code == 500)
+    assert (response.status_code == 500)
+    assert ("Algolia" in response.get_json().get("errors")[0].get("algolia-failed").get("message"))
 
-    resource = client.post("/api/v1/resources",
+    response = client.post("/api/v1/resources",
                            json=[dict(
                                name=f"{first_term}",
                                category="Website",
@@ -921,11 +925,13 @@ def test_algolia_exception_error(module_client,
                            headers={'x-apikey': apikey}
                            )
 
-    assert (resource.status_code == 200)
+    assert (response.status_code == 500)
+    assert ("Algolia" in response.get_json().get("errors")[0].get("algolia-failed").get("message"))
+
 
     updated_term = random_string()
 
-    response = client.put(f"/api/v1/resources/{resource.json['data'][0].get('id')}",
+    response = client.put("/api/v1/resources/1",
                           json=dict(
                               name="New name",
                               languages=["New language"],
@@ -937,36 +943,43 @@ def test_algolia_exception_error(module_client,
                           headers={'x-apikey': apikey}
                           )
 
-    assert (response.status_code == 200)
+    assert (response.status_code == 500)
+    assert ("Algolia" in response.get_json().get("errors")[0].get("algolia-failed").get("message"))
+
+    # Set it back to development for other tests
+    environ["FLASK_ENV"] = "development"
 
 
 def test_algolia_unreachable_host_error(module_client,
                                         module_db,
                                         fake_auth_from_oc,
                                         fake_algolia_unreachable_host,):
+    # Reset the FLASK_ENV to run Algolia error handling code
+    environ["FLASK_ENV"] = "not_development"
     client = module_client
     first_term = random_string()
     apikey = get_api_key(client)
 
-    result = client.get(f"/api/v1/search?q=python")
+    response = client.get("/api/v1/search?q=python")
 
-    assert (result.status_code == 500)
+    assert (response.status_code == 500)
+    assert ("Algolia" in response.get_json().get("errors")[0].get("algolia-failed").get("message"))
 
-    resource = client.post("/api/v1/resources",
+    response = client.post("/api/v1/resources",
                            json=[dict(
                                name=f"{first_term}",
                                category="Website",
                                url=f"{first_term}",
                                paid=False,
                            )],
-                           headers={'x-apikey': apikey}
-                           )
+                           headers={'x-apikey': apikey})
 
-    assert (resource.status_code == 200)
+    assert (response.status_code == 500)
+    assert ("Algolia" in response.get_json().get("errors")[0].get("algolia-failed").get("message"))
 
     updated_term = random_string()
 
-    response = client.put(f"/api/v1/resources/{resource.json['data'][0].get('id')}",
+    response = client.put("/api/v1/resources/1",
                           json=dict(
                               name="New name",
                               languages=["New language"],
@@ -978,7 +991,11 @@ def test_algolia_unreachable_host_error(module_client,
                           headers={'x-apikey': apikey}
                           )
 
-    assert (response.status_code == 200)
+    assert (response.status_code == 500)
+    assert ("Algolia" in response.get_json().get("errors")[0].get("algolia-failed").get("message"))
+
+    # Set it back to development for other tests
+    environ["FLASK_ENV"] = "development"
 
 
 def test_bad_requests(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
