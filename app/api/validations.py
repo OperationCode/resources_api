@@ -10,7 +10,7 @@ INVALID_PARAMS = "invalid-params"
 def requires_body(func):
     def wrapper(*args, **kwargs):
         try:
-            # JSON body is {}
+            # JSON body is {} or []
             if not request.get_json():
                 return missing_json_error()
         except Exception as e:
@@ -24,14 +24,31 @@ def requires_body(func):
 
 def missing_json_error():
     message = "You must provide a valid JSON body to use this endpoint"
-    error = {'errors': {MISSING_BODY: {"message": message}}}
+    error = {'errors': [{MISSING_BODY: {"message": message}}]}
     return standardize_response(error, status_code=422)
 
 
-def validate_resource(request, id=-1):
+def validate_resource_list(method, rlist):
+    errors = {'errors': []}
+    max_resources = 200
+
+    if len(rlist) > max_resources:
+        msg = f"This endpoint will accept a max of {max_resources} resources"
+        return {"errors": [{"too-long": {"message": msg}}]}
+
+    for i, r in enumerate(rlist):
+        validation = validate_resource(method, r)
+        if validation:
+            validation['index'] = i
+            errors['errors'].append(validation)
+
+    if bool(errors['errors']):
+        return errors
+
+
+def validate_resource(method, json, id=-1):
     errors = None
-    json = request.get_json()
-    validation_errors = {"errors": {}}
+    validation_errors = {}
     missing_params = {"params": []}
     invalid_params = {"params": []}
     required = []
@@ -41,7 +58,7 @@ def validate_resource(request, id=-1):
         col_name = column.name.replace('_id', '')
 
         # There are only required parameters for POSTing new resources.
-        if request.method == 'POST':
+        if method == 'POST':
             if column.nullable is False and col_name != 'id':
                 required.append(col_name)
 
@@ -97,19 +114,35 @@ def validate_resource(request, id=-1):
                 f"https://resources.operationcode.org/api/v1/{resource.id}"
 
     if missing_params["params"]:
-        validation_errors["errors"][MISSING_PARAMS] = missing_params
+        validation_errors[MISSING_PARAMS] = missing_params
         msg = " The following params were missing: "
         msg += ", ".join(missing_params.get("params")) + "."
-        validation_errors["errors"][MISSING_PARAMS]["message"] = msg
+        validation_errors[MISSING_PARAMS]["message"] = msg
         errors = True
 
     if invalid_params["params"]:
-        validation_errors["errors"][INVALID_PARAMS] = invalid_params
+        validation_errors[INVALID_PARAMS] = invalid_params
         msg = " The following params were invalid: "
         msg += ", ".join(invalid_params.get("params")) + ". "
         msg += invalid_params.get("message", "")
-        validation_errors["errors"][INVALID_PARAMS]["message"] = msg.strip()
+        validation_errors[INVALID_PARAMS]["message"] = msg.strip()
         errors = True
 
     if errors:
         return validation_errors
+
+
+def wrong_type(type_accepted, type_provided):
+    types = {
+        dict: "object",
+        int: "int",
+        list: "array",
+        float: "number",
+        bool: "boolean",
+        str: "string"
+    }
+    json_type = types[type_provided]
+    msg = f"Expected {type_accepted}, but found {json_type}"
+    validation_errors = {"errors": {"invalid-type": {"message": msg}}}
+
+    return standardize_response(payload=validation_errors, status_code=422)
