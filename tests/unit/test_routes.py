@@ -566,23 +566,28 @@ def test_create_resource(
     # Missing Required Fields
     response = client.post(
         '/api/v1/resources',
-        json=dict(notes="Missing Required fields"),
+        json=[dict(notes="Missing Required fields")],
         headers={'x-apikey': apikey}
     )
     assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors').get('missing-params'), dict))
-    assert (isinstance(response.json.get('errors').get(
+    assert (isinstance(response.json.get('errors')[0].get('missing-params'), dict))
+    assert (isinstance(response.json.get('errors')[0].get(
         'missing-params').get('message'), str))
-    assert ("name" in response.json.get('errors').get('missing-params').get("params"))
-    assert ("name" in response.json.get('errors').get('missing-params').get("message"))
-    assert ("url" in response.json.get('errors').get('missing-params').get("params"))
-    assert ("url" in response.json.get('errors').get('missing-params').get("message"))
+    assert ("name" in response.json.get('errors')[0].get(
+        'missing-params').get("params"))
+    assert ("name" in response.json.get('errors')[0].get(
+        'missing-params').get("message"))
+    assert ("url" in response.json.get('errors')[0].get('missing-params').get("params"))
+    assert ("url" in response.json.get('errors')[0].get(
+        'missing-params').get("message"))
     assert ("category" in response.json.get(
-        'errors').get('missing-params').get("params"))
+        'errors')[0].get('missing-params').get("params"))
     assert ("category" in response.json.get(
-        'errors').get('missing-params').get("message"))
-    assert ("paid" in response.json.get('errors').get('missing-params').get("params"))
-    assert ("paid" in response.json.get('errors').get('missing-params').get("message"))
+        'errors')[0].get('missing-params').get("message"))
+    assert ("paid" in response.json.get('errors')[0].get(
+        'missing-params').get("params"))
+    assert ("paid" in response.json.get('errors')[0].get(
+        'missing-params').get("message"))
 
 
 def test_update_resource(
@@ -741,9 +746,10 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
     response = client.put("/api/v1/resources/2",
                           headers={'x-apikey': apikey}
                           )
-    assert (isinstance(response.json.get('errors').get('missing-body'), dict))
+    assert (isinstance(response.json.get('errors')[0].get('missing-body'), dict))
     assert (
-        isinstance(response.json.get('errors').get('missing-body').get('message'), str)
+        isinstance(response.json.get('errors')[0].get('missing-body').get('message'),
+                   str)
     )
 
     response = client.put(
@@ -754,9 +760,10 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
         follow_redirects=True
     )
     assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors').get('missing-body'), dict))
+    assert (isinstance(response.json.get('errors')[0].get('missing-body'), dict))
     assert (
-        isinstance(response.json.get('errors').get('missing-body').get('message'), str)
+        isinstance(response.json.get('errors')[0].get('missing-body').get('message'),
+                   str)
     )
 
 
@@ -771,12 +778,12 @@ def test_search(
     # Create resource and find it in the search results.
     resource = client.post(
         "/api/v1/resources",
-        json=dict(
+        json=[dict(
             name=f"{first_term}",
             category="Website",
             url=f"{first_term}",
             paid=False,
-        ),
+        )],
         headers={'x-apikey': apikey}
     )
     result = client.get(f"/api/v1/search?q={first_term}")
