@@ -2,6 +2,7 @@ algoliasearch>=2.0,<3.0
 flake8==3.7.9
 Flask-Limiter==1.1.0
 Flask-Migrate==2.5.2
+Flask-Cors==3.0.8
 psycopg2-binary==2.8.4
 pytest-mock==1.13.0
 pytest-cov==2.8.1
@@ -13,3 +14,4 @@ prometheus_client==0.7.1
 uWSGI==2.0.18
 py-healthcheck==1.9.0
 bandit==1.5.1
+
