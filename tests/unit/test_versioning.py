@@ -28,7 +28,7 @@ def test_defaults_to_latest_api_version_when_api_header_is_not_passed(app, clien
     assert response.json == dict(version=expected_version)
 
 
-@pytest.mark.parametrize('header_value', ['99.99', 'i-am-a-monkey', '1.2.0-alpha.1'])
+@pytest.mark.parametrize('header_value', ('99.99', 'i-am-a-monkey', '1.2.0-alpha.1'))
 def test_throws_exception_when_invalid_version_passed_in_api_header(
         app, client, header_value):
     @app.route('/endpoint')
@@ -44,7 +44,7 @@ def test_throws_exception_when_invalid_version_passed_in_api_header(
         '/endpoint', headers=[('X-API-Version', header_value)])
 
     response_text = str(response.data, 'utf-8')
-    assert (response_text == f'{header_value} is not a valid API version'
+    assert (response_text == InvalidApiVersion(header_value).description
             and response.status_code == 400)
 
 
