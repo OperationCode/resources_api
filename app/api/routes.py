@@ -21,7 +21,11 @@ latency_summary = Summary('request_latency_seconds', 'Length of request')
 
 logger = utils.setup_logger('routes_logger')
 
-ALLOWED_ORIGINS = ['http://localhost:3000', 'https://operationcode.org', r"https:\/\/(.*\.)?operation-code(-.*)?\.now\.sh"]
+ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    r"https:\/\/(www\.)?operationcode\.org",
+    r"https:\/\/(.*\.)?operation-code(-.*)?\.now\.sh"
+]
 
 
 # Routes
