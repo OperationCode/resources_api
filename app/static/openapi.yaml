@@ -22,6 +22,11 @@ info:
 
     When you create a request to an authenticated route, you *MUST* include the header `x-apikey` along with your API key.
 
+    # Versioning
+    To ensure contracts with the api are not broken with future updates, you may supply a version number in you request header.
+
+    Include an 'X-Api-Version' header with a valid version in your request.
+
 
   contact:
     name: Operation Code
