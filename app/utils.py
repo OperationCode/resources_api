@@ -4,7 +4,6 @@ import random
 import string
 import sys
 
-from app import API_VERSION
 from .versioning import LATEST_API_VERSION, versioned
 from flask import jsonify
 from app import db
