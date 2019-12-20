@@ -13,7 +13,6 @@ from datetime import datetime
 from prometheus_client import Counter, Summary
 import app.utils as utils
 from os import environ
-from flask_cors import cross_origin
 
 # Metrics
 failures_counter = Counter('my_failures', 'Number of exceptions raised')
@@ -21,18 +20,10 @@ latency_summary = Summary('request_latency_seconds', 'Length of request')
 
 logger = utils.setup_logger('routes_logger')
 
-ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    r"https:\/\/(www\.)?operationcode\.org",
-    r"https:\/\/(.*\.)?operation-code(-.*)?\.now\.sh"
-]
-
-
 # Routes
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/resources', methods=['GET'], endpoint='get_resources')
-@cross_origin(origins=ALLOWED_ORIGINS)
 def resources():
     return get_resources()
 
@@ -40,7 +31,6 @@ def resources():
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/resources', methods=['POST'], endpoint='create_resources')
-@cross_origin(origins=ALLOWED_ORIGINS[1:])
 @requires_body
 @authenticate
 def post_resources():
@@ -60,7 +50,6 @@ def post_resources():
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>', methods=['GET'], endpoint='get_resource')
-@cross_origin(origins=ALLOWED_ORIGINS)
 def resource(id):
     return get_resource(id)
 
@@ -68,7 +57,6 @@ def resource(id):
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>', methods=['PUT'], endpoint='update_resource')
-@cross_origin(origins=ALLOWED_ORIGINS[1:])
 @requires_body
 @authenticate
 def put_resource(id):
@@ -88,7 +76,6 @@ def put_resource(id):
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>/upvote', methods=['PUT'])
-@cross_origin(origins=ALLOWED_ORIGINS[1:])
 def upvote(id):
     return update_votes(id, 'upvotes')
 
@@ -96,7 +83,6 @@ def upvote(id):
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>/downvote', methods=['PUT'])
-@cross_origin(origins=ALLOWED_ORIGINS[1:])
 def downvote(id):
     return update_votes(id, 'downvotes')
 
@@ -104,7 +90,6 @@ def downvote(id):
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>/click', methods=['PUT'])
-@cross_origin(origins=ALLOWED_ORIGINS[1:])
 def update_resource_click(id):
     return add_click(id)
 
@@ -112,7 +97,6 @@ def update_resource_click(id):
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/search', methods=['GET'])
-@cross_origin(origins=ALLOWED_ORIGINS)
 def search():
     return search_results()
 
@@ -120,7 +104,6 @@ def search():
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/languages', methods=['GET'])
-@cross_origin(origins=ALLOWED_ORIGINS)
 def languages():
     return get_languages()
 
@@ -128,7 +111,6 @@ def languages():
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/languages/<int:id>', methods=['GET'], endpoint='get_language')
-@cross_origin(origins=ALLOWED_ORIGINS)
 def language(id):
     return get_language(id)
 
@@ -136,7 +118,6 @@ def language(id):
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/categories', methods=['GET'])
-@cross_origin(origins=ALLOWED_ORIGINS)
 def categories():
     return get_categories()
 
@@ -144,7 +125,6 @@ def categories():
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/categories/<int:id>', methods=['GET'], endpoint='get_category')
-@cross_origin(origins=ALLOWED_ORIGINS)
 def category(id):
     return get_category(id)
 
@@ -152,7 +132,6 @@ def category(id):
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/apikey', methods=['POST'], endpoint='apikey')
-@cross_origin(origins=ALLOWED_ORIGINS)
 @requires_body
 def apikey():
     """
