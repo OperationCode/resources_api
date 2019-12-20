@@ -23,13 +23,13 @@ info:
     When you create a request to an authenticated route, you *MUST* include the header `x-apikey` along with your API key.
 
     # Versioning
-        To ensure contracts with the api are not broken with future updates, you may supply a version number in your request header.
-        Include an `X-Api-Version` header with a valid version in your request:
-          ```
-          X-Api-Version: 1.0
-          ```
-        ### Default Versions
-        By default, any non-versioned request will default to the newest version of the API. Users of the API are strongly encouraged to specify the requested version to avoid unexpected changes when new versions are added.
+    To ensure contracts with the api are not broken with future updates, you may supply a version number in your request header.
+    Include an `X-Api-Version` header with a valid version in your request:
+      ```
+      X-Api-Version: 1.0
+      ```
+    ### Default Versions
+    By default, any non-versioned request will default to the newest version of the API. Users of the API are strongly encouraged to specify the requested version to avoid unexpected changes when new versions are added.
 
 
   contact:
