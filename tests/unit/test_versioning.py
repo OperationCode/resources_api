@@ -5,7 +5,7 @@ from app.versioning import versioned, LATEST_API_VERSION, InvalidApiVersion
 
 
 @pytest.mark.parametrize('versions', ['1.4', '1.4.1-snapshot'])
-def test_passes_valid_version_specified_in_api_header_to_wrapped_route(app, client, versions):
+def test_passes_valid_version_from_api_header_to_wrapped_route(app, client, versions):
     @app.route('/endpoint')
     @versioned(valid_versions=[versions])
     def endpoint(version: str):

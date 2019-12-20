@@ -6,8 +6,6 @@ import sys
 
 from .versioning import LATEST_API_VERSION, versioned
 from flask import jsonify
-from app import db
-from .models import Key
 
 err_map = {
     400: "Bad Request",
