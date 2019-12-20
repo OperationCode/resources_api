@@ -14,13 +14,11 @@ from prometheus_client import Counter, Summary
 import app.utils as utils
 from os import environ
 
-
 # Metrics
 failures_counter = Counter('my_failures', 'Number of exceptions raised')
 latency_summary = Summary('request_latency_seconds', 'Length of request')
 
 logger = utils.setup_logger('routes_logger')
-
 
 # Routes
 @latency_summary.time()
