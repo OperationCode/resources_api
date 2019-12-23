@@ -1,9 +1,14 @@
-import time
 import os
+import time
+
 import yaml
 
+import click
+from app import index, search_client
+from app.api.auth import (ApiKeyError, blacklist_key,
+                          find_key_by_apikey_or_email, rotate_key)
 from sqlalchemy import exc
-from app import search_client, index
+
 from .models import Category, Language, Resource
 
 
@@ -43,7 +48,7 @@ def import_resources(db):   # pragma: no cover
 
         if existing_resource:
             resource == existing_resource or \
-                        update_resource(resource, existing_resource)
+                update_resource(resource, existing_resource)
         else:
             create_resource(resource, db)
 
@@ -145,6 +150,11 @@ def register(app, db):  # pragma: no cover
         """Reindex Commands"""
         pass
 
+    @app.cli.group()
+    def apikey():
+        """apikey commands"""
+        pass
+
     @db_migrate.command()
     def init():
         print(db)
@@ -162,3 +172,40 @@ def register(app, db):  # pragma: no cover
     @algolia.command()
     def reindex():
         reindex_all()
+
+    @apikey.command()
+    @click.argument('apikey_or_email')
+    def blacklist(apikey_or_email):
+        try:
+            key = blacklist_key(apikey_or_email, True, db.session)
+        except ApiKeyError as error:
+            print(error.message)
+            return error.error_code
+
+        print(f'Blacklisted {key}')
+
+    @apikey.command()
+    @click.argument('apikey_or_email')
+    def reactivate(apikey_or_email):
+        try:
+            key = blacklist_key(apikey_or_email, False, db.session)
+        except ApiKeyError as error:
+            print(error.message)
+            return error.error_code
+
+        print(f'Reactivated {key}')
+
+    @apikey.command()
+    @click.argument('apikey_or_email')
+    def rotate(apikey_or_email):
+        key = find_key_by_apikey_or_email(apikey_or_email)
+        if not key:
+            print('Could not find apikey or email.')
+            return 1
+
+        key = rotate_key(key, db.session)
+        if not key:
+            print('Error trying to rotate key.')
+            return -1
+
+        print(f'Rotated {key}')

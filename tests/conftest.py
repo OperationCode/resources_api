@@ -1,7 +1,9 @@
 import pytest
-from app import create_app, db as _db
+from algoliasearch.exceptions import (AlgoliaException,
+                                      AlgoliaUnreachableHostException)
+from app import create_app
+from app import db as _db
 from app.utils import standardize_response
-from algoliasearch.exceptions import AlgoliaUnreachableHostException, AlgoliaException
 from configs import Config
 
 TEST_DATABASE_URI = 'sqlite:///:memory:'
@@ -99,6 +101,15 @@ def module_db():
 
 
 @pytest.fixture(scope='function')
+def function_empty_db():
+    # Create the database and the database table
+    _db.create_all()
+    yield _db  # this is where the testing happens!
+
+    _db.drop_all()
+
+
+@pytest.fixture(scope='function')
 def fake_auth_from_oc(mocker):
     """
     Changes the return value of requests.post to be a custom response
@@ -171,10 +182,7 @@ def fake_key_query_error(mocker):
     Mocks an exception being raised during a query to test error handling
     """
 
-    def key_query():
-        raise Exception()
-
-    mocker.patch('app.models.Key.query', side_effect=key_query)
+    mocker.patch('app.models.Key.query', new=None)
 
 
 @pytest.fixture(scope='function')
@@ -183,8 +191,14 @@ def fake_algolia_save(mocker):
     Mocks a save_object() call to algolia
     """
 
-    mocker.patch('algoliasearch.search_index.SearchIndex.save_object', return_value=None)
-    mocker.patch('algoliasearch.search_index.SearchIndex.partial_update_object', return_value=None)
+    mocker.patch(
+        'algoliasearch.search_index.SearchIndex.save_object',
+        return_value=None
+    )
+    mocker.patch(
+        'algoliasearch.search_index.SearchIndex.partial_update_object',
+        return_value=None
+    )
 
 
 @pytest.fixture(scope='function')
@@ -216,7 +230,8 @@ def fake_algolia_search(mocker):
                 'hitsPerPage': page_info['hitsPerPage'],
                 'nbHits': 2}
 
-    mocker.patch('algoliasearch.search_index.SearchIndex.search', side_effect=algolia_search)
+    mocker.patch('algoliasearch.search_index.SearchIndex.search',
+                 side_effect=algolia_search)
 
 
 @pytest.fixture(scope='function')
@@ -227,10 +242,12 @@ def fake_algolia_unreachable_host(mocker):
     def algolia_exception(*args):
         raise AlgoliaUnreachableHostException()
 
-    mocker.patch('algoliasearch.search_index.SearchIndex.search', side_effect=algolia_exception)
-    mocker.patch('algoliasearch.search_index.SearchIndex.save_object', side_effect=algolia_exception)
-    mocker.patch('algoliasearch.search_index.SearchIndex.save_objects', side_effect=algolia_exception)
-    mocker.patch('algoliasearch.search_index.SearchIndex.partial_update_object', side_effect=algolia_exception)
+    mocker.patch('algoliasearch.search_index.SearchIndex.search',
+                 side_effect=algolia_exception)
+    mocker.patch('algoliasearch.search_index.SearchIndex.save_object',
+                 side_effect=algolia_exception)
+    mocker.patch('algoliasearch.search_index.SearchIndex.partial_update_object',
+                 side_effect=algolia_exception)
 
 
 @pytest.fixture(scope='function')
@@ -241,9 +258,12 @@ def fake_algolia_exception(mocker):
     def algolia_exception(*args):
         raise AlgoliaException()
 
-    mocker.patch('algoliasearch.search_index.SearchIndex.search', side_effect=algolia_exception)
-    mocker.patch('algoliasearch.search_index.SearchIndex.save_object', side_effect=algolia_exception)
-    mocker.patch('algoliasearch.search_index.SearchIndex.partial_update_object', side_effect=algolia_exception)
+    mocker.patch('algoliasearch.search_index.SearchIndex.search',
+                 side_effect=algolia_exception)
+    mocker.patch('algoliasearch.search_index.SearchIndex.save_object',
+                 side_effect=algolia_exception)
+    mocker.patch('algoliasearch.search_index.SearchIndex.partial_update_object',
+                 side_effect=algolia_exception)
 
 
 @pytest.fixture(scope='function')

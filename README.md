@@ -77,6 +77,12 @@ If you see some JSON with a bunch of resources, it worked! If you encounter any 
     - It may be helpful to save this apikey in a secure place like a password manager.
     - Do not hard-code your apikey in your own scripts. Always use an [environment variable](https://www.twilio.com/blog/2017/01/how-to-set-environment-variables.html)
     - You can always re-issue the POST to recover your apikey.
+    - To rotate your apikey (getting a new apikey and making your old key invalid), issue an empty `POST` request to `/api/v1/apikey/rotate` with your apikey included in a header `x-apikey: yourapikey`:
+        ```sh
+        curl -X POST \
+          http://localhost:5000/api/v1/apikey/rotate \
+          -H 'x-apikey: 0a14f702da134390ae43f3639686fe26'
+        ```
 
 1. When you create a request to an authenticated route, you must include a header `x-apikey: yourapikey`
 

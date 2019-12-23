@@ -1,18 +1,22 @@
-from flask import request, redirect
-from sqlalchemy import or_, func
-from sqlalchemy.exc import IntegrityError
-from algoliasearch.exceptions import AlgoliaUnreachableHostException, AlgoliaException
-from app.api import bp
-from app.api.auth import is_user_oc_member, authenticate
-from app.api.validations import validate_resource, validate_resource_list, \
-    requires_body, wrong_type
-from app.models import Language, Resource, Category, Key
-from app import Config, db, index
-from dateutil import parser
 from datetime import datetime
-from prometheus_client import Counter, Summary
-import app.utils as utils
 from os import environ
+
+from dateutil import parser
+
+import app.utils as utils
+from algoliasearch.exceptions import (AlgoliaException,
+                                      AlgoliaUnreachableHostException)
+from app import Config, db, index
+from app.api import bp
+from app.api.auth import (authenticate, create_new_apikey, is_user_oc_member,
+                          rotate_key)
+from app.api.validations import (requires_body, validate_resource,
+                                 validate_resource_list, wrong_type)
+from app.models import Category, Key, Language, Resource
+from flask import g, redirect, request
+from prometheus_client import Counter, Summary
+from sqlalchemy import func, or_
+from sqlalchemy.exc import IntegrityError
 
 # Metrics
 failures_counter = Counter('my_failures', 'Number of exceptions raised')
@@ -129,6 +133,13 @@ def category(id):
     return get_category(id)
 
 
+def _unauthorized_response():
+    message = "The email or password you submitted is incorrect " \
+              "or your account is not allowed api access"
+    payload = {'errors': {"invalid-credentials": {"message": message}}}
+    return utils.standardize_response(payload=payload, status_code=401)
+
+
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/apikey', methods=['POST'], endpoint='apikey')
@@ -145,22 +156,39 @@ def apikey():
     is_oc_member = is_user_oc_member(email, password)
 
     if not is_oc_member:
-        message = "The email or password you submitted is incorrect"
-        payload = {'errors': {"invalid-credentials": {"message": message}}}
-        return utils.standardize_response(payload=payload, status_code=401)
+        return _unauthorized_response()
 
     try:
         # We need to check the database for an existing key
         apikey = Key.query.filter_by(email=email).first()
+
+        # Don't return success for blacklisted keys
+        if apikey and apikey.blacklisted:
+            return _unauthorized_response()
+
         if not apikey:
             # Since they're already authenticated by is_oc_user(), we know we
             # can generate an API key for them if they don't already have one
-            return utils.create_new_apikey(email, logger)
+            apikey = create_new_apikey(email, db.session)
+            if not apikey:
+                return utils.standardize_response(status_code=500)
+
         logger.info(apikey.serialize)
         return utils.standardize_response(payload=dict(data=apikey.serialize))
     except Exception as e:
         logger.exception(e)
         return utils.standardize_response(status_code=500)
+
+
+@latency_summary.time()
+@failures_counter.count_exceptions()
+@bp.route('/apikey/rotate', methods=['POST'], endpoint='rotate_apikey')
+@authenticate
+def rotate_apikey():
+    new_key = rotate_key(g.auth_key, db.session)
+    if not new_key:
+        return utils.standardize_response(status_code=500)
+    return utils.standardize_response(payload=dict(data=new_key.serialize))
 
 
 # Helpers
@@ -197,9 +225,9 @@ def get_resources():
         # Take the list of languages they pass in, join them all with OR
         q = q.filter(
             or_(*map(Resource.languages.any,
-                map(Language.name.ilike, languages))
+                     map(Language.name.ilike, languages))
                 )
-            )
+        )
 
     # Filter on category
     if category:
@@ -309,13 +337,13 @@ def search_results():
     results = [utils.format_resource_search(result) for result in search_result['hits']]
 
     pagination_details = {
-                "pagination_details": {
-                    "page": search_result['page'],
-                    "number_of_pages": search_result['nbPages'],
-                    "records_per_page": search_result['hitsPerPage'],
-                    "total_count": search_result['nbHits'],
-                }
+        "pagination_details": {
+            "page": search_result['page'],
+            "number_of_pages": search_result['nbPages'],
+            "records_per_page": search_result['hitsPerPage'],
+            "total_count": search_result['nbHits'],
         }
+    }
     return utils.standardize_response(payload=dict(data=results, **pagination_details))
 
 
@@ -473,7 +501,8 @@ def update_resource(id, json, db):
         db.session.commit()
 
         return utils.standardize_response(
-            payload=dict(data=resource.serialize))
+            payload=dict(data=resource.serialize)
+        )
 
     except IntegrityError as e:
         logger.exception(e)

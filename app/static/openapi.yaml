@@ -80,6 +80,29 @@ paths:
                 status: 'Unauthorized'
                 status_code: 401
 
+  /apikey/rotate:
+    post:
+      summary: API Key Rotation
+      description: Rotate the API key provided in the x-apikey header
+      tags:
+        - Rotate Key
+      responses:
+        200:
+          description: API key rotation response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyResponse'
+              example:
+                apiVersion: '1.0'
+                data:
+                  apikey: '1234567890'
+                  email: 'your@email.com'
+                status: 'ok'
+                status_code: 200
+        401:
+          $ref: '#/components/responses/UnauthorizedNoApiKey'
+
   /search:
     get:
       summary: Search
@@ -430,7 +453,7 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
         401:
-          $ref: '#/components/responses/UnauthorizedCreateUpdate'
+          $ref: '#/components/responses/UnauthorizedNoApiKey'
         422:
           description: Invalid request
           content:
@@ -619,7 +642,7 @@ paths:
         400:
           $ref: '#/components/responses/BadRequest'
         401:
-          $ref: '#/components/responses/UnauthorizedCreateUpdate'
+          $ref: '#/components/responses/UnauthorizedNoApiKey'
         422:
           description: Invalid request
           content:
@@ -1169,7 +1192,7 @@ components:
               'status_code': 401
             }
 
-    UnauthorizedCreateUpdate:
+    UnauthorizedNoApiKey:
       description: Unauthorized access
       content:
         application/json:
