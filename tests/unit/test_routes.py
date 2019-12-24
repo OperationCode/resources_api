@@ -4,7 +4,9 @@ from os import environ
 from app.api.auth import blacklist_key
 from app.utils import get_error_code_from_status, msg_map, random_string
 from app.api.validations import MISSING_BODY, MISSING_PARAMS, INVALID_PARAMS
+from app.versioning import LATEST_API_VERSION
 from configs import PaginatorConfig
+from yaml import load
 
 ##########################################
 # Test Routes
@@ -103,6 +105,19 @@ def test_single_resource_out_of_bounds(module_client, module_db):
 def test_get_favicon(module_client):
     response = module_client.get("favicon.ico")
     assert (response.status_code == 200)
+
+
+def test_get_docs(module_client):
+    response = module_client.get("/")
+    assert (response.status_code == 200)
+
+
+def test_open_api_yaml(module_client):
+    response = module_client.get("/openapi.yaml")
+    assert (response.status_code == 200)
+    open_api_yaml = load(response.data)
+    assert (isinstance(open_api_yaml, dict))
+    assert (open_api_yaml.get("info").get("version") == LATEST_API_VERSION)
 
 
 def test_paginator(module_client, module_db):
