@@ -1,5 +1,11 @@
+from prometheus_client import Counter, Summary
+
 from app import utils as utils
 from app.models import Category, Language
+
+logger = utils.setup_logger('routes_logger')
+latency_summary = Summary('request_latency_seconds', 'Length of request')
+failures_counter = Counter('my_failures', 'Number of exceptions raised')
 
 
 def _unauthorized_response():

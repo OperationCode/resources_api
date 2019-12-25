@@ -6,8 +6,7 @@ from sqlalchemy import func, or_
 
 from app import utils as utils
 from app.api import bp
-from app.api.routes.logger import logger
-from app.api.routes.metrics import failures_counter, latency_summary
+from app.api.routes.helpers import failures_counter, latency_summary, logger
 from app.models import Category, Language, Resource
 from configs import Config
 

@@ -7,9 +7,8 @@ from sqlalchemy.exc import IntegrityError
 from app import db, index, utils as utils
 from app.api import bp
 from app.api.auth import authenticate
-from app.api.routes.helpers import get_attributes
-from app.api.routes.logger import logger
-from app.api.routes.metrics import failures_counter, latency_summary
+from app.api.routes.helpers import (
+    failures_counter, get_attributes, latency_summary, logger)
 from app.api.validations import requires_body, validate_resource_list, wrong_type
 from app.models import Resource
 

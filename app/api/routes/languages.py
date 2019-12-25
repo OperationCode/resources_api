@@ -2,8 +2,7 @@ from flask import redirect, request
 
 from app import utils as utils
 from app.api import bp
-from app.api.routes.logger import logger
-from app.api.routes.metrics import failures_counter, latency_summary
+from app.api.routes.helpers import failures_counter, latency_summary, logger
 from app.models import Language
 from configs import Config
 
