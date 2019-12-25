@@ -4,25 +4,20 @@ from os import environ
 from dateutil import parser
 
 import app.utils as utils
-from algoliasearch.exceptions import (AlgoliaException,
-                                      AlgoliaUnreachableHostException)
+from algoliasearch.exceptions import AlgoliaException, AlgoliaUnreachableHostException
 from app import Config, db, index
 from app.api import bp
-from app.api.auth import (authenticate, create_new_apikey, is_user_oc_member,
-                          rotate_key)
-from app.api.validations import (requires_body, validate_resource,
-                                 validate_resource_list, wrong_type)
-from app.models import Category, Key, Language, Resource
-from flask import g, redirect, request
-from prometheus_client import Counter, Summary
+from app.api.auth import authenticate
+from app.api.routes import api_key
+from app.api.routes.logger import logger
+from app.api.routes.metrics import latency_summary, failures_counter
+from app.api.validations import (
+    requires_body, validate_resource, validate_resource_list, wrong_type)
+from app.models import Category, Language, Resource
+from flask import redirect, request
 from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
 
-# Metrics
-failures_counter = Counter('my_failures', 'Number of exceptions raised')
-latency_summary = Summary('request_latency_seconds', 'Length of request')
-
-logger = utils.setup_logger('routes_logger')
 
 # Routes
 @latency_summary.time()
@@ -131,64 +126,6 @@ def categories():
 @bp.route('/categories/<int:id>', methods=['GET'], endpoint='get_category')
 def category(id):
     return get_category(id)
-
-
-def _unauthorized_response():
-    message = "The email or password you submitted is incorrect " \
-              "or your account is not allowed api access"
-    payload = {'errors': {"invalid-credentials": {"message": message}}}
-    return utils.standardize_response(payload=payload, status_code=401)
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/apikey', methods=['POST'], endpoint='apikey')
-@requires_body
-def apikey():
-    """
-    Verify OC membership and return an API key. The API key will be
-    saved in the DB to verify use as well as returned upon subsequent calls
-    to this endpoint with the same OC credentials.
-    """
-    json = request.get_json()
-    email = json.get('email')
-    password = json.get('password')
-    is_oc_member = is_user_oc_member(email, password)
-
-    if not is_oc_member:
-        return _unauthorized_response()
-
-    try:
-        # We need to check the database for an existing key
-        apikey = Key.query.filter_by(email=email).first()
-
-        # Don't return success for blacklisted keys
-        if apikey and apikey.blacklisted:
-            return _unauthorized_response()
-
-        if not apikey:
-            # Since they're already authenticated by is_oc_user(), we know we
-            # can generate an API key for them if they don't already have one
-            apikey = create_new_apikey(email, db.session)
-            if not apikey:
-                return utils.standardize_response(status_code=500)
-
-        logger.info(apikey.serialize)
-        return utils.standardize_response(payload=dict(data=apikey.serialize))
-    except Exception as e:
-        logger.exception(e)
-        return utils.standardize_response(status_code=500)
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/apikey/rotate', methods=['POST'], endpoint='rotate_apikey')
-@authenticate
-def rotate_apikey():
-    new_key = rotate_key(g.auth_key, db.session)
-    if not new_key:
-        return utils.standardize_response(status_code=500)
-    return utils.standardize_response(payload=dict(data=new_key.serialize))
 
 
 # Helpers
@@ -425,14 +362,13 @@ def get_attributes(json):
 
 
 def update_votes(id, vote_direction):
-
     resource = Resource.query.get(id)
 
     if not resource:
         return redirect('/404')
 
     initial_count = getattr(resource, vote_direction)
-    setattr(resource, vote_direction, initial_count+1)
+    setattr(resource, vote_direction, initial_count + 1)
     db.session.commit()
 
     return utils.standardize_response(payload=dict(data=resource.serialize))
