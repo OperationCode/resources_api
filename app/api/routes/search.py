@@ -1,10 +1,10 @@
-from algoliasearch.exceptions import AlgoliaUnreachableHostException, AlgoliaException
-from flask import request, redirect
+from algoliasearch.exceptions import AlgoliaException, AlgoliaUnreachableHostException
+from flask import redirect, request
 
 from app import index, utils as utils
 from app.api import bp
-from app.api.routes.metrics import latency_summary, failures_counter
 from app.api.routes.logger import logger
+from app.api.routes.metrics import failures_counter, latency_summary
 from configs import Config
 
 

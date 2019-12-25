@@ -1,11 +1,11 @@
-from flask import request, g
+from flask import g, request
 
 from app import db, utils as utils
 from app.api import bp
-from app.api.auth import is_user_oc_member, create_new_apikey, authenticate, rotate_key
-from app.api.routes.logger import logger
-from app.api.routes.metrics import latency_summary, failures_counter
+from app.api.auth import authenticate, create_new_apikey, is_user_oc_member, rotate_key
 from app.api.routes.helpers import _unauthorized_response
+from app.api.routes.logger import logger
+from app.api.routes.metrics import failures_counter, latency_summary
 from app.api.validations import requires_body
 from app.models import Key
 
