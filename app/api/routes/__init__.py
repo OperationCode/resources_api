@@ -8,7 +8,7 @@ from algoliasearch.exceptions import AlgoliaException, AlgoliaUnreachableHostExc
 from app import Config, db, index
 from app.api import bp
 from app.api.auth import authenticate
-from app.api.routes import api_key, categories
+from app.api.routes import api_key, categories, languages
 from app.api.routes.logger import logger
 from app.api.routes.metrics import latency_summary, failures_counter
 from app.api.validations import (
@@ -98,20 +98,6 @@ def update_resource_click(id):
 @bp.route('/search', methods=['GET'])
 def search():
     return search_results()
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/languages', methods=['GET'])
-def languages():
-    return get_languages()
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/languages/<int:id>', methods=['GET'], endpoint='get_language')
-def language(id):
-    return get_language(id)
 
 
 # Helpers
@@ -268,36 +254,6 @@ def search_results():
         }
     }
     return utils.standardize_response(payload=dict(data=results, **pagination_details))
-
-
-def get_languages():
-    language_paginator = utils.Paginator(Config.LANGUAGE_PAGINATOR, request)
-    query = Language.query
-
-    try:
-        paginated_languages = language_paginator.paginated_data(query)
-        if not paginated_languages:
-            return redirect('/404')
-        language_list = [
-            language.serialize for language in paginated_languages.items
-        ]
-        pagination_details = language_paginator.pagination_details(paginated_languages)
-    except Exception as e:
-        logger.exception(e)
-        return utils.standardize_response(status_code=500)
-
-    return utils.standardize_response(payload=dict(
-        data=language_list,
-        **pagination_details))
-
-
-def get_language(id):
-    language = Language.query.get(id)
-
-    if language:
-        return utils.standardize_response(payload=dict(data=(language.serialize)))
-
-    return redirect('/404')
 
 
 def get_attributes(json):
