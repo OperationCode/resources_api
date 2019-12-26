@@ -8,7 +8,7 @@ latency_summary = Summary('request_latency_seconds', 'Length of request')
 failures_counter = Counter('my_failures', 'Number of exceptions raised')
 
 
-def _unauthorized_response():
+def unauthorized_response():
     message = "The email or password you submitted is incorrect " \
               "or your account is not allowed api access"
     payload = {'errors': {"invalid-credentials": {"message": message}}}

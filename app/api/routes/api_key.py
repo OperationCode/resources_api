@@ -4,7 +4,7 @@ from app import db, utils as utils
 from app.api import bp
 from app.api.auth import authenticate, create_new_apikey, is_user_oc_member, rotate_key
 from app.api.routes.helpers import (
-    _unauthorized_response, failures_counter, latency_summary, logger)
+    unauthorized_response, failures_counter, latency_summary, logger)
 from app.api.validations import requires_body
 from app.models import Key
 
@@ -25,7 +25,7 @@ def apikey():
     is_oc_member = is_user_oc_member(email, password)
 
     if not is_oc_member:
-        return _unauthorized_response()
+        return unauthorized_response()
 
     try:
         # We need to check the database for an existing key
@@ -33,7 +33,7 @@ def apikey():
 
         # Don't return success for blacklisted keys
         if apikey and apikey.blacklisted:
-            return _unauthorized_response()
+            return unauthorized_response()
 
         if not apikey:
             # Since they're already authenticated by is_oc_user(), we know we
