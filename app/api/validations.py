@@ -5,6 +5,7 @@ from app.utils import standardize_response
 MISSING_BODY = "missing-body"
 MISSING_PARAMS = "missing-params"
 INVALID_PARAMS = "invalid-params"
+INVALID_TYPE = "invalid-type"
 
 
 def requires_body(func):
@@ -143,6 +144,6 @@ def wrong_type(type_accepted, type_provided):
     }
     json_type = types[type_provided]
     msg = f"Expected {type_accepted}, but found {json_type}"
-    validation_errors = {"errors": {"invalid-type": {"message": msg}}}
+    validation_errors = {"errors": {INVALID_TYPE: {"message": msg}}}
 
     return standardize_response(payload=validation_errors, status_code=422)

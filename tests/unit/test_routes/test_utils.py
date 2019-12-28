@@ -1,5 +1,8 @@
 from app.utils import get_error_code_from_status
+from .helpers import assert_correct_response
 from configs import PaginatorConfig
+from app.versioning import LATEST_API_VERSION
+from yaml import load
 
 
 def test_internal_server_error_handler(
@@ -32,11 +35,7 @@ def test_method_not_allowed_handler(module_client):
     client = module_client
 
     response = client.patch('api/v1/resources')
-    assert (response.status_code == 405)
-    assert (isinstance(response.json.get('errors')
-            .get(get_error_code_from_status(response.status_code)), dict))
-    assert (isinstance(response.json.get('errors')
-            .get(get_error_code_from_status(response.status_code)).get('message'), str))
+    assert_correct_response(response, 405)
 
 
 def test_paginator(module_client, module_db):
@@ -85,8 +84,10 @@ def test_bad_standardize_response(
     resources = client.get("api/v1/resources")
 
     assert (resources.status_code == 500)
-    assert (resources.json['errors'] is not None)
-    assert (resources.json['errors']['errors']['server-error'] is not None)
+    errors = resources.json['errors']
+    assert (isinstance(errors, dict))
+    assert (isinstance(errors['errors']['server-error'], dict))
+    assert (isinstance(errors['errors']['server-error']['message'], str))
 
 
 def test_health_check(module_client):
@@ -94,6 +95,27 @@ def test_health_check(module_client):
     assert (response.status_code == 200)
     print(response.get_json())
     assert (response.get_json().get("application").get("status") == "ok")
+
+
+def test_get_favicon(module_client):
+    response = module_client.get("favicon.ico")
+    assert (response.status_code == 200)
+
+
+def test_get_docs(module_client):
+    response = module_client.get("/")
+    assert (response.status_code == 200)
+    begin_html = b'<!DOCTYPE html>\n<html>\n  <head>\n'
+    b'    <title>Resources API Documentation</title>\n'
+    assert (response.data.startswith(begin_html))
+
+
+def test_open_api_yaml(module_client):
+    response = module_client.get("/openapi.yaml")
+    assert (response.status_code == 200)
+    open_api_yaml = load(response.data)
+    assert (isinstance(open_api_yaml, dict))
+    assert (open_api_yaml.get("info").get("version") == LATEST_API_VERSION)
 
 
 # This method must come last if using the persistent client and db
@@ -105,8 +127,4 @@ def test_rate_limit(module_client, module_db):
 
     # Response should be a failure on request 51
     response = client.get('api/v1/resources')
-    assert(response.status_code == 429)
-    assert (isinstance(response.json.get('errors')
-            .get(get_error_code_from_status(response.status_code)), dict))
-    assert (isinstance(response.json.get('errors')
-            .get(get_error_code_from_status(response.status_code)).get('message'), str))
+    assert_correct_response(response, 429)

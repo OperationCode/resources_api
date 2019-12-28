@@ -1,4 +1,8 @@
 from datetime import datetime
+from app.api.validations import (
+    MISSING_PARAMS, INVALID_PARAMS, MISSING_BODY, INVALID_TYPE
+)
+from app.utils import get_error_code_from_status
 
 
 def create_resource(client,
@@ -53,3 +57,69 @@ def get_api_key(client):
     ))
 
     return response.json['data'].get('apikey')
+
+
+def assert_correct_response(response, code):
+    assert (response.status_code == code)
+    assert (isinstance(response.json.get('errors').get(
+        get_error_code_from_status(response.status_code)), dict))
+    assert (isinstance(response.json.get('errors').get(
+        get_error_code_from_status(response.status_code)).get('message'), str))
+
+
+def assert_correct_validation_error(response, params):
+    assert (response.status_code == 422)
+    assert (isinstance(response.json.get('errors')
+            .get(INVALID_PARAMS), dict))
+    assert (isinstance(response.json.get('errors')
+            .get(INVALID_PARAMS).get('message'), str))
+
+    for param in params:
+        assert (param in response.json.get('errors')
+                .get(INVALID_PARAMS).get("params"))
+        assert (param in response.json.get('errors')
+                .get(INVALID_PARAMS).get("message"))
+
+
+def assert_missing_body(response):
+    assert (response.status_code == 422)
+    assert (isinstance(response.json.get('errors')[0]
+            .get(MISSING_BODY), dict))
+    assert (isinstance(response.json.get('errors')[0]
+            .get(MISSING_BODY).get('message'), str))
+
+
+def assert_invalid_create(response, params, index):
+    assert (response.status_code == 422)
+    assert (isinstance(response.json.get('errors')[index]
+            .get(INVALID_PARAMS), dict))
+    assert (isinstance(response.json.get('errors')[index]
+            .get(INVALID_PARAMS).get('message'), str))
+
+    for param in params:
+        assert (response.json.get('errors')[index].get("index") == index)
+        assert (param in response.json.get('errors')[index]
+                .get(INVALID_PARAMS).get("params"))
+        assert (param in response.json.get('errors')[index]
+                .get(INVALID_PARAMS).get("message"))
+
+
+def assert_missing_params_create(response, params, index):
+    assert (response.status_code == 422)
+    assert (isinstance(response.json.get('errors')[index]
+            .get(MISSING_PARAMS), dict))
+    assert (isinstance(response.json.get('errors')[index]
+            .get(MISSING_PARAMS).get('message'), str))
+
+    for param in params:
+        assert (response.json.get('errors')[index].get("index") == index)
+        assert (param in response.json.get('errors')[index]
+                .get(MISSING_PARAMS).get("params"))
+        assert (param in response.json.get('errors')[index]
+                .get(MISSING_PARAMS).get("message"))
+
+
+def assert_wrong_type(response, expected_type):
+    assert (response.status_code == 422)
+    assert (expected_type in response.get_json()
+            .get("errors").get(INVALID_TYPE).get("message"))

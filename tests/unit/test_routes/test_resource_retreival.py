@@ -2,17 +2,12 @@
 from configs import PaginatorConfig
 from datetime import datetime, timedelta
 from app.utils import get_error_code_from_status
-from app.versioning import LATEST_API_VERSION
-from yaml import load
 
 
-# TODO: We need negative unit tests (what happens when bad data is sent)
 def test_get_resources(module_client, module_db):
     client = module_client
-
     response = client.get('api/v1/resources')
 
-    # Status should be OK
     assert (response.status_code == 200)
 
     resources = response.json
@@ -35,7 +30,9 @@ def test_get_resources(module_client, module_db):
     response = client.get(f"/api/v1/resources?updated_after={uaString}")
     assert (response.status_code == 200)
 
-    # Test trying to get a page of results that doesn't exist
+
+def test_get_resources_page_out_of_bounds(module_client, module_db):
+    client = module_client
     too_far = 99999999
     response = client.get(
         f"api/v1/resources?page_size=100&page={too_far}", follow_redirects=True)
@@ -63,10 +60,8 @@ def test_get_resources_post_date_failure(module_client):
 
 def test_get_single_resource(module_client, module_db):
     client = module_client
-
     response = client.get('api/v1/resources/5')
 
-    # Status should be OK
     assert (response.status_code == 200)
 
     resource = response.json['data']
@@ -95,24 +90,6 @@ def test_single_resource_out_of_bounds(module_client, module_db):
     assert (response.status_code == 404)
 
 
-def test_get_favicon(module_client):
-    response = module_client.get("favicon.ico")
-    assert (response.status_code == 200)
-
-
-def test_get_docs(module_client):
-    response = module_client.get("/")
-    assert (response.status_code == 200)
-
-
-def test_open_api_yaml(module_client):
-    response = module_client.get("/openapi.yaml")
-    assert (response.status_code == 200)
-    open_api_yaml = load(response.data)
-    assert (isinstance(open_api_yaml, dict))
-    assert (open_api_yaml.get("info").get("version") == LATEST_API_VERSION)
-
-
 def test_paid_filter(module_client, module_db):
     client = module_client
 
@@ -137,7 +114,7 @@ def test_paid_filter(module_client, module_db):
     assert (total_resources == total_free_resources + total_paid_resources)
 
 
-def test_paid_filter_works_with_uppercase_parameter(module_client, module_db):
+def test_paid_filter_uppercase_parameter(module_client, module_db):
     client = module_client
 
     response = client.get('api/v1/resources?paid=TRUE')
@@ -147,7 +124,7 @@ def test_paid_filter_works_with_uppercase_parameter(module_client, module_db):
     assert all([not res.get('paid') for res in response.json['data']])
 
 
-def test_paid_filter_defaults_all_when_invalid_paid_parameter(module_client, module_db):
+def test_paid_filter_invalid_paid_parameter(module_client, module_db):
     client = module_client
 
     response = client.get('api/v1/resources?paid=na93ns8i1ns')
