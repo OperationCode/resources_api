@@ -1,8 +1,7 @@
-from app.utils import get_error_code_from_status
-from .helpers import assert_correct_response
 from configs import PaginatorConfig
 from app.versioning import LATEST_API_VERSION
 from yaml import load
+from .helpers import assert_correct_response
 
 
 def test_internal_server_error_handler(
@@ -10,25 +9,13 @@ def test_internal_server_error_handler(
     client = module_client
 
     response = client.get('api/v1/resources')
-    assert (response.status_code == 500)
-    assert (isinstance(response.json.get('errors')
-            .get(get_error_code_from_status(response.status_code)), dict))
-    assert (isinstance(response.json.get('errors')
-            .get(get_error_code_from_status(response.status_code)).get('message'), str))
+    assert_correct_response(response, 500)
 
     response = client.get('api/v1/languages')
-    assert (response.status_code == 500)
-    assert (isinstance(response.json.get('errors')
-            .get(get_error_code_from_status(response.status_code)), dict))
-    assert (isinstance(response.json.get('errors')
-            .get(get_error_code_from_status(response.status_code)).get('message'), str))
+    assert_correct_response(response, 500)
 
     response = client.get('api/v1/categories')
-    assert (response.status_code == 500)
-    assert (isinstance(response.json.get('errors')
-            .get(get_error_code_from_status(response.status_code)), dict))
-    assert (isinstance(response.json.get('errors')
-            .get(get_error_code_from_status(response.status_code)).get('message'), str))
+    assert_correct_response(response, 500)
 
 
 def test_method_not_allowed_handler(module_client):
@@ -40,6 +27,10 @@ def test_method_not_allowed_handler(module_client):
 
 def test_paginator(module_client, module_db):
     client = module_client
+
+    # Default page size
+    response = client.get('api/v1/resources')
+    assert (len(response.json['data']) == PaginatorConfig.per_page)
 
     # Test page size
     response = client.get('api/v1/resources?page_size=1')
@@ -81,19 +72,13 @@ def test_paginator(module_client, module_db):
 def test_bad_standardize_response(
         module_client, module_db, unmapped_standardize_response):
     client = module_client
-    resources = client.get("api/v1/resources")
-
-    assert (resources.status_code == 500)
-    errors = resources.json['errors']
-    assert (isinstance(errors, dict))
-    assert (isinstance(errors['errors']['server-error'], dict))
-    assert (isinstance(errors['errors']['server-error']['message'], str))
+    response = client.get("api/v1/resources")
+    assert_correct_response(response, 500)
 
 
 def test_health_check(module_client):
     response = module_client.get('/healthz')
     assert (response.status_code == 200)
-    print(response.get_json())
     assert (response.get_json().get("application").get("status") == "ok")
 
 

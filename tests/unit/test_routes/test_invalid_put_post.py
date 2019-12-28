@@ -112,4 +112,4 @@ def test_create_with_invalid_apikey(module_client, module_db):
     client = module_client
     # Invalid API Key Path
     response = create_resource(client, "invalidapikey")
-    assert (response.status_code == 401)
+    assert_correct_response(response, 401)

@@ -1,7 +1,6 @@
 
-from configs import PaginatorConfig
 from datetime import datetime, timedelta
-from app.utils import get_error_code_from_status
+from .helpers import assert_correct_response
 
 
 def test_get_resources(module_client, module_db):
@@ -10,12 +9,7 @@ def test_get_resources(module_client, module_db):
 
     assert (response.status_code == 200)
 
-    resources = response.json
-
-    # Default page size should be specified in PaginatorConfig
-    assert (len(resources['data']) == PaginatorConfig.per_page)
-
-    for resource in resources['data']:
+    for resource in response.json['data']:
         assert (isinstance(resource.get('name'), str))
         assert (resource.get('name'))
         assert (isinstance(resource.get('url'), str))
@@ -23,7 +17,7 @@ def test_get_resources(module_client, module_db):
         assert (isinstance(resource.get('category'), str))
         assert (resource.get('category'))
         assert (isinstance(resource.get('languages'), list))
-    assert (resources['number_of_pages'] is not None)
+    assert (response.json['number_of_pages'] is not None)
 
     ua = datetime.now() + timedelta(days=-7)
     uaString = ua.strftime('%m-%d-%Y')
@@ -36,13 +30,7 @@ def test_get_resources_page_out_of_bounds(module_client, module_db):
     too_far = 99999999
     response = client.get(
         f"api/v1/resources?page_size=100&page={too_far}", follow_redirects=True)
-    assert (response.status_code == 404)
-    assert (
-        isinstance(response.json.get('errors').get(
-            get_error_code_from_status(response.status_code)), dict))
-    assert (
-        isinstance(response.json.get('errors').get(
-            get_error_code_from_status(response.status_code)).get('message'), str))
+    assert_correct_response(response, 404)
 
 
 def test_get_resources_post_date_failure(module_client):
@@ -51,11 +39,7 @@ def test_get_resources_post_date_failure(module_client):
     ua = datetime.now() + timedelta(days=1)
     uaString = ua.strftime('%m-%d-%Y')
     response = client.get(f"/api/v1/resources?updated_after={uaString}")
-    assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors').get(
-        get_error_code_from_status(response.status_code)), dict))
-    assert (isinstance(response.json.get('errors').get(
-        get_error_code_from_status(response.status_code)).get('message'), str))
+    assert_correct_response(response, 422)
 
 
 def test_get_single_resource(module_client, module_db):
@@ -82,12 +66,10 @@ def test_single_resource_out_of_bounds(module_client, module_db):
     too_low = 0
     too_high = 9999
     response = client.get(f"api/v1/resources/{too_low}", follow_redirects=True)
-
-    assert (response.status_code == 404)
+    assert_correct_response(response, 404)
 
     response = client.get(f"api/v1/resources/{too_high}", follow_redirects=True)
-
-    assert (response.status_code == 404)
+    assert_correct_response(response, 404)
 
 
 def test_paid_filter(module_client, module_db):

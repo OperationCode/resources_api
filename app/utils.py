@@ -120,7 +120,7 @@ def standardize_response(payload={}, status_code=200, version=LATEST_API_VERSION
     elif not data:
         # 500 Error case -- Something went wrong.
         message = msg_map.get(500)
-        resp["errors"] = {'errors': {"server-error": {"message": message}}}
+        resp["errors"] = {"server-error": {"message": message}}
         resp["status_code"] = 500
         resp["status"] = err_map.get(500)
     else:

@@ -1,6 +1,6 @@
 from os import environ
-from app.utils import get_error_code_from_status, msg_map, random_string
-from .helpers import get_api_key
+from app.utils import random_string
+from .helpers import get_api_key, assert_correct_response
 
 
 def test_search(
@@ -239,7 +239,7 @@ def false_validation(module_client,
 
     id = resource.json['data'].get("id")
 
-    resource = client.post("/api/v1/resources",
+    response = client.post("/api/v1/resources",
                            json=dict(
                                name=f"{first_term}",
                                category="Website",
@@ -249,13 +249,9 @@ def false_validation(module_client,
                            headers={'x-apikey': apikey}
                            )
 
-    assert (resource.status_code == 422)
-    assert (resource.json['data'].get("errors") is not None)
-    assert (resource.json['data'].get("errors")[
-            get_error_code_from_status(resource.status_code)] ==
-            msg_map[resource.status_code])
+    assert_correct_response(response, 422)
 
-    resource = client.put(f"/api/v1/resources/{id}",
+    response = client.put(f"/api/v1/resources/{id}",
                           json=dict(
                               name="New name",
                               languages=["New language"],
@@ -267,8 +263,4 @@ def false_validation(module_client,
                           headers={'x-apikey': apikey}
                           )
 
-    assert (resource.status_code == 422)
-    assert (resource.json['data'].get("errors") is not None)
-    assert (resource.json['data'].get("errors")[
-            get_error_code_from_status(resource.status_code)] ==
-            msg_map[resource.status_code])
+    assert_correct_response(response, 422)
