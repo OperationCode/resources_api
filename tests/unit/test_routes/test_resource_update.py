@@ -9,7 +9,6 @@ def test_update_votes(module_client, module_db, fake_algolia_save):
     vote_direction = 'upvote'
     id = 1
 
-    # Check voting on a valid resource
     data = client.get(f"api/v1/resources/{id}").json['data']
     response = client.put(
         f"/api/v1/resources/{id}/{vote_direction}", follow_redirects=True)
@@ -24,16 +23,24 @@ def test_update_votes(module_client, module_db, fake_algolia_save):
     assert (response.status_code == 200)
     assert (response.json['data'].get(f"{vote_direction}s") == initial_votes + 1)
 
-    # Check voting on an invalid resource
+
+def test_update_votes_invalid(module_client, module_db, fake_algolia_save):
     id = 'waffles'
-    response = client.put(
-        f"/api/v1/resources/{id}/{vote_direction}", follow_redirects=True)
+    response = module_client.put(
+        f"/api/v1/resources/{id}/upvote", follow_redirects=True)
+    assert_correct_response(response, 404)
+    response = module_client.put(
+        f"/api/v1/resources/{id}/downvote", follow_redirects=True)
     assert_correct_response(response, 404)
 
-    # Check voting on a resource that doesn't exist
+
+def test_update_votes_out_of_bounds(module_client, module_db, fake_algolia_save):
     too_high = 99999999
-    response = client.put(
-        f"/api/v1/resources/{too_high}/{vote_direction}", follow_redirects=True)
+    response = module_client.put(
+        f"/api/v1/resources/{too_high}/upvote", follow_redirects=True)
+    assert_correct_response(response, 404)
+    response = module_client.put(
+        f"/api/v1/resources/{too_high}/downvote", follow_redirects=True)
     assert_correct_response(response, 404)
 
 
