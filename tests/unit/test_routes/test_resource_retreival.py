@@ -19,6 +19,9 @@ def test_get_resources(module_client, module_db):
         assert (isinstance(resource.get('languages'), list))
     assert (response.json['number_of_pages'] is not None)
 
+
+def test_get_resources_updated_after(module_client, module_db):
+    client = module_client
     ua = datetime.now() + timedelta(days=-7)
     uaString = ua.strftime('%m-%d-%Y')
     response = client.get(f"/api/v1/resources?updated_after={uaString}")
