@@ -1,5 +1,5 @@
 from app.api.auth import blacklist_key
-from .helpers import get_api_key
+from .helpers import get_api_key, assert_correct_response
 
 
 def test_get_api_key(module_client, module_db, fake_auth_from_oc):
@@ -35,9 +35,8 @@ def test_apikey_commit_error(
         email="test@example.com",
         password="password"
     ))
-    print(response.json)
 
-    assert (response.status_code == 500)
+    assert_correct_response(response, 500)
 
 
 def test_get_api_key_bad_password(module_client, module_db, fake_invalid_auth_from_oc):
@@ -49,8 +48,9 @@ def test_get_api_key_bad_password(module_client, module_db, fake_invalid_auth_fr
                                email="test@example.org",
                                password="invalidpassword"
                            ))
+    print(response.json)
 
-    assert (response.status_code == 401)
+    assert_correct_response(response, 401)
 
 
 def test_get_api_key_blacklisted(module_client, module_db, fake_auth_from_oc):
@@ -68,7 +68,8 @@ def test_get_api_key_blacklisted(module_client, module_db, fake_auth_from_oc):
                 password="supersecurepassword"
             )
         )
-        assert (response.status_code == 401)
+        print(response.json)
+        assert_correct_response(response, 401)
     finally:
         blacklist_key(apikey, False, module_db.session)
 
@@ -78,7 +79,7 @@ def test_rotate_api_key_unauthorized(module_client, module_db):
 
     response = client.post('api/v1/apikey/rotate')
 
-    assert (response.status_code == 401)
+    assert_correct_response(response, 401)
 
 
 def test_key_query_error(
@@ -88,4 +89,4 @@ def test_key_query_error(
         email="test@example.org",
         password="supersecurepassword"
     ))
-    assert (response.status_code == 500)
+    assert_correct_response(response, 500)
