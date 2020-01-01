@@ -1,7 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from app.api.validations import (
     MISSING_PARAMS, INVALID_PARAMS, MISSING_BODY, INVALID_TYPE
 )
+from app.models import Resource
 from app.utils import get_error_code_from_status
 
 
@@ -48,6 +49,20 @@ def update_resource(client,
                             paid=False if not paid else paid,
                             notes="New notes" if not notes else notes),
                       headers={'x-apikey': apikey} if not headers else headers)
+
+
+def set_resource_last_updated(updated_time=(datetime.now() + timedelta(days=-7)),
+                              id=None):
+    if id is not None:
+        row = Resource.query.get(id)
+        row.created_at = updated_time
+        row.last_updated = updated_time
+
+    else:
+        q = Resource.query
+        for row in q:
+            row.created_at = updated_time
+            row.last_updated = updated_time
 
 
 def get_api_key(client):

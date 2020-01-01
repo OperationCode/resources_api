@@ -1,6 +1,9 @@
 
 from datetime import datetime, timedelta
-from .helpers import assert_correct_response
+from .helpers import (
+    create_resource, update_resource, get_api_key, set_resource_last_updated,
+    assert_correct_response
+)
 
 
 def test_get_resources(module_client, module_db):
@@ -118,8 +121,9 @@ def test_paid_filter_invalid_paid_parameter(module_client, module_db):
     assert (False in [res.get('paid') for res in response.json['data']])
 
 
-def test_filters(module_client, module_db):
+def test_filters(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client
+    apikey = get_api_key(client)
 
     # Filter by one language
     response = client.get('api/v1/resources?languages=python')
@@ -144,5 +148,27 @@ def test_filters(module_client, module_db):
     for resource in response.json['data']:
         assert (resource.get('category') == "Back End Dev")
 
-    # TODO: Filter by updated_after
-    # (Need to figure out how to manually set last_updated and created_at)
+    # Filter by updated_after
+    filter_time = datetime.now() + timedelta(days=-1)
+
+    #   Given I update all resources to be last updated 1 week ago.
+    set_resource_last_updated()
+    module_db.session.commit()
+
+    #   And I create and update two different new resources.
+    create_resource(client, apikey)
+    update_resource(client, apikey)
+
+    #   When I call get resources with an updated_after filter of 1 day ago.
+    response = client.get(f"/api/v1/resources?updated_after={filter_time}")
+
+    #   Then the response should have only two resources
+    assert len(response.json['data']) == 2
+    for resource in response.json['data']:
+        assert (
+                filter_time <= datetime.strptime(resource.get('created_at'),
+                                                 '%Y-%m-%d %H:%M:%S')
+                or
+                filter_time <= datetime.strptime(resource.get('last_updated'),
+                                                 '%Y-%m-%d %H:%M:%S')
+        )
