@@ -104,6 +104,12 @@ def assert_missing_body(response):
             .get(MISSING_BODY).get('message'), str))
 
 
+def assert_invalid_body(response):
+    assert response.status_code == 422
+    assert isinstance(response.json.get("errors"), dict)
+    assert isinstance(response.json["errors"].get(f"{INVALID_TYPE}"), dict)
+
+
 def assert_invalid_create(response, params, index):
     assert (response.status_code == 422)
     assert (isinstance(response.json.get('errors')[index]

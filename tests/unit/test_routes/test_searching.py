@@ -1,6 +1,6 @@
 from os import environ
 from app.utils import random_string
-from .helpers import get_api_key, assert_correct_response
+from .helpers import get_api_key
 
 
 def test_search(
@@ -210,57 +210,3 @@ def test_algolia_unreachable_host_error(module_client,
 
     # Set it back to development for other tests
     environ["FLASK_ENV"] = "development"
-
-
-def false_validation(module_client,
-                     module_db,
-                     fake_auth_from_oc,
-                     fake_algolia_save,
-                     fake_validate_resource):
-    # Given the validate_resource method fails to catch errors
-    # When we commit the resource to the database
-    # Then the api returns a 422 response
-
-    client = module_client
-    first_term = random_string()
-    apikey = get_api_key(client)
-
-    resource = client.post("/api/v1/resources",
-                           json=[dict(
-                               name=f"{first_term}",
-                               category="Website",
-                               url=f"{first_term}",
-                               paid=False,
-                           )],
-                           headers={'x-apikey': apikey}
-                           )
-
-    assert (resource.status_code == 200)
-
-    id = resource.json['data'].get("id")
-
-    response = client.post("/api/v1/resources",
-                           json=dict(
-                               name=f"{first_term}",
-                               category="Website",
-                               url=f"{first_term}",
-                               paid=False,
-                           ),
-                           headers={'x-apikey': apikey}
-                           )
-
-    assert_correct_response(response, 422)
-
-    response = client.put(f"/api/v1/resources/{id}",
-                          json=dict(
-                              name="New name",
-                              languages=["New language"],
-                              category="New Category",
-                              url=f"{first_term}",
-                              paid=False,
-                              notes="New notes"
-                          ),
-                          headers={'x-apikey': apikey}
-                          )
-
-    assert_correct_response(response, 422)
