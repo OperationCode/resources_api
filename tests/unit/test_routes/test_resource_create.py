@@ -3,7 +3,8 @@ from app.utils import random_string
 from .helpers import (
     create_resource, get_api_key, assert_missing_body,
     assert_invalid_create, assert_missing_params_create,
-    assert_wrong_type, assert_correct_response, assert_invalid_body
+    assert_wrong_type, assert_correct_response, assert_invalid_body,
+    assert_correct_validation_error
 )
 
 
@@ -247,4 +248,4 @@ def test_false_validation(module_client,
                           headers={'x-apikey': apikey}
                           )
     print(response.json)
-    assert_correct_response(response, 422)
+    assert_correct_validation_error(response, ["url"])
