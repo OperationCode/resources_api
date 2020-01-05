@@ -3,7 +3,7 @@ from app.utils import random_string
 from .helpers import (
     create_resource, get_api_key, assert_missing_body,
     assert_invalid_create, assert_missing_params_create,
-    assert_wrong_type, assert_correct_response, assert_invalid_body,
+    assert_wrong_type, assert_invalid_body,
     assert_correct_validation_error
 )
 
@@ -197,11 +197,10 @@ def test_create_resource_wrong_type(
 
 
 def test_false_validation(module_client,
-                            module_db,
-                            fake_auth_from_oc,
-                            fake_algolia_save,
-                            fake_validation,
-                            ):
+                          module_db,
+                          fake_auth_from_oc,
+                          fake_algolia_save,
+                          fake_validation):
     # Given the validate_resource method fails to catch errors
     # When we commit the resource to the database
     # Then the api returns a 422 response
