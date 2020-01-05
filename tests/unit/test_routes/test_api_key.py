@@ -48,7 +48,6 @@ def test_get_api_key_bad_password(module_client, module_db, fake_invalid_auth_fr
                                email="test@example.org",
                                password="invalidpassword"
                            ))
-    print(response.json)
 
     assert_correct_response(response, 401)
 
@@ -68,7 +67,6 @@ def test_get_api_key_blacklisted(module_client, module_db, fake_auth_from_oc):
                 password="supersecurepassword"
             )
         )
-        print(response.json)
         assert_correct_response(response, 401)
     finally:
         blacklist_key(apikey, False, module_db.session)

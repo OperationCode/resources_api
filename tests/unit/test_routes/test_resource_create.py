@@ -246,5 +246,4 @@ def test_false_validation(module_client,
                           ),
                           headers={'x-apikey': apikey}
                           )
-    print(response.json)
     assert_correct_validation_error(response, ["url"])
