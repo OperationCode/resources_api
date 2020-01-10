@@ -188,7 +188,7 @@ def fake_key_query_error(mocker):
 @pytest.fixture(scope='function')
 def fake_algolia_save(mocker):
     """
-    Mocks a save_object() call to algolia
+    Mocks a save_object or partial_update_object call to algolia
     """
 
     mocker.patch(
@@ -204,7 +204,7 @@ def fake_algolia_save(mocker):
 @pytest.fixture(scope='function')
 def fake_algolia_search(mocker):
     """
-    Mocks a save_object() call to algolia
+    Mocks a search call to algolia
     """
 
     def algolia_search(term, page_info):
@@ -237,14 +237,14 @@ def fake_algolia_search(mocker):
 @pytest.fixture(scope='function')
 def fake_algolia_unreachable_host(mocker):
     """
-    Mocks a save_object() call to algolia
+    Mocks calls to algolia with AlgoliaUnreachableHostException
     """
     def algolia_exception(*args):
         raise AlgoliaUnreachableHostException()
 
     mocker.patch('algoliasearch.search_index.SearchIndex.search',
                  side_effect=algolia_exception)
-    mocker.patch('algoliasearch.search_index.SearchIndex.save_object',
+    mocker.patch('algoliasearch.search_index.SearchIndex.save_objects',
                  side_effect=algolia_exception)
     mocker.patch('algoliasearch.search_index.SearchIndex.partial_update_object',
                  side_effect=algolia_exception)
@@ -253,34 +253,23 @@ def fake_algolia_unreachable_host(mocker):
 @pytest.fixture(scope='function')
 def fake_algolia_exception(mocker):
     """
-    Mocks a save_object() call to algolia
+    Mocks calls to algolia with AlgoliaException
     """
     def algolia_exception(*args):
         raise AlgoliaException()
 
     mocker.patch('algoliasearch.search_index.SearchIndex.search',
                  side_effect=algolia_exception)
-    mocker.patch('algoliasearch.search_index.SearchIndex.save_object',
+    mocker.patch('algoliasearch.search_index.SearchIndex.save_objects',
                  side_effect=algolia_exception)
     mocker.patch('algoliasearch.search_index.SearchIndex.partial_update_object',
                  side_effect=algolia_exception)
 
 
 @pytest.fixture(scope='function')
-def fake_validation(mocker):
-    """
-    Mocks a save_object() call to algolia
-    """
-    def validate(*args):
-        return
-
-    mocker.patch('app.validations.validate_resource', side_effect=validate)
-
-
-@pytest.fixture(scope='function')
 def unmapped_standardize_response(mocker):
     """
-    Mocks a save_object() call to algolia
+    Mocks standardize_response called without a specific error
     """
     def response(*args):
 

@@ -11,7 +11,7 @@ failures_counter = Counter('my_failures', 'Number of exceptions raised')
 def unauthorized_response():
     message = "The email or password you submitted is incorrect " \
               "or your account is not allowed api access"
-    payload = {'errors': {"invalid-credentials": {"message": message}}}
+    payload = {'errors': {"unauthorized": {"message": message}}}
     return utils.standardize_response(payload=payload, status_code=401)
 
 
