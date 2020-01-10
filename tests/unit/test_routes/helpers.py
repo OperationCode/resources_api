@@ -52,7 +52,7 @@ def update_resource(client,
 
 
 def set_resource_last_updated(updated_time=(datetime.now() + timedelta(days=-7)),
-                              id=None):
+                              id=None, db=None):
     if id is not None:
         row = Resource.query.get(id)
         row.created_at = updated_time
@@ -63,6 +63,9 @@ def set_resource_last_updated(updated_time=(datetime.now() + timedelta(days=-7))
         for row in q:
             row.created_at = updated_time
             row.last_updated = updated_time
+
+    if db is not None:
+        db.session.commit()
 
 
 def get_api_key(client):

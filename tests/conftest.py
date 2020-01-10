@@ -267,18 +267,6 @@ def fake_algolia_exception(mocker):
 
 
 @pytest.fixture(scope='function')
-def fake_validation(mocker):
-    """
-    Mocks a good validation on a request
-    """
-    def validate(*args):
-        return
-
-    mocker.patch('app.api.validations.validate_resource_list', return_value=validate())
-    mocker.patch('app.api.validations.validate_resource', return_value=validate())
-
-
-@pytest.fixture(scope='function')
 def unmapped_standardize_response(mocker):
     """
     Mocks standardize_response called without a specific error
