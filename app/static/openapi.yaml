@@ -127,7 +127,7 @@ paths:
           required: false
           description: Language(s) of the resource to search. For example, to filter for JavaScript and Python resources, make a `GET` request to `/search?languages=python&languages=javascript`.
           schema:
-            type: array of strings
+            type: array
         - in: query
           name: category
           required: false
@@ -725,12 +725,6 @@ components:
             message:
               description: Error message
               type: string
-        unauthorized:
-          type: object
-          properties:
-            message:
-              description: Error message
-              type: string
         missing-body:
           type: object
           properties:
@@ -805,12 +799,6 @@ components:
                 type: string
               resource:
                 description: An href link to the resource with a duplicate url
-                type: string
-          unauthorized:
-            type: object
-            properties:
-              message:
-                description: Error message
                 type: string
           unauthorized:
             type: object
