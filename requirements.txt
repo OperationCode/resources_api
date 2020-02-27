@@ -1,6 +1,6 @@
 algoliasearch>=2.0,<3.0
 flake8==3.7.9
-Flask-Limiter==1.1.0
+Flask-Limiter==1.2.1
 Flask-Migrate==2.5.2
 Flask-Cors==3.0.8
 psycopg2-binary==2.8.4
