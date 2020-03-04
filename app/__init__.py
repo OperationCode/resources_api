@@ -1,11 +1,18 @@
 from algoliasearch.search_client import SearchClient
 from configs import Config
+
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from app.healthcheck import add_health_check
+
+from healthcheck import HealthCheck, EnvironmentDump
+
+from app.versioning import versioned
+from app.api import bp as api_bp
+from app.views import bp as view_bp
+from app.errors import bp as error_bp
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -14,30 +21,45 @@ migrate = Migrate()
 search_client = SearchClient.create(Config.ALGOLIA_APP_ID, Config.ALGOLIA_API_KEY)
 index = search_client.init_index(Config.INDEX_NAME)
 
+app = Flask(__name__, static_folder='app/static')
+app.config.from_object(Config)
+app.url_map.strict_slashes = False
 
-def create_app(config_class=Config):
-    app = Flask(__name__, static_folder=None)
-    app.config.from_object(config_class)
-    app.url_map.strict_slashes = False
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
 
-    Limiter(
-        app,
-        key_func=get_remote_address,
-        default_limits=["200 per day", "50 per hour"]
+db.init_app(app)
+migrate.init_app(app, db)
+
+app.register_blueprint(api_bp, url_prefix='/api/v1')
+app.register_blueprint(view_bp)
+app.register_blueprint(error_bp)
+
+
+@app.route("/healthz")
+@limiter.exempt
+def healthz():
+    health = HealthCheck()
+    health.add_section("application", application_data)
+    return health.run()
+
+
+@app.route("/environment")
+@limiter.limit("1 per hour")
+def environment():
+    envdump = EnvironmentDump()
+    envdump.add_section("application", application_data)
+    return envdump.run()
+
+
+@versioned
+def application_data(version):
+    return dict(
+        apiVersion=version,
+        status="ok",
+        status_code=200,
+        data=None
     )
-
-    db.init_app(app)
-    migrate.init_app(app, db)
-
-    from app.api import bp as api_bp
-    app.register_blueprint(api_bp, url_prefix='/api/v1')
-
-    from app.views import bp as view_bp
-    app.register_blueprint(view_bp)
-
-    from app.errors import bp as error_bp
-    app.register_blueprint(error_bp)
-
-    add_health_check(app)
-
-    return app

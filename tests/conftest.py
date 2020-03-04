@@ -1,10 +1,9 @@
 import pytest
 from algoliasearch.exceptions import (AlgoliaException,
                                       AlgoliaUnreachableHostException)
-from app import create_app
+from app import app
 from app import db as _db
 from app.utils import standardize_response
-from configs import Config
 
 TEST_DATABASE_URI = 'sqlite:///:memory:'
 
@@ -16,19 +15,19 @@ counter = 0
 # away the need for a persistent DB and be able to use this method again.
 @pytest.fixture(scope='session')
 def session_app(request):
-    Config.SQLALCHEMY_DATABASE_URI = TEST_DATABASE_URI
-    Config.TESTING = True
-    app = create_app(Config)
+    flask_app = app
+    flask_app.config['TESTING'] = True
+    flask_app.config['SQLALCHEMY_DATABASE_URI'] = TEST_DATABASE_URI
 
     # Establish an application context before running the tests.
-    ctx = app.app_context()
+    ctx = flask_app.app_context()
     ctx.push()
 
     def teardown():
         ctx.pop()
 
     request.addfinalizer(teardown)
-    return app
+    return flask_app
 
 
 # TODO: session_db is not currently used because we need a
@@ -72,9 +71,9 @@ def function_session(session_db, request):
 
 @pytest.fixture(scope='module')
 def module_client():
-    Config.SQLALCHEMY_DATABASE_URI = TEST_DATABASE_URI
-    Config.TESTING = True
-    flask_app = create_app(Config)
+    flask_app = app
+    flask_app.config['TESTING'] = True
+    flask_app.config['SQLALCHEMY_DATABASE_URI'] = TEST_DATABASE_URI
 
     # Flask provides a way to test your application by exposing the Werkzeug test Client
     # and handling the context locals for you.
