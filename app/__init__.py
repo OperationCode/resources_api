@@ -10,9 +10,6 @@ from flask_limiter.util import get_remote_address
 from healthcheck import HealthCheck, EnvironmentDump
 
 from app.versioning import versioned
-from app.api import bp as api_bp
-from app.views import bp as view_bp
-from app.errors import bp as error_bp
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -34,8 +31,13 @@ limiter = Limiter(
 db.init_app(app)
 migrate.init_app(app, db)
 
+from app.api import bp as api_bp # noqa
 app.register_blueprint(api_bp, url_prefix='/api/v1')
+
+from app.views import bp as view_bp # noqa
 app.register_blueprint(view_bp)
+
+from app.errors import bp as error_bp # noqa
 app.register_blueprint(error_bp)
 
 
