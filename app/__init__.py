@@ -7,7 +7,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
-from healthcheck import HealthCheck, EnvironmentDump
+from healthcheck import HealthCheck
+# from healthcheck import EnvironmentDump
 
 from app.versioning import versioned
 
@@ -49,12 +50,12 @@ def healthz():
     return health.run()
 
 
-@app.route("/environment")
-@limiter.limit("1 per hour")
-def environment():
-    envdump = EnvironmentDump()
-    envdump.add_section("application", application_data)
-    return envdump.run()
+# @app.route("/environment")
+# @limiter.limit("1 per hour")
+# def environment():
+#     envdump = EnvironmentDump()
+#     envdump.add_section("application", application_data)
+#     return envdump.run()
 
 
 @versioned
