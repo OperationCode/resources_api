@@ -1,9 +1,12 @@
-from app import cli, create_app
+from app import app, cli
 from app.models import Category, Language, Resource, db
-from werkzeug.wsgi import DispatcherMiddleware
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from prometheus_client import make_wsgi_app
 
-app = create_app()
+
+if __name__ == "__main__":
+    app.run()
+
 cli.register(app, db)
 
 # Add prometheus wsgi middleware to route /metrics requests
