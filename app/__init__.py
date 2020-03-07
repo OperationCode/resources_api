@@ -7,9 +7,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
-from healthcheck import HealthCheck, EnvironmentDump
+from healthcheck import HealthCheck
+# from healthcheck import EnvironmentDump
 
 from app.versioning import versioned
+
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from prometheus_client import make_wsgi_app
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -40,6 +44,11 @@ app.register_blueprint(view_bp)
 from app.errors import bp as error_bp # noqa
 app.register_blueprint(error_bp)
 
+# Add prometheus wsgi middleware to route /metrics requests
+app_dispatch = DispatcherMiddleware(app.wsgi_app, {
+    '/metrics': make_wsgi_app()
+})
+
 
 @app.route("/healthz")
 @limiter.exempt
@@ -49,12 +58,13 @@ def healthz():
     return health.run()
 
 
-@app.route("/environment")
-@limiter.limit("1 per hour")
-def environment():
-    envdump = EnvironmentDump()
-    envdump.add_section("application", application_data)
-    return envdump.run()
+# Disabled until we add an ACL mechanism to limit sources
+# @app.route("/environment")
+# @limiter.limit("1 per hour")
+# def environment():
+#     envdump = EnvironmentDump()
+#     envdump.add_section("application", application_data)
+#     return envdump.run()
 
 
 @versioned
