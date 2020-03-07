@@ -113,3 +113,14 @@ def test_rate_limit(module_client, module_db):
     # Response should be a failure on request 51
     response = client.get('api/v1/resources')
     assert_correct_response(response, 429)
+
+
+# Ensure the healthz endpoint is never rate limited
+def test_rate_limit_healthz(module_client, module_db):
+    client = module_client
+
+    for _ in range(50):
+        client.get('/healthz')
+
+    response = client.get('/healthz')
+    assert (response.status_code == 200)
