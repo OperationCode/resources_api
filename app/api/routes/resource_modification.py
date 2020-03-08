@@ -99,9 +99,8 @@ def update_resource(id, json, db):
 @bp.route('/resources/<int:id>/<string:vote_direction>', methods=['PUT'])
 @authenticate
 def change_votes(id, vote_direction):
-    if vote_direction not in ['upvote', 'downvote']:
-        redirect('/404')
-    return update_votes(id, f"{vote_direction}s")
+    return update_votes(id, f"{vote_direction}s") \
+        if vote_direction in ['upvote', 'downvote'] else redirect('/404')
 
 
 @latency_summary.time()
