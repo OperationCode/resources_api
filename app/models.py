@@ -203,13 +203,3 @@ class VoteInformation(db.Model):
     current_direction = db.Column(db.String, nullable=False)
     resource = db.relationship('Resource', back_populates='voters')
     voter = db.relationship('Key', back_populates='voted_resources')
-
-    @property
-    def serialize(self):
-        return {
-                'vote_apikey': self.voter_apikey,
-                'resource_id': self.resource_id,
-                'current_direction': self.current_direction,
-                'voter': self.voter,
-                'resource': self.resource
-        }

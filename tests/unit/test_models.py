@@ -134,10 +134,8 @@ def test_vote_information():
     vote_info.voter = key
     resource.voters.append(vote_info)
 
-    assert (vote_info.serialize == {
-                                'vote_apikey': test_apikey,
-                                'resource_id': test_id,
-                                'current_direction': test_direction,
-                                'voter': key,
-                                'resource': resource
-                              })
+    assert(vote_info.voter_apikey == test_apikey)
+    assert(vote_info.resource_id == test_id)
+    assert(vote_info.current_direction == test_direction)
+    assert(vote_info.voter == key)
+    assert(vote_info.resource == resource)
