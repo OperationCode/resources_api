@@ -5,7 +5,6 @@ import requests
 from app.models import Key
 from app.utils import setup_logger, standardize_response
 from flask import g, request
-from werkzeug.exceptions import HTTPException
 
 auth_logger = setup_logger('auth_logger')
 create_logger = setup_logger('create_auth_logger')
@@ -117,9 +116,6 @@ def log_request(request, key):
     method = request.method
     path = request.path
     user = key.email
-    try:
-        payload = request.get_json()
-    except HTTPException:
-        payload = None
+    payload = request.get_json(silent=True)
     logger = create_logger if method == "POST" else update_logger
     logger.info(f"User: {user} Route: {path} Payload: {payload}")
