@@ -519,11 +519,11 @@ paths:
 
   /resources/{id}/upvote:
     put:
-      summary: Upvote Resource - Increment Number of Upvotes
+      summary: Upvote Resource
       description: |
-        Increments the `upvotes` property of a resource. If the user has already upvoted the resource, upvotes property will decrement since a user is limited to only one vote per resource.
+        Increments the `upvotes` property of a resource. If the user has already upvoted the resource, `upvotes` property will decrement since a user is limited to only one vote per resource. Also, if the user has already downvoted the resource, hitting this endpoint will increment `upvotes` property while decrementing `downvotes` property.
       tags:
-        - Upvote Resource
+        - Update Resource
       parameters:
         - name: id
           in: path
@@ -563,9 +563,9 @@ paths:
 
   /resources/{id}/downvote:
     put:
-      summary: Downvote Resource - Increment Number of Downvotes
+      summary: Downvote Resource
       description: |
-        Increments the `downvotes` property of a resource. If the user has already downvoted the resource, downvotes property will decrement since a user is limited to only one vote per resource.
+        Increments the `downvotes` property of a resource. If the user has already downvoted the resource, `downvotes` property will decrement since a user is limited to only one vote per resource. Also, if the user has already upvoted the resource, hitting this endpoint will increment `downvotes` property while decrementing `upvotes` property.
       tags:
         - Update Resource
       parameters:
