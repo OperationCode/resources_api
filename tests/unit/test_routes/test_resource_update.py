@@ -4,43 +4,73 @@ from .helpers import (
 )
 
 
-def test_update_votes(module_client, module_db, fake_algolia_save):
+def test_update_votes(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client
-    vote_direction = 'upvote'
+    UPVOTE = 'upvote'
+    DOWNVOTE = 'downvote'
     id = 1
+    apikey = get_api_key(client)
 
     data = client.get(f"api/v1/resources/{id}").json['data']
     response = client.put(
-        f"/api/v1/resources/{id}/{vote_direction}", follow_redirects=True)
-    initial_votes = data.get(f"{vote_direction}s")
+                        f"/api/v1/resources/{id}/{UPVOTE}",
+                        follow_redirects=True,
+                        headers={'x-apikey': apikey})
+    initial_upvotes = data.get(f"{UPVOTE}s")
+    initial_downvotes = data.get(f"{DOWNVOTE}s")
 
     assert (response.status_code == 200)
-    assert (response.json['data'].get(f"{vote_direction}s") == initial_votes + 1)
+    assert (response.json['data'].get(f"{UPVOTE}s") == initial_upvotes + 1)
 
-    vote_direction = 'downvote'
     response = client.put(
-        f"/api/v1/resources/{id}/{vote_direction}", follow_redirects=True)
+                        f"/api/v1/resources/{id}/{DOWNVOTE}",
+                        follow_redirects=True,
+                        headers={'x-apikey': apikey})
+    # Simple limit vote per user test
     assert (response.status_code == 200)
-    assert (response.json['data'].get(f"{vote_direction}s") == initial_votes + 1)
+    assert (response.json['data'].get(f"{UPVOTE}s") == initial_upvotes)
+    assert (response.json['data'].get(f"{DOWNVOTE}s") == initial_downvotes + 1)
+
+    response = client.put(
+                        f"/api/v1/resources/{id}/{DOWNVOTE}",
+                        follow_redirects=True,
+                        headers={'x-apikey': apikey})
+    assert (response.status_code == 200)
+    assert (response.json['data'].get(f"{DOWNVOTE}s") == initial_downvotes)
 
 
-def test_update_votes_invalid(module_client, module_db, fake_algolia_save):
+def test_update_votes_invalid(
+        module_client, module_db, fake_auth_from_oc, fake_algolia_save):
+    client = module_client
     id = 'waffles'
-    response = module_client.put(
-        f"/api/v1/resources/{id}/upvote", follow_redirects=True)
+    apikey = get_api_key(client)
+
+    response = client.put(
+                        f"/api/v1/resources/{id}/upvote",
+                        follow_redirects=True,
+                        headers={'x-apikey': apikey})
     assert_correct_response(response, 404)
-    response = module_client.put(
-        f"/api/v1/resources/{id}/downvote", follow_redirects=True)
+    response = client.put(
+                        f"/api/v1/resources/{id}/downvote",
+                        follow_redirects=True,
+                        headers={'x-apikey': apikey})
     assert_correct_response(response, 404)
 
 
-def test_update_votes_out_of_bounds(module_client, module_db, fake_algolia_save):
+def test_update_votes_out_of_bounds(
+        module_client, module_db, fake_auth_from_oc, fake_algolia_save):
+    client = module_client
+    apikey = get_api_key(client)
     too_high = 99999999
-    response = module_client.put(
-        f"/api/v1/resources/{too_high}/upvote", follow_redirects=True)
+    response = client.put(
+                        f"/api/v1/resources/{too_high}/upvote",
+                        follow_redirects=True,
+                        headers={'x-apikey': apikey})
     assert_correct_response(response, 404)
-    response = module_client.put(
-        f"/api/v1/resources/{too_high}/downvote", follow_redirects=True)
+    response = client.put(
+                        f"/api/v1/resources/{too_high}/downvote",
+                        follow_redirects=True,
+                        headers={'x-apikey': apikey})
     assert_correct_response(response, 404)
 
 

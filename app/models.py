@@ -34,6 +34,7 @@ class Resource(TimestampMixin, db.Model):
     upvotes = db.Column(db.INTEGER, default=0)
     downvotes = db.Column(db.INTEGER, default=0)
     times_clicked = db.Column(db.INTEGER, default=0)
+    voters = db.relationship('VoteInformation', back_populates='resource')
 
     @property
     def serialize(self):
@@ -161,6 +162,7 @@ class Key(TimestampMixin, db.Model):
     apikey = db.Column(db.String, unique=True, nullable=False, index=True)
     email = db.Column(db.String, unique=True, nullable=False)
     blacklisted = db.Column(db.Boolean, default=False)
+    voted_resources = db.relationship('VoteInformation', back_populates='voter')
 
     @property
     def serialize(self):
@@ -193,3 +195,11 @@ class Key(TimestampMixin, db.Model):
         if self.blacklisted:
             tags = ' BLACKLISTED'
         return f"<Key email={self.email} apikey={self.apikey}{tags}>"
+
+
+class VoteInformation(db.Model):
+    voter_apikey = db.Column(db.String, db.ForeignKey('key.apikey'), primary_key=True)
+    resource_id = db.Column(db.Integer, db.ForeignKey('resource.id'), primary_key=True)
+    current_direction = db.Column(db.String, nullable=False)
+    resource = db.relationship('Resource', back_populates='voters')
+    voter = db.relationship('Key', back_populates='voted_resources')

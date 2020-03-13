@@ -116,6 +116,6 @@ def log_request(request, key):
     method = request.method
     path = request.path
     user = key.email
-    payload = request.json
+    payload = request.get_json(silent=True)
     logger = create_logger if method == "POST" else update_logger
     logger.info(f"User: {user} Route: {path} Payload: {payload}")

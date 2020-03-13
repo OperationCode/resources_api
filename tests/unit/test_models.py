@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app.models import Category, Key, Language, Resource
+from app.models import Category, Key, Language, Resource, VoteInformation
 
 
 def test_resource():
@@ -108,3 +108,34 @@ def test_key_blacklisted():
                               'email': 'test@example.org',
                               'last_updated': time.strftime("%Y-%m-%d %H:%M:%S")
                               })
+
+
+def test_vote_information():
+    test_apikey = '1234abcd'
+    test_id = 1
+    test_direction = 'upvote'
+
+    resource = Resource(
+        id=test_id,
+        name='name',
+        url='https://resource.url',
+        category=Category(name='Category'),
+        languages=[Language(name='language')],
+        paid=False,
+        notes='Some notes'
+    )
+    key = Key(email="test@example.org", apikey=test_apikey)
+
+    vote_info = VoteInformation(
+        voter_apikey=key.apikey,
+        resource_id=resource.id,
+        current_direction=test_direction
+    )
+    vote_info.voter = key
+    resource.voters.append(vote_info)
+
+    assert(vote_info.voter_apikey == test_apikey)
+    assert(vote_info.resource_id == test_id)
+    assert(vote_info.current_direction == test_direction)
+    assert(vote_info.voter == key)
+    assert(vote_info.resource == resource)

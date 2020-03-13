@@ -10,7 +10,7 @@ from app.api.auth import authenticate
 from app.api.routes.helpers import (
     failures_counter, get_attributes, latency_summary, logger)
 from app.api.validations import requires_body, validate_resource, wrong_type
-from app.models import Resource
+from app.models import Resource, VoteInformation, Key
 
 
 @latency_summary.time()
@@ -96,16 +96,11 @@ def update_resource(id, json, db):
 
 @latency_summary.time()
 @failures_counter.count_exceptions()
-@bp.route('/resources/<int:id>/upvote', methods=['PUT'])
-def upvote(id):
-    return update_votes(id, 'upvotes')
-
-
-@latency_summary.time()
-@failures_counter.count_exceptions()
-@bp.route('/resources/<int:id>/downvote', methods=['PUT'])
-def downvote(id):
-    return update_votes(id, 'downvotes')
+@bp.route('/resources/<int:id>/<string:vote_direction>', methods=['PUT'])
+@authenticate
+def change_votes(id, vote_direction):
+    return update_votes(id, f"{vote_direction}s") \
+        if vote_direction in ['upvote', 'downvote'] else redirect('/404')
 
 
 @latency_summary.time()
@@ -122,7 +117,33 @@ def update_votes(id, vote_direction):
         return redirect('/404')
 
     initial_count = getattr(resource, vote_direction)
-    setattr(resource, vote_direction, initial_count + 1)
+    opposite_direction = 'downvotes' if vote_direction == 'upvotes' else 'upvotes'
+    opposite_count = getattr(resource, opposite_direction)
+
+    api_key = request.headers.get('x-apikey')
+    vote_info = VoteInformation.query.get(
+                {'voter_apikey': api_key, 'resource_id': id}
+            )
+
+    if vote_info is None:
+        voter = Key.query.filter_by(apikey=api_key).first()
+        new_vote_info = VoteInformation(
+            voter_apikey=api_key,
+            resource_id=resource.id,
+            current_direction=vote_direction
+        )
+        new_vote_info.voter = voter
+        resource.voters.append(new_vote_info)
+        setattr(resource, vote_direction, initial_count + 1)
+    else:
+        if vote_info.current_direction == vote_direction:
+            setattr(resource, vote_direction, initial_count - 1)
+            setattr(vote_info, 'current_direction', 'None')
+        else:
+            setattr(resource, opposite_direction, opposite_count - 1) \
+                if vote_info.current_direction == opposite_direction else None
+            setattr(resource, vote_direction, initial_count + 1)
+            setattr(vote_info, 'current_direction', vote_direction)
     db.session.commit()
 
     return utils.standardize_response(payload=dict(data=resource.serialize))

@@ -517,6 +517,94 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
+  /resources/{id}/upvote:
+    put:
+      summary: Upvote Resource
+      description: |
+        Increments the `upvotes` property of a resource. If the user has already upvoted the resource, `upvotes` property will decrement since a user is limited to only one vote per resource. Also, if the user has already downvoted the resource, hitting this endpoint will increment `upvotes` property while decrementing `downvotes` property.
+      tags:
+        - Update Resource
+      parameters:
+        - name: id
+          in: path
+          description: Resource ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Upvoted resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource_data'
+              example:
+                apiVersion: '1.0'
+                data:
+                  - category: 'Books'
+                    created_at: '2020-01-07 22:06:45'
+                    downvotes: 0
+                    id: 5
+                    languages: []
+                    last_updated: '2020-03-12 23:17:52'
+                    name: 'Teach Your Kids to Code'
+                    notes: null
+                    paid: true
+                    times_clicked: 0
+                    upvotes: 1
+                    url: 'http://teachyourkidstocode.com/'
+                status: 'ok'
+                status_code: 200
+        404:
+          $ref: '#/components/responses/NotFound'
+
+  /resources/{id}/downvote:
+    put:
+      summary: Downvote Resource
+      description: |
+        Increments the `downvotes` property of a resource. If the user has already downvoted the resource, `downvotes` property will decrement since a user is limited to only one vote per resource. Also, if the user has already upvoted the resource, hitting this endpoint will increment `downvotes` property while decrementing `upvotes` property.
+      tags:
+        - Update Resource
+      parameters:
+        - name: id
+          in: path
+          description: Resource ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Downvoted resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource_data'
+              example:
+                apiVersion: '1.0'
+                data:
+                  - category: 'Books'
+                    created_at: '2020-01-07 22:06:45'
+                    downvotes: 1
+                    id: 5
+                    languages: []
+                    last_updated: '2020-03-12 23:17:52'
+                    name: 'Teach Your Kids to Code'
+                    notes: null
+                    paid: true
+                    times_clicked: 0
+                    upvotes: 0
+                    url: 'http://teachyourkidstocode.com/'
+                status: 'ok'
+                status_code: 200
+        404:
+          $ref: '#/components/responses/NotFound'
+
   /resources:
     get:
       summary: List Resources
