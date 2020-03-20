@@ -1,5 +1,5 @@
 algoliasearch>=2.0,<3.0
-alembic==1.4.1
+alembic==1.4.2
 bandit==1.5.1
 click==7.1.1
 flake8==3.7.9
