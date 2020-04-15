@@ -2,6 +2,8 @@ import os
 import time
 
 import yaml
+import requests
+from concurrent.futures import ThreadPoolExecutor
 
 import click
 from app import index, search_client
@@ -154,6 +156,29 @@ def register(app, db):  # pragma: no cover
     def apikey():
         """apikey commands"""
         pass
+
+    @app.cli.command()
+    def check_bad_url():
+        """check for expired resource url"""
+        resources = Resource.query.all()
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) \
+                           AppleWebKit/537.36 (KHTML, like Gecko) \
+                           Chrome/79.0.3945.117 Mobile Safari/537.36'
+        }
+        processes = []
+
+        def print_bad_url(resource):
+            try:
+                res = requests.get(resource.url, headers=headers)
+                res.status_code > 400 and \
+                    print(f"resource_id: {resource.id} reource_url: {resource.url}")
+            except Exception:
+                print(f"resource_id: {resource.id} resource_url: {resource.url}")
+
+        with ThreadPoolExecutor(max_workers=20) as executor:
+            for resource in resources:
+                processes.append(executor.submit(print_bad_url, resource))
 
     @db_migrate.command()
     def init():
