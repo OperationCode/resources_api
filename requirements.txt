@@ -3,7 +3,7 @@ alembic==1.4.2
 bandit==1.5.1
 click==7.1.1
 flake8==3.7.9
-flask==1.1.1
+flask==1.1.2
 Flask-Cors==3.0.8
 Flask-Limiter==1.2.1
 Flask-Migrate==2.5.3
