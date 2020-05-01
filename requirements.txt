@@ -17,6 +17,6 @@ python-dateutil==2.8.1
 pyyaml==5.3.1
 requests==2.23.0
 sqlalchemy==1.3.16
-SQLAlchemy-Utils==0.36.1
+SQLAlchemy-Utils==0.36.4
 uWSGI==2.0.18
 Werkzeug==1.0.1
