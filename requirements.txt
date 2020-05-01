@@ -6,7 +6,7 @@ flake8==3.7.9
 flask==1.1.1
 Flask-Cors==3.0.8
 Flask-Limiter==1.2.1
-Flask-Migrate==2.5.2
+Flask-Migrate==2.5.3
 prometheus_client==0.7.1
 psycopg2-binary==2.8.4
 py-healthcheck==1.9.0
