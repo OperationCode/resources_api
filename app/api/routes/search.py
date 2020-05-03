@@ -23,6 +23,8 @@ def search_results():
     paid = request.args.get('paid')
     category = request.args.get('category')
     languages = request.args.getlist('languages')
+    if not languages:
+        languages = request.args.getlist('languages[]')
     filters = []
 
     # Filter on paid

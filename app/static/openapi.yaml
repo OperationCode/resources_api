@@ -125,7 +125,7 @@ paths:
         - in: query
           name: languages
           required: false
-          description: Language(s) of the resource to search. For example, to filter for JavaScript and Python resources, make a `GET` request to `/search?languages=python&languages=javascript`.
+          description: "Language(s) of the resource to search. For example, to filter for JavaScript and Python resources, make a `GET` request to `/search?languages=python&languages=javascript`. Alternative syntax: `languages[]`"
           schema:
             type: array
         - in: query
@@ -621,7 +621,7 @@ paths:
         - in: query
           name: languages
           required: false
-          description: Language(s) of the resource. For example, to filter for Python and JavaScript resources, make a `GET` request to `/resources?languages=python&languages=javascript`
+          description: "Language(s) of the resource. For example, to filter for Python and JavaScript resources, make a `GET` request to `/resources?languages=python&languages=javascript`. Alternative syntax: `languages[]`"
           schema:
             type: string
         - in: query

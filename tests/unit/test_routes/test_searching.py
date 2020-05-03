@@ -99,11 +99,17 @@ def test_search_language_filter(module_client,
     result = client.get("/api/v1/search?languages=python&languages=javascript")
     assert (result.status_code == 200)
 
+    result = client.get("/api/v1/search?languages[]=python&languages[]=javascript")
+    assert (result.status_code == 200)
+
     # Tests with invalid languages attribute given ( defaults to all )
     result = client.get("/api/v1/search?languages=")
     assert (result.status_code == 200)
 
     result = client.get("/api/v1/search?languages=test&languages=")
+    assert (result.status_code == 200)
+
+    result = client.get("/api/v1/search?languages[]=test&languages[]=")
     assert (result.status_code == 200)
 
 

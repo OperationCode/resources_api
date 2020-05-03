@@ -141,6 +141,16 @@ def test_language_filter(module_client, module_db):
             ('JavaScript' in resource.get('languages'))
         )
 
+    # Filter multiple with languages[] syntax
+    response = client.get('api/v1/resources?languages[]=python&languages[]=javascript')
+
+    for resource in response.json['data']:
+        assert (isinstance(resource.get('languages'), list))
+        assert (
+            ('Python' in resource.get('languages')) or
+            ('JavaScript' in resource.get('languages'))
+        )
+
     # Gibberish language returns a 404
     response = client.get('api/v1/resources?languages=gibberish', follow_redirects=True)
     assert_correct_response(response, 404)

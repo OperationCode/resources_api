@@ -38,6 +38,8 @@ def get_resources():
 
     # Fetch the filter params from the url, if they were provided.
     languages = request.args.getlist('languages')
+    if not languages:
+        languages = request.args.getlist('languages[]')
     category = request.args.get('category')
     updated_after = request.args.get('updated_after')
     paid = request.args.get('paid')
