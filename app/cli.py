@@ -172,9 +172,9 @@ def register(app, db):  # pragma: no cover
             try:
                 res = requests.get(resource.url, headers=headers)
                 res.status_code > 400 and \
-                    print(f"resource_id: {resource.id} reource_url: {resource.url}")
+                    print(f"resource_id: {resource.id} | resource_url: {resource.url}")
             except Exception:
-                print(f"resource_id: {resource.id} resource_url: {resource.url}")
+                print(f"resource_id: {resource.id} | resource_url: {resource.url}")
 
         with ThreadPoolExecutor(max_workers=20) as executor:
             for resource in resources:
