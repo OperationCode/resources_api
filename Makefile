@@ -16,11 +16,6 @@ nuke:
 minty-fresh:
 	${DOCKER_COMPOSE} down --rmi all --volumes --remove-orphans
 
-implement-poetry:
-	@if test -e "poetry.lock"; then echo "Already using poetry."; exit 1; fi
-	if [ ! "$$(${DOCKER} ps -q -f name=resources-api)" ]; then ${DOCKER_COMPOSE} up --build -d; fi
-	${DOCKER} exec ${RESOURCES_CONTAINER} /bin/bash -c "./implement_poetry.sh"
-
 add remove:
 	@if [ -z $(shell echo ${ARGS} | cut -d' ' -f1) ]; then echo "Please provide a proper package name"; exit 1; fi
 	if [ ! "$$(${DOCKER} ps -q -f name=resources-api)" ]; then ${DOCKER_COMPOSE} up --build -d; fi
