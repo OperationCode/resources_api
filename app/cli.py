@@ -158,7 +158,7 @@ def register(app, db):  # pragma: no cover
         pass
 
     @app.cli.command()
-    def check_bad_url():
+    def check_bad_urls():
         """check for expired resource url"""
         resources = Resource.query.all()
         headers = {
@@ -166,19 +166,26 @@ def register(app, db):  # pragma: no cover
                            AppleWebKit/537.36 (KHTML, like Gecko) \
                            Chrome/79.0.3945.117 Mobile Safari/537.36'
         }
-        processes = []
 
-        def print_bad_url(resource):
+        def filter_expired(resource):
+            resource_data = {
+                'is_expired': True,
+                'resource_id': resource.id,
+                'resource_url': resource.url
+            }
             try:
                 res = requests.get(resource.url, headers=headers)
-                res.status_code > 400 and \
-                    print(f"resource_id: {resource.id} | resource_url: {resource.url}")
-            except Exception:
-                print(f"resource_id: {resource.id} | resource_url: {resource.url}")
+                return {**resource_data, 'is_expired': res.status_code > 400}
+            except requests.exceptions.ConnectionError:
+                return resource_data
 
         with ThreadPoolExecutor(max_workers=20) as executor:
-            for resource in resources:
-                processes.append(executor.submit(print_bad_url, resource))
+            expired_resources = [
+                r for r in executor.map(filter_expired, resources) if r['is_expired']
+            ]
+
+        for expired in expired_resources:
+            print(expired)
 
     @db_migrate.command()
     def init():
