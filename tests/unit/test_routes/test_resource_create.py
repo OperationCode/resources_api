@@ -39,6 +39,52 @@ def test_create_resource(
                                notes)
     assert_invalid_create(response, ["category", "paid", "notes"], 0)
 
+    # Boolean strings that can be parsed to true or False
+    name = "StringsForBoolsFalse"
+    url = None
+    category = None
+    languages = None
+    paid = "FaLsE"
+    notes = "Some notes"
+    response = create_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 200)
+    assert response.json['data'][0].get('paid') is False
+    name = "StringsForBoolsTrue"
+    url = None
+    category = None
+    languages = None
+    paid = "TrUe"
+    notes = "Some notes"
+    response = create_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 200)
+    assert response.json['data'][0].get('paid') is True
+
+    # Bad "paid" data
+    paid = "PERHAPS"
+    response = create_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 422)
+
     # A String to Big for the DB
     long_string = "x" * 6501
     name = long_string
