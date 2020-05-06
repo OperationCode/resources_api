@@ -87,3 +87,7 @@ migrate: build
 .PHONY: reindex
 reindex:
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} algolia reindex
+
+.PHONY: bad-urls
+bad-urls:
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} check-bad-urls
