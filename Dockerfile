@@ -8,16 +8,18 @@ ENV FLASK_APP run.py
 
 WORKDIR /src
 
-ADD requirements.txt requirements.txt
+COPY pyproject.toml poetry.lock ./
 
 RUN mkdir /static
 
 RUN apt-get update \
     && apt-get install -y libpq-dev gcc \
     && rm -rf /var/lib/apt/lists/* \
-    && pip install --upgrade pip
+    && pip install --upgrade pip \
+    && pip install poetry \
+    && poetry config virtualenvs.create false
 
-RUN pip install -r requirements.txt
+RUN poetry install --no-dev --no-interaction --no-ansi
 
 COPY . /src
 
