@@ -8,7 +8,7 @@ from app import db, index, utils as utils
 from app.api import bp
 from app.api.auth import authenticate
 from app.api.routes.helpers import (
-    failures_counter, get_attributes, latency_summary, logger)
+    failures_counter, get_attributes, latency_summary, logger, ensure_bool)
 from app.api.validations import requires_body, validate_resource, wrong_type
 from app.models import Resource, VoteInformation, Key
 
@@ -56,11 +56,7 @@ def update_resource(id, json, db):
             resource.url = json.get('url')
             index_object['url'] = json.get('url')
         if 'paid' in json:
-            paid = json.get('paid')
-
-            # Converts "false" and "true" to their bool
-            if type(paid) is str and paid.lower() in ["true", "false"]:
-                paid = paid.lower().strip() == "true"
+            paid = ensure_bool(json.get('paid'))
             resource.paid = paid
             index_object['paid'] = paid
         if 'notes' in json:

@@ -8,7 +8,7 @@ from app import db, index, utils as utils
 from app.api import bp
 from app.api.auth import authenticate
 from app.api.routes.helpers import (
-    failures_counter, get_attributes, latency_summary, logger)
+    failures_counter, get_attributes, latency_summary, logger, ensure_bool)
 from app.api.validations import requires_body, validate_resource_list, wrong_type
 from app.models import Resource
 
@@ -44,12 +44,13 @@ def create_resources(json, db):
         # Create each Resource in the database one by one
         for resource in json:
             langs, categ = get_attributes(resource)
+            paid_bool = ensure_bool(resource.get('paid'))
             new_resource = Resource(
                 name=resource.get('name'),
                 url=resource.get('url'),
                 category=categ,
                 languages=langs,
-                paid=resource.get('paid'),
+                paid=paid_bool,
                 notes=resource.get('notes'))
 
             try:

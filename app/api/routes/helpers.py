@@ -30,3 +30,12 @@ def get_attributes(json):
         langs.append(language)
     categ = category_dict.get(json.get('category'), Category(name=json.get('category')))
     return (langs, categ)
+
+
+def ensure_bool(string):
+    if isinstance(string, bool):
+        return string
+    else:
+        # Don't need to handle anything other than permutations
+        # of true or false, as validations.py takes care of that
+        return True if string.lower() == "true" else False

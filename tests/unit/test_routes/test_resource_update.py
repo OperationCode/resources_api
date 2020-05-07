@@ -159,6 +159,52 @@ def test_update_resource(
                                notes)
     assert (response.status_code == 422)
 
+    # Boolean strings that can be parsed to true or False
+    name = "StringsForBools"
+    url = None
+    category = None
+    languages = None
+    paid = "FaLsE"
+    notes = "Some notes"
+    response = update_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 200)
+    assert response.json['data'].get('paid') is False
+    name = "StringsForBools"
+    url = None
+    category = None
+    languages = None
+    paid = "TrUe"
+    notes = "Some notes"
+    response = update_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 200)
+    assert response.json['data'].get('paid') is True
+
+    # Bad "paid" data
+    paid = "PERHAPS"
+    response = update_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    assert (response.status_code == 422)
+
     # A String to Big for the DB
     long_string = "x" * 6501
     name = long_string
