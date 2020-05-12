@@ -13,7 +13,7 @@ COPY pyproject.toml poetry.lock ./
 RUN mkdir /static
 
 RUN apt-get update \
-    && apt-get install -y libpq-dev gcc \
+    && apt-get install -y libpq-dev gcc libpcre3 libpcre3-dev \
     && rm -rf /var/lib/apt/lists/* \
     && pip install --upgrade pip \
     && pip install poetry \
