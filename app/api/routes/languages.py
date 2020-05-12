@@ -39,13 +39,16 @@ def get_languages():
 
     return utils.standardize_response(payload=dict(
         data=language_list,
-        **pagination_details))
+        **pagination_details),
+        datatype="languages")
 
 
 def get_language(id):
     language = Language.query.get(id)
 
     if language:
-        return utils.standardize_response(payload=dict(data=(language.serialize)))
+        return utils.standardize_response(
+            payload=dict(data=(language.serialize)),
+            datatype="language")
 
     return redirect('/404')

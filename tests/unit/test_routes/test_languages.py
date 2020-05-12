@@ -5,7 +5,7 @@ def test_languages(module_client, module_db):
     client = module_client
 
     response = client.get('api/v1/languages')
-    for language in response.json['data']:
+    for language in response.json['languages']:
         assert (isinstance(language.get('id'), int))
         assert (isinstance(language.get('name'), str))
         assert (language.get('name'))
@@ -28,7 +28,7 @@ def test_get_single_language(module_client, module_db):
     # Status should be OK
     assert (response.status_code == 200)
 
-    language = response.json['data']
+    language = response.json['language']
     assert (isinstance(language.get('name'), str))
     assert (language.get('name'))
 

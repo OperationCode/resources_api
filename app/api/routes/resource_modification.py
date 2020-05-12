@@ -78,7 +78,8 @@ def update_resource(id, json, db):
         db.session.commit()
 
         return utils.standardize_response(
-            payload=dict(data=resource.serialize)
+            payload=dict(data=resource.serialize),
+            datatype="resource"
         )
 
     except IntegrityError as e:
@@ -142,7 +143,9 @@ def update_votes(id, vote_direction):
             setattr(vote_info, 'current_direction', vote_direction)
     db.session.commit()
 
-    return utils.standardize_response(payload=dict(data=resource.serialize))
+    return utils.standardize_response(
+        payload=dict(data=resource.serialize),
+        datatype="resource")
 
 
 def add_click(id):
@@ -155,4 +158,6 @@ def add_click(id):
     setattr(resource, 'times_clicked', initial_count + 1)
     db.session.commit()
 
-    return utils.standardize_response(payload=dict(data=resource.serialize))
+    return utils.standardize_response(
+        payload=dict(data=resource.serialize),
+        datatype="resource")

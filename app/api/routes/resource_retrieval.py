@@ -100,13 +100,16 @@ def get_resources():
 
     return utils.standardize_response(payload=dict(
         data=resource_list,
-        **pagination_details))
+        **pagination_details),
+        datatype="resources")
 
 
 def get_resource(id):
     resource = Resource.query.get(id)
 
     if resource:
-        return utils.standardize_response(payload=dict(data=(resource.serialize)))
+        return utils.standardize_response(
+            payload=dict(data=(resource.serialize)),
+            datatype="resource")
 
     return redirect('/404')

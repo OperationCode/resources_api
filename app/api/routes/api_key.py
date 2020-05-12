@@ -43,7 +43,9 @@ def apikey():
                 return utils.standardize_response(status_code=500)
 
         logger.info(apikey.serialize)
-        return utils.standardize_response(payload=dict(data=apikey.serialize))
+        return utils.standardize_response(
+            payload=dict(data=apikey.serialize),
+            datatype="credentials")
     except Exception as e:
         logger.exception(e)
         return utils.standardize_response(status_code=500)
@@ -57,4 +59,6 @@ def rotate_apikey():
     new_key = rotate_key(g.auth_key, db.session)
     if not new_key:
         return utils.standardize_response(status_code=500)
-    return utils.standardize_response(payload=dict(data=new_key.serialize))
+    return utils.standardize_response(
+        payload=dict(data=new_key.serialize),
+        datatype="credentials")

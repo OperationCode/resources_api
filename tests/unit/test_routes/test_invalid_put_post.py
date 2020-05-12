@@ -69,9 +69,9 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
                           )
 
     assert (response.status_code == 200)
-    assert (response.json['data'].get('name') == "12345")
-    assert (response.json['data'].get('category') == "56789")
-    assert (response.json['data'].get('paid') is False)
+    assert (response.json['resource'].get('name') == "12345")
+    assert (response.json['resource'].get('category') == "56789")
+    assert (response.json['resource'].get('paid') is False)
 
     # URL must be string
     response = client.put("/api/v1/resources/2",

@@ -30,32 +30,32 @@ def test_paginator(module_client, module_db):
 
     # Default page size
     response = client.get('api/v1/resources')
-    assert (len(response.json['data']) == PaginatorConfig.per_page)
+    assert (len(response.json['resources']) == PaginatorConfig.per_page)
 
     # Test page size
     response = client.get('api/v1/resources?page_size=1')
-    assert (len(response.json['data']) == 1)
+    assert (len(response.json['resources']) == 1)
     response = client.get('api/v1/resources?page_size=5')
-    assert (len(response.json['data']) == 5)
+    assert (len(response.json['resources']) == 5)
     response = client.get('api/v1/resources?page_size=10')
-    assert (len(response.json['data']) == 10)
+    assert (len(response.json['resources']) == 10)
     response = client.get('api/v1/resources?page_size=100')
-    assert (len(response.json['data']) == 100)
+    assert (len(response.json['resources']) == 100)
 
     # Test pages different and sequential
-    first_page_resource = response.json['data'][0]
+    first_page_resource = response.json['resources'][0]
     assert (first_page_resource.get('id') == 1)
     response = client.get('api/v1/resources?page_size=100&page=2')
-    second_page_resource = response.json['data'][0]
+    second_page_resource = response.json['resources'][0]
     assert (second_page_resource.get('id') == 101)
     response = client.get('api/v1/resources?page_size=100&page=3')
-    third_page_resource = response.json['data'][0]
+    third_page_resource = response.json['resources'][0]
     assert (third_page_resource.get('id') == 201)
 
     # Test bigger than max page size
     too_long = PaginatorConfig.max_page_size + 1
     response = client.get(f"api/v1/resources?page_size={too_long}")
-    assert (len(response.json['data']) == PaginatorConfig.max_page_size)
+    assert (len(response.json['resources']) == PaginatorConfig.max_page_size)
     assert (response.json['records_per_page'] == PaginatorConfig.max_page_size)
 
     # Test pagination details are included
