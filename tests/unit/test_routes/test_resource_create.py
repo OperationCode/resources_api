@@ -14,8 +14,8 @@ def test_create_resource(
     apikey = get_api_key(client)
     response = create_resource(client, apikey)
     assert (response.status_code == 200)
-    assert (isinstance(response.json['data'][0].get('id'), int))
-    assert (response.json['data'][0].get('name') == "Some Name")
+    assert (isinstance(response.json['resources'][0].get('id'), int))
+    assert (response.json['resources'][0].get('name') == "Some Name")
 
     # Empty resource object
     response = client.post('/api/v1/resources',
@@ -55,7 +55,7 @@ def test_create_resource(
                                paid,
                                notes)
     assert (response.status_code == 200)
-    assert response.json['data'][0].get('paid') is False
+    assert response.json['resources'][0].get('paid') is False
     name = "StringsForBoolsTrue"
     url = None
     category = None
@@ -71,7 +71,7 @@ def test_create_resource(
                                paid,
                                notes)
     assert (response.status_code == 200)
-    assert response.json['data'][0].get('paid') is True
+    assert response.json['resources'][0].get('paid') is True
 
     # Bad "paid" data
     paid = "PERHAPS"
@@ -166,7 +166,7 @@ def test_create_multiple_resources(
                            headers={'x-apikey': apikey})
 
     assert (response.status_code == 200)
-    response_data = response.get_json().get("data")
+    response_data = response.get_json().get("resources")
     assert (len(response_data) == 2)
     for res in response_data:
         assert (res.get("url") == url1 or res.get("url") == url2)
@@ -183,7 +183,7 @@ def test_create_multiple_resources(
                            json=data,
                            headers={'x-apikey': apikey})
     assert (response.status_code == 422)
-    assert (response.get_json().get("data") is None)
+    assert (response.get_json().get("resources") is None)
     errors = response.get_json().get("errors")
     assert (isinstance(errors, list))
     assert (errors[0].get("index") == 0)
@@ -206,7 +206,7 @@ def test_create_multiple_resources(
                            json=data,
                            headers={'x-apikey': apikey})
     assert (response.status_code == 422)
-    assert (response.get_json().get("data") is None)
+    assert (response.get_json().get("resources") is None)
     assert (response.get_json().get("errors")[0].get("index") == 1)
 
 

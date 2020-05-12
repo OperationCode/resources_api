@@ -26,11 +26,12 @@ def test_search(
 
     assert (resource.status_code == 200)
     assert (result.status_code == 200)
-    assert (result.json['data'][0]['url'] == resource.json['data'][0].get('url'))
+    assert (
+        result.json['resources'][0]['url'] == resource.json['resources'][0].get('url'))
 
     # Update the resource and test that search results reflect changes
     updated_term = random_string()
-    resource_id = resource.json['data'][0].get('id')
+    resource_id = resource.json['resources'][0].get('id')
     resource = client.put(f"/api/v1/resources/{resource_id}",
                           json=dict(url=f"{updated_term}",),
                           headers={'x-apikey': apikey})
@@ -39,7 +40,7 @@ def test_search(
 
     assert (resource.status_code == 200)
     assert (result.status_code == 200)
-    assert (result.json['data'][0]['url'] == resource.json['data'].get('url'))
+    assert (result.json['resources'][0]['url'] == resource.json['resource'].get('url'))
 
 
 def test_search_paid_filter(module_client,

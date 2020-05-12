@@ -79,4 +79,6 @@ def search_results():
             "total_count": search_result['nbHits'],
         }
     }
-    return utils.standardize_response(payload=dict(data=results, **pagination_details))
+    return utils.standardize_response(
+        payload=dict(data=results, **pagination_details),
+        datatype="resources")

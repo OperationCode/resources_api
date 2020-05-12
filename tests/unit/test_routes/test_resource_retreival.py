@@ -12,7 +12,7 @@ def test_get_resources(module_client, module_db):
 
     assert (response.status_code == 200)
 
-    for resource in response.json['data']:
+    for resource in response.json['resources']:
         assert (isinstance(resource.get('name'), str))
         assert (resource.get('name'))
         assert (isinstance(resource.get('url'), str))
@@ -54,7 +54,7 @@ def test_get_single_resource(module_client, module_db):
 
     assert (response.status_code == 200)
 
-    resource = response.json['data']
+    resource = response.json['resource']
     assert (isinstance(resource.get('name'), str))
     assert (resource.get('name'))
     assert (isinstance(resource.get('url'), str))
@@ -88,13 +88,13 @@ def test_paid_filter(module_client, module_db):
 
     total_free_resources = response.json['total_count']
 
-    assert all([not res.get('paid') for res in response.json['data']])
+    assert all([not res.get('paid') for res in response.json['resources']])
 
     response = client.get('api/v1/resources?paid=true')
 
     total_paid_resources = response.json['total_count']
 
-    assert all([res.get('paid') for res in response.json['data']])
+    assert all([res.get('paid') for res in response.json['resources']])
 
     # Check that the number of resources appear correct
     assert (total_paid_resources > 0)
@@ -106,10 +106,10 @@ def test_paid_filter_uppercase_parameter(module_client, module_db):
     client = module_client
 
     response = client.get('api/v1/resources?paid=TRUE')
-    assert all([res.get('paid') for res in response.json['data']])
+    assert all([res.get('paid') for res in response.json['resources']])
 
     response = client.get('api/v1/resources?paid=FALSE')
-    assert all([not res.get('paid') for res in response.json['data']])
+    assert all([not res.get('paid') for res in response.json['resources']])
 
 
 def test_paid_filter_invalid_paid_parameter(module_client, module_db):
@@ -117,8 +117,8 @@ def test_paid_filter_invalid_paid_parameter(module_client, module_db):
 
     response = client.get('api/v1/resources?paid=na93ns8i1ns')
 
-    assert (True in [res.get('paid') for res in response.json['data']])
-    assert (False in [res.get('paid') for res in response.json['data']])
+    assert (True in [res.get('paid') for res in response.json['resources']])
+    assert (False in [res.get('paid') for res in response.json['resources']])
 
 
 def test_language_filter(module_client, module_db):
@@ -127,14 +127,14 @@ def test_language_filter(module_client, module_db):
     # Filter by one language
     response = client.get('api/v1/resources?languages=python')
 
-    for resource in response.json['data']:
+    for resource in response.json['resources']:
         assert (isinstance(resource.get('languages'), list))
         assert ('Python' in resource.get('languages'))
 
     # Filter by multiple languages
     response = client.get('api/v1/resources?languages=python&languages=javascript')
 
-    for resource in response.json['data']:
+    for resource in response.json['resources']:
         assert (isinstance(resource.get('languages'), list))
         assert (
             ('Python' in resource.get('languages')) or
@@ -152,7 +152,7 @@ def test_category_filter(module_client, module_db):
     # Filter by category
     response = client.get('api/v1/resources?category=Back%20End%20Dev')
 
-    for resource in response.json['data']:
+    for resource in response.json['resources']:
         assert (resource.get('category') == "Back End Dev")
 
     # Gibberish category returns a 404
@@ -175,8 +175,8 @@ def test_updated_after_filter(module_client,
     create_resource(client, apikey)
     update_resource(client, apikey)
     response = client.get(f"/api/v1/resources?updated_after={filter_time}")
-    assert len(response.json['data']) == 2
-    for resource in response.json['data']:
+    assert len(response.json['resources']) == 2
+    for resource in response.json['resources']:
         assert (
                 filter_time <= datetime.strptime(resource.get('created_at'),
                                                  '%Y-%m-%d %H:%M:%S')

@@ -58,7 +58,7 @@ paths:
                 $ref: '#/components/schemas/ApiKeyResponse'
               example:
                 apiVersion: '1.0'
-                data:
+                credentials:
                   apikey: '1234567890'
                   email: 'your@email.com'
                 status: 'ok'
@@ -73,7 +73,6 @@ paths:
                 $ref: '#/components/schemas/Error'
               example:
                 apiVersion: '1.0'
-                data: null
                 errors:
                   unauthorized:
                     message: 'The email or password you submitted is incorrect'
@@ -95,7 +94,7 @@ paths:
                 $ref: '#/components/schemas/ApiKeyResponse'
               example:
                 apiVersion: '1.0'
-                data:
+                credentials:
                   apikey: '1234567890'
                   email: 'your@email.com'
                 status: 'ok'
@@ -119,7 +118,7 @@ paths:
         - in: query
           name: paid
           required: false
-          description: Whether the data is paid or not. To search for *free* resources, make a `GET` request to `/search?paid=false`.
+          description: Whether the resource is paid or not. To search for *free* resources, make a `GET` request to `/search?paid=false`.
           schema:
             type: boolean
         - in: query
@@ -143,7 +142,7 @@ paths:
                 $ref: '#/components/schemas/SearchResponse'
               example:
                 apiVersion: '1.0'
-                data:
+                resources:
                   - category': 'Tutorials'
                     created_at: '2019-05-25 18:52:15'
                     downvotes: 0
@@ -180,7 +179,7 @@ paths:
                 $ref: '#/components/schemas/Category'
               example:
                   apiVersion: '1.0'
-                  data:
+                  categories:
                     - id: 1
                       name: 'Books'
                     - id: 2
@@ -256,7 +255,7 @@ paths:
                 $ref: '#/components/schemas/Category_data'
               example:
                 apiVersion: '1.0'
-                data:
+                category:
                   id: 1
                   name: 'Books'
                 status: 'ok'
@@ -278,7 +277,7 @@ paths:
                 $ref: '#/components/schemas/Language'
               example:
                 apiVersion: '1.0'
-                data:
+                languages:
                   - id: 1
                     name: 'multiple'
                   - id: 2
@@ -354,7 +353,7 @@ paths:
                 $ref: '#/components/schemas/Language_data'
               example:
                 apiVersion: '1.0'
-                data:
+                language:
                   id: 2
                   name: 'Python'
                 status: 'ok'
@@ -386,19 +385,19 @@ paths:
                 $ref: '#/components/schemas/Resource'
               example:
                 apiVersion: '1.0'
-                data:
-                  - category: 'Books'
-                    created_at: '2019-06-15 17:55:32'
-                    downvotes: 0
-                    id: 3
-                    languages: []
-                    last_updated: '2019-06-15 17:55:32'
-                    name: 'Free Tech Books'
-                    notes: 'Focuses on general computer science concepts rather than a specific language'
-                    paid: false
-                    times_clicked: 0
-                    upvotes: 0
-                    url: 'http://www.freetechbooks.com/'
+                resource:
+                  category: 'Books'
+                  created_at: '2019-06-15 17:55:32'
+                  downvotes: 0
+                  id: 3
+                  languages: []
+                  last_updated: '2019-06-15 17:55:32'
+                  name: 'Free Tech Books'
+                  notes: 'Focuses on general computer science concepts rather than a specific language'
+                  paid: false
+                  times_clicked: 0
+                  upvotes: 0
+                  url: 'http://www.freetechbooks.com/'
                 status: 'ok'
                 status_code: 200
         404:
@@ -435,19 +434,19 @@ paths:
                 $ref: '#/components/schemas/Resource'
               example:
                 apiVersion: '1.0'
-                data:
-                  - category: 'Tutorial'
-                    created_at: '2019-07-21 15:41:19'
-                    downvotes: 0
-                    id: 2137
-                    languages: []
-                    last_updated: '2019-07-22 16:05:53'
-                    name: 'Updated Book Title'
-                    notes: null
-                    paid: false
-                    times_clicked: 3
-                    upvotes: 1
-                    url: 'http://www.test.com'
+                resource:
+                  category: 'Tutorial'
+                  created_at: '2019-07-21 15:41:19'
+                  downvotes: 0
+                  id: 2137
+                  languages: []
+                  last_updated: '2019-07-22 16:05:53'
+                  name: 'Updated Book Title'
+                  notes: null
+                  paid: false
+                  times_clicked: 3
+                  upvotes: 1
+                  url: 'http://www.test.com'
                 status: 'ok'
                 status_code: 200
         404:
@@ -462,7 +461,6 @@ paths:
                 $ref: '#/components/schemas/Error'
               example:
                 apiVersion: '1.0'
-                data: null
                 errors:
                   invalid-params:
                       message: 'The following params were invalid: url. Resource id 2137 already has this URL.'
@@ -499,19 +497,19 @@ paths:
                 $ref: '#/components/schemas/Resource_data'
               example:
                 apiVersion: '1.0'
-                data:
-                    - category: 'Books'
-                      created_at: '2019-04-28 22:18:34'
-                      downvotes: 0
-                      id: 10
-                      languages: []
-                      last_updated: '2019-07-26 13:47:52'
-                      name: 'Thinking Forth'
-                      notes: null
-                      paid: false
-                      times_clicked: 2
-                      upvotes: 0
-                      url: 'http://thinking-forth.sourceforge.net/'
+                resource:
+                    category: 'Books'
+                    created_at: '2019-04-28 22:18:34'
+                    downvotes: 0
+                    id: 10
+                    languages: []
+                    last_updated: '2019-07-26 13:47:52'
+                    name: 'Thinking Forth'
+                    notes: null
+                    paid: false
+                    times_clicked: 2
+                    upvotes: 0
+                    url: 'http://thinking-forth.sourceforge.net/'
                 status: 'ok'
                 status_code: 200
         404:
@@ -543,19 +541,19 @@ paths:
                 $ref: '#/components/schemas/Resource_data'
               example:
                 apiVersion: '1.0'
-                data:
-                  - category: 'Books'
-                    created_at: '2020-01-07 22:06:45'
-                    downvotes: 0
-                    id: 5
-                    languages: []
-                    last_updated: '2020-03-12 23:17:52'
-                    name: 'Teach Your Kids to Code'
-                    notes: null
-                    paid: true
-                    times_clicked: 0
-                    upvotes: 1
-                    url: 'http://teachyourkidstocode.com/'
+                resource:
+                  category: 'Books'
+                  created_at: '2020-01-07 22:06:45'
+                  downvotes: 0
+                  id: 5
+                  languages: []
+                  last_updated: '2020-03-12 23:17:52'
+                  name: 'Teach Your Kids to Code'
+                  notes: null
+                  paid: true
+                  times_clicked: 0
+                  upvotes: 1
+                  url: 'http://teachyourkidstocode.com/'
                 status: 'ok'
                 status_code: 200
         404:
@@ -587,19 +585,19 @@ paths:
                 $ref: '#/components/schemas/Resource_data'
               example:
                 apiVersion: '1.0'
-                data:
-                  - category: 'Books'
-                    created_at: '2020-01-07 22:06:45'
-                    downvotes: 1
-                    id: 5
-                    languages: []
-                    last_updated: '2020-03-12 23:17:52'
-                    name: 'Teach Your Kids to Code'
-                    notes: null
-                    paid: true
-                    times_clicked: 0
-                    upvotes: 0
-                    url: 'http://teachyourkidstocode.com/'
+                resource:
+                  category: 'Books'
+                  created_at: '2020-01-07 22:06:45'
+                  downvotes: 1
+                  id: 5
+                  languages: []
+                  last_updated: '2020-03-12 23:17:52'
+                  name: 'Teach Your Kids to Code'
+                  notes: null
+                  paid: true
+                  times_clicked: 0
+                  upvotes: 0
+                  url: 'http://teachyourkidstocode.com/'
                 status: 'ok'
                 status_code: 200
         404:
@@ -647,7 +645,7 @@ paths:
                 $ref: '#/components/schemas/FilteredResourcesResponse'
               example:
                 apiVersion: '1.0'
-                data:
+                resources:
                   - category': 'Tutorial'
                     created_at: '2019-07-21 15:41:19'
                     downvotes: 0
@@ -679,7 +677,6 @@ paths:
                 $ref: '#/components/schemas/Error'
               example:
                 apiVersion: '1.0'
-                data: null
                 errors:
                   unprocessable-entity:
                     message: 'The value for "updated_after" is invalid'
@@ -704,14 +701,14 @@ paths:
         required: true
       responses:
         200:
-          description: Created resource
+          description: Created resources
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Resource_list'
               example:
                 apiVersion: '1.0'
-                data:
+                resources:
                   - category: 'Tutorial'
                     created_at: '2019-07-21 15:41:19'
                     downvotes: 0
@@ -739,7 +736,6 @@ paths:
                 $ref: '#/components/schemas/Error_list'
               example:
                   apiVersion: '1.0'
-                  data: null
                   errors:
                     - index: 0
                       invalid-params:
@@ -767,9 +763,6 @@ components:
         apiVersion:
           type: string
           description: API version
-        data:
-          type: object
-          description: A data object
         errors:
           $ref: '#/components/schemas/Error_data'
         status:
@@ -843,9 +836,6 @@ components:
         apiVersion:
           type: string
           description: API version
-        data:
-          type: object
-          description: A data object
         errors:
           $ref: '#/components/schemas/Error_list_data'
         status:
@@ -926,7 +916,7 @@ components:
         apiVersion:
           type: string
           description: API version
-        data:
+        resource:
           $ref: '#/components/schemas/Resource_data'
         status:
           type: string
@@ -940,7 +930,7 @@ components:
       properties:
         apiVersion:
           type: string
-        data:
+        category:
           $ref: '#/components/schemas/Category_data'
         has_next:
           type: boolean
@@ -984,7 +974,7 @@ components:
         apiVersion:
           type: string
           description: API version
-        data:
+        language:
           $ref: '#/components/schemas/Language_data'
         has_next:
           type: boolean
@@ -1127,7 +1117,7 @@ components:
         apiVersion:
           type: string
           description: API version
-        data:
+        resources:
           type: array
           items:
             $ref: '#/components/schemas/Resource_data'
@@ -1156,7 +1146,7 @@ components:
         apiVersion:
           type: string
           description: API version
-        data:
+        resources:
           type: array
           items:
             $ref: '#/components/schemas/Resource_data'
@@ -1203,7 +1193,7 @@ components:
         apiVersion:
           type: string
           description: API version
-        data:
+        credentials:
           $ref: '#/components/schemas/ApiKeyResponse_data'
         status:
           type: string
@@ -1241,7 +1231,6 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             apiVersion: '1.0'
-            data: null
             errors:
               not-found:
                 message: 'The resource you requested does not exist.'
@@ -1257,8 +1246,6 @@ components:
           example: |
             {
               'apiVersion': '1.0',
-              'data': null,
-              'error': 1,
               'errors': {
                 'unauthorized': {
                   'message': 'The email or password you submitted is incorrect'
@@ -1276,7 +1263,6 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             apiVersion: '1.0'
-            data: null
             errors:
               unauthorized:
                 message: 'You must provide a valid API token in the x-apikey header.'
@@ -1291,7 +1277,6 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             apiVersion: '1.0'
-            data: null
             errors:
               bad-request:
                 message: "400 Bad Request: Failed to decode JSON object: Expecting ',' delimiter: line 3 column 2 (char 25)"

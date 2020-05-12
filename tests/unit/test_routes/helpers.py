@@ -74,7 +74,7 @@ def get_api_key(client):
         password="supersecurepassword"
     ))
 
-    return response.json['data'].get('apikey')
+    return response.json['credentials'].get('apikey')
 
 
 def assert_correct_response(response, code):

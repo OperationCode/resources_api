@@ -89,7 +89,9 @@ def create_resources(json, db):
                 return utils.standardize_response(payload=error, status_code=500)
 
         # Success
-        return utils.standardize_response(payload=dict(data=created_resources))
+        return utils.standardize_response(
+            payload=dict(data=created_resources),
+            datatype="resources")
     except Exception as e:
         logger.exception(e)
         return utils.standardize_response(status_code=500)

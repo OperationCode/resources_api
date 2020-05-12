@@ -81,7 +81,11 @@ def format_resource_search(hit):
 
 
 @versioned(throw_on_invalid=False)
-def standardize_response(payload={}, status_code=200, version=LATEST_API_VERSION):
+def standardize_response(
+        payload={},
+        status_code=200,
+        version=LATEST_API_VERSION,
+        datatype="data"):
     """Response helper
     This simplifies the response creation process by providing an internally
     defined mapping of status codes to messages for errors. It also knows when
@@ -101,8 +105,7 @@ def standardize_response(payload={}, status_code=200, version=LATEST_API_VERSION
     resp = dict(
         apiVersion=version,
         status="ok",
-        status_code=status_code,
-        data=None
+        status_code=status_code
     )
 
     if status_code >= 400 and err_map.get(status_code):
@@ -124,7 +127,7 @@ def standardize_response(payload={}, status_code=200, version=LATEST_API_VERSION
         resp["status_code"] = 500
         resp["status"] = err_map.get(500)
     else:
-        resp["data"] = data
+        resp[datatype] = data
 
         if pagination_details:
             resp.update(pagination_details)

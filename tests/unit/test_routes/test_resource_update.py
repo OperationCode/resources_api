@@ -11,7 +11,7 @@ def test_update_votes(module_client, module_db, fake_auth_from_oc, fake_algolia_
     id = 1
     apikey = get_api_key(client)
 
-    data = client.get(f"api/v1/resources/{id}").json['data']
+    data = client.get(f"api/v1/resources/{id}").json['resource']
     response = client.put(
                         f"/api/v1/resources/{id}/{UPVOTE}",
                         follow_redirects=True,
@@ -20,7 +20,7 @@ def test_update_votes(module_client, module_db, fake_auth_from_oc, fake_algolia_
     initial_downvotes = data.get(f"{DOWNVOTE}s")
 
     assert (response.status_code == 200)
-    assert (response.json['data'].get(f"{UPVOTE}s") == initial_upvotes + 1)
+    assert (response.json['resource'].get(f"{UPVOTE}s") == initial_upvotes + 1)
 
     response = client.put(
                         f"/api/v1/resources/{id}/{DOWNVOTE}",
@@ -28,15 +28,15 @@ def test_update_votes(module_client, module_db, fake_auth_from_oc, fake_algolia_
                         headers={'x-apikey': apikey})
     # Simple limit vote per user test
     assert (response.status_code == 200)
-    assert (response.json['data'].get(f"{UPVOTE}s") == initial_upvotes)
-    assert (response.json['data'].get(f"{DOWNVOTE}s") == initial_downvotes + 1)
+    assert (response.json['resource'].get(f"{UPVOTE}s") == initial_upvotes)
+    assert (response.json['resource'].get(f"{DOWNVOTE}s") == initial_downvotes + 1)
 
     response = client.put(
                         f"/api/v1/resources/{id}/{DOWNVOTE}",
                         follow_redirects=True,
                         headers={'x-apikey': apikey})
     assert (response.status_code == 200)
-    assert (response.json['data'].get(f"{DOWNVOTE}s") == initial_downvotes)
+    assert (response.json['resource'].get(f"{DOWNVOTE}s") == initial_downvotes)
 
 
 def test_update_votes_invalid(
@@ -79,12 +79,12 @@ def test_add_click(module_client, module_db):
 
     # Check clicking on a valid resource
     id = 1
-    data = client.get(f"api/v1/resources/{id}").json['data']
+    data = client.get(f"api/v1/resources/{id}").json['resource']
     response = client.put(f"/api/v1/resources/{id}/click", follow_redirects=True)
     initial_click_count = data.get(f"times_clicked")
 
     assert (response.status_code == 200)
-    assert (response.json['data'].get(f"times_clicked") == initial_click_count + 1)
+    assert (response.json['resource'].get(f"times_clicked") == initial_click_count + 1)
 
     # Check clicking on an invalid resource
     id = 'pancakes'
@@ -135,12 +135,12 @@ def test_update_resource(
     # Happy Path
     response = update_resource(client, apikey)
     assert (response.status_code == 200)
-    assert (response.json['data'].get('name') == "New name")
+    assert (response.json['resource'].get('name') == "New name")
 
     # Paid parameter as "FALSE" instead of False
     response = update_resource(client, apikey, name="New name 2", paid="FALSE")
     assert (response.status_code == 200)
-    assert (response.json['data'].get('name') == "New name 2")
+    assert (response.json['resource'].get('name') == "New name 2")
 
     # Bogus Data
     name = False
@@ -175,7 +175,7 @@ def test_update_resource(
                                paid,
                                notes)
     assert (response.status_code == 200)
-    assert response.json['data'].get('paid') is False
+    assert response.json['resource'].get('paid') is False
     name = "StringsForBools"
     url = None
     category = None
@@ -191,7 +191,7 @@ def test_update_resource(
                                paid,
                                notes)
     assert (response.status_code == 200)
-    assert response.json['data'].get('paid') is True
+    assert response.json['resource'].get('paid') is True
 
     # Bad "paid" data
     paid = "PERHAPS"

@@ -39,13 +39,16 @@ def get_categories():
 
     return utils.standardize_response(payload=dict(
         data=category_list,
-        **pagination_details))
+        **pagination_details),
+        datatype="categories")
 
 
 def get_category(id):
     category = Category.query.get(id)
 
     if category:
-        return utils.standardize_response(payload=dict(data=(category.serialize)))
+        return utils.standardize_response(
+            payload=dict(data=(category.serialize)),
+            datatype="category")
 
     return redirect('/404')

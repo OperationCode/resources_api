@@ -6,7 +6,7 @@ def test_categories(module_client, module_db):
 
     response = client.get('api/v1/categories')
 
-    for category in response.json['data']:
+    for category in response.json['categories']:
         assert (isinstance(category.get('id'), int))
         assert (isinstance(category.get('name'), str))
         assert (category.get('name'))
@@ -30,7 +30,7 @@ def test_get_single_category(module_client, module_db):
     # Status should be OK
     assert (response.status_code == 200)
 
-    category = response.json['data']
+    category = response.json['category']
     assert (isinstance(category.get('name'), str))
     assert (category.get('id') == 4)
 
