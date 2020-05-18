@@ -382,7 +382,7 @@ description = "Adds healthcheck endpoints to Flask or Tornado apps"
 name = "py-healthcheck"
 optional = false
 python-versions = "*"
-version = "1.9.0"
+version = "1.10.0"
 
 [package.dependencies]
 six = "*"
@@ -641,7 +641,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "b0b9b0626fb505db6c7525dda8b5a714b60822dcfd5f28d28ebe9cf260bc5734"
+content-hash = "fa222c4a22234ab8bf5d879fa8d5b00c8dd5ee92709618a3b5a9131e7b51dde3"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -869,7 +869,7 @@ py = [
     {file = "py-1.8.1.tar.gz", hash = "sha256:5e27081401262157467ad6e7f851b7aa402c5852dbcb3dae06768434de5752aa"},
 ]
 py-healthcheck = [
-    {file = "py-healthcheck-1.9.0.tar.gz", hash = "sha256:6adf7f881c0c521509c4720175a1ec8baed6e00b650e801b5f7c36b135418394"},
+    {file = "py-healthcheck-1.10.0.tar.gz", hash = "sha256:e7606cb32134bfe7aa658cf0d92a9a6591434b3867e8ed214c786fdf02d9ccfa"},
 ]
 pycodestyle = [
     {file = "pycodestyle-2.5.0-py2.py3-none-any.whl", hash = "sha256:95a2219d12372f05704562a14ec30bc76b05a5b297b21a5dfe3f6fac3491ae56"},
