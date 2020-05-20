@@ -81,10 +81,10 @@ def test_add_click(module_client, module_db):
     id = 1
     data = client.get(f"api/v1/resources/{id}").json['resource']
     response = client.put(f"/api/v1/resources/{id}/click", follow_redirects=True)
-    initial_click_count = data.get(f"times_clicked")
+    initial_click_count = data.get("times_clicked")
 
     assert (response.status_code == 200)
-    assert (response.json['resource'].get(f"times_clicked") == initial_click_count + 1)
+    assert (response.json['resource'].get("times_clicked") == initial_click_count + 1)
 
     # Check clicking on an invalid resource
     id = 'pancakes'

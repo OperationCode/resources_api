@@ -30,7 +30,7 @@ def import_resources(db):   # pragma: no cover
 
         # Convert to dict for quick lookup
         existing_resources = {r.key(): r for r in resources_list}
-        language_dict = {l.key(): l for l in languages_list}
+        language_dict = {lang.key(): lang for lang in languages_list}
         category_dict = {c.key(): c for c in categories_list}
     except AttributeError as e:
         print('-------> EXCEPTION OCCURED DURING DB SETUP')

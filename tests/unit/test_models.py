@@ -15,11 +15,11 @@ def test_resource():
 
     assert (resource.key() == 'https://resource.url')
     assert (resource.__hash__() == hash('https://resource.url'))
-    assert (resource.__repr__() == f"<Resource \n"
-            f"\tName: name\n"
-            f"\tLanguages: [<Language language>]\n"
-            f"\tCategory: <Category Category>\n"
-            f"\tURL: https://resource.url\n>")
+    assert (resource.__repr__() == "<Resource \n"
+            "\tName: name\n"
+            "\tLanguages: [<Language language>]\n"
+            "\tCategory: <Category Category>\n"
+            "\tURL: https://resource.url\n>")
 
     assert (resource.serialize == {
         'id': None,
@@ -66,7 +66,7 @@ def test_resource():
 def test_category():
     category = Category(name="Category")
     assert (category.__hash__() == hash('Category'))
-    assert (category.__repr__() == f"<Category Category>")
+    assert (category.__repr__() == "<Category Category>")
     assert (category != 1)
     assert (category == category)
 
@@ -74,7 +74,7 @@ def test_category():
 def test_language():
     language = Language(name="Language")
     assert (language.__hash__() == hash('Language'))
-    assert (language.__repr__() == f"<Language Language>")
+    assert (language.__repr__() == "<Language Language>")
     assert (language != 1)
     assert (language == language)
 
@@ -82,7 +82,7 @@ def test_language():
 def test_key():
     key = Key(email="test@example.org", apikey="1234abcd")
     assert (key.__hash__() == hash('1234abcd'))
-    assert (key.__repr__() == f"<Key email=test@example.org apikey=1234abcd>")
+    assert (key.__repr__() == "<Key email=test@example.org apikey=1234abcd>")
     assert (key != 1)
     assert (key == key)
     time = datetime.now()
@@ -97,7 +97,7 @@ def test_key():
 def test_key_blacklisted():
     key = Key(email="test@example.org", apikey="1234abcd", blacklisted=True)
     assert (
-        key.__repr__() == f"<Key email=test@example.org apikey=1234abcd BLACKLISTED>"
+        key.__repr__() == "<Key email=test@example.org apikey=1234abcd BLACKLISTED>"
     )
     assert (key != 1)
     assert (key == key)
