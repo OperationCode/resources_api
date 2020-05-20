@@ -19,7 +19,7 @@ def get_attributes(json):
     languages_list = Language.query.all()
     categories_list = Category.query.all()
 
-    language_dict = {l.key(): l for l in languages_list}
+    language_dict = {lang.key(): lang for lang in languages_list}
     category_dict = {c.key(): c for c in categories_list}
 
     langs = []

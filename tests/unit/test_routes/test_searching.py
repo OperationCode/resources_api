@@ -118,7 +118,7 @@ def test_algolia_exception_error(module_client,
     first_term = random_string()
     apikey = get_api_key(client)
 
-    response = client.get(f"/api/v1/search?q=python")
+    response = client.get("/api/v1/search?q=python")
 
     assert (response.status_code == 500)
     assert (
