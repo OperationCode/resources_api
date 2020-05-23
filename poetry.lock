@@ -158,7 +158,7 @@ description = "Rate limiting for flask applications"
 name = "flask-limiter"
 optional = false
 python-versions = "*"
-version = "1.2.1"
+version = "1.3.1"
 
 [package.dependencies]
 Flask = ">=0.8"
@@ -636,7 +636,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "67c53fb64bd5f4f9e44147ef856e2cbd31311c0c52484ace7735623a823511ff"
+content-hash = "2704bca7b85e4ee81d9f1401837d7321024a10d1ae00de7e86e1d52ccfde80d1"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -721,9 +721,9 @@ flask-cors = [
     {file = "Flask_Cors-3.0.8-py2.py3-none-any.whl", hash = "sha256:f4d97201660e6bbcff2d89d082b5b6d31abee04b1b3003ee073a6fd25ad1d69a"},
 ]
 flask-limiter = [
-    {file = "Flask-Limiter-1.2.1.tar.gz", hash = "sha256:d984a57ef37acb6eee29edc864ff22cd4cf090845f06968c015093ffd91e96f1"},
-    {file = "Flask_Limiter-1.2.1-py3-none-any.whl", hash = "sha256:db2a069402977927282b0fcf650753bfcb50488028def9f5b2398e1d525f2f9f"},
-    {file = "Flask_Limiter-1.2.1-py3.8.egg", hash = "sha256:8742b4f5d845ef7d28cdddbd62d62ed90e8c0ba747b4b712289121f1d1470b15"},
+    {file = "Flask-Limiter-1.3.1.tar.gz", hash = "sha256:08d6d7534a847c532fd36d0df978f93908d8616813085941c862bbcfcf6811aa"},
+    {file = "Flask_Limiter-1.3.1-py3-none-any.whl", hash = "sha256:82c154bd96c0a9c8307d9500876e72b247a35a5c7374a2c606fc32b647a6d8cb"},
+    {file = "Flask_Limiter-1.3.1-py3.7.egg", hash = "sha256:856de3b6bd5c43ebc15afd57fc7d05afa8e25610593633ba08e69129c927c511"},
 ]
 flask-migrate = [
     {file = "Flask-Migrate-2.5.3.tar.gz", hash = "sha256:a69d508c2e09d289f6e55a417b3b8c7bfe70e640f53d2d9deb0d056a384f37ee"},
