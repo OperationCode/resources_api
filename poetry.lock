@@ -18,7 +18,7 @@ description = "Algolia Search API Client for Python."
 name = "algoliasearch"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*', !=3.2.*, !=3.3.*'"
-version = "2.2.0"
+version = "2.3.0"
 
 [package.dependencies]
 requests = ">=2.21,<3.0"
@@ -644,8 +644,8 @@ alembic = [
     {file = "alembic-1.4.2.tar.gz", hash = "sha256:035ab00497217628bf5d0be82d664d8713ab13d37b630084da8e1f98facf4dbf"},
 ]
 algoliasearch = [
-    {file = "algoliasearch-2.2.0-py2.py3-none-any.whl", hash = "sha256:52cbe11b86dec1dcc144606aa47c841cc20238309b5dfc429b5b8d3443611038"},
-    {file = "algoliasearch-2.2.0.tar.gz", hash = "sha256:13503bfca28b6e6e8a19c677001e938df6c94a3554fd4b6e8b16533bfbf0f658"},
+    {file = "algoliasearch-2.3.0-py2.py3-none-any.whl", hash = "sha256:271920824e15629af24da93211d9f1157ae41c4a1384e1022b0de2d8d671abd4"},
+    {file = "algoliasearch-2.3.0.tar.gz", hash = "sha256:fc6c9abfe4b652a3b96ab5ebc3e07b5964786899da099a018b688e37ae507503"},
 ]
 atomicwrites = [
     {file = "atomicwrites-1.4.0-py2.py3-none-any.whl", hash = "sha256:6d1784dea7c0c8d4a5172b6c620f40b6e4cbfdf96d783691f2e1302a7b88e197"},
