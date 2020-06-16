@@ -6,7 +6,12 @@ FLASK := flask
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
 
 .PHONY: all
+
+ifeq ($(OS),Windows_NT)
+all: run_windows
+else
 all: run
+endif
 
 .PHONY:  nuke
 nuke:
@@ -47,6 +52,11 @@ run-with-metrics: build
 run: build
 	if [ "$$(${DOCKER} ps -q -f name=resources-api)" ]; then ${DOCKER_COMPOSE} down; fi
 	${DOCKER_COMPOSE} run -p 5000:5000 ${RESOURCES_CONTAINER} ${FLASK} run -h 0.0.0.0
+
+run_windows: build
+	@cmd /c (IF NOT "$(shell ${DOCKER} ps -q -f name=resources-api)" == "" ${DOCKER_COMPOSE} down)
+	${DOCKER_COMPOSE} run -p 5000:5000 ${RESOURCES_CONTAINER} ${FLASK} run -h 0.0.0.0
+	
 
 .PHONY: bg
 bg:
