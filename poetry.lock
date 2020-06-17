@@ -600,7 +600,7 @@ description = "The uWSGI server"
 name = "uwsgi"
 optional = false
 python-versions = "*"
-version = "2.0.19"
+version = "2.0.19.1"
 
 [[package]]
 category = "main"
@@ -636,7 +636,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "23cabc7c83604b6f3509aa0fd8d780679d80d99c41fe4b49f2a3292624be7241"
+content-hash = "37ff64995c1d2e6a5dadd584155b787536a6e05028ee7e67041c39ce74ce7f17"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -965,7 +965,7 @@ urllib3 = [
     {file = "urllib3-1.25.9.tar.gz", hash = "sha256:3018294ebefce6572a474f0604c2021e33b3fd8006ecd11d62107a5d2a963527"},
 ]
 uwsgi = [
-    {file = "uWSGI-2.0.19.tar.gz", hash = "sha256:a2d9e3ad86cb4fdc69ad58ba39c2b6f90a950f8a015d9075bc8d18804f4af8da"},
+    {file = "uWSGI-2.0.19.1.tar.gz", hash = "sha256:faa85e053c0b1be4d5585b0858d3a511d2cd10201802e8676060fd0a109e5869"},
 ]
 wcwidth = [
     {file = "wcwidth-0.1.9-py2.py3-none-any.whl", hash = "sha256:cafe2186b3c009a04067022ce1dcd79cb38d8d65ee4f4791b8888d6599d1bbe1"},
