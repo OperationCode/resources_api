@@ -1,10 +1,16 @@
 import uuid
+import os
 from enum import Enum
 
 import requests
+from app import db
 from app.models import Key
 from app.utils import setup_logger, standardize_response
 from flask import g, request
+
+from jwt import decode, InvalidSignatureError, ExpiredSignatureError
+
+PUBLIC_KEY = os.environ.get('JWT_PUBLIC_KEY', open(".dev/dev-jwt-key.pub").read())
 
 auth_logger = setup_logger('auth_logger')
 create_logger = setup_logger('create_auth_logger')
@@ -85,10 +91,50 @@ def rotate_key(key, session):
         return None
 
 
+def jwt_to_key():
+    auth_header = request.headers.get("authorization")
+    if not auth_header:
+        return None
+    auth_parts = auth_header.split(" ")
+    if len(auth_parts) != 2:
+        return None
+    _, token = auth_parts
+    try:
+        decoded_token = decode(
+            token, PUBLIC_KEY, algorithms="RS256"
+        )
+        request.decoded_token = decoded_token
+    except InvalidSignatureError:
+        return None
+    except ExpiredSignatureError:
+        return None
+    if 'exp' not in decoded_token:
+        return None
+    return get_api_key_from_authenticated_email(decoded_token['email'])
+
+
+# NOTE: this function assumes the email has already been authenticated
+def get_api_key_from_authenticated_email(email):
+    apikey = Key.query.filter_by(email=email).first()
+
+    if apikey and apikey.blacklisted:
+        return None
+
+    if not apikey:
+        apikey = create_new_apikey(email, db.session)
+        if not apikey:
+            raise Exception
+    return apikey
+
+
 def authenticate(func):
     def wrapper(*args, **kwargs):
         apikey = request.headers.get('x-apikey')
-        key = Key.query.filter_by(apikey=apikey, blacklisted=False).first()
+        try:
+            filters = {'apikey': apikey, 'blacklisted': False}
+            key = Key.query.filter_by(**filters).first() if apikey else jwt_to_key()
+        except Exception:
+            return standardize_response(status_code=500)
 
         if not key:
             return standardize_response(status_code=401)

@@ -74,6 +74,11 @@ test: build
 test-coverage:
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} py.test --cov-report html --cov=app/ tests/
 
+# Usage: make test-single tests/unit/test_api_key.py::test_get_api_key
+.PHONY: test-single
+test-single: build
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} /bin/bash -c "py.test --cov=app/ $(shell echo ${ARGS})"
+
 .PHONY: lint
 lint:
 	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} flake8 . --exclude migrations --statistics --count
