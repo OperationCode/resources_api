@@ -45,6 +45,8 @@ class Config:
 
     SQLALCHEMY_DATABASE_URI = f"postgresql://{pg_user}:{pg_pw}@{pg_host}:5432/{pg_db}"
 
+    SECRET_KEY = os.urandom(24)
+
     ALGOLIA_APP_ID = algolia_app_id
     ALGOLIA_API_KEY = algolia_api_key
     INDEX_NAME = index_name
