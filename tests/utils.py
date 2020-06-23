@@ -12,3 +12,17 @@ def create_fake_key(session, **kwargs):
     session.add(key)
     session.commit()
     return key
+
+
+def apikey_commit(client, email, password, **kwargs):
+
+    response = client.post(
+        'api/v1/apikey',
+        **kwargs,
+        json=dict(
+            email=email,
+            password=password
+        ),
+    )
+
+    return response
