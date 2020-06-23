@@ -44,9 +44,6 @@ def test_search(
 
 
 def test_search_paid_filter(module_client,
-                            module_db,
-                            fake_auth_from_oc,
-                            fake_algolia_save,
                             fake_algolia_search):
     client = module_client
 
@@ -64,9 +61,6 @@ def test_search_paid_filter(module_client,
 
 
 def test_search_category_filter(module_client,
-                                module_db,
-                                fake_auth_from_oc,
-                                fake_algolia_save,
                                 fake_algolia_search):
     client = module_client
 
@@ -83,9 +77,6 @@ def test_search_category_filter(module_client,
 
 
 def test_search_language_filter(module_client,
-                                module_db,
-                                fake_auth_from_oc,
-                                fake_algolia_save,
                                 fake_algolia_search):
     client = module_client
 
