@@ -6,7 +6,7 @@ from dataclasses import dataclass
 @dataclass
 class PaginatorConfig:
     per_page: int = 20
-    max_page_size: int = 100
+    max_page_size: int = 200
 
 
 def get_sys_exec_root_or_drive():
