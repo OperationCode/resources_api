@@ -2,7 +2,7 @@ from datetime import datetime
 
 from dateutil import parser
 from flask import redirect, request
-from sqlalchemy import func, or_
+from sqlalchemy import func, or_, text
 
 from app import utils as utils
 from app.api import bp
@@ -44,6 +44,7 @@ def get_resources():
 
     q = Resource.query
 
+
     # Filter on languages
     if languages:
         # Take the list of languages they pass in, join them all with OR
@@ -60,6 +61,7 @@ def get_resources():
                 func.lower(Category.name) == category.lower()
             )
         )
+
 
     # Filter on updated_after
     if updated_after:
@@ -85,6 +87,17 @@ def get_resources():
     if isinstance(paid, str) and paid.lower() in ['true', 'false']:
         paidAsBool = paid.lower() == 'true'
         q = q.filter(Resource.paid == paidAsBool)
+
+    # Order by "getting started" category
+    if not languages and not category and paid is None:
+        show_first = Category.query.filter(Category.name == "Getting Started").first()
+        clause = (
+            f" CASE resource.category_id"
+            f"   WHEN {show_first.id} THEN 1"
+            f"   ELSE 2"
+            f" END, id"
+        ) 
+        q = q.order_by(text(clause))
 
     try:
         paginated_resources = resource_paginator.paginated_data(q)
