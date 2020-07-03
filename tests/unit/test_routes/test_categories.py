@@ -10,16 +10,7 @@ def test_categories(module_client, module_db):
         assert (isinstance(category.get('id'), int))
         assert (isinstance(category.get('name'), str))
         assert (category.get('name'))
-    assert (response.json['number_of_pages'] is not None)
-
-
-def test_categories_page_out_of_bounds(module_client, module_db):
-    client = module_client
-    too_far = 99999999
-    response = client.get(
-        f"api/v1/categories?page_size=100&page={too_far}", follow_redirects=True)
-
-    assert_correct_response(response, 404)
+    assert (response.json['total_count'] is not None)
 
 
 def test_get_single_category(module_client, module_db):

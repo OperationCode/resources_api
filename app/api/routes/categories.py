@@ -1,10 +1,9 @@
-from flask import redirect, request
+from flask import redirect
 
 from app import utils as utils
 from app.api import bp
 from app.api.routes.helpers import failures_counter, latency_summary, logger
 from app.models import Category
-from configs import Config
 
 
 @latency_summary.time()
@@ -23,23 +22,21 @@ def category(id):
 
 def get_categories():
     try:
-        category_paginator = utils.Paginator(Config.CATEGORY_PAGINATOR, request)
-        query = Category.query
+        categories = Category.query.all()
 
-        paginated_categories = category_paginator.paginated_data(query)
-        if not paginated_categories:
+        if not categories:
             return redirect('/404')
         category_list = [
-            category.serialize for category in paginated_categories.items
+            category.serialize for category in categories
         ]
-        pagination_details = category_paginator.pagination_details(paginated_categories)
+        details = {'details': {'total_count': len(categories)}}
     except Exception as e:
         logger.exception(e)
         return utils.standardize_response(status_code=500)
 
     return utils.standardize_response(payload=dict(
         data=category_list,
-        **pagination_details),
+        **details),
         datatype="categories")
 
 

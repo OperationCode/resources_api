@@ -5,7 +5,11 @@ from .helpers import assert_correct_response
 
 
 def test_internal_server_error_handler(
-        module_client, module_db, fake_paginated_data_error):
+        module_client,
+        module_db,
+        fake_language_query_error,
+        fake_category_query_error,
+        fake_paginated_data_error):
     client = module_client
 
     response = client.get('api/v1/resources')
