@@ -94,10 +94,10 @@ def test_key():
                               })
 
 
-def test_key_blacklisted():
-    key = Key(email="test@example.org", apikey="1234abcd", blacklisted=True)
+def test_key_denied():
+    key = Key(email="test@example.org", apikey="1234abcd", denied=True)
     assert (
-        key.__repr__() == "<Key email=test@example.org apikey=1234abcd BLACKLISTED>"
+        key.__repr__() == "<Key email=test@example.org apikey=1234abcd DENIED>"
     )
     assert (key != 1)
     assert (key == key)

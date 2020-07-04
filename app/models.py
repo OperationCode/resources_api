@@ -161,7 +161,7 @@ class Key(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     apikey = db.Column(db.String, unique=True, nullable=False, index=True)
     email = db.Column(db.String, unique=True, nullable=False)
-    blacklisted = db.Column(db.Boolean, default=False)
+    denied = db.Column(db.Boolean, default=False)
     voted_resources = db.relationship('VoteInformation', back_populates='voter')
 
     @property
@@ -192,8 +192,8 @@ class Key(TimestampMixin, db.Model):
 
     def __repr__(self):
         tags = ''
-        if self.blacklisted:
-            tags = ' BLACKLISTED'
+        if self.denied:
+            tags = ' DENIED'
         return f"<Key email={self.email} apikey={self.apikey}{tags}>"
 
 

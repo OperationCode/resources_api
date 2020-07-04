@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
 from app.api.auth import (ApiKeyError, ApiKeyErrorCode, authenticate,
-                          blacklist_key, find_key_by_apikey_or_email,
+                          deny_key, find_key_by_apikey_or_email,
                           rotate_key)
 from app.models import Key
 from flask import g
@@ -56,9 +56,9 @@ def test_authenticate_success(module_client, function_empty_db):
     assert g.auth_key == key
 
 
-def test_authenticate_blacklisted(module_client, function_empty_db):
+def test_authenticate_denied(module_client, function_empty_db):
     # Arrange
-    create_fake_key(function_empty_db.session, blacklisted=True)
+    create_fake_key(function_empty_db.session, denied=True)
 
     def callback(*args, **kwargs):
         return 1
@@ -88,13 +88,13 @@ def test_find_key_by_apikey_or_email(module_client, function_empty_db):
     assert key == key2
 
 
-def test_blacklist_key_not_found(module_client, function_empty_db):
+def test_denied_key_not_found(module_client, function_empty_db):
     # Arrange
     error = None
 
     # Act
     try:
-        blacklist_key(FAKE_APIKEY + 'b', True, function_empty_db.session)
+        deny_key(FAKE_APIKEY + 'b', True, function_empty_db.session)
     except ApiKeyError as e:
         error = e
 
@@ -102,24 +102,24 @@ def test_blacklist_key_not_found(module_client, function_empty_db):
     assert error.error_code == ApiKeyErrorCode.NOT_FOUND
 
 
-def test_blacklist_key_already_blacklisted(module_client, function_empty_db):
+def test_deny_key_already_denied(module_client, function_empty_db):
     # Arrange
     error = None
     key1 = None
-    create_fake_key(function_empty_db.session, blacklisted=True)
+    create_fake_key(function_empty_db.session, denied=True)
 
     # Act
     try:
-        key1 = blacklist_key(FAKE_APIKEY, True, function_empty_db.session)
+        key1 = deny_key(FAKE_APIKEY, True, function_empty_db.session)
     except ApiKeyError as e:
         error = e
 
     # Assert
-    assert error.error_code == ApiKeyErrorCode.ALREADY_BLACKLISTED
+    assert error.error_code == ApiKeyErrorCode.ALREADY_DENIED
     assert key1 is None
 
 
-def test_blacklist_key_not_blacklisted(module_client, function_empty_db):
+def test_deny_key_not_denied(module_client, function_empty_db):
     # Arrange
     error = None
     key1 = None
@@ -127,36 +127,36 @@ def test_blacklist_key_not_blacklisted(module_client, function_empty_db):
 
     # Act
     try:
-        key1 = blacklist_key(FAKE_APIKEY, False, function_empty_db.session)
+        key1 = deny_key(FAKE_APIKEY, False, function_empty_db.session)
     except ApiKeyError as e:
         error = e
 
     # Assert
-    assert error.error_code == ApiKeyErrorCode.NOT_BLACKLISTED
+    assert error.error_code == ApiKeyErrorCode.NOT_DENIED
     assert key1 is None
 
 
-def test_blacklist_key_set_blacklisted_on(module_client, function_empty_db):
+def test_deny_key_set_denied_on(module_client, function_empty_db):
     # Arrange
     key = create_fake_key(function_empty_db.session)
 
     # Act
-    key1 = blacklist_key(FAKE_APIKEY, True, function_empty_db.session)
+    key1 = deny_key(FAKE_APIKEY, True, function_empty_db.session)
 
     # Assert
-    assert key.blacklisted
+    assert key.denied
     assert key == key1
 
 
-def test_blacklist_key_set_blacklisted_off(module_client, function_empty_db):
+def test_deny_key_set_denied_off(module_client, function_empty_db):
     # Arrange
-    key = create_fake_key(function_empty_db.session, blacklisted=True)
+    key = create_fake_key(function_empty_db.session, denied=True)
 
     # Act
-    key1 = blacklist_key(FAKE_APIKEY, False, function_empty_db.session)
+    key1 = deny_key(FAKE_APIKEY, False, function_empty_db.session)
 
     # Assert
-    assert not key.blacklisted
+    assert not key.denied
     assert key == key1
 
 
