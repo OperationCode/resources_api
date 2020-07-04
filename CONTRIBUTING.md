@@ -121,11 +121,11 @@ technology/tool. It's a very nice way to ramp up quickly with specific tooling.
 - Once you have finished working on your issue, push your changes to your own
   github repo, and then submit a pull request.
 
-- To return to your main `master` branch, type the following command in your
+- To return to your `main` branch, type the following command in your
   terminal.
 
   ```bash
-  git checkout master
+  git checkout main
   ```
 
   </details>
