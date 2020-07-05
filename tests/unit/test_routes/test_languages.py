@@ -10,7 +10,7 @@ def test_languages(module_client, module_db):
         assert (isinstance(language.get('name'), str))
         assert (language.get('name'))
     assert (response.json['total_count'] is not None)
-    assert (len(response.json['categories']) == response.json['total_count'])
+    assert (len(response.json['languages']) == response.json['total_count'])
 
 
 def test_get_single_language(module_client, module_db):
