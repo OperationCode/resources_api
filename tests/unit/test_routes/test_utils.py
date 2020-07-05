@@ -46,15 +46,18 @@ def test_paginator(module_client, module_db):
     response = client.get('api/v1/resources?page_size=100')
     assert (len(response.json['resources']) == 100)
 
-    # Test pages different and sequential
+    # Test first category is 'Getting Started'
     first_page_resource = response.json['resources'][0]
-    assert (first_page_resource.get('id') == 1)
+    assert (first_page_resource.get('category') == 'Getting Started')
+
+    # Test pages are different
     response = client.get('api/v1/resources?page_size=100&page=2')
     second_page_resource = response.json['resources'][0]
-    assert (second_page_resource.get('id') == 101)
+    assert (second_page_resource.get('id') != first_page_resource.get('id'))
     response = client.get('api/v1/resources?page_size=100&page=3')
     third_page_resource = response.json['resources'][0]
-    assert (third_page_resource.get('id') == 201)
+    assert (second_page_resource.get('id') != third_page_resource.get('id'))
+    assert (third_page_resource.get('id') != first_page_resource.get('id'))
 
     # Test bigger than max page size
     too_long = PaginatorConfig.max_page_size + 1
