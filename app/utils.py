@@ -50,7 +50,7 @@ class Paginator:
 
     def pagination_details(self, paginated_data):
         return {
-            "pagination_details": {
+            "details": {
                 "page": paginated_data.page,
                 "number_of_pages": paginated_data.pages,
                 "records_per_page": paginated_data.per_page,
@@ -101,7 +101,7 @@ def standardize_response(
     """
     data = payload.get("data")
     errors = payload.get("errors")
-    pagination_details = payload.get("pagination_details")
+    details = payload.get("details")
     resp = dict(
         apiVersion=version,
         status="ok",
@@ -129,8 +129,8 @@ def standardize_response(
     else:
         resp[datatype] = data
 
-        if pagination_details:
-            resp.update(pagination_details)
+        if details:
+            resp.update(details)
 
     return jsonify(resp), resp["status_code"], {'Content-Type': 'application/json'}
 

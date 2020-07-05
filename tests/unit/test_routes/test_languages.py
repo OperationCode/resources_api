@@ -9,15 +9,8 @@ def test_languages(module_client, module_db):
         assert (isinstance(language.get('id'), int))
         assert (isinstance(language.get('name'), str))
         assert (language.get('name'))
-    assert (response.json['number_of_pages'] is not None)
-
-
-def test_languages_page_out_of_bounds(module_client, module_db):
-    client = module_client
-    too_far = 99999999
-    response = client.get(
-        f"api/v1/languages?page_size=100&page={too_far}", follow_redirects=True)
-    assert_correct_response(response, 404)
+    assert (response.json['total_count'] is not None)
+    assert (len(response.json['languages']) == response.json['total_count'])
 
 
 def test_get_single_language(module_client, module_db):

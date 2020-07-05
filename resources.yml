@@ -1260,35 +1260,35 @@
 - name: Linux Journey
   url: https://linuxjourney.com/
   category: Open Source
-  languages: ["Linux"]
+  languages: ["Unix/Linux/*nix"]
   paid: false
   notes:
 
 - name: Linux from Scratch
   url: http://linuxfromscratch.org/
   category: Open Source
-  languages: ["Linux"]
+  languages: ["Unix/Linux/*nix"]
   paid: false
   notes:
 
 - name: System Administration Guide from Red Hat
   url: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Introduction_To_System_Administration/index.html
   category: Open Source
-  languages: ["Linux"]
+  languages: ["Unix/Linux/*nix"]
   paid: false
   notes:
 
 - name: Linux Tutorials
   url: https://www.linux.com/tutorials
   category: Open Source
-  languages: ["Linux"]
+  languages: ["Unix/Linux/*nix"]
   paid: false
   notes:
 
 - name: Linux Survival
   url: http://linuxsurvival.com/
   category: Open Source
-  languages: ["Linux"]
+  languages: ["Unix/Linux/*nix"]
   paid: false
   notes:
 

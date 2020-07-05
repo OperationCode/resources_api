@@ -167,7 +167,7 @@ paths:
   /categories:
     get:
       summary: List Categories
-      description: Gets a list of all available categories. Note&#58; The `page` attribute in the response of the `/search` endpoint begins with `0`, but the `page` attribute in the response of the `List Categories` endpoint begins with `1`.
+      description: Gets a list of all available categories.
       tags:
         - List Categories
       responses:
@@ -210,24 +210,25 @@ paths:
                       name: 'Docker'
                     - id: 15
                       name: 'Regular Expressions'
-                    - id: 1
+                    - id: 16
                       name: 'Mentorship'
-                    - id: 1
+                    - id: 17
                       name: 'News'
-                    - id: 1
+                    - id: 18
                       name: 'Back End Dev'
-                    - id: 1
+                    - id: 19
                       name: 'Mobile Dev'
-                    - id: 1
+                    - id: 20
                       name: 'Cheat Sheets'
-                  has_next: true
-                  has_prev: false
-                  number_of_pages: 4
-                  page: 1
-                  records_per_page: 20
+                    - id: 21
+                      name: 'Open Source'
+                    - id: 22
+                      name: 'Front End Dev'
+                    - id: 23
+                      name: 'Web Design'
                   status: 'ok'
                   status_code: 200
-                  total_count: 72
+                  total_count: 23
         404:
           $ref: '#/components/responses/NotFound'
   /categories/{id}:
@@ -265,7 +266,7 @@ paths:
   /languages:
     get:
       summary: List Languages
-      description: Gets list of all available language entries. Note&#58; The `page` attribute in the response of the `/search` endpoint begins with `0`, but the `page` attribute in the response of the `List Languages` endpoint begins with `1`.
+      description: Gets list of all available language entries.
       tags:
         - List Languages
       responses:
@@ -318,14 +319,13 @@ paths:
                     name: 'Android'
                   - id: 20
                     name: 'CSS'
-                has_next: true
-                has_prev: false
-                number_of_pages: 4
-                page: 1
-                records_per_page: 20
+                  - id: 21
+                    name: 'jQuery'
+                  - id: 22
+                    name: 'Git'
                 status: 'ok'
                 status_code: 200
-                total_count: 73
+                total_count: 22
         404:
           $ref: '#/components/responses/NotFound'
   /languages/{id}:
@@ -932,21 +932,6 @@ components:
           type: string
         category:
           $ref: '#/components/schemas/Category_data'
-        has_next:
-          type: boolean
-          description: Additional pages
-        has_previous:
-          type: boolean
-          description: Previous pages
-        number_of_pages:
-          type: integer
-          description: Total pages
-        page:
-          type: integer
-          description: Current page
-        records_per_page:
-          type: integer
-          description: Records per page
         status:
           type: string
           description: Status message
@@ -974,23 +959,8 @@ components:
         apiVersion:
           type: string
           description: API version
-        language:
+        languages:
           $ref: '#/components/schemas/Language_data'
-        has_next:
-          type: boolean
-          description: Additional pages
-        has_previous:
-          type: boolean
-          description: Previous pages
-        number_of_pages:
-          type: integer
-          description: Total pages
-        page:
-          type: integer
-          description: Current page
-        records_per_page:
-          type: integer
-          description: Records per page
         status:
           type: string
           description: Status message

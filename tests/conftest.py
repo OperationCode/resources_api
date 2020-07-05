@@ -185,6 +185,24 @@ def fake_key_query_error(mocker):
 
 
 @pytest.fixture(scope='function')
+def fake_category_query_error(mocker):
+    """
+    Mocks an exception being raised during a query to test error handling
+    """
+
+    mocker.patch('app.models.Category.query', new=None)
+
+
+@pytest.fixture(scope='function')
+def fake_language_query_error(mocker):
+    """
+    Mocks an exception being raised during a query to test error handling
+    """
+
+    mocker.patch('app.models.Language.query', new=None)
+
+
+@pytest.fixture(scope='function')
 def fake_algolia_save(mocker):
     """
     Mocks a save_object or partial_update_object call to algolia
