@@ -11,6 +11,7 @@ def test_categories(module_client, module_db):
         assert (isinstance(category.get('name'), str))
         assert (category.get('name'))
     assert (response.json['total_count'] is not None)
+    assert (len(response.json['categories']) == response.json['total_count'])
 
 
 def test_get_single_category(module_client, module_db):

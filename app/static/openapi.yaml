@@ -220,9 +220,15 @@ paths:
                       name: 'Mobile Dev'
                     - id: 20
                       name: 'Cheat Sheets'
+                    - id: 21
+                      name: 'Open Source'
+                    - id: 22
+                      name: 'Front End Dev'
+                    - id: 23
+                      name: 'Web Design'
                   status: 'ok'
                   status_code: 200
-                  total_count: 72
+                  total_count: 23
         404:
           $ref: '#/components/responses/NotFound'
   /categories/{id}:
@@ -313,9 +319,13 @@ paths:
                     name: 'Android'
                   - id: 20
                     name: 'CSS'
+                  - id: 21
+                    name: 'jQuery'
+                  - id: 22
+                    name: 'Git'
                 status: 'ok'
                 status_code: 200
-                total_count: 73
+                total_count: 22
         404:
           $ref: '#/components/responses/NotFound'
   /languages/{id}:
@@ -949,7 +959,7 @@ components:
         apiVersion:
           type: string
           description: API version
-        language:
+        languages:
           $ref: '#/components/schemas/Language_data'
         status:
           type: string
