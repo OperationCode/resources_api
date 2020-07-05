@@ -44,7 +44,6 @@ def get_resources():
 
     q = Resource.query
 
-
     # Filter on languages
     if languages:
         # Take the list of languages they pass in, join them all with OR
@@ -61,7 +60,6 @@ def get_resources():
                 func.lower(Category.name) == category.lower()
             )
         )
-
 
     # Filter on updated_after
     if updated_after:
@@ -96,7 +94,7 @@ def get_resources():
             f"   WHEN {show_first.id} THEN 1"
             f"   ELSE 2"
             f" END, id"
-        ) 
+        )
         q = q.order_by(text(clause))
 
     try:
