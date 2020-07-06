@@ -4,6 +4,7 @@ from algoliasearch.exceptions import (AlgoliaException,
 from app import app
 from app import db as _db
 from app.utils import standardize_response
+from sqlalchemy.exc import DBAPIError
 
 TEST_DATABASE_URI = 'sqlite:///:memory:'
 
@@ -190,7 +191,7 @@ def fake_category_query_error(mocker):
     Mocks an exception being raised during a query to test error handling
     """
 
-    mocker.patch('app.models.Category.query', new=None)
+    mocker.patch('app.models.Category.query', side_effect=DBAPIError)
 
 
 @pytest.fixture(scope='function')
@@ -199,7 +200,7 @@ def fake_language_query_error(mocker):
     Mocks an exception being raised during a query to test error handling
     """
 
-    mocker.patch('app.models.Language.query', new=None)
+    mocker.patch('app.models.Language.query', side_effect=DBAPIError)
 
 
 @pytest.fixture(scope='function')
