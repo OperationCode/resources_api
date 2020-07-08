@@ -48,7 +48,7 @@ class Paginator:
         setattr(data, "per_page", self.page_size)
         return data
 
-    def pagination_details(self, paginated_data):
+    def details(self, paginated_data):
         return {
             "details": {
                 "page": paginated_data.page,

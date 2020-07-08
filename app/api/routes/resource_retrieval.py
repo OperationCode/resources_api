@@ -104,14 +104,14 @@ def get_resources():
         resource_list = [
             resource.serialize for resource in paginated_resources.items
         ]
-        pagination_details = resource_paginator.pagination_details(paginated_resources)
+        details = resource_paginator.details(paginated_resources)
     except Exception as e:
         logger.exception(e)
         return utils.standardize_response(status_code=500)
 
     return utils.standardize_response(payload=dict(
         data=resource_list,
-        **pagination_details),
+        **details),
         datatype="resources")
 
 
