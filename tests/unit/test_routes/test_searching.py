@@ -28,6 +28,10 @@ def test_search(
     assert (result.status_code == 200)
     assert (
         result.json['resources'][0]['url'] == resource.json['resources'][0].get('url'))
+    assert (isinstance(result.json['page'], int))
+    assert (isinstance(result.json['number_of_pages'], int))
+    assert (isinstance(result.json['records_per_page'], int))
+    assert (isinstance(result.json['total_count'], int))
 
     # Update the resource and test that search results reflect changes
     updated_term = random_string()
@@ -41,6 +45,10 @@ def test_search(
     assert (resource.status_code == 200)
     assert (result.status_code == 200)
     assert (result.json['resources'][0]['url'] == resource.json['resource'].get('url'))
+    assert (isinstance(result.json['page'], int))
+    assert (isinstance(result.json['number_of_pages'], int))
+    assert (isinstance(result.json['records_per_page'], int))
+    assert (isinstance(result.json['total_count'], int))
 
 
 def test_search_paid_filter(module_client,

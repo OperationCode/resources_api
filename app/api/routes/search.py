@@ -71,8 +71,8 @@ def search_results():
 
     results = [utils.format_resource_search(result) for result in search_result['hits']]
 
-    pagination_details = {
-        "pagination_details": {
+    details = {
+        "details": {
             "page": search_result['page'],
             "number_of_pages": search_result['nbPages'],
             "records_per_page": search_result['hitsPerPage'],
@@ -80,5 +80,5 @@ def search_results():
         }
     }
     return utils.standardize_response(
-        payload=dict(data=results, **pagination_details),
+        payload=dict(data=results, **details),
         datatype="resources")
