@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   docker: circleci/docker@0.5.1
+  aws-eks: circleci/aws-eks@0.2.7
 
 workflows:
   build_test_deploy:
@@ -26,41 +27,49 @@ workflows:
               only:
                 - main
 
+      # Deploy the new docker image to the AWS EKS cluster, staging namespace
+      - aws-eks/update-container-image:
+          container-image-updates: 'app=operationcode/resources-api:${CIRCLE_BUILD_NUM}'
+          cluster-name: 'operationcode-backend'
+          namespace: 'operationcode-staging'
+          resource-name: 'deployment/resources-api'
+          get-rollout-status: true
+          watch-rollout-status: true
+          watch-timeout: 5m
+          record: true
+          requires:
+            - docker/publish
+          filters:
+            branches:
+              only:
+                - main
+
 jobs:
   build_test:
-
     machine:
       image: ubuntu-1604:201903-01
-
     environment:
       CC_TEST_REPORTER_ID: 08bad9e4f229f88064fd6ee1c0fe4f64be37943beff36f37f8b8896123ef6752
 
     steps:
-
       - checkout
-
       - run: sudo chown -R circleci:circleci /usr/local/bin
-
       - run:
           name: Initializing CodeClimate
           command: |
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter
             chmod +x /usr/local/bin/cc-test-reporter
             /usr/local/bin/cc-test-reporter before-build
-
       - run:
           name: Run tests
           command: |
             make test
-
-
       - run:
           name: Run linting and coverage
           command: |
             make lint
             docker-compose run resources-api coverage xml
             /usr/local/bin/cc-test-reporter after-build
-
       - run:
           name: Run Bandit security analysis
           command: |
