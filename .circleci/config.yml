@@ -1,7 +1,18 @@
 version: 2.1
+parameters:
+  aws-profile:
+    type: string
+    default: default
+  aws-region:
+    type: string
+    default: us-east-2
+  cluster-name:
+    type: string
+    default: operationcode-backend
 
 orbs:
   docker: circleci/docker@0.5.1
+  aws-eks: circleci/aws-eks@0.2.7
 
 workflows:
   build_test_deploy:
@@ -65,3 +76,27 @@ jobs:
           name: Run Bandit security analysis
           command: |
             make bandit
+
+  staging_deploy:
+    executor: python3
+    parameters:
+      cluster-name:
+        description: |
+          Operation Code Backend Cluster
+        type: string
+    steps:
+      - update-kubeconfig-with-authenticator:
+          aws-profile: << parameters.aws-profile >>
+          aws-region: << parameters.aws-region >>
+          cluster-name: << parameters.cluster-name >>
+          install-kubectl: true
+      - aws-eks/update-container-image:
+          container-image-updates: 'resources-api=resources-api:${CIRCLE_BUILD_NUM}'
+          namespace: 'operationcode-staging'
+          record: true
+          requires:
+            - docker/publish
+          filters:
+            branches:
+              only:
+                - main
