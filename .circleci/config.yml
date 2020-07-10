@@ -15,11 +15,11 @@ workflows:
           tag: latest
           after_build:
             - run:
-                name: Tag and Push with $CIRCLE_BUILD_NUM
+                name: Tag and Push with $CIRCLE_SHA1
                 command: |
                   IMAGE_ID=operationcode/resources-api
-                  docker tag ${IMAGE_ID}:latest ${IMAGE_ID}:${CIRCLE_BUILD_NUM}
-                  docker push ${IMAGE_ID}:${CIRCLE_BUILD_NUM}
+                  docker tag ${IMAGE_ID}:latest ${IMAGE_ID}:${CIRCLE_SHA1}
+                  docker push ${IMAGE_ID}:${CIRCLE_SHA1}
           requires:
             - build_test
           filters:
@@ -29,7 +29,7 @@ workflows:
 
       # Deploy the new docker image to the AWS EKS cluster, staging namespace
       - aws-eks/update-container-image:
-          container-image-updates: 'app=operationcode/resources-api:${CIRCLE_BUILD_NUM}'
+          container-image-updates: 'app=operationcode/resources-api:${CIRCLE_SHA1}'
           cluster-name: 'operationcode-backend'
           namespace: 'operationcode-staging'
           resource-name: 'deployment/resources-api'
