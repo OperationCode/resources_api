@@ -26,8 +26,8 @@ class ApiKeyError(Exception):
 
 class ApiKeyErrorCode(Enum):
     NOT_FOUND = 1
-    ALREADY_BLACKLISTED = 2
-    NOT_BLACKLISTED = 3
+    ALREADY_DENIED = 2
+    NOT_DENIED = 3
 
 
 def find_key_by_apikey_or_email(apikey_or_email):
@@ -37,20 +37,20 @@ def find_key_by_apikey_or_email(apikey_or_email):
     return Key.query.filter_by(email=apikey_or_email).first()
 
 
-def blacklist_key(apikey_or_email, blacklisted, session):
+def deny_key(apikey_or_email, denied, session):
     key = find_key_by_apikey_or_email(apikey_or_email)
     if not key:
         raise ApiKeyError('Could not find that apikey or email.',
                           ApiKeyErrorCode.NOT_FOUND)
 
-    if key.blacklisted == blacklisted:
+    if key.denied == denied:
         raise ApiKeyError(
-            ('Already' if blacklisted else 'Not') + ' blacklisted',
-            ApiKeyErrorCode.ALREADY_BLACKLISTED if blacklisted
-            else ApiKeyErrorCode.NOT_BLACKLISTED
+            ('Already' if denied else 'Not') + ' denied',
+            ApiKeyErrorCode.ALREADY_DENIED if denied
+            else ApiKeyErrorCode.NOT_DENIED
         )
 
-    key.blacklisted = blacklisted
+    key.denied = denied
 
     session.commit()
 
@@ -117,7 +117,7 @@ def jwt_to_key():
 def get_api_key_from_authenticated_email(email):
     apikey = Key.query.filter_by(email=email).first()
 
-    if apikey and apikey.blacklisted:
+    if apikey and apikey.denied:
         return None
 
     if not apikey:
@@ -131,7 +131,7 @@ def authenticate(func):
     def wrapper(*args, **kwargs):
         apikey = request.headers.get('x-apikey')
         try:
-            filters = {'apikey': apikey, 'blacklisted': False}
+            filters = {'apikey': apikey, 'denied': False}
             key = Key.query.filter_by(**filters).first() if apikey else jwt_to_key()
         except Exception:
             return standardize_response(status_code=500)

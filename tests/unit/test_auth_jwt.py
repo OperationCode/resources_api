@@ -175,11 +175,11 @@ def test_authenticate_success(module_client, function_empty_db):
     assert result == 1
 
 
-def test_blacklisted_apikey(module_client, function_empty_db):
+def test_denied_apikey(module_client, function_empty_db):
     # Arrange
     def callback(*args, **kwargs):
         return 1
-    create_fake_key(function_empty_db.session, blacklisted=True)
+    create_fake_key(function_empty_db.session, denied=True)
 
     # Act
     wrapper = authenticate(callback)

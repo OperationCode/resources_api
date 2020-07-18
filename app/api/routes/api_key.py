@@ -31,8 +31,8 @@ def apikey():
         # We need to check the database for an existing key
         apikey = Key.query.filter_by(email=email).first()
 
-        # Don't return success for blacklisted keys
-        if apikey and apikey.blacklisted:
+        # Don't return success for denied keys
+        if apikey and apikey.denied:
             return unauthorized_response()
 
         if not apikey:

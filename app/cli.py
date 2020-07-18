@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 import click
 from app import index, search_client
-from app.api.auth import (ApiKeyError, blacklist_key,
+from app.api.auth import (ApiKeyError, deny_key,
                           find_key_by_apikey_or_email, rotate_key)
 from sqlalchemy import exc
 
@@ -207,20 +207,20 @@ def register(app, db):  # pragma: no cover
 
     @apikey.command()
     @click.argument('apikey_or_email')
-    def blacklist(apikey_or_email):
+    def deny(apikey_or_email):
         try:
-            key = blacklist_key(apikey_or_email, True, db.session)
+            key = deny_key(apikey_or_email, True, db.session)
         except ApiKeyError as error:
             print(error.message)
             return error.error_code
 
-        print(f'Blacklisted {key}')
+        print(f'Denied {key}')
 
     @apikey.command()
     @click.argument('apikey_or_email')
     def reactivate(apikey_or_email):
         try:
-            key = blacklist_key(apikey_or_email, False, db.session)
+            key = deny_key(apikey_or_email, False, db.session)
         except ApiKeyError as error:
             print(error.message)
             return error.error_code

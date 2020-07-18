@@ -1,4 +1,4 @@
-from app.api.auth import blacklist_key
+from app.api.auth import deny_key
 from .helpers import get_api_key, assert_correct_response
 
 
@@ -52,11 +52,11 @@ def test_get_api_key_bad_password(module_client, module_db, fake_invalid_auth_fr
     assert_correct_response(response, 401)
 
 
-def test_get_api_key_blacklisted(module_client, module_db, fake_auth_from_oc):
+def test_get_api_key_denied(module_client, module_db, fake_auth_from_oc):
     client = module_client
 
     apikey = get_api_key(client)
-    blacklist_key(apikey, True, module_db.session)
+    deny_key(apikey, True, module_db.session)
 
     try:
         response = client.post(
@@ -69,7 +69,7 @@ def test_get_api_key_blacklisted(module_client, module_db, fake_auth_from_oc):
         )
         assert_correct_response(response, 401)
     finally:
-        blacklist_key(apikey, False, module_db.session)
+        deny_key(apikey, False, module_db.session)
 
 
 def test_rotate_api_key_unauthorized(module_client, module_db):
