@@ -11,6 +11,7 @@ from app.api.routes.helpers import (
     failures_counter, get_attributes, latency_summary, logger, ensure_bool)
 from app.api.validations import requires_body, validate_resource, wrong_type
 from app.models import Resource, VoteInformation, Key
+import json as json_module
 
 
 @latency_summary.time()
@@ -42,7 +43,8 @@ def update_resource(id, json, db):
     index_object = {'objectID': id}
 
     try:
-        logger.info(f"Updating resource. Old data: {resource.serialize}")
+        logger.info(
+            f"Updating resource. Old data: {json_module.dumps(resource.serialize)}")
         if json.get('languages'):
             resource.languages = langs
             index_object['languages'] = resource.serialize['languages']
