@@ -13,6 +13,10 @@ else
 all: run
 endif
 
+.PHONY:  shell
+shell:
+	${DOCKER_COMPOSE} run ${RESOURCES_CONTAINER} ${FLASK} shell
+	
 .PHONY:  nuke
 nuke:
 	${DOCKER} system prune -a --volumes
