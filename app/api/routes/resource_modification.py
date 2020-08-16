@@ -10,7 +10,7 @@ from app.api.auth import authenticate
 from app.api.routes.helpers import (
     failures_counter, get_attributes, latency_summary, logger, ensure_bool)
 from app.api.validations import requires_body, validate_resource, wrong_type
-from app.models import Resource, VoteInformation, Key
+from app.models import Resource, VoteInformation, Key, Language, Category
 import json as json_module
 
 
@@ -46,11 +46,19 @@ def update_resource(id, json, db):
         logger.info(
             f"Updating resource. Old data: {json_module.dumps(resource.serialize)}")
         if json.get('languages'):
+            old_languages = resource.languages[:]
             resource.languages = langs
             index_object['languages'] = resource.serialize['languages']
+            for language in old_languages:
+                if not Resource.query.filter_by(languages=language).all():
+                    Language.query.filter_by(name=language).delete()
         if json.get('category'):
+            old_categories = resource.category[:]
             resource.category = categ
             index_object['category'] = categ.name
+            for category in old_categories:
+                if not Resource.query.filter_by(categories=category).all():
+                    Category.query.filter_by(name=category).delete()
         if json.get('name'):
             resource.name = json.get('name')
             index_object['name'] = json.get('name')
