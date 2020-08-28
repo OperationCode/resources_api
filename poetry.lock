@@ -514,7 +514,7 @@ description = "Thin-wrapper around the mock package for easier use with pytest"
 name = "pytest-mock"
 optional = false
 python-versions = ">=3.5"
-version = "3.3.0"
+version = "3.3.1"
 
 [package.dependencies]
 pytest = ">=5.0"
@@ -696,7 +696,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "f71c1b7c88a3fbb6f055876c17a840aef0ebaceb332b2c497349c0ce24576300"
+content-hash = "8363a2c60dd69d3535372abd72b6908a7197156af0f66ed9705e5e882435c143"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1006,8 +1006,8 @@ pytest-cov = [
     {file = "pytest_cov-2.10.1-py2.py3-none-any.whl", hash = "sha256:45ec2d5182f89a81fc3eb29e3d1ed3113b9e9a873bcddb2a71faaab066110191"},
 ]
 pytest-mock = [
-    {file = "pytest-mock-3.3.0.tar.gz", hash = "sha256:1d146a6e798b9e6322825e207b4e0544635e679b69253e6e01a221f45945d2f6"},
-    {file = "pytest_mock-3.3.0-py3-none-any.whl", hash = "sha256:0061f9e8f14b77d0f3915a00f18b1b71f07da3c8bd66994e42ee91537681a76e"},
+    {file = "pytest-mock-3.3.1.tar.gz", hash = "sha256:a4d6d37329e4a893e77d9ffa89e838dd2b45d5dc099984cf03c703ac8411bb82"},
+    {file = "pytest_mock-3.3.1-py3-none-any.whl", hash = "sha256:024e405ad382646318c4281948aadf6fe1135632bea9cc67366ea0c4098ef5f2"},
 ]
 python-dateutil = [
     {file = "python-dateutil-2.8.1.tar.gz", hash = "sha256:73ebfe9dbf22e832286dafa60473e4cd239f8592f699aa5adaf10050e6e1823c"},
