@@ -176,7 +176,7 @@ description = "A Flask extension adding a decorator for CORS support"
 name = "flask-cors"
 optional = false
 python-versions = "*"
-version = "3.0.8"
+version = "3.0.9"
 
 [package.dependencies]
 Flask = ">=0.9"
@@ -695,7 +695,8 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "2101ecc5aa55778e990b9673bd56d3e15cdacf59a7a0da645764507d8b28a664"
+content-hash = "adac60ef1d18acd7ac575431d3f478a5120c8abe5c8f7185897a6de310ab9a6a"
+lock-version = "1.0"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -830,8 +831,8 @@ flask = [
     {file = "Flask-1.1.2.tar.gz", hash = "sha256:4efa1ae2d7c9865af48986de8aeb8504bf32c7f3d6fdc9353d34b21f4b127060"},
 ]
 flask-cors = [
-    {file = "Flask-Cors-3.0.8.tar.gz", hash = "sha256:72170423eb4612f0847318afff8c247b38bd516b7737adfc10d1c2cdbb382d16"},
-    {file = "Flask_Cors-3.0.8-py2.py3-none-any.whl", hash = "sha256:f4d97201660e6bbcff2d89d082b5b6d31abee04b1b3003ee073a6fd25ad1d69a"},
+    {file = "Flask-Cors-3.0.9.tar.gz", hash = "sha256:6bcfc100288c5d1bcb1dbb854babd59beee622ffd321e444b05f24d6d58466b8"},
+    {file = "Flask_Cors-3.0.9-py2.py3-none-any.whl", hash = "sha256:cee4480aaee421ed029eaa788f4049e3e26d15b5affb6a880dade6bafad38324"},
 ]
 flask-limiter = [
     {file = "Flask-Limiter-1.4.tar.gz", hash = "sha256:021279c905a1e24f181377ab3be711be7541734b494f4e6db2b8edeba7601e48"},
