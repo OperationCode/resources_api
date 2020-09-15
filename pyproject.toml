@@ -8,7 +8,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.7"
 algoliasearch = ">=2.0,<3.0"
-alembic = "1.4.2"
+alembic = "1.4.3"
 bandit = "1.5.1"
 click = "7.1.2"
 flake8 = "3.8.3"
