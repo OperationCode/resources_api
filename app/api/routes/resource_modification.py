@@ -41,24 +41,31 @@ def update_resource(id, json, db):
 
     langs, categ = get_attributes(json)
     index_object = {'objectID': id}
+    def get_all_resource_categories_as_strings():
+        resources = Resource.query.all()
+        resource_categories = {resource.category.name for resource in resources}
+        return resource_categories
 
     try:
         logger.info(
             f"Updating resource. Old data: {json_module.dumps(resource.serialize)}")
         if json.get('languages'):
-            old_languages = resource.languages[:]
             resource.languages = langs
             index_object['languages'] = resource.serialize['languages']
-            for language in old_languages:
-                if not Resource.query.filter_by(languages=language).all():
-                    Language.query.filter_by(name=language).delete()
         if json.get('category'):
-            old_categories = resource.category[:]
+            old_category = resource.category #I'm assuming this is the category name as a string
+            resource_categories = get_all_resource_categories_as_strings()
             resource.category = categ
             index_object['category'] = categ.name
-            for category in old_categories:
-                if not Resource.query.filter_by(categories=category).all():
-                    Category.query.filter_by(name=category).delete()
+            # Check if the old category is being used anywhere else
+            # in the Resources table
+            orphaned_category = Category.query \
+                .filter(Category.name.notin_(resource_categories)) \
+                .filter(Category.name == old_category) \
+                .first()
+            # If not, delete it from the Category table
+            if orphaned_category:
+                orphaned_category.delete()
         if json.get('name'):
             resource.name = json.get('name')
             index_object['name'] = json.get('name')
