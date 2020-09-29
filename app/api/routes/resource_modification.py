@@ -10,7 +10,7 @@ from app.api.auth import authenticate
 from app.api.routes.helpers import (
     failures_counter, get_attributes, latency_summary, logger, ensure_bool)
 from app.api.validations import requires_body, validate_resource, wrong_type
-from app.models import Resource, VoteInformation, Key, Language, Category
+from app.models import Resource, VoteInformation, Key
 import json as json_module
 
 
