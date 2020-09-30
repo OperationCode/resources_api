@@ -9,7 +9,7 @@ def test_resource():
         url='https://resource.url',
         category=Category(name='Category'),
         languages=[Language(name='language')],
-        paid=False,
+        free=False,
         notes='Some notes'
     )
 
@@ -27,7 +27,7 @@ def test_resource():
         'url': 'https://resource.url',
         'category': 'Category',
         'languages': ['language'],
-        'paid': False,
+        'free': False,
         'notes': 'Some notes',
         'upvotes': None,
         'downvotes': None,
@@ -47,9 +47,9 @@ def test_resource():
     assert (resource != not_copy)
     not_copy.url = 'https://resource.url'
     assert (resource != not_copy)
-    not_copy.paid = True
+    not_copy.free = True
     assert (resource != not_copy)
-    not_copy.paid = False
+    not_copy.free = False
     not_copy.notes = 'Some other notes'
     assert (resource != not_copy)
     not_copy.notes = 'Some notes'
@@ -121,7 +121,7 @@ def test_vote_information():
         url='https://resource.url',
         category=Category(name='Category'),
         languages=[Language(name='language')],
-        paid=False,
+        free=False,
         notes='Some notes'
     )
     key = Key(email="test@example.org", apikey=test_apikey)

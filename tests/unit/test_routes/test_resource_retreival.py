@@ -78,23 +78,23 @@ def test_single_resource_out_of_bounds(module_client, module_db):
     assert_correct_response(response, 404)
 
 
-def test_paid_filter(module_client, module_db):
+def test_free_filter(module_client, module_db):
     client = module_client
 
     total_resources = client.get('api/v1/resources').json['total_count']
 
-    # Filter by paid
-    response = client.get('api/v1/resources?paid=false')
-
-    total_free_resources = response.json['total_count']
-
-    assert all([not res.get('paid') for res in response.json['resources']])
-
-    response = client.get('api/v1/resources?paid=true')
+    # Filter by free
+    response = client.get('api/v1/resources?free=false')
 
     total_paid_resources = response.json['total_count']
 
-    assert all([res.get('paid') for res in response.json['resources']])
+    assert all([not res.get('free') for res in response.json['resources']])
+
+    response = client.get('api/v1/resources?free=true')
+
+    total_free_resources = response.json['total_count']
+
+    assert all([res.get('free') for res in response.json['resources']])
 
     # Check that the number of resources appear correct
     assert (total_paid_resources > 0)
@@ -102,23 +102,23 @@ def test_paid_filter(module_client, module_db):
     assert (total_resources == total_free_resources + total_paid_resources)
 
 
-def test_paid_filter_uppercase_parameter(module_client, module_db):
+def test_free_filter_uppercase_parameter(module_client, module_db):
     client = module_client
 
-    response = client.get('api/v1/resources?paid=TRUE')
-    assert all([res.get('paid') for res in response.json['resources']])
+    response = client.get('api/v1/resources?free=TRUE')
+    assert all([res.get('free') for res in response.json['resources']])
 
-    response = client.get('api/v1/resources?paid=FALSE')
-    assert all([not res.get('paid') for res in response.json['resources']])
+    response = client.get('api/v1/resources?free=FALSE')
+    assert all([not res.get('free') for res in response.json['resources']])
 
 
-def test_paid_filter_invalid_paid_parameter(module_client, module_db):
+def test_free_filter_invalid_free_parameter(module_client, module_db):
     client = module_client
 
-    response = client.get('api/v1/resources?paid=na93ns8i1ns')
+    response = client.get('api/v1/resources?free=na93ns8i1ns')
 
-    assert (True in [res.get('paid') for res in response.json['resources']])
-    assert (False in [res.get('paid') for res in response.json['resources']])
+    assert (True in [res.get('free') for res in response.json['resources']])
+    assert (False in [res.get('free') for res in response.json['resources']])
 
 
 def test_language_filter(module_client, module_db):

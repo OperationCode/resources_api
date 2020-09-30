@@ -116,9 +116,9 @@ paths:
             type: string
           required: true
         - in: query
-          name: paid
+          name: free
           required: false
-          description: Whether the resource is paid or not. To search for *free* resources, make a `GET` request to `/search?paid=false`.
+          description: Whether the resource is free or not. To search for *free* resources, make a `GET` request to `/search?free=true`.
           schema:
             type: boolean
         - in: query
@@ -152,7 +152,7 @@ paths:
                     last_updated: '2019-05-25 18:52:15'
                     name: 'C Tutorial'
                     notes: 'Learn C with our popular C tutorial, which will take you from the very basics of C all the way through sophisticated topics like binary trees and data structures.'
-                    paid: false
+                    free: true
                     times_clicked: 0
                     upvotes: 0
                     url: 'https://www.cprogramming.com/tutorial/c-tutorial.html'
@@ -394,7 +394,7 @@ paths:
                   last_updated: '2019-06-15 17:55:32'
                   name: 'Free Tech Books'
                   notes: 'Focuses on general computer science concepts rather than a specific language'
-                  paid: false
+                  free: true
                   times_clicked: 0
                   upvotes: 0
                   url: 'http://www.freetechbooks.com/'
@@ -443,7 +443,7 @@ paths:
                   last_updated: '2019-07-22 16:05:53'
                   name: 'Updated Book Title'
                   notes: null
-                  paid: false
+                  free: true
                   times_clicked: 3
                   upvotes: 1
                   url: 'http://www.test.com'
@@ -506,7 +506,7 @@ paths:
                     last_updated: '2019-07-26 13:47:52'
                     name: 'Thinking Forth'
                     notes: null
-                    paid: false
+                    free: true
                     times_clicked: 2
                     upvotes: 0
                     url: 'http://thinking-forth.sourceforge.net/'
@@ -550,7 +550,7 @@ paths:
                   last_updated: '2020-03-12 23:17:52'
                   name: 'Teach Your Kids to Code'
                   notes: null
-                  paid: true
+                  free: false
                   times_clicked: 0
                   upvotes: 1
                   url: 'http://teachyourkidstocode.com/'
@@ -594,7 +594,7 @@ paths:
                   last_updated: '2020-03-12 23:17:52'
                   name: 'Teach Your Kids to Code'
                   notes: null
-                  paid: true
+                  free: false
                   times_clicked: 0
                   upvotes: 0
                   url: 'http://teachyourkidstocode.com/'
@@ -611,9 +611,9 @@ paths:
         - List Resources
       parameters:
         - in: query
-          name: paid
+          name: free
           required: false
-          description: Whether the resource is paid or not. To search for *free* resources, make a `GET` request to `/resources?paid=false`.
+          description: Whether the resource is free or not. To search for *free* resources, make a `GET` request to `/resources?free=true`.
           schema:
             type: boolean
         - in: query
@@ -654,7 +654,7 @@ paths:
                     last_updated: '2019-07-22 17:39:50'
                     name: 'Some, but not ALL of the knowledge'
                     notes: null
-                    paid: false
+                    free: true
                     times_clicked: 3
                     upvotes: 1
                     url: 'http://www.test.com'
@@ -685,7 +685,7 @@ paths:
 
     post:
       summary: Create Resources
-      description: Creates new learning resources. The structure of the request is a list of resource objects. The required properties for each new resource are `category`, `name`, `paid`, and `url`.
+      description: Creates new learning resources. The structure of the request is a list of resource objects. The required properties for each new resource are `category`, `name`, `free`, and `url`.
       tags:
         - Create Resources
       requestBody:
@@ -696,7 +696,7 @@ paths:
             example:
               - category: 'Tutorial'
                 name: 'CSS Tutorial'
-                paid: false
+                free: true
                 url: 'https://www.w3schools.com/css/'
         required: true
       responses:
@@ -718,7 +718,7 @@ paths:
                     last_updated: '2019-07-22 16:05:53'
                     name: 'CSS Tutorial'
                     notes: null
-                    paid: false
+                    free: true
                     times_clicked: 3
                     upvotes: 1
                     url: 'https://www.w3schools.com/css/'
@@ -744,11 +744,11 @@ paths:
                           - url
                         resource: 'https://resources.operationcode.org/api/v1/2137'
                       missing-params:
-                          message: 'The following params were missing: name, category, paid.'
+                          message: 'The following params were missing: name, category, free.'
                           params:
                             - name
                             - category
-                            - paid
+                            - free
                   status: 'Unprocessable Entity'
                   status_code: 422
       security:
@@ -984,7 +984,7 @@ components:
     CreateResourcesRequest:
       allOf:
         - $ref: '#/components/schemas/ResourcesRequest'
-        # - required: [category, name, paid, url]
+        # - required: [category, name, free, url]
 
     ResourcesRequest:
       type: array
@@ -1005,9 +1005,9 @@ components:
           notes:
             type: string
             description: Resource notes
-          paid:
+          free:
             type: boolean
-            description: True or false for whether resource is paid
+            description: True or false for whether resource is free
           url:
             type: string
             description: Resource url
@@ -1028,9 +1028,9 @@ components:
         notes:
           type: string
           description: Resource notes
-        paid:
+        free:
           type: boolean
-          description: True or false for whether resource is paid
+          description: True or false for whether resource is free
         url:
           type: string
           description: Resource url
@@ -1066,9 +1066,9 @@ components:
         notes:
           type: string
           description: Resource notes
-        paid:
+        free:
           type: boolean
-          description: True or false for whether resource is paid
+          description: True or false for whether resource is free
         upvotes:
           type: integer
           description: Positive ratings

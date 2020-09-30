@@ -27,7 +27,7 @@ def test_create_resource(
     url = "htt://bad_url.doesnotexist"
     category = True
     languages = False
-    paid = "Bad Data"
+    free = "Bad Data"
     notes = True
     response = create_resource(client,
                                apikey,
@@ -35,16 +35,16 @@ def test_create_resource(
                                url,
                                category,
                                languages,
-                               paid,
+                               free,
                                notes)
-    assert_invalid_create(response, ["category", "paid", "notes"], 0)
+    assert_invalid_create(response, ["category", "free", "notes"], 0)
 
     # Boolean strings that can be parsed to true or False
     name = "StringsForBoolsFalse"
     url = None
     category = None
     languages = None
-    paid = "FaLsE"
+    free = "FaLsE"
     notes = "Some notes"
     response = create_resource(client,
                                apikey,
@@ -52,15 +52,15 @@ def test_create_resource(
                                url,
                                category,
                                languages,
-                               paid,
+                               free,
                                notes)
     assert (response.status_code == 200)
-    assert response.json['resources'][0].get('paid') is False
+    assert response.json['resources'][0].get('free') is False
     name = "StringsForBoolsTrue"
     url = None
     category = None
     languages = None
-    paid = "TrUe"
+    free = "TrUe"
     notes = "Some notes"
     response = create_resource(client,
                                apikey,
@@ -68,20 +68,20 @@ def test_create_resource(
                                url,
                                category,
                                languages,
-                               paid,
+                               free,
                                notes)
     assert (response.status_code == 200)
-    assert response.json['resources'][0].get('paid') is True
+    assert response.json['resources'][0].get('free') is True
 
-    # Bad "paid" data
-    paid = "PERHAPS"
+    # Bad "free" data
+    free = "PERHAPS"
     response = create_resource(client,
                                apikey,
                                name,
                                url,
                                category,
                                languages,
-                               paid,
+                               free,
                                notes)
     assert (response.status_code == 422)
 
@@ -91,7 +91,7 @@ def test_create_resource(
     url = long_string
     category = long_string
     languages = long_string
-    paid = True
+    free = True
     notes = long_string
     response = create_resource(client,
                                apikey,
@@ -99,7 +99,7 @@ def test_create_resource(
                                url,
                                category,
                                languages,
-                               paid,
+                               free,
                                notes)
     assert_invalid_create(response, ["languages"], 0)
 
@@ -108,7 +108,7 @@ def test_create_resource(
     url = None
     category = None
     languages = None
-    paid = True
+    free = True
     notes = "∞"
     response = create_resource(client,
                                apikey,
@@ -116,7 +116,7 @@ def test_create_resource(
                                url,
                                category,
                                languages,
-                               paid,
+                               free,
                                notes)
     assert (response.status_code == 200)
 
@@ -124,7 +124,7 @@ def test_create_resource(
     response = client.post('/api/v1/resources',
                            json=[dict(notes="Missing Required fields")],
                            headers={'x-apikey': apikey})
-    assert_missing_params_create(response, ["name", "url", "category", "paid"], 0)
+    assert_missing_params_create(response, ["name", "url", "category", "free"], 0)
 
     # Too many resources in the list
     response = client.post('/api/v1/resources',
@@ -151,14 +151,14 @@ def test_create_multiple_resources(
                 url=url1,
                 category="New Category",
                 languages=["Python", "New Language"],
-                paid=False,
+                free=False,
                 notes="Some notes"),
             dict(
                 name="Some Other Name",
                 url=url2,
                 category="Different Category",
                 languages=["Python", "New Language", "JSON"],
-                paid=True,
+                free=True,
                 notes="Some notes")
             ]
     response = client.post('/api/v1/resources',
@@ -177,7 +177,7 @@ def test_create_multiple_resources(
                 url=url1,
                 category="New Category",
                 languages=["Python", "New Language"],
-                paid=False,
+                free=False,
                 notes="Some notes")]
     response = client.post('/api/v1/resources',
                            json=data,
@@ -197,7 +197,7 @@ def test_create_multiple_resources(
                 url="some.new.url",
                 category="New Category",
                 languages=["Python", "New Language"],
-                paid=False,
+                free=False,
                 notes="Some notes"),
             dict(
                 name="Other Name"

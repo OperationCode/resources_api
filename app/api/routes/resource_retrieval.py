@@ -40,7 +40,7 @@ def get_resources():
     languages = request.args.getlist('languages')
     category = request.args.get('category')
     updated_after = request.args.get('updated_after')
-    paid = request.args.get('paid')
+    free = request.args.get('free')
 
     q = Resource.query
 
@@ -81,13 +81,13 @@ def get_resources():
             )
         )
 
-    # Filter on paid
-    if isinstance(paid, str) and paid.lower() in ['true', 'false']:
-        paidAsBool = paid.lower() == 'true'
-        q = q.filter(Resource.paid == paidAsBool)
+    # Filter on free
+    if isinstance(free, str) and free.lower() in ['true', 'false']:
+        freeAsBool = free.lower() == 'true'
+        q = q.filter(Resource.free == freeAsBool)
 
     # Order by "getting started" category
-    if not languages and not category and paid is None:
+    if not languages and not category and free is None:
         show_first = Category.query.filter(Category.name == "Getting Started").first()
         clause = (
             f" CASE resource.category_id"

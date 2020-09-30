@@ -29,7 +29,7 @@ class Resource(TimestampMixin, db.Model):
                             nullable=False)
     category = db.relationship('Category')
     languages = db.relationship('Language', secondary=language_identifier)
-    paid = db.Column(db.Boolean, nullable=False, default=False)
+    free = db.Column(db.Boolean, nullable=False, default=True)
     notes = db.Column(db.String)
     upvotes = db.Column(db.INTEGER, default=0)
     downvotes = db.Column(db.INTEGER, default=0)
@@ -54,7 +54,7 @@ class Resource(TimestampMixin, db.Model):
             'url': self.url,
             'category': self.category.name,
             'languages': self.serialize_languages,
-            'paid': self.paid,
+            'free': self.free,
             'notes': self.notes,
             'upvotes': self.upvotes,
             'downvotes': self.downvotes,
@@ -84,7 +84,7 @@ class Resource(TimestampMixin, db.Model):
                 for attribute in [
                     "name",
                     "url",
-                    "paid",
+                    "free",
                     "notes",
                     "category",
                     "languages",

@@ -68,7 +68,7 @@ def format_resource_search(hit):
         'url': hit['url'],
         'category': hit['category'],
         'languages': hit['languages'],
-        'paid': hit['paid'],
+        'free': hit['free'],
         'notes': hit['notes'],
         'upvotes': hit['upvotes'],
         'downvotes': hit['downvotes'],

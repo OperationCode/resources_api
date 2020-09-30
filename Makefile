@@ -60,7 +60,7 @@ run: build
 run_windows: build
 	@cmd /c (IF NOT "$(shell ${DOCKER} ps -q -f name=resources-api)" == "" ${DOCKER_COMPOSE} down)
 	${DOCKER_COMPOSE} run -p 5000:5000 ${RESOURCES_CONTAINER} ${FLASK} run -h 0.0.0.0
-	
+
 
 .PHONY: bg
 bg:
