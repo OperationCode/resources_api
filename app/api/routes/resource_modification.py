@@ -45,7 +45,7 @@ def update_resource(id, json, db):
     try:
         logger.info(
             f"Updating resource. Old data: {json_module.dumps(resource.serialize)}")
-        if json.get('languages'):
+        if json.get('languages') is not None:
             resource.languages = langs
             index_object['languages'] = resource.serialize['languages']
         if json.get('category'):

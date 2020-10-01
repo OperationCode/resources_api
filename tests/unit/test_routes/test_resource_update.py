@@ -240,6 +240,11 @@ def test_update_resource(
                                notes)
     assert (response.status_code == 200)
 
+    # Empty languages list given removes all languages of resource
+    response = update_resource(client, apikey, languages=[])
+    assert (response.status_code == 200)
+    assert (response.json['resource'].get('languages') == [])
+
     # Resource not found
     response = client.put("/api/v1/resources/0",
                           json=dict(name="New name"),
