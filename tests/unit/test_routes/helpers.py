@@ -45,7 +45,7 @@ def update_resource(client,
                             name="New name" if not name else name,
                             url="https://new.url" if not url else url,
                             category="New Category" if not category else category,
-                            languages=["New language"] if not languages else languages,
+                            languages=["New Lang"] if languages is None else languages,
                             free=False if not free else free,
                             notes="New notes" if not notes else notes),
                       headers={'x-apikey': apikey} if not headers else headers)
