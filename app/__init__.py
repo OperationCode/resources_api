@@ -23,7 +23,7 @@ index = search_client.init_index(Config.INDEX_NAME)
 
 app = Flask(__name__, static_folder='app/static')
 if environ['FLASK_ENV'] != 'development':
-    app = ProxyFix(app, x_for=1, x_host=1)
+    app.wsgi_app = ProxyFix(app, x_for=1, x_host=1)
 limiter = Limiter(
     app,
     key_func=get_remote_address,
