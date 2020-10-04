@@ -21,6 +21,12 @@ RUN apt-get update \
 
 RUN poetry install --no-dev --no-interaction --no-ansi
 
+RUN useradd -ms /bin/bash uwsgi
+
+RUN chown -R uwsgi: .
+
+USER uwsgi
+
 COPY . /src
 
 EXPOSE 5000
