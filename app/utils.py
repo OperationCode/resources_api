@@ -1,5 +1,4 @@
 import logging
-import os
 import random
 import string
 import sys
@@ -137,9 +136,6 @@ def standardize_response(
 
 def setup_logger(name, level=logging.INFO):
     """Function setup as many loggers as you want"""
-    if not os.path.exists('log'):
-        os.makedirs('log')  # pragma: no cover
-
     formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
     handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(formatter)
