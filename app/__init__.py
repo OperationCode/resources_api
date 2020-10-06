@@ -6,6 +6,8 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from werkzeug.middleware.proxy_fix import ProxyFix
+from os import environ
 
 from healthcheck import HealthCheck
 # from healthcheck import EnvironmentDump
@@ -20,14 +22,16 @@ search_client = SearchClient.create(Config.ALGOLIA_APP_ID, Config.ALGOLIA_API_KE
 index = search_client.init_index(Config.INDEX_NAME)
 
 app = Flask(__name__, static_folder='app/static')
-app.config.from_object(Config)
-app.url_map.strict_slashes = False
-
+if environ['FLASK_ENV'] != 'development':
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1)
 limiter = Limiter(
     app,
     key_func=get_remote_address,
     default_limits=["200 per day", "50 per hour"]
 )
+
+app.config.from_object(Config)
+app.url_map.strict_slashes = False
 
 db.init_app(app)
 migrate.init_app(app, db)
