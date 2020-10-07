@@ -23,14 +23,12 @@ RUN poetry install --no-dev --no-interaction --no-ansi
 
 COPY . /src
 
-RUN useradd -ms /bin/bash uwsgi
+RUN useradd -ms /bin/bash uwsgi && chown -R uwsgi: /src
 
-RUN mkdir /src
-
-RUN chown -R uwsgi: . /src
+EXPOSE 5000
 
 USER uwsgi
 
-EXPOSE 5000
+VOLUME /src
 
 CMD [ "uwsgi", "--ini", "app.ini" ]
