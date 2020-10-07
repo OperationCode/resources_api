@@ -23,7 +23,7 @@ RUN poetry install --no-dev --no-interaction --no-ansi
 
 COPY . /src
 
-RUN useradd -ms /bin/bash uwsgi
+RUN useradd -ms /bin/bash --uid 5000 uwsgi
 
 RUN chown -R uwsgi /src
 
