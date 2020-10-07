@@ -23,7 +23,7 @@ RUN poetry install --no-dev --no-interaction --no-ansi
 
 COPY . /src
 
-RUN useradd -ms /bin/bash uwsgi && chown -R uwsgi: /src
+RUN useradd -ms /bin/bash uwsgi && touch .coverage && chown -R uwsgi: /src
 
 EXPOSE 5000
 
