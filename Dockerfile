@@ -25,7 +25,9 @@ COPY . /src
 
 RUN useradd -ms /bin/bash uwsgi
 
-RUN chown -R uwsgi: .
+RUN mkdir /src
+
+RUN chown -R uwsgi: . /src
 
 USER uwsgi
 
