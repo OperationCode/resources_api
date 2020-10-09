@@ -9,9 +9,9 @@
 <br />
 <br />
 
-# 🎃 Hacktoberfest 🎃	
+# 🎃 Hacktoberfest 🎃
 
-[All the details you need](https://github.com/OperationCode/START_HERE/blob/master/README.md#-hacktoberfest-) before participating with us during Hacktoberfest.	
+[All the details you need](https://github.com/OperationCode/START_HERE/blob/master/README.md#-hacktoberfest-) before participating with us during Hacktoberfest.
 
 <br />
 
@@ -50,9 +50,11 @@ Sometimes these installs can be tricky.  If you get stuck ask for help in the Sl
 
 1. Run `make setup`
 
-1. Run `make all` and then navigate to http://localhost:5000/api/v1/resources
+1. Run `make all` and then navigate to http://localhost:5000/
 
-If you see some JSON with a bunch of resources, it worked! If you encounter any errors, please open an issue or contact us on slack in #oc-python-projects.
+This should open the **Operation Code Resources API** webpage which has the documentation for the API. You can go through it to know about all available endpoints and understand how to use them.
+
+If you encounter any errors, please open an issue or contact us on slack in #oc-python-projects.
 
 ## Authentication
 
