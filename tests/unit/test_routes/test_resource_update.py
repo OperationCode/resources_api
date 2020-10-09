@@ -3,6 +3,7 @@ from .helpers import (
     assert_correct_response
 )
 
+from ..test_auth_jwt import GOOD_AUTH
 
 def test_update_votes(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client
@@ -252,3 +253,31 @@ def test_update_resource(
                           follow_redirects=True
                           )
     assert_correct_response(response, 404)
+
+
+def test_update_votes_authorization_header(
+        module_client, module_db, fake_auth_from_oc, fake_algolia_save):
+    client = module_client
+    id = 1
+    UPVOTE = 'upvote'
+    DOWNVOTE = 'downvote'
+
+    data = client.get(f"api/v1/resources/{id}").json['resource']
+    response = client.put(
+                        f"/api/v1/resources/{id}/upvote",
+                        follow_redirects=True,
+                        headers={'authorization': GOOD_AUTH})
+    initial_upvotes = data.get(f"{UPVOTE}s")
+    initial_downvotes = data.get(f"{DOWNVOTE}s")
+
+    assert (response.status_code == 200)
+    assert (response.json['resource'].get(f"{UPVOTE}s") == initial_upvotes + 1)
+
+    response = client.put(
+                        f"/api/v1/resources/{id}/downvote",
+                        follow_redirects=True,
+                        headers={'authorization': GOOD_AUTH})
+
+    assert (response.status_code == 200)
+    assert (response.json['resource'].get(f"{UPVOTE}s") == initial_upvotes)
+    assert (response.json['resource'].get(f"{DOWNVOTE}s") == initial_downvotes + 1)
