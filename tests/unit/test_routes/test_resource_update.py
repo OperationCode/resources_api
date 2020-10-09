@@ -5,6 +5,7 @@ from .helpers import (
 
 from ..test_auth_jwt import GOOD_AUTH
 
+
 def test_update_votes(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client
     UPVOTE = 'upvote'

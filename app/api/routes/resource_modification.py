@@ -1,7 +1,7 @@
 from os import environ
 
 from algoliasearch.exceptions import AlgoliaException, AlgoliaUnreachableHostException
-from flask import redirect, request
+from flask import redirect, request, g
 from sqlalchemy.exc import IntegrityError
 
 from app import db, index, utils as utils
@@ -119,7 +119,7 @@ def update_votes(id, vote_direction):
     opposite_direction = 'downvotes' if vote_direction == 'upvotes' else 'upvotes'
     opposite_count = getattr(resource, opposite_direction)
 
-    api_key = request.headers.get('x-apikey')
+    api_key = g.auth_key.apikey
     vote_info = VoteInformation.query.get(
                 {'voter_apikey': api_key, 'resource_id': id}
             )
