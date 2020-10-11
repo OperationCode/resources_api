@@ -25,7 +25,8 @@ RUN poetry install --no-dev --no-interaction --no-ansi
 
 COPY . /src
 
-RUN useradd --no-create-home --system -s /bin/false --uid $UID --gid $GID uwsgi
+RUN groupadd --gid $GID uwsgi \
+    && useradd --no-create-home --system -s /bin/false --uid $UID --gid $GID uwsgi
 
 RUN chown -R uwsgi /src
 
