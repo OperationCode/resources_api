@@ -7,6 +7,10 @@ services:
     container_name: resources-api
     env_file:
     - .env
+    environment:
+    - UID=${UID}
+    - GID=${GID}
+    user: ${UID}:${GID}
     volumes:
     - .:/src
     ports:

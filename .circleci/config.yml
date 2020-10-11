@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   docker: circleci/docker@0.5.1
   aws-eks: circleci/aws-eks@0.2.7
+  dotenv: anilanar/dotenv@1.0.0
 
 workflows:
   build_test_deploy:
@@ -60,7 +61,9 @@ jobs:
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter
             chmod +x /usr/local/bin/cc-test-reporter
             /usr/local/bin/cc-test-reporter before-build
-      - run: sudo chown -R 5000 .
+      - dotenv/source:
+          path: .env
+      - run: sudo chown -R ${UID}:${GID} .
       - run:
           name: Run tests
           command: |
