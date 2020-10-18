@@ -253,7 +253,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryData'
+                $ref: '#/components/schemas/CategoryDataList'
               example:
                 apiVersion: '1.0'
                 category:
@@ -733,7 +733,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorList'
+                $ref: '#/components/schemas/ErrorResponse'
               example:
                   apiVersion: '1.0'
                   errors:
@@ -830,14 +830,14 @@ components:
             message:
               description: Error message
               type: string
-    ErrorList:
+    ErrorResponse:
       type: object
       properties:
         apiVersion:
           type: string
           description: API version
         errors:
-          $ref: '#/components/schemas/ErrorListData'
+          $ref: '#/components/schemas/ErrorDataList'
         status:
           type: string
           description: Status message
@@ -845,7 +845,7 @@ components:
           type: integer
           description: Status code
 
-    ErrorListData:
+    ErrorDataList:
       type: array
       items:
         type: object
@@ -931,7 +931,7 @@ components:
         apiVersion:
           type: string
         category:
-          $ref: '#/components/schemas/CategoryData'
+          $ref: '#/components/schemas/CategoryDataList'
         status:
           type: string
           description: Status message
@@ -940,7 +940,7 @@ components:
           description: Status code
         total_count:
           type: integer
-    CategoryData:
+    CategoryDataList:
       type: array
       items:
         type: object
