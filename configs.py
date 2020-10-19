@@ -45,6 +45,13 @@ class Config:
 
     SQLALCHEMY_DATABASE_URI = f"postgresql://{pg_user}:{pg_pw}@{pg_host}:5432/{pg_db}"
 
+    SECRET_KEY = os.urandom(24)
+    # Set config values for Flask-Security.
+    # We're using PBKDF2 with salt.
+    SECURITY_PASSWORD_HASH = 'pbkdf2_sha512'
+    # Replace this with your own salt.
+    SECURITY_PASSWORD_SALT = os.urandom(140)
+
     ALGOLIA_APP_ID = algolia_app_id
     ALGOLIA_API_KEY = algolia_api_key
     INDEX_NAME = index_name
