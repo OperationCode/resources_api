@@ -57,10 +57,10 @@ def update_resource(id, json, db):
         if json.get('url'):
             resource.url = json.get('url')
             index_object['url'] = json.get('url')
-        if 'paid' in json:
-            paid = ensure_bool(json.get('paid'))
-            resource.paid = paid
-            index_object['paid'] = paid
+        if 'free' in json:
+            free = ensure_bool(json.get('free'))
+            resource.free = free
+            index_object['free'] = free
         if 'notes' in json:
             resource.notes = json.get('notes')
             index_object['notes'] = json.get('notes')

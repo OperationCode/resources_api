@@ -15,1405 +15,1405 @@
   url: https://github.com/vhf/free-programming-books
   category: Books
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Packtpub free programming books
   url: https://www.packtpub.com/packt/offers/free-learning
   category: Books
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: Different free book daily
 
 - name: Free Tech Books
   url: http://www.freetechbooks.com/
   category: Books
   languages:
-  paid: false
+  free: true
   notes: Focuses on general computer science concepts rather than a specific language
 
 - name: Programming from the Ground Up
   url: http://mirror.cedia.org.ec/nongnu//pgubook/ProgrammingGroundUp-1-0-booksize.pdf
   category: Books
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: Focuses on general computer science concepts rather than a specific language
 
 - name: Teach Your Kids to Code
   url: http://teachyourkidstocode.com/
   category: Books
   languages: ["Python"]
-  paid: true
+  free: false
   notes:
 
 - name: Ed Yourdan Books
   url: https://en.wikipedia.org/wiki/Edward_Yourdon#Publications
   category: Books
   languages:
-  paid: true
+  free: false
   notes: You'll have to find these books yourself to read, but they are classic CS books
 
 - name: Safari Books Online
   url: https://www.safaribooksonline.com/our-library/#books
   category: Books
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Free trial available
 
 - name: The Art of Computer Programming
   url: http://broiler.astrometry.net/~kilian/The_Art_of_Computer_Programming%20-%20Vol%201.pdf
   category: Books
   languages:
-  paid: false
+  free: true
   notes: General Computer Science concepts
 
 - name: The Mythical Man Month
   url: https://archive.org/details/mythicalmanmonth00fred
   category: Books
   languages:
-  paid: false
+  free: true
   notes:
 
 - name: Thinking Forth
   url: http://thinking-forth.sourceforge.net/
   category: Books
   languages:
-  paid: false
+  free: true
   notes:
 
 - name: The Art of Unix Programming
   url: http://www.faqs.org/docs/artu/
   category: Books
   languages: ["Unix/Linux/*nix"]
-  paid: false
+  free: true
   notes:
 
 - name: The Cathedral and the Bazaar
   url: http://www.catb.org/esr/writings/cathedral-bazaar/cathedral-bazaar/
   category: Books
   languages:
-  paid: false
+  free: true
   notes:
 
 - name: Bash Beginner's Guide
   url: http://www.tldp.org/LDP/Bash-Beginners-Guide/html/
   category: Books
   languages: ["Bash"]
-  paid: false
+  free: true
   notes:
 
 - name: The C Programming Language
   url: https://hassanolity.files.wordpress.com/2013/11/the_c_programming_language_2.pdf
   category: Books
   languages: ["C"]
-  paid: false
+  free: true
   notes:
 
 - name: The Computer Revolution
   url: https://en.wikibooks.org/wiki/The_Computer_Revolution
   category: Books
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: Wiki book on everything computers
 
 - name: Computer Science from the Bottom Up
   url: http://feederio.com/book/33/computer-science-from-the-bottom-up
   category: Books
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: This book goes from operating systems fundamentals through to how applications are complied and executed
 
 - name: Zero to One
   url: http://buff.ly/2b7sg2E
   category: Books
   languages:
-  paid: true
+  free: false
   notes: Good info for start ups
 
 - name: Hacking The Art of Exploitation
   url: https://leaksource.files.wordpress.com/2014/08/hacking-the-art-of-exploitation.pdf
   category: Books
   languages: ["C"]
-  paid: false
+  free: true
   notes:
 
 - name: Debian System Administration
   url: https://debian-handbook.info/browse/stable/
   category: Books
   languages: ["Sysadmin"]
-  paid: false
+  free: true
   notes:
 
 - name: Project Gutenberg
   url: http://www.gutenberg.org/
   category: Books
   languages:
-  paid: false
+  free: true
   notes: Thousands of free e-books, some computer related, some not.
 
 - name: Internet Archive
   url: https://archive.org/
   category: Books
   languages:
-  paid: false
+  free: true
   notes: Thousands of free e-books, some computer related, some not.
 
 - name: Learn to Code C with Raspberry Pi
   url: https://www.raspberrypi.org/magpi-issues/Essentials_C_v1.pdf
   category: Books
   languages: ["C"]
-  paid: false
+  free: true
   notes: Raspberry Pi
 
 - name: Eloquent JavaScript
   url: http://eloquentjavascript.net
   category: Books
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes:
 
 - name: Programming JavaScript applications
   url: http://pdf.th7.cn/down/files/1411/Programming%20JavaScript%20Applications.pdf
   category: Books
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes:
 
 - name: Angular 2
   url: https://angular-2-training-book.rangle.io
   category: Books
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes: Angular framework
 
 - name: A Smarter Way to Learn JavaScript
   url: https://works.bepress.com/groupsix649/1/
   category: Books
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes:
 
 - name: You Don't Know JS
   url: https://github.com/getify/You-Dont-Know-JS
   category: Books
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes:
 
 - name: A Smarter Way to Learn HTML and CSS
   url: http://www.asmarterwaytolearn.com/index.html
   category: Books
   languages: ["HTML"]
-  paid: false
+  free: true
   notes: HTML and CSS
 
 - name: 19 Free Python Books
   url: https://medium.mybridge.co/19-free-ebooks-to-learn-programming-with-python-8f6f0ad4a7f8?gi=3cd835d59f6e#.ja176d9ih
   category: Books
   languages: ["Python"]
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: Modern PHP
   url: http://pdf.th7.cn/down/files/1502/Modern%20PHP.pdf
   category: Books
   languages: ["PHP"]
-  paid: false
+  free: true
   notes:
 
 - name: Exercism
   url: http://exercism.io/
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Code Wars
   url: http://www.codewars.com/
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: Join the Operation Code Clan!!!
 
 - name: Hacker Rank
   url: https://www.hackerrank.com/
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: Also have interview resources, etc.
 
 - name: Coder Byte
   url: https://coderbyte.com/
   category: Code Challenges
   languages: ["multiple"]
-  paid: true
+  free: false
   notes:
 
 - name: Code Fights
   url: https://codefights.com/
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: Someone who has used this resource, please update the "paid" field in resources.yml to "true" or "false"
 
 - name: Code Combat
   url: https://codecombat.com
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: CodinGame
   url: https://www.codingame.com/start
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Code RPGify
   url: http://code.rpgify.com/
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Dev Draft
   url: http://www.devdraft.com/
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Hacker Earth
   url: http://hackerearth.com/
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Core Wars
   url: http://www.corewars.org/
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Code Eval
   url: https://www.codeeval.com/
   category: Code Challenges
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Someone who has used this resource, please update the "paid" field in resources.yml to "true" or "false"
 
 - name: Rosetta Code
   url: http://rosettacode.org/wiki/Rosetta_Code
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Advent of Code
   url: https://adventofcode.com/
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: This is only supposed to be for the month of December, however the challenges are still up from 2016.
 
 - name: Cyber Dojo
   url: http://www.cyber-dojo.org/
   category: Code Challenges
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Check IO
   url: https://checkio.org/
   category: Code Challenges
   languages: ["Python", "JavaScript"]
-  paid: false
+  free: true
   notes: Someone who has used this resource, please update the "paid" field in resources.yml to "true" or "false"
 
 - name: Learn Code in 1 Year
   url: https://medium.com/@javier_noris/an-outline-to-learning-to-code-in-1-year-572a1a78fa62#.1gn9x76sb
   category: Getting Started
   languages:
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: Teach Yourself Programming in 10 Years
   url: http://norvig.com/21-days.html
   category: Getting Started
   languages:
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: Principles of Good Programming
   url: http://www.artima.com/weblogs/viewpost.jsp?thread=331531
   category: Getting Started
   languages:
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: Which Programming Language to Choose
   url: http://lifehacker.com/learn-which-programming-language-to-choose-with-this-in-1669612111
   category: Getting Started
   languages:
-  paid: false
+  free: true
   notes: Infographic
 
 - name: Hackr.io
   url: https://hackr.io
   category: Tutorials
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: All of the best tutorials
 
 - name: The Code Player
   url: http://thecodeplayer.com/
   category: Tutorials
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Implementing Functional Languages A Tutorial
   url: http://research.microsoft.com/en-us/um/people/simonpj/papers/pj-lester-book/
   category: Tutorials
   languages:
-  paid: false
+  free: true
   notes: Functional Programming
 
 - name: Learn to Program by Chris Pine
   url: https://pine.fm/LearnToProgram/chap_00.html
   category: Books
   languages: ["Ruby"]
-  paid: false
+  free: true
   notes:
 
 - name: Watch and Code
   url: https://watchandcode.com/
   category: Tutorials
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes: Free and Paid courses available
 
 - name: Free Code Camp
   url: http://freecodecamp.com/
   category: Online Courses
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Rithm School
   url: https://www.rithmschool.com/courses
   category: Online Courses
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Code Academy
   url: http://www.codecademy.com/
   category: Online Courses
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Khan Academy
   url: https://www.khanacademy.org/computing/computer-programming
   category: Online Courses
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: The Odin Project
   url: http://www.theodinproject.com/
   category: Online Courses
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: Web Development
 
 - name: Microsoft Virtual Academy
   url: https://mva.microsoft.com/
   category: Online Courses
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Revature
   url: https://revature.com/revatureonline.html
   category: Online Courses
   languages:
-  paid: false
+  free: true
   notes:
 
 - name: edX
   url: https://www.edx.org/
   category: Online Courses
   languages:
-  paid: false
+  free: true
   notes: Courses for more than just Computers available
 
 - name: Coursera
   url: https://www.coursera.org/
   category: Online Courses
   languages:
-  paid: false
+  free: true
   notes: Courses for more than just Computers available
 
 - name: MIT
   url: https://ocw.mit.edu/index.htm
   category: Online Courses
   languages:
-  paid: false
+  free: true
   notes: Courses for more than just Computers available
 
 - name: Learn Enough
   url: https://www.learnenough.com/
   category: Tutorials
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Aspect Oriented Programming
   url: http://www.onjava.com/pub/a/onjava/2004/01/14/aop.html
   category: Tutorials
   languages: ["Aspectwerkz"]
-  paid: false
+  free: true
   notes:
 
 - name: Lifehacker U
   url: http://lifehacker.com/tag/lifehacker-u
   category: Online Courses
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Best Free Online Classes of All Time
   url: https://www.class-central.com/collection/top-free-online-courses?subject=cs&sort=rating-up
   category: Online Courses
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Google Interview University
   url: https://github.com/jwasham/google-interview-university
   category: Jobs
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Star Wars API
   url: https://swapi.co/
   category: Tools
   languages:
-  paid: false
+  free: true
   notes:
 
 - name: Merlot
   url: https://www.merlot.org/merlot/index.htm
   category: Online Courses
   languages:
-  paid: false
+  free: true
   notes: Someone who has used this resource, please update the "paid" field in resources.yml to "true" or "false"
 
 - name: College Open Text Books
   url: http://www.collegeopentextbooks.org/
   category: Books
   languages:
-  paid: false
+  free: true
   notes: There are several dead links on this site, it doesn't appear to be very well maintained. In spite of this, there are a lot of great books listed.
 
 - name: BC Campus Open Text Books
   url: https://open.bccampus.ca/
   category: Books
   languages:
-  paid: false
+  free: true
   notes: There are some paid text books. The "Open" text books are available for free.
 
 - name: PluralSight
   url: https://www.pluralsight.com/product/paths
   category: Online Courses
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Free Trial Available
 
 - name: PluralSight Courses
   url: http://www.pluralsight.com/courses/
   category: Online Courses
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Free Trial Available
 
 - name: Team Tree House
   url: https://teamtreehouse.com/
   category: Online Courses
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Free Trials and Operation Code Scholarships available
 
 - name: Code Avengers
   url: https://codeavengers.com
   category: Online Courses
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Free trials available
 
 - name: Learn.co
   url: https://learn.co/
   category: Online Courses
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Free intro courses available
 
 - name: Code School
   url: https://www.codeschool.com/
   category: Online Courses
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Discounts available
 
 - name: Udemy
   url: https://www.udemy.com/
   category: Online Courses
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Coupons at https://retailmenot.com/view/udemy.com
 
 - name: Udacity
   url: https://www.udacity.com/
   category: Online Courses
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Udacity Blitz available for job seekers! https://blitz.com/
 
 - name: Crunchzilla
   url: http://www.crunchzilla.com/
   category: Programming for Kids
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes: For kids or adults
 
 - name: Scratch
   url: https://scratch.mit.edu/
   category: Programming for Kids
   languages:
-  paid: false
+  free: true
   notes: Not an actual programming language. But useful for learning concepts
 
 - name: Programmr
   url: http://www.programmr.com/
   category: REPL/Code Simulators
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: some content available free
 
 - name: Code.org
   url: https://code.org/
   category: Programming for Kids
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Coder Dojo
   url: http://coderdojo.com/
   category: Programming for Kids
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: This may or may not be paid depending on the dojo
 
 - name: AI Books
   url: http://alumni.media.mit.edu/~jorkin/aibooks.html
   category: Books
   languages: ["Artificial Intelligence"]
-  paid: true
+  free: false
   notes: These links all appear to go to Amazon
 
 - name: How to get started in UX design
   url: http://uxmastery.com/how-to-get-started-in-ux-design/
   category: Design
   languages:
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: How to Build a PC step by step
   url: http://www.pcworld.com/article/2987057/computers/how-to-build-a-pc-a-step-by-step-comprehensive-guide.html
   category: Computer Hardware
   languages:
-  paid: false
+  free: true
   notes:
 
 - name: Hackster
   url: https://www.hackster.io/
   category: Computer Hardware
   languages:
-  paid: false
+  free: true
   notes: You have do have to buy your own hardware... but the project information is free
 
 - name: CCNA Pluralsight course
   url: https://www.pluralsight.com/courses/ccna-routing-vlans
   category: Computer Networking
   languages:
-  paid: true
+  free: false
   notes:
 
 - name: Cloud 9
   url: https://c9.io
   category: Cloud IDEs
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Koding
   url: http://www.koding.com/
   category: Cloud IDEs
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Free trial available
 
 - name: Code Anywhere
   url: https://codeanywhere.com/
   category: Cloud IDEs
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: The service is free, support is paid
 
 - name: Docker Tutorial from Prakhar.me
   url: https://prakhar.me/docker-curriculum
   category: Docker
   languages:
-  paid: false
+  free: true
   notes:
 
 - name: Containerize your web development
   url: http://usersnap.com/blog/docker-for-web-developers/
   category: Docker
   languages:
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: Google's C++ course
   url: https://developers.google.com/edu/c++/
   category: Online Courses
   languages: ["C++"]
-  paid: false
+  free: true
   notes:
 
 - name: RegexOne
   url: https://regexone.com/
   category: Regular Expressions
   languages:
-  paid: false
+  free: true
   notes:
 
 - name: Regex101
   url: https://regex101.com/
   category: Regular Expressions
   languages:
-  paid: false
+  free: true
   notes: Regular Expression tester
 
 - name: RegexR
   url: http://regexr.com/
   category: Regular Expressions
   languages:
-  paid: false
+  free: true
   notes: Regular Expression tester
 
 - name: Operation Code
   url: https://operationcode.org
   category: Mentorship
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Code Mentor
   url: https://www.codementor.io/
   category: Mentorship
   languages: ["multiple"]
-  paid: true
+  free: false
   notes:
 
 - name: Hack Hands
   url: https://hackhands.com/
   category: Mentorship
   languages: ["multiple"]
-  paid: true
+  free: false
   notes:
 
 - name: My Bridge
   url: https://www.mybridge.co/
   category: News
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Technical Interview Prep Video
   url: https://www.youtube.com/watch?v=qIi-tIrcaww&feature=em-lss
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes:
 
 - name: How to Break into Tech Job Hunting and Interviews
   url: http://haseebq.com/how-to-break-into-tech-job-hunting-and-interviews/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: Which questions to ask in an interview
   url: http://ventureforamerica.org/blog/questionable-questions-avoid-without-question/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: What I look for in a Junior Developer
   url: http://www.codenewbie.org/blogs/what-i-look-for-in-a-junior-developer
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: Post Boot-camp job search
   url: https://medium.freecodecamp.com/5-key-learnings-from-the-post-bootcamp-job-search-9a07468d2331#.qqnl5nkov
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: 2016 Best Places to work in IT (ComputerWorld)
   url: http://www.computerworld.com/article/3083165/bestplaces2016/the-complete-listings-computerworlds-100-best-places-to-work-in-it-for-2016.html
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: Triple Byte
   url: https://triplebyte.com/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Job Board
 
 - name: Jr Dev Jobs
   url: https://www.jrdevjobs.com/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Job Board
 
 - name: CASY (Corporate America Supports You) Job Board
   url: http://casy.msccn.org
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Job Board
 
 - name: Career Score
   url: https://careerscore.com/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Job Board
 
 - name: Just Junior Jobs
   url: http://justjuniorjobs.com/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Job Board
 
 - name: Kanone
   url: https://www.kanone.com/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Apprenticeship
 
 - name: Coding Internships
   url: https://codinginternships.com/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Apprenticeship
 
 - name: Google Summer of Code
   url: https://developers.google.com/open-source/gsoc/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Apprenticeship
 
 - name: Freelancing advice from Eric Dodd
   url: https://github.com/ericdodds/the-little-freelancer
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes:
 
 - name: Remote Ok
   url: https://remoteok.io/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Remote Job Board
 
 - name: Remote Jobs
   url: https://remotejobs.com/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Remote Job Board
 
 - name: We Work Remotely
   url: https://weworkremotely.com/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Remote Job Board
 
 - name: WFH
   url: https://www.wfh.io/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Remote Job Board
 
 - name: Product Hunt Remote
   url: https://www.producthunt.com/e/find-a-remote-job
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Remote Job Board
 
 - name: Remotive
   url: http://remotive.io/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Remote Job Board
 
 - name: Start Up Weekend
   url: https://startupweekend.org
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Good for networking locally
 
 - name: Meetup
   url: https://www.meetup.com/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Good for networking locally (not necessarily for jobs in particular)
 
 - name: Professor Messer
   url: http://www.professormesser.com
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Certifications
 
 - name: Tech Exams
   url: http://www.techexams.net/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Certifications
 
 - name: The Muse
   url: https://www.themuse.com/
   category: Jobs
   languages:
-  paid: true
+  free: false
   notes: General Career Help
 
 - name: Standard Resume
   url: https://standardresume.co/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Resume help
 
 - name: Career Cup
   url: https://www.careercup.com/resume
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Resume help
 
 - name: Hire Heroes USA
   url: https://www.hireheroesusa.org/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Resume help (and other services)
 
 - name: CS Career Questions
   url: http://reddit.com/r/cscareerquestions
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes:
 
 - name: Git Showcase
   url: https://www.gitshowcase.com/
   category: Jobs
   languages:
-  paid: false
+  free: true
   notes: Make your github profile into a portfolio
 
 - name: Bento
   url: https://bento.io/
   category: Back End Dev
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Free Courses available
 
 - name: Ruby Koans
   url: http://github.com/edgecase/ruby_koans
   category: Back End Dev
   languages: ["Ruby"]
-  paid: false
+  free: true
   notes:
 
 - name: Ruby on Rails Tutorial
   url: https://www.railstutorial.org/book
   category: Back End Dev
   languages: ["Ruby"]
-  paid: false
+  free: true
   notes:
 
 - name: Learn Ruby the Hard Way
   url: http://learnrubythehardway.org/book
   category: Back End Dev
   languages: ["Ruby"]
-  paid: false
+  free: true
   notes:
 
 - name: Jump Start Lab Tutorials
   url: http://tutorials.jumpstartlab.com/
   category: Back End Dev
   languages: ["Ruby"]
-  paid: false
+  free: true
   notes:
 
 - name: Python.org
   url: https://www.python.org/
   category: Back End Dev
   languages: ["Python"]
-  paid: false
+  free: true
   notes:
 
 - name: Learn Python the Hard Way
   url: https://learnpythonthehardway.org/book/
   category: Back End Dev
   languages: ["Python"]
-  paid: false
+  free: true
   notes:
 
 - name: Real Python
   url: https://realpython.com/
   category: Back End Dev
   languages: ["Python"]
-  paid: true
+  free: false
   notes:
 
 - name: Advanced Python Programming
   url: https://rmotr.com/advanced-python-programming
   category: Back End Dev
   languages: ["Python"]
-  paid: true
+  free: false
   notes:
 
 - name: Hitch Hiker's Guide to Python
   url: http://docs.python-guide.org/en/latest/
   category: Back End Dev
   languages: ["Python"]
-  paid: false
+  free: true
   notes:
 
 - name: Jeff Knupp's Python Blog
   url: https://www.jeffknupp.com/
   category: Back End Dev
   languages: ["Python"]
-  paid: false
+  free: true
   notes:
 
 - name: Node School
   url: http://nodeschool.io/
   category: Back End Dev
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes: They host a ton of workshoppers (npm packages that you can pull down and go thru on your own) - https://nodeschool.io/#workshopper-list
 
 - name: Node.university
   url: http://node.university/courses
   category: Back End Dev
   languages: ["JavaScript"]
-  paid: true
+  free: false
   notes: Free Courses Available
 
 - name: MongoDB University
   url: https://university.mongodb.com/
   category: Back End Dev
   languages: ["MongoDB"]
-  paid: false
+  free: true
   notes:
 
 - name: SQL Bolt
   url: https://sqlbolt.com/
   category: Back End Dev
   languages: ["SQL"]
-  paid: false
+  free: true
   notes:
 
 - name: Beginner's Guide to R
   url: http://core0.staticworld.net/assets/2015/02/20/r4beginners_v3.pdf
   category: Back End Dev
   languages: ["R"]
-  paid: false
+  free: true
   notes:
 
 - name: Learn GraphQL
   url: https://learngraphql.com/
   category: Back End Dev
   languages: ["GraphQL"]
-  paid: false
+  free: true
   notes:
 
 - name: Flatiron School
   url: https://flatironschool.com/programs/online-swift-free-course/
   category: Mobile Dev
   languages: ["Swift"]
-  paid: false
+  free: true
   notes:
 
 - name: Learn Swift (eBook)
   url: https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewBook?id=881256329
   category: Mobile Dev
   languages: ["Swift"]
-  paid: false
+  free: true
   notes:
 
 - name: Start Developing iOS apps
   url: https://developer.apple.com/library/content/referencelibrary/GettingStarted/DevelopiOSAppsSwift/#//apple_ref/doc/uid/TP40015214-CH2-SW1
   category: Mobile Dev
   languages: ["Swift"]
-  paid: false
+  free: true
   notes:
 
 - name: Udacity Android Curriculum
   url: https://github.com/Enteleform/-RES-/blob/master/%5BLinks%5D/%5BAndroid%5D%20Udacity%20Curriculum.md
   category: Mobile Dev
   languages: ["Android"]
-  paid: true
+  free: false
   notes: Udacity has some free trials and you can sometimes find discounts online
 
 - name: Professional Android Developer Bundle
   url: http://thenextweb.com/offers/2017/01/11/create-amazing-apps-scratch-professional-android-developer-bundle/
   category: Mobile Dev
   languages: ["Android"]
-  paid: true
+  free: false
   notes:
 
 - name: The Mythical Man Month
   url: https://www.cs.drexel.edu/~yfcai/CS451/RequiredReadings/MythicalManMonth.pdf
   category: Books
   languages:
-  paid: false
+  free: true
   notes: Project Management
 
 - name: The Phoenix Project
   url: https://www.amazon.com/Phoenix-Project-DevOps-Helping-Business-ebook/dp/B00AZRBLHO
   category: Books
   languages:
-  paid: true
+  free: false
   notes: Project Management
 
 - name: All the Cheat Sheets
   url: http://overapi.com
   category: Cheat Sheets
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Bash Cheat Sheet
   url: https://github.com/rafalchmiel/bash-cheat-sheet
   category: Cheat Sheets
   languages: ["Bash"]
-  paid: false
+  free: true
   notes:
 
 - name: CSS (flexbox) Cheat Sheet
   url: http://www.sketchingwithcss.com/samplechapter/cheatsheet.html
   category: Cheat Sheets
   languages: ["CSS"]
-  paid: false
+  free: true
   notes:
 
 - name: Can I Use __?
   url: http://caniuse.com/#
   category: Cheat Sheets
   languages: ["HTML"]
-  paid: false
+  free: true
   notes: Will tell you which browsers are compatible with which web technologies
 
 - name: jQuery Cheat Sheet
   url: https://oscarotero.com/jquery/
   category: Cheat Sheets
   languages: ["jQuery"]
-  paid: false
+  free: true
   notes:
 
 - name: How to Contribute to Open Source
   url: https://github.com/FreeCodeCamp/how-to-contribute-to-open-source
   category: Open Source
   languages:
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: Open Hatch
   url: https://openhatch.org/
   category: Open Source
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: A resource to get started in Open Source
 
 - name: Code Triage
   url: https://www.codetriage.com/
   category: Open Source
   languages: ["multiple"]
-  paid: false
+  free: true
   notes: All of the open issues on all the best github projects
 
 - name: OSS University
   url: https://ossu.firebaseapp.com/#/curriculum
   category: Open Source
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: What is Version Control?
   url: https://www.atlassian.com/git/tutorials/what-is-version-control/
   category: Open Source
   languages: ["Git"]
-  paid: false
+  free: true
   notes: Blog Post
 
 - name: Github Hello World
   url: https://guides.github.com/activities/hello-world/
   category: Open Source
   languages: ["Git"]
-  paid: false
+  free: true
   notes:
 
 - name: Github Flow Control
   url: https://guides.github.com/introduction/flow/
   category: Open Source
   languages: ["Git"]
-  paid: false
+  free: true
   notes:
 
 - name: Beginner Git Tutorial
   url: https://youtu.be/ltzQbZrWLds
   category: Open Source
   languages: ["Git"]
-  paid: false
+  free: true
   notes:
 
 - name: Github Tutorial
   url: https://youtu.be/KMH1mImE0UE
   category: Open Source
   languages: ["Git"]
-  paid: false
+  free: true
   notes:
 
 - name: Learn Git Branching
   url: http://learngitbranching.js.org/
   category: Open Source
   languages: ["Git"]
-  paid: false
+  free: true
   notes: Visual Tutorial
 
 - name: Github for Developers (Day 1)
   url: https://vimeo.com/184964934/6eb0748a7b
   category: Open Source
   languages: ["Git"]
-  paid: false
+  free: true
   notes:
 
 - name: Github for Developers (Day 2)
   url: https://vimeo.com/184964933/ef06c54945
   category: Open Source
   languages: ["Git"]
-  paid: false
+  free: true
   notes:
 
 - name: Git Game
   url: https://www.git-game.com/
   category: Open Source
   languages: ["Git"]
-  paid: false
+  free: true
   notes:
 
 - name: Linux Journey
   url: https://linuxjourney.com/
   category: Open Source
   languages: ["Unix/Linux/*nix"]
-  paid: false
+  free: true
   notes:
 
 - name: Linux from Scratch
   url: http://linuxfromscratch.org/
   category: Open Source
   languages: ["Unix/Linux/*nix"]
-  paid: false
+  free: true
   notes:
 
 - name: System Administration Guide from Red Hat
   url: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Introduction_To_System_Administration/index.html
   category: Open Source
   languages: ["Unix/Linux/*nix"]
-  paid: false
+  free: true
   notes:
 
 - name: Linux Tutorials
   url: https://www.linux.com/tutorials
   category: Open Source
   languages: ["Unix/Linux/*nix"]
-  paid: false
+  free: true
   notes:
 
 - name: Linux Survival
   url: http://linuxsurvival.com/
   category: Open Source
   languages: ["Unix/Linux/*nix"]
-  paid: false
+  free: true
   notes:
 
 - name: Learn CLI the Hard Way
   url: http://cli.learncodethehardway.org/book/
   category: Open Source
   languages: ["Bash"]
-  paid: false
+  free: true
   notes:
 
 - name: Learn enough Command Line to be Dangerous
   url: https://www.learnenough.com/command-line-tutorial
   category: Open Source
   languages: ["Bash"]
-  paid: false
+  free: true
   notes:
 
 - name: Dash from General Assembly
   url: https://dash.generalassemb.ly/
   category: Front End Dev
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes:
 
 - name: Front End Masters
   url: https://frontendmasters.com/sale/trial/
   category: Front End Dev
   languages: ["multiple"]
-  paid: true
+  free: false
   notes: Free trials available
 
 - name: Viking Code Prep School
   url: https://www.vikingcodeschool.com/prep
   category: Front End Dev
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Dypsilon curated bookmarks
   url: https://github.com/dypsilon/frontend-dev-bookmarks
   category: Front End Dev
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Web Components
   url: https://www.webcomponents.org/
   category: Front End Dev
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: All of Google's Design resources
   url: https://design.google.com/resources/
   category: Web Design
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: HTML5 Rocks
   url: https://www.html5rocks.com/en/
   category: Front End Dev
   languages: ["HTML"]
-  paid: false
+  free: true
   notes:
 
 - name: W3Schools
   url: http://www.w3schools.com/
   category: Front End Dev
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: Shay Howe's Tutorials
   url: http://learn.shayhowe.com/
   category: Front End Dev
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: HTML Dog
   url: http://www.htmldog.com/
   category: Front End Dev
   languages: ["HTML"]
-  paid: false
+  free: true
   notes:
 
 - name: Web Wonder Wall
   url: http://webdesignerwall.com/
   category: Front End Dev
   languages: ["multiple"]
-  paid: false
+  free: true
   notes:
 
 - name: How to Center in CSS
   url: http://howtocenterincss.com/
   category: Front End Dev
   languages: ["CSS"]
-  paid: false
+  free: true
   notes:
 
 - name: JavaScript Koans
   url: https://github.com/mrdavidlaing/javascript-koans
   category: Front End Dev
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes:
 
 - name: Functional Programming in JavaScript
   url: http://reactivex.io/learnrx/
   category: Front End Dev
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes:
 
 - name: JavaScript Allonge
   url: https://leanpub.com/javascriptallongesix/read
   category: Front End Dev
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes:
 
 - name: JavaScript 30
   url: https://javascript30.com/
   category: Front End Dev
   languages: ["JavaScript"]
-  paid: false
+  free: true
   notes:

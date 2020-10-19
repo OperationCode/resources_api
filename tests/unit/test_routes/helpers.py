@@ -12,7 +12,7 @@ def create_resource(client,
                     url=None,
                     category=None,
                     languages=None,
-                    paid=None,
+                    free=None,
                     notes=None,
                     headers=None,
                     endpoint='/api/v1/resources'):
@@ -25,7 +25,7 @@ def create_resource(client,
                            languages=[
                                "Python", "New Language"
                             ] if not languages else languages,
-                           paid=False if not paid else paid,
+                           free=False if not free else free,
                            notes="Some notes" if not notes else notes)],
                        headers={'x-apikey': apikey} if not headers else headers)
 
@@ -36,7 +36,7 @@ def update_resource(client,
                     url=None,
                     category=None,
                     languages=None,
-                    paid=None,
+                    free=None,
                     notes=None,
                     headers=None,
                     endpoint='/api/v1/resources/1'):
@@ -46,7 +46,7 @@ def update_resource(client,
                             url="https://new.url" if not url else url,
                             category="New Category" if not category else category,
                             languages=["New Lang"] if languages is None else languages,
-                            paid=False if not paid else paid,
+                            free=False if not free else free,
                             notes="New notes" if not notes else notes),
                       headers={'x-apikey': apikey} if not headers else headers)
 

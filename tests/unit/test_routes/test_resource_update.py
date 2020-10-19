@@ -139,8 +139,8 @@ def test_update_resource(
     assert (response.status_code == 200)
     assert (response.json['resource'].get('name') == "New name")
 
-    # Paid parameter as "FALSE" instead of False
-    response = update_resource(client, apikey, name="New name 2", paid="FALSE")
+    # free parameter as "FALSE" instead of False
+    response = update_resource(client, apikey, name="New name 2", free="FALSE")
     assert (response.status_code == 200)
     assert (response.json['resource'].get('name') == "New name 2")
 
@@ -149,7 +149,7 @@ def test_update_resource(
     url = "htt://bad_url.doesnotexist"
     category = True
     languages = False
-    paid = "Bad Data"
+    free = "Bad Data"
     notes = True
     response = update_resource(client,
                                apikey,
@@ -157,7 +157,7 @@ def test_update_resource(
                                url,
                                category,
                                languages,
-                               paid,
+                               free,
                                notes)
     assert (response.status_code == 422)
 
@@ -166,7 +166,7 @@ def test_update_resource(
     url = None
     category = None
     languages = None
-    paid = "FaLsE"
+    free = "FaLsE"
     notes = "Some notes"
     response = update_resource(client,
                                apikey,
@@ -174,15 +174,15 @@ def test_update_resource(
                                url,
                                category,
                                languages,
-                               paid,
+                               free,
                                notes)
     assert (response.status_code == 200)
-    assert response.json['resource'].get('paid') is False
+    assert response.json['resource'].get('free') is False
     name = "StringsForBools"
     url = None
     category = None
     languages = None
-    paid = "TrUe"
+    free = "TrUe"
     notes = "Some notes"
     response = update_resource(client,
                                apikey,
@@ -190,20 +190,20 @@ def test_update_resource(
                                url,
                                category,
                                languages,
-                               paid,
+                               free,
                                notes)
     assert (response.status_code == 200)
-    assert response.json['resource'].get('paid') is True
+    assert response.json['resource'].get('free') is True
 
-    # Bad "paid" data
-    paid = "PERHAPS"
+    # Bad "free" data
+    free = "PERHAPS"
     response = update_resource(client,
                                apikey,
                                name,
                                url,
                                category,
                                languages,
-                               paid,
+                               free,
                                notes)
     assert (response.status_code == 422)
 
@@ -213,7 +213,7 @@ def test_update_resource(
     url = long_string
     category = long_string
     languages = long_string
-    paid = True
+    free = True
     notes = long_string
     response = update_resource(client,
                                apikey,
@@ -221,7 +221,7 @@ def test_update_resource(
                                url,
                                category,
                                languages,
-                               paid,
+                               free,
                                notes)
     assert (response.status_code == 422)
 
@@ -230,7 +230,7 @@ def test_update_resource(
     url = None
     category = None
     languages = None
-    paid = True
+    free = True
     notes = "∞"
     response = update_resource(client,
                                apikey,
@@ -238,7 +238,7 @@ def test_update_resource(
                                url,
                                category,
                                languages,
-                               paid,
+                               free,
                                notes)
     assert (response.status_code == 200)
 

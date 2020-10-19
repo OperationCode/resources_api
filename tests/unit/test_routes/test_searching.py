@@ -18,7 +18,7 @@ def test_search(
             name=f"{first_term}",
             category="Website",
             url=f"{first_term}",
-            paid=False,
+            free=False,
         )],
         headers={'x-apikey': apikey}
     )
@@ -51,23 +51,23 @@ def test_search(
     assert (isinstance(result.json['total_count'], int))
 
 
-def test_search_paid_filter(module_client,
+def test_search_free_filter(module_client,
                             module_db,
                             fake_auth_from_oc,
                             fake_algolia_save,
                             fake_algolia_search):
     client = module_client
 
-    # Test on the unpaid resources
-    result = client.get("/api/v1/search?paid=false")
-    assert (result.status_code == 200)
-
     # Test on the paid resources
-    result = client.get("/api/v1/search?paid=true")
+    result = client.get("/api/v1/search?free=false")
     assert (result.status_code == 200)
 
-    # Test with invalid paid attribute given ( defaults to all )
-    result = client.get("/api/v1/search?paid=something")
+    # Test on the free resources
+    result = client.get("/api/v1/search?free=true")
+    assert (result.status_code == 200)
+
+    # Test with invalid free attribute given ( defaults to all )
+    result = client.get("/api/v1/search?free=something")
     assert (result.status_code == 200)
 
 
@@ -139,7 +139,7 @@ def test_algolia_exception_error(module_client,
                                name=f"{first_term}",
                                category="Website",
                                url=f"{first_term}",
-                               paid=False,
+                               free=False,
                            )],
                            headers={'x-apikey': apikey}
                            )
@@ -156,7 +156,7 @@ def test_algolia_exception_error(module_client,
                               languages=["New language"],
                               category="New Category",
                               url=f"https://{updated_term}.url",
-                              paid=False,
+                              free=False,
                               notes="New notes"
                           ),
                           headers={'x-apikey': apikey}
@@ -191,7 +191,7 @@ def test_algolia_unreachable_host_error(module_client,
                                name=f"{first_term}",
                                category="Website",
                                url=f"{first_term}",
-                               paid=False,
+                               free=False,
                            )],
                            headers={'x-apikey': apikey})
 
@@ -207,7 +207,7 @@ def test_algolia_unreachable_host_error(module_client,
                               languages=["New language"],
                               category="New Category",
                               url=f"https://{updated_term}.url",
-                              paid=False,
+                              free=False,
                               notes="New notes"
                           ),
                           headers={'x-apikey': apikey}
