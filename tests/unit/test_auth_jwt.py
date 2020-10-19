@@ -1,5 +1,5 @@
 from app.api.auth import authenticate
-from app.models import Key
+from tests.utils import create_fake_key, FAKE_EMAIL
 from datetime import datetime, timedelta
 from jwt import encode
 from unittest.mock import patch
@@ -33,8 +33,6 @@ lgfxGIOU16EyMffrBIIbpH+YMABG+MAxKrGbRVXr24VU6zAZqE9mEvujSYxnZW/C
 DJQHadGUXFAGcrQKpxHv7QA0
 -----END PRIVATE KEY-----"""
 
-FAKE_EMAIL = 'test@example.org'
-FAKE_APIKEY = 'abcdef1234567890'
 SECRET_KEY = open(".dev/dev-jwt-key").read()
 EXP = datetime.utcnow() + timedelta(seconds=10)
 delta = timedelta(seconds=-11)
@@ -47,15 +45,6 @@ EXP_AUTH = "Bearer " + encode({'email': FAKE_EMAIL, 'exp': EXP + delta},
                               SECRET_KEY, algorithm='RS256').decode('utf-8')
 NO_EXP_AUTH = "Bearer " + encode({'email': FAKE_EMAIL},
                                  SECRET_KEY, algorithm='RS256').decode('utf-8')
-
-
-def create_fake_key(session, **kwargs):
-    kwargs['email'] = kwargs.get('email', FAKE_EMAIL)
-    kwargs['apikey'] = kwargs.get('apikey', FAKE_APIKEY)
-    key = Key(**kwargs)
-    session.add(key)
-    session.commit()
-    return key
 
 
 def test_missing_auth_header(module_client):

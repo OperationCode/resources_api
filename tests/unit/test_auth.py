@@ -3,20 +3,8 @@ from unittest.mock import patch
 from app.api.auth import (ApiKeyError, ApiKeyErrorCode, authenticate,
                           deny_key, find_key_by_apikey_or_email,
                           rotate_key)
-from app.models import Key
+from tests.utils import create_fake_key, FAKE_EMAIL, FAKE_APIKEY
 from flask import g
-
-FAKE_EMAIL = 'test@example.org'
-FAKE_APIKEY = 'abcdef1234567890'
-
-
-def create_fake_key(session, **kwargs):
-    kwargs['email'] = kwargs.get('email', FAKE_EMAIL)
-    kwargs['apikey'] = kwargs.get('apikey', FAKE_APIKEY)
-    key = Key(**kwargs)
-    session.add(key)
-    session.commit()
-    return key
 
 
 def test_authenticate_failure(module_client, function_empty_db):
