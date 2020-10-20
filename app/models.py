@@ -5,15 +5,15 @@ from sqlalchemy_utils import URLType
 from flask_security import RoleMixin, UserMixin
 
 language_identifier = db.Table('language_identifier',
-                                db.Column(
-                                    'resource_id',
-                                    db.Integer,
-                                    db.ForeignKey('resource.id')),
-                                db.Column(
-                                    'language_id',
-                                    db.Integer,
-                                    db.ForeignKey('language.id'))
-                                )
+                               db.Column(
+                                   'resource_id',
+                                   db.Integer,
+                                   db.ForeignKey('resource.id')),
+                               db.Column(
+                                   'language_id',
+                                   db.Integer,
+                                   db.ForeignKey('language.id'))
+                               )
 
 
 class TimestampMixin:
