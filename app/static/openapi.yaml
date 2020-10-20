@@ -176,7 +176,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
+                $ref: '#/components/schemas/CategoriesResponse'
               example:
                   apiVersion: '1.0'
                   categories:
@@ -253,7 +253,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryDataList'
+                $ref: '#/components/schemas/CategoryResponse'
               example:
                 apiVersion: '1.0'
                 category:
@@ -925,7 +925,7 @@ components:
           type: integer
           description: Status code
 
-    Category:
+    CategoriesResponse:
       type: object
       properties:
         apiVersion:
@@ -940,17 +940,34 @@ components:
           description: Status code
         total_count:
           type: integer
-    CategoryDataList:
-      type: array
-      items:
-        type: object
-        properties:
+    CategoryResponse:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        category:
+          $ref: '#/components/schemas/CategoryData'
+        status:
+          type: string
+          description: Status message
+        status_code:
+          type: integer
+          description: Status code
+        total_count:
+          type: integer
+    CategoryData:
+      type: object
+      properties:
           id:
             type: integer
             description: Category ID
           name:
             type: string
             description: Category name
+    CategoryDataList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CategoryData'
 
     Language:
       type: object
