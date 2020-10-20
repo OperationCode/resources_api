@@ -5,15 +5,15 @@ from sqlalchemy_utils import URLType
 from flask_security import RoleMixin, UserMixin
 
 language_identifier = db.Table('language_identifier',
-                               db.Column(
-                                   'resource_id',
-                                   db.Integer,
-                                   db.ForeignKey('resource.id')),
-                               db.Column(
-                                   'language_id',
-                                   db.Integer,
-                                   db.ForeignKey('language.id'))
-                               )
+                                db.Column(
+                                    'resource_id',
+                                    db.Integer,
+                                    db.ForeignKey('resource.id')),
+                                db.Column(
+                                    'language_id',
+                                    db.Integer,
+                                    db.ForeignKey('language.id'))
+                                )
 
 
 class TimestampMixin:
@@ -223,7 +223,8 @@ class Role(db.Model, RoleMixin):
     def __str__(self):
         return self.name
 
-    # __hash__ is required to avoid the exception TypeError: unhashable type: 'Role' when saving a User
+    # __hash__ is required to avoid the exception
+    # TypeError: unhashable type: 'Role' when saving a User
     def __hash__(self):
         return hash(self.name)
 
@@ -231,8 +232,10 @@ class Role(db.Model, RoleMixin):
 # User class
 class User(db.Model, UserMixin):
 
-    # Our User has six fields: ID, email, password, active, confirmed_at and roles. The roles field represents a
-    # many-to-many relationship using the roles_users table. Each user may have no role, one role, or multiple roles.
+    # Our User has six fields: ID, email, password, active, confirmed_at
+    # and roles. The roles field represents a many-to-many relationship
+    # using the roles_users table. Each user may have no role, one role,
+    # or multiple roles.
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
