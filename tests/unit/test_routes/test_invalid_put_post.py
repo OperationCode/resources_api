@@ -49,7 +49,7 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
             languages=["New language"],
             category="New Category",
             url="https://new.url",
-            paid=False,
+            free=False,
             notes="New notes"
         ),
         headers={'x-apikey': apikey}
@@ -63,7 +63,7 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
                               name=12345,
                               url="https://good.url",
                               category=56789,
-                              paid="false",
+                              free="false",
                           ),
                           headers={'x-apikey': apikey}
                           )
@@ -71,7 +71,7 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
     assert (response.status_code == 200)
     assert (response.json['resource'].get('name') == "12345")
     assert (response.json['resource'].get('category') == "56789")
-    assert (response.json['resource'].get('paid') is False)
+    assert (response.json['resource'].get('free') is False)
 
     # URL must be string
     response = client.put("/api/v1/resources/2",

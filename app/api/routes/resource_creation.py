@@ -44,13 +44,13 @@ def create_resources(json, db):
         # Create each Resource in the database one by one
         for resource in json:
             langs, categ = get_attributes(resource)
-            paid_bool = ensure_bool(resource.get('paid'))
+            free_bool = ensure_bool(resource.get('free'))
             new_resource = Resource(
                 name=resource.get('name'),
                 url=resource.get('url'),
                 category=categ,
                 languages=langs,
-                paid=paid_bool,
+                free=free_bool,
                 notes=resource.get('notes'))
 
             try:

@@ -233,7 +233,7 @@ def fake_algolia_search(mocker):
             'url': term,
             'category': 'Mock',
             'languages': 'Mock',
-            'paid': 'Mock',
+            'free': 'Mock',
             'notes': 'Mock',
             'upvotes': 0,
             'downvotes': 0,

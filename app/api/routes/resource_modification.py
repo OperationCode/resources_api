@@ -1,7 +1,7 @@
 from os import environ
 
 from algoliasearch.exceptions import AlgoliaException, AlgoliaUnreachableHostException
-from flask import redirect, request
+from flask import redirect, request, g
 from sqlalchemy.exc import IntegrityError
 
 from app import db, index, utils as utils
@@ -55,7 +55,7 @@ def update_resource(id, json, db):
     try:
         logger.info(
             f"Updating resource. Old data: {json_module.dumps(resource.serialize)}")
-        if json.get('languages'):
+        if json.get('languages') is not None:
             old_languages = resource.languages[:]
             resource.languages = langs
             index_object['languages'] = resource.serialize['languages']
@@ -76,10 +76,10 @@ def update_resource(id, json, db):
         if json.get('url'):
             resource.url = json.get('url')
             index_object['url'] = json.get('url')
-        if 'paid' in json:
-            paid = ensure_bool(json.get('paid'))
-            resource.paid = paid
-            index_object['paid'] = paid
+        if 'free' in json:
+            free = ensure_bool(json.get('free'))
+            resource.free = free
+            index_object['free'] = free
         if 'notes' in json:
             resource.notes = json.get('notes')
             index_object['notes'] = json.get('notes')
@@ -138,7 +138,7 @@ def update_votes(id, vote_direction):
     opposite_direction = 'downvotes' if vote_direction == 'upvotes' else 'upvotes'
     opposite_count = getattr(resource, opposite_direction)
 
-    api_key = request.headers.get('x-apikey')
+    api_key = g.auth_key.apikey
     vote_info = VoteInformation.query.get(
                 {'voter_apikey': api_key, 'resource_id': id}
             )

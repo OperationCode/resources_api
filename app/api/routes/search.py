@@ -20,19 +20,19 @@ def search_results():
     page_size = request.args.get('page_size', Config.RESOURCE_PAGINATOR.per_page, int)
 
     # Fetch the filter params from the url, if they were provided.
-    paid = request.args.get('paid')
+    free = request.args.get('free')
     category = request.args.get('category')
     languages = request.args.getlist('languages')
     filters = []
 
-    # Filter on paid
-    if paid:
-        paid = paid.lower()
+    # Filter on free
+    if free:
+        free = free.lower()
         # algolia filters boolean attributes with either 0 or 1
-        if paid == 'true':
-            filters.append('paid=1')
-        elif paid == 'false':
-            filters.append('paid=0')
+        if free == 'true':
+            filters.append('free=1')
+        elif free == 'false':
+            filters.append('free=0')
 
     # Filter on category
     if category:

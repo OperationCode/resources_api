@@ -110,7 +110,7 @@ def create_resource(resource, db):  # pragma: no cover
         url=resource['url'],
         category=resource['category'],
         languages=resource['languages'],
-        paid=resource.get('paid'),
+        free=resource.get('free'),
         notes=resource.get('notes', ''),
         upvotes=resource.get('upvotes', 0),
         downvotes=resource.get('downvotes', 0),
@@ -126,7 +126,7 @@ def update_resource(resource, existing_resource):   # pragma: no cover
     existing_resource.name = resource['name']
     existing_resource.url = resource['url']
     existing_resource.category = resource['category']
-    existing_resource.paid = resource.get('paid')
+    existing_resource.free = resource.get('free')
     existing_resource.notes = resource.get('notes', '')
     existing_resource.languages = resource['languages']
 

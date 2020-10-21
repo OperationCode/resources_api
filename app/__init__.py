@@ -4,8 +4,6 @@ from configs import Config
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 
 from healthcheck import HealthCheck
 # from healthcheck import EnvironmentDump
@@ -20,14 +18,9 @@ search_client = SearchClient.create(Config.ALGOLIA_APP_ID, Config.ALGOLIA_API_KE
 index = search_client.init_index(Config.INDEX_NAME)
 
 app = Flask(__name__, static_folder='app/static')
+
 app.config.from_object(Config)
 app.url_map.strict_slashes = False
-
-limiter = Limiter(
-    app,
-    key_func=get_remote_address,
-    default_limits=["200 per day", "50 per hour"]
-)
 
 db.init_app(app)
 migrate.init_app(app, db)
@@ -43,7 +36,6 @@ app.register_blueprint(error_bp)
 
 
 @app.route("/healthz")
-@limiter.exempt
 def healthz():
     health = HealthCheck()
     health.add_section("application", application_data)
@@ -51,7 +43,6 @@ def healthz():
 
 
 # @app.route("/environment")
-# @limiter.limit("1 per hour")
 # def environment():
 #     envdump = EnvironmentDump()
 #     envdump.add_section("application", application_data)
