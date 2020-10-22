@@ -282,3 +282,113 @@ def test_update_votes_authorization_header(
     assert (response.status_code == 200)
     assert (response.json['resource'].get(f"{UPVOTE}s") == initial_upvotes)
     assert (response.json['resource'].get(f"{DOWNVOTE}s") == initial_downvotes + 1)
+
+
+def test_delete_unused_languages(module_client, module_db,
+                                 fake_auth_from_oc, fake_algolia_save):
+    client = module_client
+    apikey = get_api_key(client)
+
+    # Happy Path
+    response = update_resource(client, apikey)
+    assert (response.status_code == 200)
+    assert (response.json['resource'].get('name') == "New name")
+
+    # Initial Data
+    name = "Language Test"
+    url = None
+    category = None
+    # Random Language DS/AI
+    languages = ["Python", "DS/AI"]
+    paid = None
+    notes = None
+
+    # Update response
+    response = update_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    # Check update
+    assert (response.status_code == 200)
+    assert (response.json['resource'].get('name') == "Language Test")
+    languages_response = response.json['resource'].get('languages')
+    assert ("Python" in languages_response)
+    assert ("DS/AI" in languages_response)
+
+    # Update Languages remove DS/AI and add JavaScript and HTML
+    languages.append("JavaScript")
+    languages.append("HTML")
+    languages.remove("DS/AI")
+    response = update_resource(client, apikey, name, url,
+                               category, languages, paid, notes)
+
+    # Check Update of Languages
+    assert (response.status_code == 200)
+    languages_response = response.json['resource'].get('languages')
+    assert ("Python" in languages_response)
+    assert ("JavaScript" in languages_response)
+    assert ("HTML" in languages_response)
+    assert ("DS/AI" not in languages_response)
+
+    db_languages = client.get('api/v1/languages')
+    db_languages = [language.get('name') for language in db_languages.json['languages']]
+
+    assert ("DS/AI" not in db_languages)
+
+
+def test_delete_unused_categories(module_client, module_db,
+                                  fake_auth_from_oc, fake_algolia_save):
+    client = module_client
+    apikey = get_api_key(client)
+
+    # Happy Path
+    response = update_resource(client, apikey)
+    assert (response.status_code == 200)
+    assert (response.json['resource'].get('name') == "New name")
+
+    # Test Categories
+    test_cat_1 = 'Holy hand grenades'
+    test_cat_2 = 'News'
+
+    # Initial Data
+    name = "Category Test"
+    url = None
+    category = test_cat_1
+    languages = None
+    paid = None
+    notes = None
+
+    # Update response
+    response = update_resource(client,
+                               apikey,
+                               name,
+                               url,
+                               category,
+                               languages,
+                               paid,
+                               notes)
+    # Check update
+    assert (response.status_code == 200)
+    assert (response.json['resource'].get('name') == "Category Test")
+    category_response = response.json['resource'].get('category')
+    assert (category_response == test_cat_1)
+
+    # Update category to something else
+    category = test_cat_2
+    response = update_resource(client, apikey, name, url,
+                               category, languages, paid, notes)
+
+    # Check Update of category
+    assert (response.status_code == 200)
+    category_response = response.json['resource'].get('category')
+    assert (category_response == test_cat_2)
+
+    db_categories = client.get('api/v1/categories')
+    db_categories = [category.get('name')
+                     for category in db_categories.json['categories']]
+
+    assert (test_cat_1 not in db_categories)

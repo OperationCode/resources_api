@@ -42,15 +42,34 @@ def update_resource(id, json, db):
     langs, categ = get_attributes(json)
     index_object = {'objectID': id}
 
+    def get_unique_resource_categories_as_strings():
+        resources = Resource.query.all()
+        return {resource.category.name for resource in resources}
+
+    def get_unique_resource_languages_as_strings():
+        resources = Resource.query.all()
+        return {language.name
+                for resource in resources
+                for language in resource.languages}
+
     try:
         logger.info(
             f"Updating resource. Old data: {json_module.dumps(resource.serialize)}")
         if json.get('languages') is not None:
+            old_languages = resource.languages[:]
             resource.languages = langs
             index_object['languages'] = resource.serialize['languages']
+            resource_languages = get_unique_resource_languages_as_strings()
+            for language in old_languages:
+                if language.name not in resource_languages:
+                    db.session.delete(language)
         if json.get('category'):
+            old_category = resource.category
             resource.category = categ
             index_object['category'] = categ.name
+            resource_categories = get_unique_resource_categories_as_strings()
+            if old_category.name not in resource_categories:
+                db.session.delete(old_category)
         if json.get('name'):
             resource.name = json.get('name')
             index_object['name'] = json.get('name')
