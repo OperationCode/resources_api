@@ -3,6 +3,8 @@ from .helpers import (
     assert_correct_response
 )
 
+from ..test_auth_jwt import GOOD_AUTH
+
 
 def test_update_votes(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
     client = module_client
@@ -282,7 +284,8 @@ def test_update_votes_authorization_header(
     assert (response.json['resource'].get(f"{DOWNVOTE}s") == initial_downvotes + 1)
 
 
-def test_delete_unused_languages(module_client, module_db, fake_auth_from_oc, fake_algolia_save):
+def test_delete_unused_languages(module_client, module_db,
+                                 fake_auth_from_oc, fake_algolia_save):
     client = module_client
     apikey = get_api_key(client)
 
@@ -291,16 +294,16 @@ def test_delete_unused_languages(module_client, module_db, fake_auth_from_oc, fa
     assert (response.status_code == 200)
     assert (response.json['resource'].get('name') == "New name")
 
-    #Initial Data
+    # Initial Data
     name = "Language Test"
     url = None
     category = None
-    #Random Language DS/AI
+    # Random Language DS/AI
     languages = ["Python", "DS/AI"]
     paid = None
     notes = None
 
-    #Update response
+    # Update response
     response = update_resource(client,
                                apikey,
                                name,
@@ -309,20 +312,20 @@ def test_delete_unused_languages(module_client, module_db, fake_auth_from_oc, fa
                                languages,
                                paid,
                                notes)
-    #Check update
+    # Check update
     assert (response.status_code == 200)
     assert(response.json['resource'].get('name') == "Language Test")
     languages_response = response.json['resource'].get('languages')
     assert("Python" in languages_response)
     assert("DS/AI" in languages_response)
 
-    #Update Languages split remove DS/AI and add JavaScriptmake
+    # Update Languages split remove DS/AI and add JavaScriptmake
     languages.append("JavaScript")
     languages.append("HTML")
     languages.remove("DS/AI")
     response = update_resource(client, apikey, name, url,
                                category, languages, paid, notes)
-    #Check Update of Languages
+    # Check Update of Languages
     assert(response.status_code == 200)
     languages_response = response.json['resource'].get('languages')
     assert("Python" in languages_response)
