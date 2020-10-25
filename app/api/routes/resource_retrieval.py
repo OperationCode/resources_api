@@ -1,13 +1,13 @@
 from datetime import datetime
 
 from dateutil import parser
-from flask import redirect, request
-from sqlalchemy import func, or_, text
+from flask import redirect, request, g
+from sqlalchemy import func, or_, and_, text
 
-from app import utils as utils
+from app import db, utils as utils
 from app.api import bp
 from app.api.routes.helpers import failures_counter, latency_summary, logger
-from app.models import Category, Language, Resource
+from app.models import Category, Language, Resource, VoteInformation, Key
 from configs import Config
 
 
@@ -42,7 +42,19 @@ def get_resources():
     updated_after = request.args.get('updated_after')
     free = request.args.get('free')
 
+    apikey = request.headers.get('x-apikey')
+    filters = {'apikey': apikey, 'denied': False}
+    key = Key.query.filter_by(**filters).first() if apikey else g.get('auth_key')
+
     q = Resource.query
+    if key:
+        q = db.session.query(Resource, VoteInformation.current_direction).outerjoin(
+            VoteInformation,
+            and_(
+                Resource.id == VoteInformation.resource_id,
+                VoteInformation.voter_apikey == key.apikey
+            )
+        )
 
     # Filter on languages
     if languages:
@@ -102,7 +114,8 @@ def get_resources():
         if not paginated_resources:
             return redirect('/404')
         resource_list = [
-            resource.serialize for resource in paginated_resources.items
+            {**item.Resource.serialize, 'vote_direction': item[1]}
+            if key else item.serialize for item in paginated_resources.items
         ]
         details = resource_paginator.details(paginated_resources)
     except Exception as e:
