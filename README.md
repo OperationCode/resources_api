@@ -121,6 +121,12 @@ If you encounter any errors, please open an issue or contact us on slack in #oc-
     }'
     ```
 
+## Admin Panel Access
+
+This project has an admin panel which can be used to view and manually edit categories and languages at a higher level than the API allows.
+In order to create admin user, set following environment variables before starting the application -
+`ADMIN_EMAIL` and `ADMIN_PASSWORD`
+
 ## Development Notes
 
 If you make changes to the models.py or other schemas, you need to run a migration and upgrade again:
