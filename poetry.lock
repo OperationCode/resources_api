@@ -126,11 +126,11 @@ cffi = ">=1.8,<1.11.3 || >1.11.3"
 six = ">=1.4.1"
 
 [package.extras]
-docs = ["sphinx (>=1.6.5,<1.8.0 || >1.8.0,<3.1.0 || >3.1.0,<3.1.1 || >3.1.1)", "sphinx-rtd-theme"]
+docs = ["sphinx (>=1.6.5,!=1.8.0,!=3.1.0,!=3.1.1)", "sphinx-rtd-theme"]
 docstest = ["doc8", "pyenchant (>=1.6.11)", "twine (>=1.12.0)", "sphinxcontrib-spelling (>=4.0.1)"]
 pep8test = ["black", "flake8", "flake8-import-order", "pep8-naming"]
 ssh = ["bcrypt (>=3.1.5)"]
-test = ["pytest (>=3.6.0,<3.9.0 || >3.9.0,<3.9.1 || >3.9.1,<3.9.2 || >3.9.2)", "pretend", "iso8601", "pytz", "hypothesis (>=1.11.4,<3.79.2 || >3.79.2)"]
+test = ["pytest (>=3.6.0,!=3.9.0,!=3.9.1,!=3.9.2)", "pretend", "iso8601", "pytz", "hypothesis (>=1.11.4,!=3.79.2)"]
 
 [[package]]
 name = "flake8"
@@ -427,7 +427,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "pytest"
-version = "6.1.1"
+version = "6.1.2"
 description = "pytest: simple powerful testing with Python"
 category = "main"
 optional = false
@@ -445,7 +445,7 @@ py = ">=1.8.2"
 toml = "*"
 
 [package.extras]
-checkqa_mypy = ["mypy (0.780)"]
+checkqa_mypy = ["mypy (==0.780)"]
 testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xmlschema"]
 
 [[package]]
@@ -461,7 +461,7 @@ coverage = ">=4.4"
 pytest = ">=4.6"
 
 [package.extras]
-testing = ["fields", "hunter", "process-tests (2.0.2)", "six", "pytest-xdist", "virtualenv"]
+testing = ["fields", "hunter", "process-tests (==2.0.2)", "six", "pytest-xdist", "virtualenv"]
 
 [[package]]
 name = "pytest-mock"
@@ -520,7 +520,7 @@ urllib3 = ">=1.21.1,<1.25.0 || >1.25.0,<1.25.1 || >1.25.1,<1.26"
 
 [package.extras]
 security = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)"]
-socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7)", "win-inet-pton"]
+socks = ["PySocks (>=1.5.6,!=1.5.7)", "win-inet-pton"]
 
 [[package]]
 name = "six"
@@ -580,8 +580,8 @@ intervals = ["intervals (>=0.7.1)"]
 password = ["passlib (>=1.6,<2.0)"]
 pendulum = ["pendulum (>=2.0.5)"]
 phone = ["phonenumbers (>=5.9.2)"]
-test = ["pytest (>=2.7.1)", "Pygments (>=1.2)", "Jinja2 (>=2.3)", "docutils (>=0.10)", "flexmock (>=0.9.7)", "mock (2.0.0)", "psycopg2 (>=2.5.1)", "psycopg2cffi (>=2.8.1)", "pg8000 (>=1.12.4)", "pytz (>=2014.2)", "python-dateutil (>=2.6)", "pymysql", "flake8 (>=2.4.0)", "isort (>=4.2.2)", "pyodbc"]
-test_all = ["anyjson (>=0.3.3)", "arrow (>=0.3.4)", "Babel (>=1.3)", "colour (>=0.0.4)", "cryptography (>=0.6)", "intervals (>=0.7.1)", "passlib (>=1.6,<2.0)", "pendulum (>=2.0.5)", "phonenumbers (>=5.9.2)", "pytest (>=2.7.1)", "Pygments (>=1.2)", "Jinja2 (>=2.3)", "docutils (>=0.10)", "flexmock (>=0.9.7)", "mock (2.0.0)", "psycopg2 (>=2.5.1)", "psycopg2cffi (>=2.8.1)", "pg8000 (>=1.12.4)", "pytz (>=2014.2)", "python-dateutil (>=2.6)", "pymysql", "flake8 (>=2.4.0)", "isort (>=4.2.2)", "pyodbc", "python-dateutil", "furl (>=0.4.1)"]
+test = ["pytest (>=2.7.1)", "Pygments (>=1.2)", "Jinja2 (>=2.3)", "docutils (>=0.10)", "flexmock (>=0.9.7)", "mock (==2.0.0)", "psycopg2 (>=2.5.1)", "psycopg2cffi (>=2.8.1)", "pg8000 (>=1.12.4)", "pytz (>=2014.2)", "python-dateutil (>=2.6)", "pymysql", "flake8 (>=2.4.0)", "isort (>=4.2.2)", "pyodbc"]
+test_all = ["anyjson (>=0.3.3)", "arrow (>=0.3.4)", "Babel (>=1.3)", "colour (>=0.0.4)", "cryptography (>=0.6)", "intervals (>=0.7.1)", "passlib (>=1.6,<2.0)", "pendulum (>=2.0.5)", "phonenumbers (>=5.9.2)", "pytest (>=2.7.1)", "Pygments (>=1.2)", "Jinja2 (>=2.3)", "docutils (>=0.10)", "flexmock (>=0.9.7)", "mock (==2.0.0)", "psycopg2 (>=2.5.1)", "psycopg2cffi (>=2.8.1)", "pg8000 (>=1.12.4)", "pytz (>=2014.2)", "python-dateutil (>=2.6)", "pymysql", "flake8 (>=2.4.0)", "isort (>=4.2.2)", "pyodbc", "python-dateutil", "furl (>=0.4.1)"]
 timezone = ["python-dateutil"]
 url = ["furl (>=0.4.1)"]
 
@@ -615,7 +615,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
 [package.extras]
 brotli = ["brotlipy (>=0.6.0)"]
 secure = ["certifi", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "pyOpenSSL (>=0.14)", "ipaddress"]
-socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7,<2.0)"]
+socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
 name = "uwsgi"
@@ -652,7 +652,7 @@ testing = ["jaraco.itertools", "func-timeout"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "3d684aba718476745e528c6ae5a82ad8670241f8f7e25d90ac7cd66b3e740ab8"
+content-hash = "c41b484215c493c67030ce81a46c98dbcdd18470fe422249581b2269708ea36e"
 
 [metadata.files]
 alembic = [
@@ -947,8 +947,8 @@ pyparsing = [
     {file = "pyparsing-2.4.7.tar.gz", hash = "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1"},
 ]
 pytest = [
-    {file = "pytest-6.1.1-py3-none-any.whl", hash = "sha256:7a8190790c17d79a11f847fba0b004ee9a8122582ebff4729a082c109e81a4c9"},
-    {file = "pytest-6.1.1.tar.gz", hash = "sha256:8f593023c1a0f916110285b6efd7f99db07d59546e3d8c36fc60e2ab05d3be92"},
+    {file = "pytest-6.1.2-py3-none-any.whl", hash = "sha256:4288fed0d9153d9646bfcdf0c0428197dba1ecb27a33bb6e031d002fa88653fe"},
+    {file = "pytest-6.1.2.tar.gz", hash = "sha256:c0a7e94a8cdbc5422a51ccdad8e6f1024795939cc89159a0ae7f0b316ad3823e"},
 ]
 pytest-cov = [
     {file = "pytest-cov-2.10.1.tar.gz", hash = "sha256:47bd0ce14056fdd79f93e1713f88fad7bdcc583dcd7783da86ef2f085a0bb88e"},
