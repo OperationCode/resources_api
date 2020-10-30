@@ -37,6 +37,16 @@ algolia_api_key = os.environ.get('ALGOLIA_API_KEY')
 if not all([algolia_app_id, algolia_api_key]):
     print("Application requires 'ALGOLIA_APP_ID' and 'ALGOLIA_API_KEY' for search")
 
+
+secret_key = os.environ.get('SECRET_KEY')
+
+security_password_hash = 'pbkdf2_sha512'
+# Replace this with your own salt.
+security_password_salt = os.environ.get('SECURITY_PASSWORD_SALT')
+if not all([secret_key, security_password_salt]):
+    raise KeyError("Keys'SECRET_KEY' and 'SECURITY_PASSWORD_SALT' missing")
+
+
 index_name = os.environ.get("INDEX_NAME")
 
 
@@ -45,12 +55,9 @@ class Config:
 
     SQLALCHEMY_DATABASE_URI = f"postgresql://{pg_user}:{pg_pw}@{pg_host}:5432/{pg_db}"
 
-    SECRET_KEY = os.urandom(24)
-    # Set config values for Flask-Security.
-    # We're using PBKDF2 with salt.
-    SECURITY_PASSWORD_HASH = 'pbkdf2_sha512'
-    # Replace this with your own salt.
-    SECURITY_PASSWORD_SALT = os.urandom(140)
+    SECRET_KEY = secret_key
+    SECURITY_PASSWORD_HASH = security_password_hash
+    SECURITY_PASSWORD_SALT = security_password_salt
 
     ALGOLIA_APP_ID = algolia_app_id
     ALGOLIA_API_KEY = algolia_api_key

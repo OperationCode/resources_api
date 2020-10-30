@@ -27,6 +27,7 @@ def make_shell_context():
     return {'db': db, 'Resource': Resource, 'Category': Category,
             'Language': Language, 'User': User, 'Role': Role}
 
+
 # Create Admin user and role.
 @app.before_first_request
 def before_first_request():
@@ -44,7 +45,8 @@ def before_first_request():
     # In each case, use Flask-Security utility function to encrypt the password.
     encrypted_password = utils.encrypt_password(admin_password)
     if not user_datastore.get_user(admin_email):
-        user_datastore.create_user(admin_email, password=encrypted_password)
+        user_datastore.create_user(email=admin_email,
+                                   password=encrypted_password)
     # Add more users.
 
     # Commit any database changes; the User and Roles must exist before we
