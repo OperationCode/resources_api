@@ -1,11 +1,12 @@
 from datetime import datetime
 
 from dateutil import parser
-from flask import redirect, request, g
+from flask import redirect, request
 from sqlalchemy import func, or_, and_, text
 
 from app import db, utils as utils
 from app.api import bp
+from app.api.auth import jwt_to_key
 from app.api.routes.helpers import failures_counter, latency_summary, logger
 from app.models import Category, Language, Resource, VoteInformation, Key
 from configs import Config
@@ -44,7 +45,7 @@ def get_resources():
 
     apikey = request.headers.get('x-apikey')
     filters = {'apikey': apikey, 'denied': False}
-    key = Key.query.filter_by(**filters).first() if apikey else g.get('auth_key')
+    key = Key.query.filter_by(**filters).first() if apikey else jwt_to_key()
 
     q = Resource.query
     if key:
@@ -114,18 +115,19 @@ def get_resources():
         if not paginated_resources:
             return redirect('/404')
         resource_list = [
-            {**item.Resource.serialize, 'vote_direction': item[1]}
-            if key else item.serialize for item in paginated_resources.items
+            {**item.Resource.serialize, 'user_vote_direction': item[1]} if key
+            else item.serialize
+            for item in paginated_resources.items
         ]
         details = resource_paginator.details(paginated_resources)
     except Exception as e:
         logger.exception(e)
         return utils.standardize_response(status_code=500)
 
-    return utils.standardize_response(payload=dict(
-        data=resource_list,
-        **details),
-        datatype="resources")
+    return utils.standardize_response(
+        payload=dict(data=resource_list, **details),
+        datatype="resources"
+    )
 
 
 def get_resource(id):

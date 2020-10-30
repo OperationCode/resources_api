@@ -165,8 +165,11 @@ def update_votes(id, vote_direction):
     db.session.commit()
 
     return utils.standardize_response(
-        payload=dict(data=resource.serialize),
-        datatype="resource")
+        payload=dict(
+            data={**resource.serialize, 'user_vote_direction': vote_info.current_direction}
+        ),
+        datatype="resource"
+    )
 
 
 def add_click(id):
