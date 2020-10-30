@@ -176,7 +176,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
+                $ref: '#/components/schemas/CategoriesResponse'
               example:
                   apiVersion: '1.0'
                   categories:
@@ -253,7 +253,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category_data'
+                $ref: '#/components/schemas/CategoryResponse'
               example:
                 apiVersion: '1.0'
                 category:
@@ -350,7 +350,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Language_data'
+                $ref: '#/components/schemas/Language'
               example:
                 apiVersion: '1.0'
                 language:
@@ -494,7 +494,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Resource_data'
+                $ref: '#/components/schemas/Resource'
               example:
                 apiVersion: '1.0'
                 resource:
@@ -538,7 +538,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Resource_data'
+                $ref: '#/components/schemas/Resource'
               example:
                 apiVersion: '1.0'
                 resource:
@@ -582,7 +582,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Resource_data'
+                $ref: '#/components/schemas/Resource'
               example:
                 apiVersion: '1.0'
                 resource:
@@ -705,7 +705,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Resource_list'
+                $ref: '#/components/schemas/ResourceList'
               example:
                 apiVersion: '1.0'
                 resources:
@@ -733,7 +733,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error_list'
+                $ref: '#/components/schemas/ErrorResponse'
               example:
                   apiVersion: '1.0'
                   errors:
@@ -764,14 +764,14 @@ components:
           type: string
           description: API version
         errors:
-          $ref: '#/components/schemas/Error_data'
+          $ref: '#/components/schemas/ErrorData'
         status:
           type: string
           description: Status message
         status_code:
           type: integer
           description: Status code
-    Error_data:
+    ErrorData:
       type: object
       description: The response errors
       properties:
@@ -830,14 +830,14 @@ components:
             message:
               description: Error message
               type: string
-    Error_list:
+    ErrorResponse:
       type: object
       properties:
         apiVersion:
           type: string
           description: API version
         errors:
-          $ref: '#/components/schemas/Error_list_data'
+          $ref: '#/components/schemas/ErrorDataList'
         status:
           type: string
           description: Status message
@@ -845,7 +845,7 @@ components:
           type: integer
           description: Status code
 
-    Error_list_data:
+    ErrorDataList:
       type: array
       items:
         type: object
@@ -917,7 +917,7 @@ components:
           type: string
           description: API version
         resource:
-          $ref: '#/components/schemas/Resource_data'
+          $ref: '#/components/schemas/ResourceData'
         status:
           type: string
           description: Status message
@@ -925,13 +925,13 @@ components:
           type: integer
           description: Status code
 
-    Category:
+    CategoriesResponse:
       type: object
       properties:
         apiVersion:
           type: string
         category:
-          $ref: '#/components/schemas/Category_data'
+          $ref: '#/components/schemas/CategoryDataList'
         status:
           type: string
           description: Status message
@@ -940,17 +940,34 @@ components:
           description: Status code
         total_count:
           type: integer
-    Category_data:
-      type: array
-      items:
-        type: object
-        properties:
+    CategoryResponse:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        category:
+          $ref: '#/components/schemas/CategoryData'
+        status:
+          type: string
+          description: Status message
+        status_code:
+          type: integer
+          description: Status code
+        total_count:
+          type: integer
+    CategoryData:
+      type: object
+      properties:
           id:
             type: integer
             description: Category ID
           name:
             type: string
             description: Category name
+    CategoryDataList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CategoryData'
 
     Language:
       type: object
@@ -960,7 +977,7 @@ components:
           type: string
           description: API version
         languages:
-          $ref: '#/components/schemas/Language_data'
+          $ref: '#/components/schemas/LanguageData'
         status:
           type: string
           description: Status message
@@ -970,7 +987,7 @@ components:
         total_count:
           type: integer
           description: Total languages retrieved
-    Language_data:
+    LanguageData:
       type: object
       properties:
         id:
@@ -1035,7 +1052,7 @@ components:
           type: string
           description: Resource url
 
-    Resource_data:
+    ResourceData:
       type: object
       properties:
         category:
@@ -1076,10 +1093,10 @@ components:
           type: string
           description: Resource url
 
-    Resource_list:
+    ResourceList:
       type: array
       items:
-        $ref: '#/components/schemas/Resource_data'
+        $ref: '#/components/schemas/ResourceData'
 
     SearchResponse:
       type: object
@@ -1090,7 +1107,7 @@ components:
         resources:
           type: array
           items:
-            $ref: '#/components/schemas/Resource_data'
+            $ref: '#/components/schemas/ResourceData'
         number_of_pages:
           type: integer
           description: Total pages
@@ -1119,7 +1136,7 @@ components:
         resources:
           type: array
           items:
-            $ref: '#/components/schemas/Resource_data'
+            $ref: '#/components/schemas/ResourceData'
         has_next:
           type: boolean
           description: Additional pages
@@ -1164,14 +1181,14 @@ components:
           type: string
           description: API version
         credentials:
-          $ref: '#/components/schemas/ApiKeyResponse_data'
+          $ref: '#/components/schemas/ApiKeyResponseData'
         status:
           type: string
           description: Status message
         status_code:
           type: integer
           description: Status code
-    ApiKeyResponse_data:
+    ApiKeyResponseData:
       type: object
       properties:
         apikey:
