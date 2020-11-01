@@ -128,15 +128,18 @@ def update_resource_click(id):
     return add_click(id)
 
 
-def update_votes(id, vote_direction):
+def update_votes(id, vote_direction_attribute):
     resource = Resource.query.get(id)
 
     if not resource:
         return redirect('/404')
 
-    initial_count = getattr(resource, vote_direction)
-    opposite_direction = 'downvotes' if vote_direction == 'upvotes' else 'upvotes'
-    opposite_count = getattr(resource, opposite_direction)
+    initial_count = getattr(resource, vote_direction_attribute)
+    vote_direction = vote_direction_attribute[:-1]
+
+    opposite_direction_attribute = 'downvotes' if vote_direction_attribute == 'upvotes' else 'upvotes'
+    opposite_direction = opposite_direction_attribute[:-1]
+    opposite_count = getattr(resource, opposite_direction_attribute)
 
     api_key = g.auth_key.apikey
     vote_info = VoteInformation.query.get(
@@ -152,22 +155,20 @@ def update_votes(id, vote_direction):
         )
         new_vote_info.voter = voter
         resource.voters.append(new_vote_info)
-        setattr(resource, vote_direction, initial_count + 1)
+        setattr(resource, vote_direction_attribute, initial_count + 1)
     else:
         if vote_info.current_direction == vote_direction:
-            setattr(resource, vote_direction, initial_count - 1)
-            setattr(vote_info, 'current_direction', 'None')
+            setattr(resource, vote_direction_attribute, initial_count - 1)
+            setattr(vote_info, 'current_direction', None)
         else:
-            setattr(resource, opposite_direction, opposite_count - 1) \
+            setattr(resource, opposite_direction_attribute, opposite_count - 1) \
                 if vote_info.current_direction == opposite_direction else None
-            setattr(resource, vote_direction, initial_count + 1)
+            setattr(resource, vote_direction_attribute, initial_count + 1)
             setattr(vote_info, 'current_direction', vote_direction)
     db.session.commit()
 
     return utils.standardize_response(
-        payload=dict(
-            data={**resource.serialize, 'user_vote_direction': vote_info.current_direction}
-        ),
+        payload=dict(data=resource.serialize_with_vote_direction(api_key)),
         datatype="resource"
     )
 

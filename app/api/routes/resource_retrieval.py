@@ -1,12 +1,12 @@
 from datetime import datetime
 
 from dateutil import parser
-from flask import redirect, request
-from sqlalchemy import func, or_, and_, text
+from flask import redirect, request, g
+from sqlalchemy import func, or_, text
 
-from app import db, utils as utils
+from app import utils as utils
 from app.api import bp
-from app.api.auth import jwt_to_key
+from app.api.auth import set_api_key
 from app.api.routes.helpers import failures_counter, latency_summary, logger
 from app.models import Category, Language, Resource, VoteInformation, Key
 from configs import Config
@@ -26,6 +26,7 @@ def resource(id):
     return get_resource(id)
 
 
+@set_api_key
 def get_resources():
     """
     Gets a paginated list of resources.
@@ -42,20 +43,9 @@ def get_resources():
     category = request.args.get('category')
     updated_after = request.args.get('updated_after')
     free = request.args.get('free')
-
-    apikey = request.headers.get('x-apikey')
-    filters = {'apikey': apikey, 'denied': False}
-    key = Key.query.filter_by(**filters).first() if apikey else jwt_to_key()
+    api_key = g.auth_key.apikey if g.auth_key else None
 
     q = Resource.query
-    if key:
-        q = db.session.query(Resource, VoteInformation.current_direction).outerjoin(
-            VoteInformation,
-            and_(
-                Resource.id == VoteInformation.resource_id,
-                VoteInformation.voter_apikey == key.apikey
-            )
-        )
 
     # Filter on languages
     if languages:
@@ -115,9 +105,7 @@ def get_resources():
         if not paginated_resources:
             return redirect('/404')
         resource_list = [
-            {**item.Resource.serialize, 'user_vote_direction': item[1]} if key
-            else item.serialize
-            for item in paginated_resources.items
+            item.serialize_with_vote_direction(api_key) for item in paginated_resources.items
         ]
         details = resource_paginator.details(paginated_resources)
     except Exception as e:
@@ -130,12 +118,14 @@ def get_resources():
     )
 
 
+@set_api_key
 def get_resource(id):
     resource = Resource.query.get(id)
+    api_key = g.auth_key.apikey if g.auth_key else None
 
     if resource:
         return utils.standardize_response(
-            payload=dict(data=(resource.serialize)),
+            payload=dict(data=(resource.serialize_with_vote_direction(api_key))),
             datatype="resource")
 
     return redirect('/404')

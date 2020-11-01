@@ -20,6 +20,7 @@ def test_get_resources(module_client, module_db):
         assert (isinstance(resource.get('category'), str))
         assert (resource.get('category'))
         assert (isinstance(resource.get('languages'), list))
+        assert ('user_vote_direction' in resource)
     assert (response.json['number_of_pages'] is not None)
 
 
@@ -62,6 +63,7 @@ def test_get_single_resource(module_client, module_db):
     assert (isinstance(resource.get('category'), str))
     assert (resource.get('category'))
     assert (isinstance(resource.get('languages'), list))
+    assert ('user_vote_direction' in resource)
 
     assert (resource.get('id') == 5)
 

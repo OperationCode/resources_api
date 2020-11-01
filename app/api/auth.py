@@ -146,6 +146,21 @@ def authenticate(func):
     return wrapper
 
 
+def set_api_key(func):
+    def wrapper(*args, **kwargs):
+        apikey = request.headers.get('x-apikey')
+        try:
+            filters = {'apikey': apikey, 'denied': False}
+            key = Key.query.filter_by(**filters).first() if apikey else jwt_to_key()
+        except Exception:
+            return standardize_response(status_code=500)
+
+        g.auth_key = key
+
+        return func(*args, **kwargs)
+    return wrapper
+
+
 def is_user_oc_member(email, password):
     response = requests.post(
         'https://api.operationcode.org/auth/login/',

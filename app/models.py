@@ -63,6 +63,14 @@ class Resource(TimestampMixin, db.Model):
             'last_updated': updated
         }
 
+    def serialize_with_vote_direction(self, apikey=None):
+        return {
+            **self.serialize,
+            'user_vote_direction': next(
+                (voter.current_direction for voter in self.voters if voter.voter_apikey == apikey), None
+            ) if apikey else None
+        }
+
     @property
     def serialize_algolia_search(self):
         result = self.serialize
@@ -200,6 +208,6 @@ class Key(TimestampMixin, db.Model):
 class VoteInformation(db.Model):
     voter_apikey = db.Column(db.String, db.ForeignKey('key.apikey'), primary_key=True)
     resource_id = db.Column(db.Integer, db.ForeignKey('resource.id'), primary_key=True)
-    current_direction = db.Column(db.String, nullable=False)
+    current_direction = db.Column(db.String, nullable=True)
     resource = db.relationship('Resource', back_populates='voters')
     voter = db.relationship('Key', back_populates='voted_resources')
