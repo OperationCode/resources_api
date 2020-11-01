@@ -156,7 +156,6 @@ paths:
                     times_clicked: 0
                     upvotes: 0
                     url: 'https://www.cprogramming.com/tutorial/c-tutorial.html'
-                    user_vote_direction: null
                 number_of_pages: 1
                 page: 0
                 records_per_page: 20
@@ -513,7 +512,6 @@ paths:
                     times_clicked: 2
                     upvotes: 0
                     url: 'http://thinking-forth.sourceforge.net/'
-                    user_vote_direction: null
                 status: 'ok'
                 status_code: 200
         404:
@@ -729,6 +727,7 @@ paths:
                     times_clicked: 3
                     upvotes: 1
                     url: 'https://www.w3schools.com/css/'
+                    user_vote_direction: null
                 status: 'ok'
                 status_code: 200
         400:

@@ -99,7 +99,7 @@ def update_resource(id, json, db):
         db.session.commit()
 
         return utils.standardize_response(
-            payload=dict(data=resource.serialize),
+            payload=dict(data=resource.serialize_with_vote_direction(g.auth_key.apikey)),
             datatype="resource"
         )
 
