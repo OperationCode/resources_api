@@ -99,7 +99,9 @@ def update_resource(id, json, db):
         db.session.commit()
 
         return utils.standardize_response(
-            payload=dict(data=resource.serialize_with_vote_direction(g.auth_key.apikey)),
+            payload=dict(
+                data=resource.serialize_with_vote_direction(g.auth_key.apikey)
+            ),
             datatype="resource"
         )
 
@@ -137,7 +139,8 @@ def update_votes(id, vote_direction_attribute):
     initial_count = getattr(resource, vote_direction_attribute)
     vote_direction = vote_direction_attribute[:-1]
 
-    opposite_direction_attribute = 'downvotes' if vote_direction_attribute == 'upvotes' else 'upvotes'
+    opposite_direction_attribute = 'downvotes' \
+        if vote_direction_attribute == 'upvotes' else 'upvotes'
     opposite_direction = opposite_direction_attribute[:-1]
     opposite_count = getattr(resource, opposite_direction_attribute)
 

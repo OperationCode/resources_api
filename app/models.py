@@ -67,7 +67,8 @@ class Resource(TimestampMixin, db.Model):
         return {
             **self.serialize,
             'user_vote_direction': next(
-                (voter.current_direction for voter in self.voters if voter.voter_apikey == apikey), None
+                (voter.current_direction for voter in self.voters
+                 if voter.voter_apikey == apikey), None
             ) if apikey else None
         }
 

@@ -8,7 +8,7 @@ from app import utils as utils
 from app.api import bp
 from app.api.auth import set_api_key
 from app.api.routes.helpers import failures_counter, latency_summary, logger
-from app.models import Category, Language, Resource, VoteInformation, Key
+from app.models import Category, Language, Resource
 from configs import Config
 
 
@@ -105,7 +105,8 @@ def get_resources():
         if not paginated_resources:
             return redirect('/404')
         resource_list = [
-            item.serialize_with_vote_direction(api_key) for item in paginated_resources.items
+            item.serialize_with_vote_direction(api_key)
+            for item in paginated_resources.items
         ]
         details = resource_paginator.details(paginated_resources)
     except Exception as e:

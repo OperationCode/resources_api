@@ -42,7 +42,8 @@ def test_update_votes(module_client, module_db, fake_auth_from_oc, fake_algolia_
                         headers={'x-apikey': apikey})
     assert (response.status_code == 200)
     assert (response.json['resource'].get(f"{DOWNVOTE}s") == initial_downvotes)
-    assert (response.json['resource'].get(USER_VOTE_DIRECTION) == None)
+    assert (response.json['resource'].get(USER_VOTE_DIRECTION) is None)
+
 
 def test_update_votes_invalid(
         module_client, module_db, fake_auth_from_oc, fake_algolia_save):
