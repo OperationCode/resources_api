@@ -21,7 +21,7 @@ def test_resource():
             "\tCategory: <Category Category>\n"
             "\tURL: https://resource.url\n>")
 
-    assert (resource.serialize == {
+    assert (resource.serialize() == {
         'id': None,
         'name': 'name',
         'url': 'https://resource.url',
@@ -33,7 +33,8 @@ def test_resource():
         'downvotes': None,
         'times_clicked': None,
         'created_at': '',
-        'last_updated': ''
+        'last_updated': '',
+        'user_vote_direction': None
     })
 
     # Test equality

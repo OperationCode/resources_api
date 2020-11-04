@@ -35,6 +35,7 @@ def put_resource(id):
 
 def update_resource(id, json, db):
     resource = Resource.query.get(id)
+    api_key = g.auth_key.apikey
 
     if not resource:
         return redirect('/404')
@@ -54,11 +55,12 @@ def update_resource(id, json, db):
 
     try:
         logger.info(
-            f"Updating resource. Old data: {json_module.dumps(resource.serialize)}")
+            f"Updating resource. Old data: "
+            f"{json_module.dumps(resource.serialize(api_key))}")
         if json.get('languages') is not None:
             old_languages = resource.languages[:]
             resource.languages = langs
-            index_object['languages'] = resource.serialize['languages']
+            index_object['languages'] = resource.serialize(api_key)['languages']
             resource_languages = get_unique_resource_languages_as_strings()
             for language in old_languages:
                 if language.name not in resource_languages:
@@ -100,7 +102,7 @@ def update_resource(id, json, db):
 
         return utils.standardize_response(
             payload=dict(
-                data=resource.serialize_with_vote_direction(g.auth_key.apikey)
+                data=resource.serialize(g.auth_key.apikey)
             ),
             datatype="resource"
         )
@@ -171,7 +173,7 @@ def update_votes(id, vote_direction_attribute):
     db.session.commit()
 
     return utils.standardize_response(
-        payload=dict(data=resource.serialize_with_vote_direction(api_key)),
+        payload=dict(data=resource.serialize(api_key)),
         datatype="resource"
     )
 
@@ -187,5 +189,5 @@ def add_click(id):
     db.session.commit()
 
     return utils.standardize_response(
-        payload=dict(data=resource.serialize),
+        payload=dict(data=resource.serialize()),
         datatype="resource")

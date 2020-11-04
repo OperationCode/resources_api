@@ -105,7 +105,7 @@ def get_resources():
         if not paginated_resources:
             return redirect('/404')
         resource_list = [
-            item.serialize_with_vote_direction(api_key)
+            item.serialize(api_key)
             for item in paginated_resources.items
         ]
         details = resource_paginator.details(paginated_resources)
@@ -126,7 +126,7 @@ def get_resource(id):
 
     if resource:
         return utils.standardize_response(
-            payload=dict(data=(resource.serialize_with_vote_direction(api_key))),
+            payload=dict(data=(resource.serialize(api_key))),
             datatype="resource")
 
     return redirect('/404')
