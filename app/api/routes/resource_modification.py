@@ -14,6 +14,18 @@ from app.models import Resource, VoteInformation, Key
 import json as json_module
 
 
+# def decorator_function_with_arguments(arg1, arg2, arg3):
+#     def wrap(f):
+#         print("Inside wrap()")
+#
+#         def wrapped_f(*args, **kwargs):
+#             print("Inside wrapped_f()")
+#             print("Decorator arguments:", arg1, arg2, arg3)
+#             return f(*args, **kwargs)
+#         return wrapped_f
+#     return wrap
+
+
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>', methods=['PUT'], endpoint='update_resource')

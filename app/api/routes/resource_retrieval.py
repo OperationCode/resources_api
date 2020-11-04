@@ -6,7 +6,7 @@ from sqlalchemy import func, or_, text
 
 from app import utils as utils
 from app.api import bp
-from app.api.auth import set_api_key
+from app.api.auth import authenticate
 from app.api.routes.helpers import failures_counter, latency_summary, logger
 from app.models import Category, Language, Resource
 from configs import Config
@@ -26,7 +26,7 @@ def resource(id):
     return get_resource(id)
 
 
-@set_api_key
+@authenticate(allow_no_auth_key=True)
 def get_resources():
     """
     Gets a paginated list of resources.
@@ -119,7 +119,7 @@ def get_resources():
     )
 
 
-@set_api_key
+@authenticate(allow_no_auth_key=True)
 def get_resource(id):
     resource = Resource.query.get(id)
     api_key = g.auth_key.apikey if g.auth_key else None

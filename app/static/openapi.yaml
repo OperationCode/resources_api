@@ -1098,6 +1098,10 @@ components:
         url:
           type: string
           description: Resource url
+        user_vote_direction:
+          type: string
+          nullable: true
+          description: Vote direction of a logged in user
 
     ResourceList:
       type: array
