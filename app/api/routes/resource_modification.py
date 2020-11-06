@@ -128,6 +128,7 @@ def change_votes(id, vote_direction):
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>/click', methods=['PUT'])
+@authenticate(allow_no_auth_key=True)
 def update_resource_click(id):
     return add_click(id)
 
@@ -180,6 +181,7 @@ def update_votes(id, vote_direction_attribute):
 
 def add_click(id):
     resource = Resource.query.get(id)
+    api_key = g.auth_key.apikey if g.auth_key else None
 
     if not resource:
         return redirect('/404')
@@ -189,5 +191,5 @@ def add_click(id):
     db.session.commit()
 
     return utils.standardize_response(
-        payload=dict(data=resource.serialize()),
+        payload=dict(data=resource.serialize(api_key)),
         datatype="resource")
