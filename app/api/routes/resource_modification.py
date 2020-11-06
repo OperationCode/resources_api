@@ -102,7 +102,7 @@ def update_resource(id, json, db):
 
         return utils.standardize_response(
             payload=dict(
-                data=resource.serialize(g.auth_key.apikey)
+                data=resource.serialize(api_key)
             ),
             datatype="resource"
         )
