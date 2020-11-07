@@ -10,6 +10,7 @@ def test_update_votes(module_client, module_db, fake_auth_from_oc, fake_algolia_
     client = module_client
     UPVOTE = 'upvote'
     DOWNVOTE = 'downvote'
+    USER_VOTE_DIRECTION = 'user_vote_direction'
     id = 1
     apikey = get_api_key(client)
 
@@ -23,6 +24,7 @@ def test_update_votes(module_client, module_db, fake_auth_from_oc, fake_algolia_
 
     assert (response.status_code == 200)
     assert (response.json['resource'].get(f"{UPVOTE}s") == initial_upvotes + 1)
+    assert (response.json['resource'].get(USER_VOTE_DIRECTION) == UPVOTE)
 
     response = client.put(
                         f"/api/v1/resources/{id}/{DOWNVOTE}",
@@ -32,6 +34,7 @@ def test_update_votes(module_client, module_db, fake_auth_from_oc, fake_algolia_
     assert (response.status_code == 200)
     assert (response.json['resource'].get(f"{UPVOTE}s") == initial_upvotes)
     assert (response.json['resource'].get(f"{DOWNVOTE}s") == initial_downvotes + 1)
+    assert (response.json['resource'].get(USER_VOTE_DIRECTION) == DOWNVOTE)
 
     response = client.put(
                         f"/api/v1/resources/{id}/{DOWNVOTE}",
@@ -39,6 +42,7 @@ def test_update_votes(module_client, module_db, fake_auth_from_oc, fake_algolia_
                         headers={'x-apikey': apikey})
     assert (response.status_code == 200)
     assert (response.json['resource'].get(f"{DOWNVOTE}s") == initial_downvotes)
+    assert (response.json['resource'].get(USER_VOTE_DIRECTION) is None)
 
 
 def test_update_votes_invalid(
@@ -262,6 +266,7 @@ def test_update_votes_authorization_header(
     id = 1
     UPVOTE = 'upvote'
     DOWNVOTE = 'downvote'
+    USER_VOTE_DIRECTION = 'user_vote_direction'
 
     data = client.get(f"api/v1/resources/{id}").json['resource']
     response = client.put(
@@ -273,6 +278,7 @@ def test_update_votes_authorization_header(
 
     assert (response.status_code == 200)
     assert (response.json['resource'].get(f"{UPVOTE}s") == initial_upvotes + 1)
+    assert (response.json['resource'].get(USER_VOTE_DIRECTION) == UPVOTE)
 
     response = client.put(
                         f"/api/v1/resources/{id}/downvote",
@@ -282,6 +288,7 @@ def test_update_votes_authorization_header(
     assert (response.status_code == 200)
     assert (response.json['resource'].get(f"{UPVOTE}s") == initial_upvotes)
     assert (response.json['resource'].get(f"{DOWNVOTE}s") == initial_downvotes + 1)
+    assert (response.json['resource'].get(USER_VOTE_DIRECTION) == DOWNVOTE)
 
 
 def test_delete_unused_languages(module_client, module_db,

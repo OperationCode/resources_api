@@ -35,6 +35,7 @@ def put_resource(id):
 
 def update_resource(id, json, db):
     resource = Resource.query.get(id)
+    api_key = g.auth_key.apikey
 
     if not resource:
         return redirect('/404')
@@ -54,11 +55,12 @@ def update_resource(id, json, db):
 
     try:
         logger.info(
-            f"Updating resource. Old data: {json_module.dumps(resource.serialize)}")
+            f"Updating resource. Old data: "
+            f"{json_module.dumps(resource.serialize(api_key))}")
         if json.get('languages') is not None:
             old_languages = resource.languages[:]
             resource.languages = langs
-            index_object['languages'] = resource.serialize['languages']
+            index_object['languages'] = resource.serialize(api_key)['languages']
             resource_languages = get_unique_resource_languages_as_strings()
             for language in old_languages:
                 if language.name not in resource_languages:
@@ -99,7 +101,9 @@ def update_resource(id, json, db):
         db.session.commit()
 
         return utils.standardize_response(
-            payload=dict(data=resource.serialize),
+            payload=dict(
+                data=resource.serialize(api_key)
+            ),
             datatype="resource"
         )
 
@@ -124,19 +128,24 @@ def change_votes(id, vote_direction):
 @latency_summary.time()
 @failures_counter.count_exceptions()
 @bp.route('/resources/<int:id>/click', methods=['PUT'])
+@authenticate(allow_no_auth_key=True)
 def update_resource_click(id):
     return add_click(id)
 
 
-def update_votes(id, vote_direction):
+def update_votes(id, vote_direction_attribute):
     resource = Resource.query.get(id)
 
     if not resource:
         return redirect('/404')
 
-    initial_count = getattr(resource, vote_direction)
-    opposite_direction = 'downvotes' if vote_direction == 'upvotes' else 'upvotes'
-    opposite_count = getattr(resource, opposite_direction)
+    initial_count = getattr(resource, vote_direction_attribute)
+    vote_direction = vote_direction_attribute[:-1]
+
+    opposite_direction_attribute = 'downvotes' \
+        if vote_direction_attribute == 'upvotes' else 'upvotes'
+    opposite_direction = opposite_direction_attribute[:-1]
+    opposite_count = getattr(resource, opposite_direction_attribute)
 
     api_key = g.auth_key.apikey
     vote_info = VoteInformation.query.get(
@@ -152,25 +161,27 @@ def update_votes(id, vote_direction):
         )
         new_vote_info.voter = voter
         resource.voters.append(new_vote_info)
-        setattr(resource, vote_direction, initial_count + 1)
+        setattr(resource, vote_direction_attribute, initial_count + 1)
     else:
         if vote_info.current_direction == vote_direction:
-            setattr(resource, vote_direction, initial_count - 1)
-            setattr(vote_info, 'current_direction', 'None')
+            setattr(resource, vote_direction_attribute, initial_count - 1)
+            setattr(vote_info, 'current_direction', None)
         else:
-            setattr(resource, opposite_direction, opposite_count - 1) \
+            setattr(resource, opposite_direction_attribute, opposite_count - 1) \
                 if vote_info.current_direction == opposite_direction else None
-            setattr(resource, vote_direction, initial_count + 1)
+            setattr(resource, vote_direction_attribute, initial_count + 1)
             setattr(vote_info, 'current_direction', vote_direction)
     db.session.commit()
 
     return utils.standardize_response(
-        payload=dict(data=resource.serialize),
-        datatype="resource")
+        payload=dict(data=resource.serialize(api_key)),
+        datatype="resource"
+    )
 
 
 def add_click(id):
     resource = Resource.query.get(id)
+    api_key = g.auth_key.apikey if g.auth_key else None
 
     if not resource:
         return redirect('/404')
@@ -180,5 +191,5 @@ def add_click(id):
     db.session.commit()
 
     return utils.standardize_response(
-        payload=dict(data=resource.serialize),
+        payload=dict(data=resource.serialize(api_key)),
         datatype="resource")

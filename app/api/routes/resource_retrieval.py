@@ -1,11 +1,12 @@
 from datetime import datetime
 
 from dateutil import parser
-from flask import redirect, request
+from flask import redirect, request, g
 from sqlalchemy import func, or_, text
 
 from app import utils as utils
 from app.api import bp
+from app.api.auth import authenticate
 from app.api.routes.helpers import failures_counter, latency_summary, logger
 from app.models import Category, Language, Resource
 from configs import Config
@@ -25,6 +26,7 @@ def resource(id):
     return get_resource(id)
 
 
+@authenticate(allow_no_auth_key=True)
 def get_resources():
     """
     Gets a paginated list of resources.
@@ -41,6 +43,7 @@ def get_resources():
     category = request.args.get('category')
     updated_after = request.args.get('updated_after')
     free = request.args.get('free')
+    api_key = g.auth_key.apikey if g.auth_key else None
 
     q = Resource.query
 
@@ -102,25 +105,28 @@ def get_resources():
         if not paginated_resources:
             return redirect('/404')
         resource_list = [
-            resource.serialize for resource in paginated_resources.items
+            item.serialize(api_key)
+            for item in paginated_resources.items
         ]
         details = resource_paginator.details(paginated_resources)
     except Exception as e:
         logger.exception(e)
         return utils.standardize_response(status_code=500)
 
-    return utils.standardize_response(payload=dict(
-        data=resource_list,
-        **details),
-        datatype="resources")
+    return utils.standardize_response(
+        payload=dict(data=resource_list, **details),
+        datatype="resources"
+    )
 
 
+@authenticate(allow_no_auth_key=True)
 def get_resource(id):
     resource = Resource.query.get(id)
+    api_key = g.auth_key.apikey if g.auth_key else None
 
     if resource:
         return utils.standardize_response(
-            payload=dict(data=(resource.serialize)),
+            payload=dict(data=(resource.serialize(api_key))),
             datatype="resource")
 
     return redirect('/404')

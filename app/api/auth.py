@@ -1,6 +1,7 @@
 import uuid
 import os
 from enum import Enum
+import functools
 
 import requests
 from app import db
@@ -127,7 +128,11 @@ def get_api_key_from_authenticated_email(email):
     return apikey
 
 
-def authenticate(func):
+def authenticate(func=None, allow_no_auth_key=False):
+    if not func:
+        return functools.partial(authenticate, allow_no_auth_key=allow_no_auth_key)
+
+    @functools.wraps(func)
     def wrapper(*args, **kwargs):
         apikey = request.headers.get('x-apikey')
         try:
@@ -136,10 +141,12 @@ def authenticate(func):
         except Exception:
             return standardize_response(status_code=500)
 
-        if not key:
+        if not key and not allow_no_auth_key:
             return standardize_response(status_code=401)
 
-        log_request(request, key)
+        if key:
+            log_request(request, key)
+
         g.auth_key = key
 
         return func(*args, **kwargs)

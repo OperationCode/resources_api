@@ -36,8 +36,7 @@ class Resource(TimestampMixin, db.Model):
     times_clicked = db.Column(db.INTEGER, default=0)
     voters = db.relationship('VoteInformation', back_populates='resource')
 
-    @property
-    def serialize(self):
+    def serialize(self, apikey=None):
         """Return object data in easily serializeable format"""
         if self.created_at:
             created = self.created_at.strftime("%Y-%m-%d %H:%M:%S")
@@ -60,12 +59,16 @@ class Resource(TimestampMixin, db.Model):
             'downvotes': self.downvotes,
             'times_clicked': self.times_clicked,
             'created_at': created,
-            'last_updated': updated
+            'last_updated': updated,
+            'user_vote_direction': next(
+                (voter.current_direction for voter in self.voters
+                 if voter.voter_apikey == apikey), None
+            ) if apikey else None
         }
 
     @property
     def serialize_algolia_search(self):
-        result = self.serialize
+        result = self.serialize()
         result['objectID'] = self.id
         return result
 
@@ -200,6 +203,6 @@ class Key(TimestampMixin, db.Model):
 class VoteInformation(db.Model):
     voter_apikey = db.Column(db.String, db.ForeignKey('key.apikey'), primary_key=True)
     resource_id = db.Column(db.Integer, db.ForeignKey('resource.id'), primary_key=True)
-    current_direction = db.Column(db.String, nullable=False)
+    current_direction = db.Column(db.String, nullable=True)
     resource = db.relationship('Resource', back_populates='voters')
     voter = db.relationship('Key', back_populates='voted_resources')
