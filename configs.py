@@ -38,11 +38,14 @@ if not all([algolia_app_id, algolia_api_key]):
     print("Application requires 'ALGOLIA_APP_ID' and 'ALGOLIA_API_KEY' for search")
 
 
-secret_key = os.environ.get('SECRET_KEY', 'change_secret_key')
+secret_key = os.environ.get('SECRET_KEY', None)
 
 security_password_hash = 'pbkdf2_sha512'
 # Replace this with your own salt.
-security_password_salt = os.environ.get('SECURITY_PASSWORD_SALT', '!@#$!!@$%@')
+security_password_salt = os.environ.get('SECURITY_PASSWORD_SALT', None)
+
+if not all([secret_key, security_password_salt]):
+    print("Application requires 'SECRET_KEY' and 'SECURITY HASH'")
 
 
 index_name = os.environ.get("INDEX_NAME")
