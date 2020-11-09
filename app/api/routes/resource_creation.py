@@ -67,7 +67,7 @@ def create_resources(json, db):
                 logger.exception(e)
                 return utils.standardize_response(status_code=500)
 
-            created_resources.append(new_resource.serialize)
+            created_resources.append(new_resource.serialize())
 
         # Take all the created resources and save them in Algolia with one API call
         try:
