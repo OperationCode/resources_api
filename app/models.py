@@ -2,6 +2,7 @@ from app import db
 from sqlalchemy import DateTime
 from sqlalchemy.sql import func
 from sqlalchemy_utils import URLType
+from flask_security import RoleMixin, UserMixin
 
 language_identifier = db.Table('language_identifier',
                                db.Column(
@@ -206,3 +207,45 @@ class VoteInformation(db.Model):
     current_direction = db.Column(db.String, nullable=True)
     resource = db.relationship('Resource', back_populates='voters')
     voter = db.relationship('Key', back_populates='voted_resources')
+
+
+roles_users = db.Table(
+    'roles_users',
+    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
+)
+
+
+# Role class
+class Role(db.Model, RoleMixin):
+    # Our Role has three fields, ID, name and description
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
+
+    def __str__(self):
+        return self.name
+
+    # __hash__ is required to avoid the exception
+    # TypeError: unhashable type: 'Role' when saving a User
+    def __hash__(self):
+        return hash(self.name)
+
+
+# User class
+class User(db.Model, UserMixin):
+
+    # Our User has six fields: ID, email, password, active, confirmed_at
+    # and roles. The roles field represents a many-to-many relationship
+    # using the roles_users table. Each user may have no role, one role,
+    # or multiple roles.
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(255), unique=True)
+    password = db.Column(db.String(255))
+    active = db.Column(db.Boolean())
+    confirmed_at = db.Column(db.DateTime())
+    roles = db.relationship(
+        'Role',
+        secondary=roles_users,
+        backref=db.backref('users', lazy='dynamic')
+    )

@@ -29,7 +29,11 @@ SQLAlchemy-Utils = "0.36.8"
 uWSGI = "2.0.19.1"
 Werkzeug = "1.0.1"
 pyjwt = "^1.7.1"
-cryptography = "^3.2"
+cryptography = "^3.1"
+flask-admin = "^1.5.6"
+Flask-Login = "^0.5.0"
+Flask-Security = "^3.0.0"
+email-validator = "^1.1.1"
 
 [tool.poetry.dev-dependencies]
 
