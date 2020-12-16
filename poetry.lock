@@ -344,7 +344,7 @@ dev = ["pre-commit", "tox"]
 
 [[package]]
 name = "prometheus-client"
-version = "0.8.0"
+version = "0.9.0"
 description = "Python client for the Prometheus monitoring system."
 category = "main"
 optional = false
@@ -651,7 +651,7 @@ testing = ["jaraco.itertools", "func-timeout"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "27fafeef69f9f884b94f31d294ad2af28554c7e3dda5e2ce0c7ad654ced132a3"
+content-hash = "df79d217fa828d633ba5407bb31b2050c53b01a0012d64a9bc0416f5b4ef1c62"
 
 [metadata.files]
 alembic = [
@@ -872,8 +872,8 @@ pluggy = [
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
 ]
 prometheus-client = [
-    {file = "prometheus_client-0.8.0-py2.py3-none-any.whl", hash = "sha256:983c7ac4b47478720db338f1491ef67a100b474e3bc7dafcbaefb7d0b8f9b01c"},
-    {file = "prometheus_client-0.8.0.tar.gz", hash = "sha256:c6e6b706833a6bd1fd51711299edee907857be10ece535126a158f911ee80915"},
+    {file = "prometheus_client-0.9.0-py2.py3-none-any.whl", hash = "sha256:b08c34c328e1bf5961f0b4352668e6c8f145b4a087e09b7296ef62cbe4693d35"},
+    {file = "prometheus_client-0.9.0.tar.gz", hash = "sha256:9da7b32f02439d8c04f7777021c304ed51d9ec180604700c1ba72a4d44dceb03"},
 ]
 psycopg2-binary = [
     {file = "psycopg2-binary-2.8.6.tar.gz", hash = "sha256:11b9c0ebce097180129e422379b824ae21c8f2a6596b159c7659e2e5a00e1aa0"},
