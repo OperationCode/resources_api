@@ -40,13 +40,13 @@ EXP = datetime.utcnow() + timedelta(seconds=10)
 delta = timedelta(seconds=-11)
 
 GOOD_AUTH = "Bearer " + encode({'email': FAKE_EMAIL, 'exp': EXP},
-                               SECRET_KEY, algorithm='RS256').decode('utf-8')
+                               SECRET_KEY, algorithm='RS256')
 BAD_AUTH = "Bearer " + encode({'email': FAKE_EMAIL, 'exp': EXP},
-                              BOGUS_KEY, algorithm='RS256').decode('utf-8')
+                              BOGUS_KEY, algorithm='RS256')
 EXP_AUTH = "Bearer " + encode({'email': FAKE_EMAIL, 'exp': EXP + delta},
-                              SECRET_KEY, algorithm='RS256').decode('utf-8')
+                              SECRET_KEY, algorithm='RS256')
 NO_EXP_AUTH = "Bearer " + encode({'email': FAKE_EMAIL},
-                                 SECRET_KEY, algorithm='RS256').decode('utf-8')
+                                 SECRET_KEY, algorithm='RS256')
 
 
 def create_fake_key(session, **kwargs):
