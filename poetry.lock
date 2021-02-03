@@ -1,6 +1,6 @@
 [[package]]
 name = "alembic"
-version = "1.5.3"
+version = "1.5.4"
 description = "A database migration tool for SQLAlchemy."
 category = "main"
 optional = false
@@ -652,11 +652,11 @@ testing = ["jaraco.itertools", "func-timeout"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "b145a455803d064ad4ad85aa6887ba8827887c31cdef0f94bbfa8992f4e68f42"
+content-hash = "1494142377214b6bb999cd2878d9ae4266b073b37190a878e1284336b43127ff"
 
 [metadata.files]
 alembic = [
-    {file = "alembic-1.5.3.tar.gz", hash = "sha256:04608b6904a6e6bd1af83e1a48f73f50ba214aeddef44b92d498df33818654a8"},
+    {file = "alembic-1.5.4.tar.gz", hash = "sha256:e871118b6174681f7e9a9ea67cfcae954c6d18e05b49c6b17f662d2530c76bf5"},
 ]
 algoliasearch = [
     {file = "algoliasearch-2.4.0-py2.py3-none-any.whl", hash = "sha256:5f62155450949642fe6ae1c163d89630c9ffce9cca62901893ddc1ad3e653239"},
