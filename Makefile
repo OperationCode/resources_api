@@ -81,7 +81,8 @@ test-coverage:
 
 .PHONY: test-coverage-ci
 test-coverage-ci:
-	${DOCKER_COMPOSE} -f ${COMPOSE_FILE} run --name coverage_test_run ${RESOURCES_CONTAINER} py.test --cov-report xml --cov=app/ tests/
+	${DOCKER_COMPOSE} -f ${COMPOSE_FILE} run --name coverage_test_run ${RESOURCES_CONTAINER} \
+	/bin/bash -c "py.test --cov=app/ tests/ && coverage xml"
 	docker cp coverage_test_run:/src/coverage.xml coverage.xml
 
 # Usage: make test-single tests/unit/test_api_key.py::test_get_api_key
