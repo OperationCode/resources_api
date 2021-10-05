@@ -64,14 +64,13 @@ jobs:
       - run:
           name: Run tests
           command: |
-            make test
+            make COMPOSE_FILE="docker-compose.ci.yml" test-coverage-ci
       - run:
           name: Run linting and coverage
           command: |
-            make lint
-            docker-compose run resources-api coverage xml
+            make COMPOSE_FILE="docker-compose.ci.yml" lint
             /usr/local/bin/cc-test-reporter after-build
       - run:
           name: Run Bandit security analysis
           command: |
-            make bandit
+            make COMPOSE_FILE="docker-compose.ci.yml" bandit

@@ -1,0 +1,30 @@
+version: "3.6"
+services:
+  resources-api:
+    image: resources:latest
+    build: .
+    container_name: resources-api
+    env_file:
+      - .env
+    ports:
+      - 5000:5000
+    links:
+      - resources-postgres
+    depends_on:
+      - resources-postgres
+
+  resources-postgres:
+    image: postgres:10.1-alpine
+    container_name: resources-postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
