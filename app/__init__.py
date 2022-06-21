@@ -1,6 +1,5 @@
 from algoliasearch.search_client import SearchClient
 from configs import Config
-
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
