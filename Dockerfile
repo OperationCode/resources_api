@@ -19,6 +19,8 @@ RUN apt-get update \
     && pip install poetry \
     && poetry config virtualenvs.create false
 
+RUN poetry lock
+
 RUN poetry install --no-dev --no-interaction --no-ansi
 
 COPY . /src
