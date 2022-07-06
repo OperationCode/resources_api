@@ -5,6 +5,8 @@ ENV PYTHONUNBUFFERED 1
 ENV PIP_NO_BINARY psycopg2
 ENV FLASK_SKIP_DOTENV 1
 ENV FLASK_APP run.py
+ENV UID 1000
+ENV GID 1000
 
 WORKDIR /src
 
@@ -23,7 +25,8 @@ RUN poetry install --no-dev --no-interaction --no-ansi
 
 COPY . /src
 
-RUN useradd --no-create-home --system -s /bin/false --uid 5000 uwsgi
+RUN groupadd --gid $GID uwsgi \
+    && useradd --no-create-home --system -s /bin/false --uid $UID --gid $GID uwsgi
 
 RUN chown -R uwsgi /src
 
