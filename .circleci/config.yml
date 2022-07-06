@@ -47,7 +47,7 @@ workflows:
 jobs:
   build_test:
     machine:
-      image: ubuntu-1604:201903-01
+      image: ubuntu-2004:202201-02
     environment:
       CC_TEST_REPORTER_ID: 08bad9e4f229f88064fd6ee1c0fe4f64be37943beff36f37f8b8896123ef6752
 
