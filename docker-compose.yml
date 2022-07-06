@@ -5,6 +5,7 @@ services:
     image: resources:latest
     build: .
     container_name: resources-api
+    user: root
     env_file:
     - .env
     volumes:
