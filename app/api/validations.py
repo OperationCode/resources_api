@@ -1,5 +1,4 @@
 from flask import request
-from werkzeug.exceptions import BadRequest
 from app.models import Resource
 from app.utils import standardize_response
 
