@@ -79,23 +79,29 @@ def get_api_key(client):
 
 def assert_correct_response(response, code):
     assert (response.status_code == code)
-    assert (isinstance(response.json.get('errors').get(
-        get_error_code_from_status(response.status_code)), dict))
-    assert (isinstance(response.json.get('errors').get(
-        get_error_code_from_status(response.status_code)).get('message'), str))
+    assert (isinstance(
+                response.json.get('errors')[0].get(
+                    get_error_code_from_status(response.status_code)
+                ),
+                dict))
+    assert (isinstance(
+                response.json.get('errors')[0].get(
+                    get_error_code_from_status(response.status_code)
+                ).get('message'),
+                str))
 
 
 def assert_correct_validation_error(response, params):
     assert (response.status_code == 422)
-    assert (isinstance(response.json.get('errors')
+    assert (isinstance(response.json.get('errors')[0]
             .get(INVALID_PARAMS), dict))
-    assert (isinstance(response.json.get('errors')
+    assert (isinstance(response.json.get('errors')[0]
             .get(INVALID_PARAMS).get('message'), str))
 
     for param in params:
-        assert (param in response.json.get('errors')
+        assert (param in response.json.get('errors')[0]
                 .get(INVALID_PARAMS).get("params"))
-        assert (param in response.json.get('errors')
+        assert (param in response.json.get('errors')[0]
                 .get(INVALID_PARAMS).get("message"))
 
 
@@ -146,4 +152,4 @@ def assert_missing_params_create(response, params, index):
 def assert_wrong_type(response, expected_type):
     assert (response.status_code == 422)
     assert (expected_type in response.get_json()
-            .get("errors").get(INVALID_TYPE).get("message"))
+            .get("errors")[0].get(INVALID_TYPE).get("message"))

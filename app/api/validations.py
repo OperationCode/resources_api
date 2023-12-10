@@ -1,4 +1,5 @@
 from flask import request
+from werkzeug.exceptions import BadRequest
 from app.models import Resource
 from app.utils import standardize_response
 
@@ -26,7 +27,7 @@ def requires_body(func):
 def missing_json_error():
     message = "You must provide a valid JSON body to use this endpoint"
     error = {'errors': [{MISSING_BODY: {"message": message}}]}
-    return standardize_response(error, status_code=422)
+    return standardize_response(payload=error, status_code=422)
 
 
 def validate_resource_list(method, rlist):
@@ -38,10 +39,11 @@ def validate_resource_list(method, rlist):
         return {"errors": [{"too-long": {"message": msg}}]}
 
     for i, r in enumerate(rlist):
-        validation = validate_resource(method, r)
-        if validation:
-            validation['index'] = i
-            errors['errors'].append(validation)
+        validation_errors = validate_resource(method, r)
+        if validation_errors:
+            for err in validation_errors:
+                err['index'] = i
+                errors['errors'].append(err)
 
     if bool(errors['errors']):
         return errors
@@ -49,7 +51,7 @@ def validate_resource_list(method, rlist):
 
 def validate_resource(method, json, id=-1):
     errors = None
-    validation_errors = {}
+    validation_errors = []
     missing_params = {"params": []}
     invalid_params = {"params": []}
     required = []
@@ -115,18 +117,20 @@ def validate_resource(method, json, id=-1):
                 f"https://resources.operationcode.org/api/v1/{resource.id}"
 
     if missing_params["params"]:
-        validation_errors[MISSING_PARAMS] = missing_params
+        missing_params_error = {MISSING_PARAMS: missing_params}
         msg = " The following params were missing: "
         msg += ", ".join(missing_params.get("params")) + "."
-        validation_errors[MISSING_PARAMS]["message"] = msg
+        missing_params_error[MISSING_PARAMS]["message"] = msg
+        validation_errors.append(missing_params_error)
         errors = True
 
     if invalid_params["params"]:
-        validation_errors[INVALID_PARAMS] = invalid_params
+        invalid_params_error = {INVALID_PARAMS: invalid_params}
         msg = " The following params were invalid: "
         msg += ", ".join(invalid_params.get("params")) + ". "
         msg += invalid_params.get("message", "")
-        validation_errors[INVALID_PARAMS]["message"] = msg.strip()
+        invalid_params_error[INVALID_PARAMS]["message"] = msg.strip()
+        validation_errors.append(invalid_params_error)
         errors = True
 
     if errors:
@@ -144,6 +148,6 @@ def wrong_type(type_accepted, type_provided):
     }
     json_type = types[type_provided]
     msg = f"Expected {type_accepted}, but found {json_type}"
-    validation_errors = {"errors": {INVALID_TYPE: {"message": msg}}}
+    validation_errors = {"errors": [{INVALID_TYPE: {"message": msg}}]}
 
     return standardize_response(payload=validation_errors, status_code=422)

@@ -6,7 +6,7 @@ from app.utils import standardize_response
 # Error Handlers
 @bp.app_errorhandler(400)
 def bad_request(e):
-    errors = {"errors": {"bad-request": {"message": str(e)}}}
+    errors = {"errors": [{"bad-request": {"message": str(e)}}]}
     return standardize_response(payload=errors, status_code=400)
 
 

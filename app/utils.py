@@ -116,13 +116,13 @@ def standardize_response(
         else:
             code = get_error_code_from_status(status_code)
             message = msg_map.get(status_code)
-            resp["errors"] = {}
-            resp["errors"][code] = {"message": message}
+            resp["errors"] = []
+            resp["errors"].append({code: {"message": message}})
 
     elif not data:
         # 500 Error case -- Something went wrong.
         message = msg_map.get(500)
-        resp["errors"] = {"server-error": {"message": message}}
+        resp["errors"] = [{"server-error": {"message": message}}]
         resp["status_code"] = 500
         resp["status"] = err_map.get(500)
     else:

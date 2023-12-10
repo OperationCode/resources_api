@@ -74,7 +74,7 @@ def get_resources():
         except Exception as e:
             logger.exception(e)
             message = 'The value for "updated_after" is invalid'
-            res = {"errors": {"unprocessable-entity": {"message": message}}}
+            res = {"errors": [{"unprocessable-entity": {"message": message}}]}
             return utils.standardize_response(payload=res, status_code=422)
 
         q = q.filter(
