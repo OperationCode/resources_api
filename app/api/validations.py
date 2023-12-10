@@ -11,15 +11,11 @@ INVALID_TYPE = "invalid-type"
 
 def requires_body(func):
     def wrapper(*args, **kwargs):
-        try:
-            # JSON body is {} or []
-            if not request.get_json():
-                return missing_json_error()
-        except Exception as e:
-            # JSON body is completely missing
-            if "Expecting value: line 1 column 1" in str(e):
-                return missing_json_error()
-
+        # JSON body is {} or []
+        # This will throw a 400 if the JSON is malformed
+        # and drop into handlers.bad_request()
+        if not request.get_json():
+            return missing_json_error()
         return func(*args, **kwargs)
     return wrapper
 

@@ -153,3 +153,11 @@ def assert_wrong_type(response, expected_type):
     assert (response.status_code == 422)
     assert (expected_type in response.get_json()
             .get("errors")[0].get(INVALID_TYPE).get("message"))
+
+
+def assert_bad_request(response):
+    assert (response.status_code == 400)
+    assert (isinstance(response.json.get('errors')[0]
+                       .get('bad-request'), dict))
+    assert (isinstance(response.json.get('errors')[0]
+                       .get('bad-request').get('message'), str))

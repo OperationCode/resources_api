@@ -1,6 +1,6 @@
 from .helpers import (
     create_resource, get_api_key, assert_correct_response,
-    assert_correct_validation_error, assert_missing_body
+    assert_correct_validation_error, assert_missing_body, assert_bad_request
 )
 
 
@@ -97,15 +97,15 @@ def test_validate_resource(module_client, module_db, fake_auth_from_oc):
                           )
     assert_missing_body(response)
 
-    # Data cannot be empty
+    # Data must be valid json
     response = client.put(
         "api/v1/resources/1",
-        data='',
+        data='this is not json',
         content_type='application/json',
         headers={'x-apikey': apikey},
         follow_redirects=True
     )
-    assert_missing_body(response)
+    assert_bad_request(response)
 
 
 def test_create_with_invalid_apikey(module_client, module_db):
